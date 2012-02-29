@@ -159,6 +159,32 @@ class conf_HHG_dialog:
 				dlg.destroy()
 				self.destroy(None)
         
+	def refat(self, widget, data=None):
+			if not self.connected:
+				self.select(None)
+			if self.connected:
+				progressbar = 1
+				if progressbar:
+					pgrsdlg = gtk.Dialog("Formatting...", None, 0, None)
+					pbar = gtk.ProgressBar()
+					pgrsdlg.vbox.add(pbar)
+					pbar.set_fraction(0.05)
+					pbar.show()
+					pgrsdlg.vbox.show()
+					pgrsdlg.show()
+					while gtk.events_pending(): gtk.main_iteration()
+				self.currentHHG = hcs.HHG_comms(self.portname)
+				self.currentHHG.connect(0.5)
+				############################################################
+				ret = self.currentHHG.setFat(0.1, 3)
+				print "FAT IO:", ret, len(ret)
+				if progressbar:
+					pgrsdlg.hide()
+					pgrsdlg.destroy()
+					while gtk.events_pending(): gtk.main_iteration()
+				self.currentHHG.disconnect()
+				
+
 	def conf(self, widget, data=None):
 			if not self.connected:
 				self.select(None)
@@ -269,6 +295,7 @@ class conf_HHG_dialog:
 			for l in tb:	
 				l.set_alignment(0, 0.5)
 				l.modify_font(pango.FontDescription("courier 10"))
+			self.vbox.pack_start(gtk.HSeparator(), False, True, 0)	
 			self.selt_button = gtk.Button('select HedgeHog')
 			self.selt_button.connect('clicked', self.select, None)
 			self.vbox.add(self.selt_button)
@@ -278,6 +305,10 @@ class conf_HHG_dialog:
 			self.recd_button = gtk.Button('start recording on HedgeHog')
 			self.recd_button.connect("clicked", self.record, None)
 			self.vbox.add(self.recd_button)
+			self.vbox.pack_start(gtk.HSeparator(), False, True, 0)	
+			self.rfat_button = gtk.Button('quick-format SD card')
+			self.rfat_button.connect("clicked", self.refat, None)
+			self.vbox.add(self.rfat_button)
 			self.conf_button = gtk.Button('configure HedgeHog')
 			self.conf_button.connect("clicked", self.conf, None)
 			self.vbox.add(self.conf_button)
