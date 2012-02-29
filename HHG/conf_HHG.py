@@ -147,6 +147,20 @@ class conf_HHG_dialog:
 			if self.connected:
 				self.currentHHG = hcs.HHG_comms(self.portname)
 				self.currentHHG.connect()
+				############################################################
+				ret = self.currentHHG.initHHG(0, 18)
+				print "init:", ret, len(ret)
+				if len(ret) == 18:
+					self.initstr.set_text(ret[6:14])
+				if progressbar:
+					pbar.set_fraction(0.1)
+					while gtk.events_pending(): gtk.main_iteration()
+				############################################################
+				ret = self.currentHHG.synchronizeClock(0.1, 3)
+				print "set clock:", ret, len(ret)
+				if progressbar:
+					pbar.set_fraction(0.3)
+					while gtk.events_pending(): gtk.main_iteration()
 				ret = self.currentHHG.record_HHG()
 				print ret
 				self.currentHHG.disconnect()
@@ -156,8 +170,8 @@ class conf_HHG_dialog:
 				dlg.set_size_request(280, 80)
 				dlg.add_button(HHG_LOGGING_MSG1 + HHG_LOGGING_MSG2, 0)
 				i = dlg.run()
-				dlg.destroy()
-				self.destroy(None)
+				#dlg.destroy()
+				#self.destroy(None)
         
 	def refat(self, widget, data=None):
 			if not self.connected:
@@ -273,7 +287,27 @@ class conf_HHG_dialog:
 			self.window.set_border_width(4)
 			self.window.set_title('HHG low-level control interface v1.00')
 			self.vbox = gtk.VBox()
-			tb = gtk.Table(2,5, False); self.vbox.add(tb)
+			
+			bas_f = gtk.Frame("main functions")
+			vbox_bas = gtk.VBox()
+			bas_f.add(vbox_bas)
+			self.selt_button = gtk.Button('select HedgeHog')
+			self.selt_button.connect('clicked', self.select, None)
+			vbox_bas.add(self.selt_button)
+			self.recd_button = gtk.Button('start recording')
+			self.recd_button.connect("clicked", self.record, None)
+			vbox_bas.add(self.recd_button)
+			self.quit_button = gtk.Button("exit")
+			self.quit_button.connect("clicked", self.leave, None)
+			self.quit_button.connect_object("clicked", 
+												gtk.Widget.destroy, self.window)
+			vbox_bas.add(self.quit_button)
+			self.vbox.pack_start(bas_f, True, True, 0)
+			
+			adv_f = gtk.Frame("advanced")
+			vbox_adv = gtk.VBox()
+			adv_f.add(vbox_adv)
+			tb = gtk.Table(2,5, False); vbox_adv.add(tb)
 			tb.attach(gtk.Label('version:'), 0, 1, 0, 1)
 			self.versionstr = gtk.Label('HedgeHog vX.XXX')
 			tb.attach(self.versionstr, 1, 2, 0, 1)
@@ -295,28 +329,19 @@ class conf_HHG_dialog:
 			for l in tb:	
 				l.set_alignment(0, 0.5)
 				l.modify_font(pango.FontDescription("courier 10"))
-			self.vbox.pack_start(gtk.HSeparator(), False, True, 0)	
-			self.selt_button = gtk.Button('select HedgeHog')
-			self.selt_button.connect('clicked', self.select, None)
-			self.vbox.add(self.selt_button)
-			self.sync_button = gtk.Button('synchronize HedgeHog')
-			self.sync_button.connect('clicked', self.syncHHG, None)
-			self.vbox.add(self.sync_button)
-			self.recd_button = gtk.Button('start recording on HedgeHog')
-			self.recd_button.connect("clicked", self.record, None)
-			self.vbox.add(self.recd_button)
-			self.vbox.pack_start(gtk.HSeparator(), False, True, 0)	
+			hbox_adv = gtk.HBox()
 			self.rfat_button = gtk.Button('quick-format SD card')
 			self.rfat_button.connect("clicked", self.refat, None)
-			self.vbox.add(self.rfat_button)
+			hbox_adv.add(self.rfat_button)
+			self.sync_button = gtk.Button('synchronize HedgeHog')
+			self.sync_button.connect('clicked', self.syncHHG, None)
+			hbox_adv.add(self.sync_button)
 			self.conf_button = gtk.Button('configure HedgeHog')
 			self.conf_button.connect("clicked", self.conf, None)
-			self.vbox.add(self.conf_button)
-			self.quit_button = gtk.Button("exit")
-			self.quit_button.connect("clicked", self.leave, None)
-			self.quit_button.connect_object("clicked", 
-												gtk.Widget.destroy, self.window)
-			self.vbox.add(self.quit_button)
+			hbox_adv.add(self.conf_button)
+			vbox_adv.add(hbox_adv)
+			self.vbox.pack_start(adv_f, False, True, 0)	
+			
 			self.window.add(self.vbox)
 			self.window.show_all()
 
