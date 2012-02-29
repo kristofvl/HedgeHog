@@ -5,8 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="Common" displayName="Common" projectFiles="true">
-        <itemPath>../../../../Microchip/Include/Compiler.h</itemPath>
-        <itemPath>../../../../Microchip/Include/GenericTypeDefs.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/Compiler.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/GenericTypeDefs.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="Display" projectFiles="true">
         <itemPath>../display_config.h</itemPath>
@@ -20,9 +20,9 @@
       <logicalFolder name="MDD File System"
                      displayName="MDD File System"
                      projectFiles="true">
-        <itemPath>../../../../Microchip/Include/MDD File System/FSDefs.h</itemPath>
-        <itemPath>../../../../Microchip/Include/MDD File System/FSIO.h</itemPath>
-        <itemPath>../../../../Microchip/Include/MDD File System/SD-SPI.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/MDD File System/FSDefs.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/MDD File System/FSIO.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/MDD File System/SD-SPI.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Sensors" projectFiles="true">
         <itemPath>../ADXL345driver/ADXL345.h</itemPath>
@@ -32,12 +32,12 @@
         <itemPath>../sensor_wrapper.h</itemPath>
       </logicalFolder>
       <logicalFolder name="USB Stack" displayName="USB Stack" projectFiles="true">
-        <itemPath>../../../../Microchip/Include/USB/usb.h</itemPath>
-        <itemPath>../../../../Microchip/Include/USB/usb_ch9.h</itemPath>
-        <itemPath>../../../../Microchip/Include/USB/usb_common.h</itemPath>
-        <itemPath>../../../../Microchip/Include/USB/usb_device.h</itemPath>
-        <itemPath>../../../../Microchip/Include/USB/usb_function_cdc.h</itemPath>
-        <itemPath>../../../../Microchip/Include/USB/usb_function_msd.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/USB/usb.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/USB/usb_ch9.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/USB/usb_common.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/USB/usb_device.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/USB/usb_function_cdc.h</itemPath>
+        <itemPath>/opt/microchip/Microchip/Include/USB/usb_function_msd.h</itemPath>
       </logicalFolder>
       <itemPath>../FSconfig.h</itemPath>
       <itemPath>../HardwareProfile.h</itemPath>
@@ -74,7 +74,7 @@
       <logicalFolder name="MDD File System"
                      displayName="MDD File System"
                      projectFiles="true">
-        <itemPath>../../../../Microchip/MDD File System/SD-SPI.c</itemPath>
+        <itemPath>/opt/microchip/Microchip/MDD File System/SD-SPI.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Sensors" projectFiles="true">
         <itemPath>../ADXL345driver/ADXL345.c</itemPath>
@@ -82,9 +82,9 @@
         <itemPath>../ambient_light driver/ambient_light.c</itemPath>
       </logicalFolder>
       <logicalFolder name="USB Stack" displayName="USB Stack" projectFiles="true">
-        <itemPath>../../../../Microchip/USB/usb_device.c</itemPath>
-        <itemPath>../../../../Microchip/USB/CDC Device Driver/usb_function_cdc.c</itemPath>
-        <itemPath>../../../../Microchip/USB/MSD Device Driver/usb_function_msd.c</itemPath>
+        <itemPath>/opt/microchip/Microchip/USB/usb_device.c</itemPath>
+        <itemPath>/opt/microchip/Microchip/USB/CDC Device Driver/usb_function_cdc.c</itemPath>
+        <itemPath>/opt/microchip/Microchip/USB/MSD Device Driver/usb_function_msd.c</itemPath>
       </logicalFolder>
       <itemPath>../../HedgeHog/SD_FAT.c</itemPath>
       <itemPath>../osc.c</itemPath>
@@ -179,7 +179,7 @@
         <property key="code-model" value="mL"/>
         <property key="warning-level" value="2"/>
         <property key="extra-include-directories"
-                  value="../../../../Microchip/Include;../BMA150 driver;../ADXL345driver;../Soft Start;../RTC;../OLED driver;../"/>
+                  value="/opt/microchip/Microchip/Include;../BMA150 driver;../ADXL345driver;../Soft Start;../RTC;../OLED driver;../"/>
         <property key="enable-ow" value="true"/>
         <property key="verbose" value="false"/>
         <property key="enable-ou" value="true"/>
@@ -198,8 +198,8 @@
       </C18>
       <C18-AS>
         <property key="default.radix" value="HEX"/>
-        <property key="enable.case.sensitivity" value="false"/>
         <property key="hex.output.format" value="INHX32"/>
+        <property key="enable.case.sensitivity" value="false"/>
         <property key="preprocessor.macros" value=""/>
         <property key="warning.level" value="0"/>
         <property key="cross.reference.file" value=""/>
@@ -212,9 +212,9 @@
       </C18-LD>
       <C18LanguageToolchain>
         <property key="stack-analysis-mplink" value="false"/>
-        <property key="extended-mode-mcc18" value="false"/>
-        <property key="stack-analysis" value="false"/>
         <property key="stack-analysis-mcc18" value="false"/>
+        <property key="stack-analysis" value="false"/>
+        <property key="extended-mode-mcc18" value="false"/>
         <property key="extended-mode" value="false"/>
         <property key="extended-mode-mpasm" value="false"/>
         <property key="extended-mode-mplink" value="false"/>
@@ -337,7 +337,7 @@
         <property key="code-model" value="mL"/>
         <property key="warning-level" value="2"/>
         <property key="extra-include-directories"
-                  value="../../../../Microchip/Include;../BMA150 driver;../ADXL345driver;../Soft Start;../RTC;../OLED driver;../"/>
+                  value="/opt/microchip/Microchip/Include;../BMA150 driver;../ADXL345driver;../Soft Start;../RTC;../OLED driver;../"/>
         <property key="enable-ow" value="true"/>
         <property key="verbose" value="false"/>
         <property key="enable-ou" value="true"/>
@@ -356,8 +356,8 @@
       </C18>
       <C18-AS>
         <property key="default.radix" value="HEX"/>
-        <property key="enable.case.sensitivity" value="false"/>
         <property key="hex.output.format" value="INHX32"/>
+        <property key="enable.case.sensitivity" value="false"/>
         <property key="preprocessor.macros" value=""/>
         <property key="warning.level" value="0"/>
         <property key="cross.reference.file" value=""/>
@@ -370,9 +370,9 @@
       </C18-LD>
       <C18LanguageToolchain>
         <property key="stack-analysis-mplink" value="false"/>
-        <property key="extended-mode-mcc18" value="false"/>
-        <property key="stack-analysis" value="false"/>
         <property key="stack-analysis-mcc18" value="false"/>
+        <property key="stack-analysis" value="false"/>
+        <property key="extended-mode-mcc18" value="false"/>
         <property key="extended-mode" value="false"/>
         <property key="extended-mode-mpasm" value="false"/>
         <property key="extended-mode-mplink" value="false"/>
@@ -415,7 +415,7 @@
         <property key="code-model" value="mL"/>
         <property key="warning-level" value="2"/>
         <property key="extra-include-directories"
-                  value="../../../../Microchip/Include;../BMA150 driver;../ADXL345driver;../Soft Start;../RTC;../OLED driver;../"/>
+                  value="/opt/microchip/Microchip/Include;../BMA150 driver;../ADXL345driver;../Soft Start;../RTC;../OLED driver;../"/>
         <property key="enable-ow" value="true"/>
         <property key="verbose" value="false"/>
         <property key="enable-ou" value="true"/>
@@ -434,8 +434,8 @@
       </C18>
       <C18-AS>
         <property key="default.radix" value="HEX"/>
-        <property key="enable.case.sensitivity" value="false"/>
         <property key="hex.output.format" value="INHX32"/>
+        <property key="enable.case.sensitivity" value="false"/>
         <property key="preprocessor.macros" value=""/>
         <property key="warning.level" value="0"/>
         <property key="cross.reference.file" value=""/>
@@ -448,9 +448,9 @@
       </C18-LD>
       <C18LanguageToolchain>
         <property key="stack-analysis-mplink" value="false"/>
-        <property key="extended-mode-mcc18" value="false"/>
-        <property key="stack-analysis" value="false"/>
         <property key="stack-analysis-mcc18" value="false"/>
+        <property key="stack-analysis" value="false"/>
+        <property key="extended-mode-mcc18" value="false"/>
         <property key="extended-mode" value="false"/>
         <property key="extended-mode-mpasm" value="false"/>
         <property key="extended-mode-mplink" value="false"/>

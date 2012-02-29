@@ -1,17 +1,24 @@
 
-http://www.ess.tu-darmstadt.de/hedgehog
+More information about this package can currently be found at:
+ http://www.ess.tu-darmstadt.de/hedgehog
 
-This repository contains three packages:
+****************************************************************
+
+In short, this repository contains three packages:
 
 1. The HedgeHog firmware (operating system), requires:
-    - MPLAB X (available for free from Microchip)
-    - the Microchip Application Library (also available for free from Microchip)
+    - MPLAB X (free IDE, download from Microchip.com)
+    - Microchip Application Library (free library set, download 
+      from Microchip.com)
 
 2. The HedgeHog Graphical interface software, requires:
     - the basic python libraries
     - matplotlib
 
 3. The hardware design files for the HedgeHog sensor, requires:
-    - eagleCAD
+    - eagleCAD (free PCB design tool, download from 
+      CadSoftusa.com)
+
+****************************************************************
 
 

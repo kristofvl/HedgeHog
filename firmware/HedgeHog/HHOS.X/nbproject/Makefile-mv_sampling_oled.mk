@@ -39,11 +39,11 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/797530045/oled.o ${OBJECTDIR}/_ext/1472/display_config.o ${OBJECTDIR}/_ext/1134515050/ADXL345.o ${OBJECTDIR}/_ext/34024445/BMA150.o ${OBJECTDIR}/_ext/677419432/ambient_light.o ${OBJECTDIR}/_ext/2138657381/SD_FAT.o ${OBJECTDIR}/_ext/1472/osc.o ${OBJECTDIR}/_ext/1360904562/rtcc.o ${OBJECTDIR}/_ext/1470290789/soft_start.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/config_cdc.o ${OBJECTDIR}/_ext/1472/HHG_conf.o ${OBJECTDIR}/_ext/1472/SD_Buffer.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/926206843/usb_device.o ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o ${OBJECTDIR}/_ext/123996954/usb_function_msd.o ${OBJECTDIR}/_ext/491339551/SD-SPI.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/797530045/oled.o.d ${OBJECTDIR}/_ext/1472/display_config.o.d ${OBJECTDIR}/_ext/1134515050/ADXL345.o.d ${OBJECTDIR}/_ext/34024445/BMA150.o.d ${OBJECTDIR}/_ext/677419432/ambient_light.o.d ${OBJECTDIR}/_ext/2138657381/SD_FAT.o.d ${OBJECTDIR}/_ext/1472/osc.o.d ${OBJECTDIR}/_ext/1360904562/rtcc.o.d ${OBJECTDIR}/_ext/1470290789/soft_start.o.d ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d ${OBJECTDIR}/_ext/1472/config_cdc.o.d ${OBJECTDIR}/_ext/1472/HHG_conf.o.d ${OBJECTDIR}/_ext/1472/SD_Buffer.o.d ${OBJECTDIR}/_ext/1472/main.o.d ${OBJECTDIR}/_ext/926206843/usb_device.o.d ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o.d ${OBJECTDIR}/_ext/123996954/usb_function_msd.o.d ${OBJECTDIR}/_ext/491339551/SD-SPI.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/797530045/oled.o ${OBJECTDIR}/_ext/1472/display_config.o ${OBJECTDIR}/_ext/1134515050/ADXL345.o ${OBJECTDIR}/_ext/34024445/BMA150.o ${OBJECTDIR}/_ext/677419432/ambient_light.o ${OBJECTDIR}/_ext/2138657381/SD_FAT.o ${OBJECTDIR}/_ext/1472/osc.o ${OBJECTDIR}/_ext/1360904562/rtcc.o ${OBJECTDIR}/_ext/1470290789/soft_start.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/config_cdc.o ${OBJECTDIR}/_ext/1472/HHG_conf.o ${OBJECTDIR}/_ext/1472/SD_Buffer.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/247156599/SD-SPI.o ${OBJECTDIR}/_ext/82867227/usb_device.o ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o ${OBJECTDIR}/_ext/983254276/usb_function_msd.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/797530045/oled.o.d ${OBJECTDIR}/_ext/1472/display_config.o.d ${OBJECTDIR}/_ext/1134515050/ADXL345.o.d ${OBJECTDIR}/_ext/34024445/BMA150.o.d ${OBJECTDIR}/_ext/677419432/ambient_light.o.d ${OBJECTDIR}/_ext/2138657381/SD_FAT.o.d ${OBJECTDIR}/_ext/1472/osc.o.d ${OBJECTDIR}/_ext/1360904562/rtcc.o.d ${OBJECTDIR}/_ext/1470290789/soft_start.o.d ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d ${OBJECTDIR}/_ext/1472/config_cdc.o.d ${OBJECTDIR}/_ext/1472/HHG_conf.o.d ${OBJECTDIR}/_ext/1472/SD_Buffer.o.d ${OBJECTDIR}/_ext/1472/main.o.d ${OBJECTDIR}/_ext/247156599/SD-SPI.o.d ${OBJECTDIR}/_ext/82867227/usb_device.o.d ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o.d ${OBJECTDIR}/_ext/983254276/usb_function_msd.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/797530045/oled.o ${OBJECTDIR}/_ext/1472/display_config.o ${OBJECTDIR}/_ext/1134515050/ADXL345.o ${OBJECTDIR}/_ext/34024445/BMA150.o ${OBJECTDIR}/_ext/677419432/ambient_light.o ${OBJECTDIR}/_ext/2138657381/SD_FAT.o ${OBJECTDIR}/_ext/1472/osc.o ${OBJECTDIR}/_ext/1360904562/rtcc.o ${OBJECTDIR}/_ext/1470290789/soft_start.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/config_cdc.o ${OBJECTDIR}/_ext/1472/HHG_conf.o ${OBJECTDIR}/_ext/1472/SD_Buffer.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/926206843/usb_device.o ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o ${OBJECTDIR}/_ext/123996954/usb_function_msd.o ${OBJECTDIR}/_ext/491339551/SD-SPI.o
+OBJECTFILES=${OBJECTDIR}/_ext/797530045/oled.o ${OBJECTDIR}/_ext/1472/display_config.o ${OBJECTDIR}/_ext/1134515050/ADXL345.o ${OBJECTDIR}/_ext/34024445/BMA150.o ${OBJECTDIR}/_ext/677419432/ambient_light.o ${OBJECTDIR}/_ext/2138657381/SD_FAT.o ${OBJECTDIR}/_ext/1472/osc.o ${OBJECTDIR}/_ext/1360904562/rtcc.o ${OBJECTDIR}/_ext/1470290789/soft_start.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/config_cdc.o ${OBJECTDIR}/_ext/1472/HHG_conf.o ${OBJECTDIR}/_ext/1472/SD_Buffer.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/247156599/SD-SPI.o ${OBJECTDIR}/_ext/82867227/usb_device.o ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o ${OBJECTDIR}/_ext/983254276/usb_function_msd.o
 
 
 CFLAGS=
@@ -92,219 +92,219 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 ${OBJECTDIR}/_ext/797530045/oled.o: ../OLED\ driver/oled.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/797530045 
 	@${RM} ${OBJECTDIR}/_ext/797530045/oled.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/797530045/oled.o   "../OLED driver/oled.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/797530045/oled.o   "../OLED driver/oled.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/797530045/oled.o 
 	
 ${OBJECTDIR}/_ext/1472/display_config.o: ../display_config.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/display_config.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/display_config.o   ../display_config.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/display_config.o   ../display_config.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/display_config.o 
 	
 ${OBJECTDIR}/_ext/1134515050/ADXL345.o: ../ADXL345driver/ADXL345.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1134515050 
 	@${RM} ${OBJECTDIR}/_ext/1134515050/ADXL345.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1134515050/ADXL345.o   ../ADXL345driver/ADXL345.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1134515050/ADXL345.o   ../ADXL345driver/ADXL345.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1134515050/ADXL345.o 
 	
 ${OBJECTDIR}/_ext/34024445/BMA150.o: ../BMA150\ driver/BMA150.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/34024445 
 	@${RM} ${OBJECTDIR}/_ext/34024445/BMA150.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/34024445/BMA150.o   "../BMA150 driver/BMA150.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/34024445/BMA150.o   "../BMA150 driver/BMA150.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/34024445/BMA150.o 
 	
 ${OBJECTDIR}/_ext/677419432/ambient_light.o: ../ambient_light\ driver/ambient_light.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/677419432 
 	@${RM} ${OBJECTDIR}/_ext/677419432/ambient_light.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/677419432/ambient_light.o   "../ambient_light driver/ambient_light.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/677419432/ambient_light.o   "../ambient_light driver/ambient_light.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/677419432/ambient_light.o 
 	
 ${OBJECTDIR}/_ext/2138657381/SD_FAT.o: ../../HedgeHog/SD_FAT.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/2138657381 
 	@${RM} ${OBJECTDIR}/_ext/2138657381/SD_FAT.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/2138657381/SD_FAT.o   ../../HedgeHog/SD_FAT.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/2138657381/SD_FAT.o   ../../HedgeHog/SD_FAT.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/2138657381/SD_FAT.o 
 	
 ${OBJECTDIR}/_ext/1472/osc.o: ../osc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/osc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/osc.o   ../osc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/osc.o   ../osc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/osc.o 
 	
 ${OBJECTDIR}/_ext/1360904562/rtcc.o: ../RTC/rtcc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360904562 
 	@${RM} ${OBJECTDIR}/_ext/1360904562/rtcc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1360904562/rtcc.o   ../RTC/rtcc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1360904562/rtcc.o   ../RTC/rtcc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1360904562/rtcc.o 
 	
 ${OBJECTDIR}/_ext/1470290789/soft_start.o: ../Soft\ Start/soft_start.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1470290789 
 	@${RM} ${OBJECTDIR}/_ext/1470290789/soft_start.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1470290789/soft_start.o   "../Soft Start/soft_start.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1470290789/soft_start.o   "../Soft Start/soft_start.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1470290789/soft_start.o 
 	
 ${OBJECTDIR}/_ext/1472/usb_descriptors.o: ../usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/usb_descriptors.o   ../usb_descriptors.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/usb_descriptors.o   ../usb_descriptors.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/usb_descriptors.o 
 	
 ${OBJECTDIR}/_ext/1472/config_cdc.o: ../config_cdc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/config_cdc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/config_cdc.o   ../config_cdc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/config_cdc.o   ../config_cdc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/config_cdc.o 
 	
 ${OBJECTDIR}/_ext/1472/HHG_conf.o: ../HHG_conf.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/HHG_conf.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/HHG_conf.o   ../HHG_conf.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/HHG_conf.o   ../HHG_conf.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/HHG_conf.o 
 	
 ${OBJECTDIR}/_ext/1472/SD_Buffer.o: ../SD_Buffer.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/SD_Buffer.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/SD_Buffer.o   ../SD_Buffer.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/SD_Buffer.o   ../SD_Buffer.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/SD_Buffer.o 
 	
 ${OBJECTDIR}/_ext/1472/main.o: ../main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/main.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/main.o   ../main.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/main.o   ../main.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/main.o 
 	
-${OBJECTDIR}/_ext/926206843/usb_device.o: ../../../../Microchip/USB/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/926206843 
-	@${RM} ${OBJECTDIR}/_ext/926206843/usb_device.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/926206843/usb_device.o   ../../../../Microchip/USB/usb_device.c 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/926206843/usb_device.o 
+${OBJECTDIR}/_ext/247156599/SD-SPI.o: /opt/microchip/Microchip/MDD\ File\ System/SD-SPI.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/247156599 
+	@${RM} ${OBJECTDIR}/_ext/247156599/SD-SPI.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/247156599/SD-SPI.o   "/opt/microchip/Microchip/MDD File System/SD-SPI.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/247156599/SD-SPI.o 
 	
-${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o: ../../../../Microchip/USB/CDC\ Device\ Driver/usb_function_cdc.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1083301514 
-	@${RM} ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o   "../../../../Microchip/USB/CDC Device Driver/usb_function_cdc.c" 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o 
+${OBJECTDIR}/_ext/82867227/usb_device.o: /opt/microchip/Microchip/USB/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/82867227 
+	@${RM} ${OBJECTDIR}/_ext/82867227/usb_device.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/82867227/usb_device.o   /opt/microchip/Microchip/USB/usb_device.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/82867227/usb_device.o 
 	
-${OBJECTDIR}/_ext/123996954/usb_function_msd.o: ../../../../Microchip/USB/MSD\ Device\ Driver/usb_function_msd.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/123996954 
-	@${RM} ${OBJECTDIR}/_ext/123996954/usb_function_msd.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/123996954/usb_function_msd.o   "../../../../Microchip/USB/MSD Device Driver/usb_function_msd.c" 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/123996954/usb_function_msd.o 
+${OBJECTDIR}/_ext/224044192/usb_function_cdc.o: /opt/microchip/Microchip/USB/CDC\ Device\ Driver/usb_function_cdc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/224044192 
+	@${RM} ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o   "/opt/microchip/Microchip/USB/CDC Device Driver/usb_function_cdc.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o 
 	
-${OBJECTDIR}/_ext/491339551/SD-SPI.o: ../../../../Microchip/MDD\ File\ System/SD-SPI.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/491339551 
-	@${RM} ${OBJECTDIR}/_ext/491339551/SD-SPI.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/491339551/SD-SPI.o   "../../../../Microchip/MDD File System/SD-SPI.c" 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/491339551/SD-SPI.o 
+${OBJECTDIR}/_ext/983254276/usb_function_msd.o: /opt/microchip/Microchip/USB/MSD\ Device\ Driver/usb_function_msd.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/983254276 
+	@${RM} ${OBJECTDIR}/_ext/983254276/usb_function_msd.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/983254276/usb_function_msd.o   "/opt/microchip/Microchip/USB/MSD Device Driver/usb_function_msd.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/983254276/usb_function_msd.o 
 	
 else
 ${OBJECTDIR}/_ext/797530045/oled.o: ../OLED\ driver/oled.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/797530045 
 	@${RM} ${OBJECTDIR}/_ext/797530045/oled.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/797530045/oled.o   "../OLED driver/oled.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/797530045/oled.o   "../OLED driver/oled.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/797530045/oled.o 
 	
 ${OBJECTDIR}/_ext/1472/display_config.o: ../display_config.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/display_config.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/display_config.o   ../display_config.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/display_config.o   ../display_config.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/display_config.o 
 	
 ${OBJECTDIR}/_ext/1134515050/ADXL345.o: ../ADXL345driver/ADXL345.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1134515050 
 	@${RM} ${OBJECTDIR}/_ext/1134515050/ADXL345.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1134515050/ADXL345.o   ../ADXL345driver/ADXL345.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1134515050/ADXL345.o   ../ADXL345driver/ADXL345.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1134515050/ADXL345.o 
 	
 ${OBJECTDIR}/_ext/34024445/BMA150.o: ../BMA150\ driver/BMA150.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/34024445 
 	@${RM} ${OBJECTDIR}/_ext/34024445/BMA150.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/34024445/BMA150.o   "../BMA150 driver/BMA150.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/34024445/BMA150.o   "../BMA150 driver/BMA150.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/34024445/BMA150.o 
 	
 ${OBJECTDIR}/_ext/677419432/ambient_light.o: ../ambient_light\ driver/ambient_light.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/677419432 
 	@${RM} ${OBJECTDIR}/_ext/677419432/ambient_light.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/677419432/ambient_light.o   "../ambient_light driver/ambient_light.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/677419432/ambient_light.o   "../ambient_light driver/ambient_light.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/677419432/ambient_light.o 
 	
 ${OBJECTDIR}/_ext/2138657381/SD_FAT.o: ../../HedgeHog/SD_FAT.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/2138657381 
 	@${RM} ${OBJECTDIR}/_ext/2138657381/SD_FAT.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/2138657381/SD_FAT.o   ../../HedgeHog/SD_FAT.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/2138657381/SD_FAT.o   ../../HedgeHog/SD_FAT.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/2138657381/SD_FAT.o 
 	
 ${OBJECTDIR}/_ext/1472/osc.o: ../osc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/osc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/osc.o   ../osc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/osc.o   ../osc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/osc.o 
 	
 ${OBJECTDIR}/_ext/1360904562/rtcc.o: ../RTC/rtcc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360904562 
 	@${RM} ${OBJECTDIR}/_ext/1360904562/rtcc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1360904562/rtcc.o   ../RTC/rtcc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1360904562/rtcc.o   ../RTC/rtcc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1360904562/rtcc.o 
 	
 ${OBJECTDIR}/_ext/1470290789/soft_start.o: ../Soft\ Start/soft_start.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1470290789 
 	@${RM} ${OBJECTDIR}/_ext/1470290789/soft_start.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1470290789/soft_start.o   "../Soft Start/soft_start.c" 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1470290789/soft_start.o   "../Soft Start/soft_start.c" 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1470290789/soft_start.o 
 	
 ${OBJECTDIR}/_ext/1472/usb_descriptors.o: ../usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/usb_descriptors.o   ../usb_descriptors.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/usb_descriptors.o   ../usb_descriptors.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/usb_descriptors.o 
 	
 ${OBJECTDIR}/_ext/1472/config_cdc.o: ../config_cdc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/config_cdc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/config_cdc.o   ../config_cdc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/config_cdc.o   ../config_cdc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/config_cdc.o 
 	
 ${OBJECTDIR}/_ext/1472/HHG_conf.o: ../HHG_conf.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/HHG_conf.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/HHG_conf.o   ../HHG_conf.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/HHG_conf.o   ../HHG_conf.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/HHG_conf.o 
 	
 ${OBJECTDIR}/_ext/1472/SD_Buffer.o: ../SD_Buffer.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/SD_Buffer.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/SD_Buffer.o   ../SD_Buffer.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/SD_Buffer.o   ../SD_Buffer.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/SD_Buffer.o 
 	
 ${OBJECTDIR}/_ext/1472/main.o: ../main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/main.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/main.o   ../main.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/main.o   ../main.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/main.o 
 	
-${OBJECTDIR}/_ext/926206843/usb_device.o: ../../../../Microchip/USB/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/926206843 
-	@${RM} ${OBJECTDIR}/_ext/926206843/usb_device.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/926206843/usb_device.o   ../../../../Microchip/USB/usb_device.c 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/926206843/usb_device.o 
+${OBJECTDIR}/_ext/247156599/SD-SPI.o: /opt/microchip/Microchip/MDD\ File\ System/SD-SPI.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/247156599 
+	@${RM} ${OBJECTDIR}/_ext/247156599/SD-SPI.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/247156599/SD-SPI.o   "/opt/microchip/Microchip/MDD File System/SD-SPI.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/247156599/SD-SPI.o 
 	
-${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o: ../../../../Microchip/USB/CDC\ Device\ Driver/usb_function_cdc.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1083301514 
-	@${RM} ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o   "../../../../Microchip/USB/CDC Device Driver/usb_function_cdc.c" 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1083301514/usb_function_cdc.o 
+${OBJECTDIR}/_ext/82867227/usb_device.o: /opt/microchip/Microchip/USB/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/82867227 
+	@${RM} ${OBJECTDIR}/_ext/82867227/usb_device.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/82867227/usb_device.o   /opt/microchip/Microchip/USB/usb_device.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/82867227/usb_device.o 
 	
-${OBJECTDIR}/_ext/123996954/usb_function_msd.o: ../../../../Microchip/USB/MSD\ Device\ Driver/usb_function_msd.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/123996954 
-	@${RM} ${OBJECTDIR}/_ext/123996954/usb_function_msd.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/123996954/usb_function_msd.o   "../../../../Microchip/USB/MSD Device Driver/usb_function_msd.c" 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/123996954/usb_function_msd.o 
+${OBJECTDIR}/_ext/224044192/usb_function_cdc.o: /opt/microchip/Microchip/USB/CDC\ Device\ Driver/usb_function_cdc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/224044192 
+	@${RM} ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o   "/opt/microchip/Microchip/USB/CDC Device Driver/usb_function_cdc.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o 
 	
-${OBJECTDIR}/_ext/491339551/SD-SPI.o: ../../../../Microchip/MDD\ File\ System/SD-SPI.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/491339551 
-	@${RM} ${OBJECTDIR}/_ext/491339551/SD-SPI.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"../../../../Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/491339551/SD-SPI.o   "../../../../Microchip/MDD File System/SD-SPI.c" 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/491339551/SD-SPI.o 
+${OBJECTDIR}/_ext/983254276/usb_function_msd.o: /opt/microchip/Microchip/USB/MSD\ Device\ Driver/usb_function_msd.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/983254276 
+	@${RM} ${OBJECTDIR}/_ext/983254276/usb_function_msd.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_OLED -DMV_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/983254276/usb_function_msd.o   "/opt/microchip/Microchip/USB/MSD Device Driver/usb_function_msd.c" 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/983254276/usb_function_msd.o 
 	
 endif
 
