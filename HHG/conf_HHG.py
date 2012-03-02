@@ -32,10 +32,6 @@ import pango							# for tweaking the conf window font
 
 
 
-# basic strings
-HHG_LOGGING_MSG1 = 'Your HedgeHog is now recording,\n ' 
-HHG_LOGGING_MSG2 = 'it is now ready to be worn.\nClick here to exit.'
-
 # the main configuration dialog window
 class conf_HHG_dialog:
 
@@ -152,26 +148,19 @@ class conf_HHG_dialog:
 				print "init:", ret, len(ret)
 				if len(ret) == 18:
 					self.initstr.set_text(ret[6:14])
-				if progressbar:
-					pbar.set_fraction(0.1)
-					while gtk.events_pending(): gtk.main_iteration()
-				############################################################
 				ret = self.currentHHG.synchronizeClock(0.1, 3)
 				print "set clock:", ret, len(ret)
-				if progressbar:
-					pbar.set_fraction(0.3)
-					while gtk.events_pending(): gtk.main_iteration()
+				############################################################
 				ret = self.currentHHG.record_HHG()
 				print ret
 				self.currentHHG.disconnect()
 				self.connected = False
-				dlg = gtk.Dialog("HedgeHog is now recording", self.window, 
-										gtk.DIALOG_DESTROY_WITH_PARENT)
-				dlg.set_size_request(280, 80)
-				dlg.add_button(HHG_LOGGING_MSG1 + HHG_LOGGING_MSG2, 0)
-				i = dlg.run()
-				#dlg.destroy()
-				#self.destroy(None)
+				dlg= gtk.MessageDialog(self.window, 
+						gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
+						gtk.BUTTONS_CLOSE, "Your HedgeHog is now recording")
+				dlg.set_size_request(320, 80)
+				dlg.run()
+				dlg.destroy()
         
 	def refat(self, widget, data=None):
 			if not self.connected:
@@ -285,7 +274,7 @@ class conf_HHG_dialog:
 			self.window.connect('delete_event', self.delete_event)
 			self.window.connect('destroy', self.destroy)
 			self.window.set_border_width(4)
-			self.window.set_title('HHG low-level control interface v1.00')
+			self.window.set_title('HHG control interface')
 			self.vbox = gtk.VBox()
 			
 			bas_f = gtk.Frame("main functions")
