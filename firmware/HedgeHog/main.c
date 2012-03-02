@@ -166,19 +166,20 @@ static void init_system(void) {
 
     //Configure all I/O pins to use digital input buffers.
     ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
-    
+    TRISA = TRISB = TRISC = TRISD = TRISE = 0; // and output
+
     //Configure interrupts:
     RCONbits.IPEN = 1; // Enable Interrupt Priority levels
     INTCONbits.GIEH = 1; // Enable High-priority Interrupts
     INTCONbits.GIEL = 0; // Disable Low-priority Interrupts
 
-#if defined(USE_USB_BUS_SENSE_IO)
+    #if defined(USE_USB_BUS_SENSE_IO)
     tris_usb_bus_sense = INPUT_PIN; // See HardwareProfile.h
-#endif
+    #endif
 
-#if defined(USE_SELF_POWER_SENSE_IO)
+    #if defined(USE_SELF_POWER_SENSE_IO)
     tris_self_power = INPUT_PIN; // See HardwareProfile.h
-#endif
+    #endif
 
     remap_pins();           // remap IO and INT pins
     USBDeviceInit();        // usb_device.c
