@@ -53,3 +53,12 @@ void set_osc_sleep_int1() {
     Sleep(); // Zzzzzz....
     LATBbits.LATB7 = 0;
 }
+
+void set_osc_deep_sleep() {
+    // see section 4.6 Deep Sleep Mode in the PIC 18F46j50 data sheet
+    WDTCONbits.REGSLP = 1;
+    OSCCONbits.IDLEN = 0; // sleep starts sleep mode (not idle)
+    INTCONbits.GIE = 0;
+    DSCONHbits.DSEN = 1; // deep sleep enable
+    Sleep();
+}

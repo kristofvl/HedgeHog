@@ -16,5 +16,6 @@ void set_osc_8Mhz(void);
 void set_osc_48Mhz(void);
 void set_osc_sleep_t1(unsigned char to);
 void set_osc_sleep_int1();
+void set_osc_deep_sleep();
 
 #endif // OSC__H
