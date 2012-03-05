@@ -29,9 +29,6 @@ import glob
 
 
 
-
-
-
 # class responsible for finding connected HedgeHogs
 class HHG_find:
 	
@@ -58,23 +55,9 @@ class HHG_comms:
 		parity='N',			#enable parity checking
 		stopbits=1,			#number of stopbits
 		timeout=time_out,	#set a timeout value, None for waiting forever
-		xonxoff=0,        #enable software flow control
-		rtscts=0				#enable RTS/CTS flow control
+		xonxoff=0,          #enable software flow control
+		rtscts=0			#enable RTS/CTS flow control
 		)
-		try:
-			self.ser.open()
-			self.ser.flushInput()
-			self.ser.flushOutput()
-		except serial.SerialException as msg:
-			# pyserial-2.6.1 already opened the port when constructing the
-			# Serial object, and throwns an exception accordingly, ignore
-			# this here.
-			if str(msg)=="Port is already open.":
-				return
-			else:
-				raise
-		except ValueError:
-			return False
 		
 	def disconnect(self):
 		self.ser.close()
