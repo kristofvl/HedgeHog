@@ -25,7 +25,7 @@
 
 
 import serial, time, datetime, os
-
+import glob
 
 
 
@@ -40,13 +40,8 @@ class HHG_find:
 		print ''
 		
 	def list(self):
-		res = os.popen('ls /dev/ttyA*', "r").read()	# most Linux distros
-		if len(res) > 0:
-			sRes = str(res).split('\n')
-			return sRes[0:len(sRes)-1] #remove trailing empty \n-split
-		else:
-			return False
-
+		res = sorted(glob.glob('/dev/ttyA*'))	# most Linux distros
+		return res
 
 
 # communicate with a HedgeHog via rs232 serial (over USB)
