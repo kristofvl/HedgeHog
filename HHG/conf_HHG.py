@@ -38,7 +38,7 @@ class conf_HHG_dialog:
 	def select(self, widget, data=None):
 		hhgfinder = hcs.HHG_find()
 		hhglist = hhgfinder.list()
-		if hhglist == False:
+		if not hhglist:
 			md = gtk.MessageDialog(self.window, 
 					gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
 					gtk.BUTTONS_CLOSE, "No HedgeHog units found")
