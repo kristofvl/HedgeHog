@@ -39,8 +39,8 @@ typedef struct {
 #define acc_setmode_pull()                 {;}
 #define acc_setmode_acti(t)                {;}
 #define acc_getint()                       0x00
-#define init_tmp()       {;}
-#define read_tmp         bma150_get_tmp
+#define tmp_init()       {;}
+#define tmp_read         bma150_get_tmp
 #endif
 
 #endif //ACCEL3DWRAPPER__H

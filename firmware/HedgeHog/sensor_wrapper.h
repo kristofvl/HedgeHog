@@ -30,19 +30,19 @@
 // sensor definitions are taken care of the bma150 in acc3D_wrapper.h
 #else
 // stubs for now:
-#define init_tmp()       { ; }
-#define read_tmp()       100
+#define tmp_init()       { ; }
+#define tmp_read()       100
 #endif
 
 /******************************************************************************/
 /******** Button options ******************************************************/
 /******************************************************************************/
 #if defined(ADXL345_ENABLED)
-#define init_button()    {;}
+#define button_init()    {;}
 #define button_pressed   adxl345_doubletap
 #define button_clear()   adxl345_clear_int1()
 #else
-#define init_button()    {button_TRIS=1;}
+#define button_init()    {button_TRIS=1;}
 #define button_pressed   (button_pin==0)
 #define button_clear()   {while(button_pin==0){;};}
 #endif
@@ -50,7 +50,7 @@
 /******************************************************************************/
 /******** Environmental reading definitions and options ***********************/
 /******************************************************************************/
-#define init_env() { init_light(); init_tmp(); init_button();}
+#define env_init() { light_init(); tmp_init(); button_init();}
 #if defined(LIGHT_PWR)
 #define env_on()  { LIGHT_PWR = 0; }
 #define env_off()  { LIGHT_PWR = 1; }
@@ -58,7 +58,7 @@
 #define env_on()   { ; }
 #define env_off()  { ; }
 #endif
-#define read_env(l,t) {env_on(); l=read_light(); t=read_tmp(); env_off(); }
+#define env_read(l,t) {env_on(); l=light_read(); t=tmp_read(); env_off(); }
 
 
 /******************************************************************************/

@@ -123,5 +123,6 @@ extern char is_logging;
 #define remap_pins() {ul_reg(); RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5; l_reg();}
 
 
+#define set_unused_pins_to_output() {TRISD=0; TRISB=0xb00000100;}
 
 #endif  //HARDWARE_PROFILE_HEDGEHOG_TESTBED_H

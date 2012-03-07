@@ -1,6 +1,6 @@
 #include "ambient_light.h"
 
-void init_light(void)
+void light_init(void)
 {
     TRISAbits.TRISA5 = 1;
     ANCON0bits.PCFG4 = 0;
@@ -19,7 +19,7 @@ void init_light(void)
     ADCON0bits.ADON  = 1;
 }
 
-WORD_VAL read_light(void)
+WORD_VAL light_read(void)
 {
     WORD_VAL res;
     ADCON0bits.GO = 1;

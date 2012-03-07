@@ -10,8 +10,8 @@
 #error "LIGHTCHANNEL needs to be defined in the HardwareProfile"
 #endif
 
-void init_light(void);
-WORD_VAL read_light(void);
+void light_init(void);
+WORD_VAL light_read(void);
 
 #endif	// AMBIENT_LIGHT_H 
 

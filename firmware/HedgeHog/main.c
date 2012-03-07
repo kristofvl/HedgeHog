@@ -164,10 +164,9 @@ void main(void) {
 static void init_system(void) {
     set_osc_48Mhz();
 
-    //Configure all I/O pins to use digital input buffers.
     ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
-    TRISA = TRISB = TRISC = TRISD = TRISE = 0; // and output
-
+    set_unused_pins_to_output();
+    
     //Configure interrupts:
     RCONbits.IPEN = 1; // Enable Interrupt Priority levels
     INTCONbits.GIEH = 1; // Enable High-priority Interrupts
@@ -203,13 +202,7 @@ static void init_system(void) {
 void user_init(void) {
     UINT16 i;
 
-    // turn on the led to signify booting:
-    #if defined(led_pin)
-    led_init();
-    led_on();
-    #endif
-
-    // wait a bit till all systems are powered
+    // wait 10,000,000 ticks till all systems are powered
     Delay10KTCYx(250); Delay10KTCYx(250);
     Delay10KTCYx(250); Delay10KTCYx(250);
 
@@ -220,13 +213,13 @@ void user_init(void) {
     rtcc_write(&tm); // update time
     rtcc_writestr(&tm, date_str, time_str); // write time
 
-    init_env(); // set up environment sensors (light, temp, ...)
+    env_init(); // set up environment sensors (light, temp, ...)
 
-    // Setup accelerometer interrupt
+    acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // Setup accelerometer
     //INTCON3bits.INT1IP = 1; // high priority int1
     //INTCON3bits.INT1IF = 0;
     //INTCON3bits.INT1IE = 1;
-
+    
     #if defined(DISPLAY_ENABLED)
     disp_init();
     #endif
@@ -234,10 +227,6 @@ void user_init(void) {
     SD_CS_TRIS = OUTPUT_PIN; // un-select SD-card
     LATCbits.LATC6 = 1;
     SD_CS = 1;
-
-    ACC_CS_TRIS = OUTPUT_PIN; // un-select accelerometer
-    ACC_CS = 1;
-    PORTCbits.RC7 = 1;
 
     // By default, start in configuration mode:
     is_logging = 0;
@@ -249,11 +238,6 @@ void user_init(void) {
     time_str[2] = time_str[5] = ':'; time_str[8] = 0;
     date_str[2] = date_str[5] = '/'; date_str[6] = '2'; date_str[7] = '0';
     date_str[10] = 0;
-
-    // turn off the led: done booting:
-    #if defined(led_pin)
-    led_off();
-    #endif
 }
 
 /*******************************************************************************
@@ -341,11 +325,10 @@ void update_display(void) {
 void log_process() {
     static BOOL startup = 0; // startup after a while
     if (startup == 0) { // to init light sensors, accelerometer & SD card
-        USBSoftDetach();    // detach usb module
         Delay10KTCYx(250);
         set_osc_8Mhz();
         startup = TRUE;
-        init_env();
+        env_init();
         acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc));
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
@@ -354,7 +337,7 @@ void log_process() {
         return;
     }
     if (sdbuf_is_onhold()) { // log time stamp and env data in first 8 bytes
-        read_env(light, thermo); // read time stamp and light (env) value
+        env_read(light, thermo); // read time stamp and light (env) value
         sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo);
         rtcc_read(&tm);
         sd_buffer.f.timestmp = rtcc_2uint32(&tm);
@@ -383,6 +366,7 @@ void log_process() {
         #if defined(DISPLAY_ENABLED)
         disp_log_revive();
         #endif
+        //set_osc_deep_sleep();
         return; // return to IOProcess
     }
 }
@@ -419,7 +403,7 @@ void config_process(void) {
     else if (cdc_config_cmd('r')) {
         switch (config_cycle) {
             case 100: acc_getxyz(&accval);  env_on();  break;
-            case 80: light = read_light();  env_off(); break;
+            case 80: light = light_read();  env_off(); break;
             case 70: rtcc_writestr(&tm,date_str,time_str); break;
             case 50: cdc_print_all( accval.x, accval.y, accval.z,
                 light.Val,thermo,(char*)date_str,(char*)time_str);
@@ -435,7 +419,7 @@ void config_process(void) {
                 disp_cmd = DISP_CMD_LOGNG;
                 #endif
                 break;
-            case 1: is_logging = 1; break;
+            case 1: USBSoftDetach();  is_logging = 1; break;
         }
     }
     else if (cdc_config_cmd('f')) {
