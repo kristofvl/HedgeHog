@@ -19,8 +19,6 @@ void adxl345_setmode_fifo() {
 }
 
 void adxl345_setmode_pull() {
-    adxl345_write_byte(ADXL345_BWRATE, ADXL345_BWRATE_100_HZ);
-    Nop();
     adxl345_write_byte(ADXL345_FIFO_CTL, ADXL345_FIFOMODE_BYPASS);
     Nop();
 }
@@ -167,14 +165,15 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
     SPICON1bits.SSPM0 = 0;
     SPISTATbits.CKE = 0;
     SPICLOCK = 0;
-    SPIOUT = 0; // define SDO1 as output (master or slave)
-    SPIIN = 1; // define SDI1 as input (master or slave)
+    SPIOUT = OUTPUT_PIN; // define SDO1 as output (master or slave)
+    SPIIN = INPUT_PIN; // define SDI1 as input (master or slave)
     ACC_CS_TRIS = OUTPUT_PIN; // define the Chip Select pin as output
     SPICON1bits.CKP = 1; // set clock polarity
     SPIENABLE = 1; // enable synchronous serial port
 
     // configure interrupts:
     // for the HedgeHOG, RP5 (B2) has been mapped to INT1 (see HardwareProfile)
+    ACC_INT_TRIS = INPUT_PIN; // set interrupt pin to input
     INTCON3bits.INT1IP = 1; // high priority int1
     INTCON3bits.INT1IF = 0;
     INTCON3bits.INT1IE = 1;
@@ -210,11 +209,11 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
     }
 
     // set right data format:
-    adxl345_write_byte(ADXL345_DATA_FMT,
-            range | ADXL345_FORM_LFTJUST ); // ADXL345_FORM_4G
+    adxl345_write_byte(ADXL345_DATA_FMT, range | ADXL345_FORM_LFTJUST );
     Nop();
-    adxl345_write_byte(ADXL345_FIFO_CTL,
-        ADXL345_FIFOMODE_FIFO | ADXL345_FIFOMODE_BYPASS); // FIFOmode, 32 samples
+    adxl345_write_byte(ADXL345_BWRATE, bw ); // sets low power mode by default
+    Nop();
+    adxl345_write_byte(ADXL345_FIFO_CTL, ADXL345_FIFOMODE_BYPASS);
     Nop();
 
     *initmsg |= adxl345_read_byte(ADXL345_DATA_FMT);
@@ -222,10 +221,6 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
 
     adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
 
-    //adxl345_setmode_pull(); // sets bandwidth and mode (pull, fifo)
-    //adxl345_setmode_pull();
-
-    // should return 0xE5:
     *initmsg |= adxl345_read_byte(ADXL345_CHIP_ID);
     *initmsg<<8;
 }

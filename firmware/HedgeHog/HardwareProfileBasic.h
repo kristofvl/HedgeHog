@@ -64,15 +64,11 @@ extern char is_logging;
 /*******************************************************************/
 #define USE_PIC18				// used by FSConfig.h
 #define USE_SD_INTERFACE_WITH_SPI
-#define TRIS_CARD_DETECT    TRISBbits.TRISB4    // Input
-#define CARD_DETECT         PORTBbits.RB4 
-#define TRIS_WRITE_DETECT   TRISAbits.TRISA3    // Input
 #define SD_CS               PORTCbits.RC6	// Chip Select 
 #define SD_CS_TRIS          TRISCbits.TRISC6        
-#define SD_CD               0 //PORTBbits.RB4	// Card detect 
-#define SD_CD_TRIS          TRISBbits.TRISB4
-#define WRITE_DETECT        PORTAbits.RA3	// Write protect 
-#define SD_WE               PORTAbits.RA3	
+#define SD_CD               0           	// Card detect
+#define SD_CD_TRIS          TRISAbits.TRISA3
+#define SD_WE               0
 #define SD_WE_TRIS          TRISAbits.TRISA3
 #define SPI_INTERRUPT_FLAG_ASM PIR3, 7
 
@@ -81,6 +77,8 @@ extern char is_logging;
 /*******************************************************************/
 #define ACC_CS           LATCbits.LATC7
 #define ACC_CS_TRIS      TRISCbits.TRISC7
+#define ACC_INT          PORTBbits.RB2
+#define ACC_INT_TRIS     TRISBbits.TRISB2
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/

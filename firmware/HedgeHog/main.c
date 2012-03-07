@@ -142,7 +142,7 @@ void high_priority_ISR() {
     }
 }
 #pragma interruptlow low_priority_ISR
-void low_priority_ISR() {   
+void low_priority_ISR() {
 }
 
 /** DECLARATIONS **************************************************************/
@@ -194,7 +194,6 @@ static void init_system(void) {
     oled_init();
     #endif
 
-    INTCON2bits.RBPU = 0; // enable a pull-up on PortB
     MDD_SDSPI_InitIO(); // SD-SPI.c
 
     user_init(); // Our init routines come last
@@ -323,7 +322,7 @@ void log_process() {
         Delay10KTCYx(250);
         set_osc_8Mhz();
         startup = TRUE;
-        TRISA=TRISB=TRISC=TRISD=0; // default all pins to difital output
+        TRISB=TRISC=TRISD=0; // default all pins to digital output
         sdbuf_init();
         #if defined(led_pin)
         led_init();
@@ -355,7 +354,7 @@ void log_process() {
             #if defined(led_pin)
             led_on();
             #endif
-            set_osc_sleep_t1(39);   // go to sleep for timeout of 8ms
+            set_osc_sleep_t1(36);   // go to sleep for timeout of ~9.5ms
             #if defined(led_pin)
             led_off();
             #endif

@@ -52,8 +52,8 @@
 /******************************************************************************/
 #define env_init() { light_init(); tmp_init(); button_init();}
 #if defined(LIGHT_PWR)
-#define env_on()  { LIGHT_PWR = 0; }
-#define env_off()  { LIGHT_PWR = 1; }
+#define env_on()  { INTCON2bits.RBPU=0; LIGHT_PWR = 0; }
+#define env_off()  { LIGHT_PWR = 1; INTCON2bits.RBPU=1; }
 #else
 #define env_on()   { ; }
 #define env_off()  { ; }

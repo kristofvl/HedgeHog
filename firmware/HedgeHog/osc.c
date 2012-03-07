@@ -41,26 +41,14 @@ void set_osc_sleep_t1(unsigned char to) {
     T1CONbits.TMR1ON = 1; // turn timer1 on
     T1CONbits.RD16 = 0;
     TMR1H = 0xFF;
-    TMR1L = 0xFF - to; //37 leads to a 10ms sampling (verified by oscilloscope)
+    TMR1L = 0xFF - to; //36 leads to a 10ms sampling (verified by oscilloscope)
     OSCCONbits.IDLEN = 0; // sleep starts sleep mode (not idle)
-    #if defined(HHG_POWERDEBUG)
-    LATBbits.LATB7 = 1;
-    #endif
     Sleep(); // Zzzzzz....
-    #if defined(HHG_POWERDEBUG)
-    LATBbits.LATB7 = 0;
-    #endif
 }
 
 void set_osc_sleep_int1() {
     OSCCONbits.IDLEN = 0; // sleep starts sleep mode (not idle)
-    #if defined(HHG_POWERDEBUG)
-    LATBbits.LATB7 = 1;
-    #endif
     Sleep(); // Zzzzzz....
-    #if defined(HHG_POWERDEBUG)
-    LATBbits.LATB7 = 0;
-    #endif
 }
 
 void set_osc_deep_sleep() {
