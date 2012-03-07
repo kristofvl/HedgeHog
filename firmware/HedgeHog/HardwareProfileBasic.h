@@ -91,20 +91,20 @@ extern char is_logging;
 /*******************************************************************/
 /******** LED definition *******************************************/
 /*******************************************************************/
-//#define led_pin	LATBbits.LATB7
-//#define led_TRIS	TRISBbits.TRISB7
-//#define led_init()	{led_TRIS = 0;    led_pin = 1;}
-//#define led_on()	{led_pin = 0;}
-//#define led_off()	{led_pin = 1;}
+#define led_pin         LATBbits.LATB7
+#define led_TRIS	TRISBbits.TRISB7
+#define led_init()	{led_TRIS = 0;    led_pin = 1;}
+#define led_on()	{led_pin = 0;}
+#define led_off()	{led_pin = 1;}
 
 /*******************************************************************/
 /******** remap pins ***********************************************/
 /*******************************************************************/
 #define ul_reg() { EECON2 = 0x55;EECON2 = 0xAA;PPSCONbits.IOLOCK = 0;}
 #define l_reg()   { EECON2 = 0x55;EECON2 = 0xAA;PPSCONbits.IOLOCK = 1;}
-//  RP6  as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P),
+//  RP6  as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P), RP5(B2) as INT1
 #define remap_pins() {ul_reg(); RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5; l_reg();}
 
-#define set_unused_pins_to_output() {TRISD=0; TRISB=0xb00000100;}
+#define set_unused_pins_to_output() {TRISD=0; TRISB=0xb00000100; }
 
 #endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_H

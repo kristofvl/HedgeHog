@@ -8,7 +8,6 @@ void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg)
     BYTE range, bw;
     
     SPISTAT = 0x0000;          // power on state
-    // SPICON1 = 0x82; //old!
     SPICON1bits.WCOL = 1;
     SPICON1bits.SSPOV = 0;
     SPICON1bits.SSPEN = 0;
@@ -21,10 +20,10 @@ void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg)
     SPICLOCK = 0;
     SPIOUT = 0;                // define SDO1 as output (master or slave)
     SPIIN = 1;                 // define SDI1 as input (master or slave)
+    ACC_CS_TRIS = OUTPUT_PIN; // define the Chip Select pin as output
     SPICON1bits.CKP = 1;
     SPIENABLE = 1;             // enable synchronous serial port
 	
-    //TRISD = 0;	
     reg.val = bma150_read_byte(BMA150_CHIP_ID);
     Nop();
 

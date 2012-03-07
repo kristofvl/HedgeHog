@@ -155,6 +155,7 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
     oledCS = 1;
 #endif
 
+    // configure SPI:
     SPISTAT = 0x0000; // power on state
     SPICON1bits.WCOL = 1;
     SPICON1bits.SSPOV = 0;
@@ -168,8 +169,15 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
     SPICLOCK = 0;
     SPIOUT = 0; // define SDO1 as output (master or slave)
     SPIIN = 1; // define SDI1 as input (master or slave)
+    ACC_CS_TRIS = OUTPUT_PIN; // define the Chip Select pin as output
     SPICON1bits.CKP = 1; // set clock polarity
     SPIENABLE = 1; // enable synchronous serial port
+
+    // configure interrupts:
+    // for the HedgeHOG, RP5 (B2) has been mapped to INT1 (see HardwareProfile)
+    INTCON3bits.INT1IP = 1; // high priority int1
+    INTCON3bits.INT1IF = 0;
+    INTCON3bits.INT1IE = 1;
 
     // go into power mode:
     adxl345_write_byte(ADXL345_POWR_CTL,
@@ -180,11 +188,11 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
 
     range = cnf.f.range;
     switch (range) {
-        case '0': range = ADXL345_FORM_2G; break;
-        case '1': range = ADXL345_FORM_4G; break;
-        case '2': range = ADXL345_FORM_8G; break;
+        case '0': range = ADXL345_FORM_2G;  break;
+        case '1': range = ADXL345_FORM_4G;  break;
+        case '2': range = ADXL345_FORM_8G;  break;
         case '3': range = ADXL345_FORM_16G; break;
-        default:  range = ADXL345_FORM_4G; break;
+        default:  range = ADXL345_FORM_4G;  break;
     }
     bw = cnf.f.bw;
     switch (bw) {
@@ -205,13 +213,17 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
     adxl345_write_byte(ADXL345_DATA_FMT,
             range | ADXL345_FORM_LFTJUST ); // ADXL345_FORM_4G
     Nop();
+    adxl345_write_byte(ADXL345_FIFO_CTL,
+        ADXL345_FIFOMODE_FIFO | ADXL345_FIFOMODE_BYPASS); // FIFOmode, 32 samples
+    Nop();
+
     *initmsg |= adxl345_read_byte(ADXL345_DATA_FMT);
     *initmsg<<8;
 
     adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
 
     //adxl345_setmode_pull(); // sets bandwidth and mode (pull, fifo)
-    adxl345_setmode_pull();
+    //adxl345_setmode_pull();
 
     // should return 0xE5:
     *initmsg |= adxl345_read_byte(ADXL345_CHIP_ID);

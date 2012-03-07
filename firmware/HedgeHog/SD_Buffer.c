@@ -62,6 +62,8 @@ BYTE sdbuf_check_rle(PACC_XYZ accval, BYTE rle_th) {
 void sdbuf_init(void) {
     sdbuffer_p = 512; // start at 512 (offset is required sometimes!!!?)
     sdbuffer_i = 0xFFF;
+    MDD_SDSPI_InitIO();
+    MDD_SDSPI_MediaInitialize(); // init SD SPI settings
 }
 
 BYTE sdbuf_write(void) {

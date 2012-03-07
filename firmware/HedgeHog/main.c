@@ -70,8 +70,8 @@ hhg_conf_t hhg_conf;
 
 // time variables
 rtccTimeDate tm; // variable holding time info
-char date_str[11];
-char time_str[9];
+char date_str[11] = "01/01/2012";
+char time_str[9] = "00:00:00";
 
 // sensor variables:
 WORD_VAL light;
@@ -121,22 +121,29 @@ void remapped_low_ISR(void) {
     _asm goto low_priority_ISR _endasm
 }
 #pragma code	
-//These are the actual interrupt handling routines.
+// interrupt handling routines:
 #pragma interrupt high_priority_ISR
 void high_priority_ISR() {
-    if (PIE1bits.TMR1IE && PIR1bits.TMR1IF) { // timer1 int?
+    if (PIE1bits.TMR1IE && PIR1bits.TMR1IF) { // if timer1 interrupt:
         PIE1bits.TMR1IE = 0;
         PIR1bits.TMR1IF = 0;
         T1CONbits.TMR1ON = 0; // turn timer 1 off
-    } else {
+    } else
+    #if defined(ADXL345_ENABLED)
+    if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // if INT1 is set:
+        INTCON3bits.INT1IE = 0;
+        INTCON3bits.INT1IF = 0;
+        adxl345_read_byte(ADXL345_INT_SRC); // read and clear interrupt
+        INTCON3bits.INT1IE = 1;
+    } else
+    #endif
+    {
         USBDeviceTasks();
     }
-} //return is a "retfie fast", since this is in a #pragma interrupt section
+}
 #pragma interruptlow low_priority_ISR
-void low_priority_ISR() {
-    //Check which interrupt flag caused the interrupt, Service & Clear
-} // return is a "retfie", since this is in a #pragma interruptlow section
-
+void low_priority_ISR() {   
+}
 
 /** DECLARATIONS **************************************************************/
 #pragma code
@@ -200,7 +207,9 @@ static void init_system(void) {
  *                  application's code initialization.
  ******************************************************************************/
 void user_init(void) {
-    UINT16 i;
+
+    // By default, start in configuration mode:
+    is_logging = 0;
 
     // wait 10,000,000 ticks till all systems are powered
     Delay10KTCYx(250); Delay10KTCYx(250);
@@ -216,28 +225,14 @@ void user_init(void) {
     env_init(); // set up environment sensors (light, temp, ...)
 
     acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // Setup accelerometer
-    //INTCON3bits.INT1IP = 1; // high priority int1
-    //INTCON3bits.INT1IF = 0;
-    //INTCON3bits.INT1IE = 1;
     
     #if defined(DISPLAY_ENABLED)
     disp_init();
     #endif
 
-    SD_CS_TRIS = OUTPUT_PIN; // un-select SD-card
-    LATCbits.LATC6 = 1;
-    SD_CS = 1;
-
-    // By default, start in configuration mode:
-    is_logging = 0;
-
     // initialize configuration state variables:
     config_cdc_init();
 
-    // initialize the constant symbols in the display strings:
-    time_str[2] = time_str[5] = ':'; time_str[8] = 0;
-    date_str[2] = date_str[5] = '/'; date_str[6] = '2'; date_str[7] = '0';
-    date_str[10] = 0;
 }
 
 /*******************************************************************************
@@ -291,7 +286,7 @@ void update_display(void) {
             rtcc_writestr(&tm, date_str, time_str);
         }
         else if (disp_update_env()) {
-            read_env(light, thermo);
+            env_read(light, thermo);
             write2str(light.Val, lt_str);
             write2str(((thermo/2)-30), tmp_str);
         }
@@ -328,12 +323,16 @@ void log_process() {
         Delay10KTCYx(250);
         set_osc_8Mhz();
         startup = TRUE;
+        TRISA=TRISB=TRISC=TRISD=0; // default all pins to difital output
+        sdbuf_init();
+        #if defined(led_pin)
+        led_init();
+        #endif
         env_init();
-        acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc));
+        acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // init all sensors
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
-        sdbuf_init();
         return;
     }
     if (sdbuf_is_onhold()) { // log time stamp and env data in first 8 bytes
@@ -353,7 +352,13 @@ void log_process() {
         }
         if (sdbuf_notfull()) {
             sdbuf_add_acc(&accval); // add/overwrite the new sensor values
-            set_osc_sleep_t1(37);   // go to sleep for timeout of 8ms
+            #if defined(led_pin)
+            led_on();
+            #endif
+            set_osc_sleep_t1(39);   // go to sleep for timeout of 8ms
+            #if defined(led_pin)
+            led_off();
+            #endif
         }
         if (sdbuf_deltaT_full())
             sdbuf_goto_next_accslot();

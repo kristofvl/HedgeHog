@@ -9,6 +9,7 @@
 
 #include "osc.h"
 
+
 void set_osc_8Mhz(void) {
     OSCCONbits.IRCF2 = 1; // set internal OSC to 8 Mhz
     OSCCONbits.IRCF1 = 1; //
