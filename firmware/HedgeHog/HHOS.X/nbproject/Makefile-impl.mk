@@ -43,6 +43,22 @@ ALLCONFS=raw_sampling_testbed raw_sampling_basic mv_sampling_oled
 .clean-impl: .clean-pre
 	${MAKE} -f nbproject/Makefile-${CONF}.mk SUBPROJECTS=${SUBPROJECTS} .clean-conf
 
+# clobber
+.clobber-impl: .clobber-pre .depcheck-impl
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_testbed clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_basic clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=mv_sampling_oled clean
+
+
+
+# all
+.all-impl: .all-pre .depcheck-impl
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_testbed build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_basic build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=mv_sampling_oled build
+
+
+
 # dependency checking support
 .depcheck-impl:
 #	@echo "# This code depends on make tool being used" >.dep.inc
