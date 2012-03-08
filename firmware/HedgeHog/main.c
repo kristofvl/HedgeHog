@@ -335,10 +335,11 @@ void log_process() {
         return;
     }
     if (sdbuf_is_onhold()) { // log time stamp and env data in first 8 bytes
-        env_read(light, thermo); // read time stamp and light (env) value
-        sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo);
+        env_on(); // pull down power pin for light, do something else:
         rtcc_read(&tm);
         sd_buffer.f.timestmp = rtcc_2uint32(&tm);
+        env_read(light, thermo); // read time stamp and light (env) value
+        sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo);
         sdbuf_init_buffer();
         return;
     }
@@ -406,8 +407,8 @@ void config_process(void) {
     }
     else if (cdc_config_cmd('r')) {
         switch (config_cycle) {
-            case 100: acc_getxyz(&accval);  env_on();  break;
-            case 80: light = light_read();  env_off(); break;
+            case 100: acc_getxyz(&accval); env_on(); break;
+            case 80: env_read(light, thermo); break;
             case 70: rtcc_writestr(&tm,date_str,time_str); break;
             case 50: cdc_print_all( accval.x, accval.y, accval.z,
                 light.Val,thermo,(char*)date_str,(char*)time_str);
