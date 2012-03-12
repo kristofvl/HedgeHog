@@ -52,14 +52,14 @@ typedef union
 {
     struct
     {
-        BYTE    year;       // BCD codification for year, 00-99
-        BYTE    rsvd;       // reserved for future use
-        BYTE    mday;       // BCD codification for day of the month, 01-31
-        BYTE    mon;        // BCD codification for month, 01-12
-        BYTE    hour;       // BCD codification for hours, 00-24
-        BYTE    wday;       // BCD codification for day of the week, 00-06
-        BYTE    sec;        // BCD codification for seconds, 00-59
-        BYTE    min;        // BCD codification for minutes, 00-59
+        BYTE    year;       // 0 BCD codification for year, 00-99
+        BYTE    rsvd;       // 1 reserved for future use
+        BYTE    mday;       // 2 BCD codification for day of the month, 01-31
+        BYTE    mon;        // 3 BCD codification for month, 01-12
+        BYTE    hour;       // 4 BCD codification for hours, 00-24
+        BYTE    wday;       // 5 BCD codification for day of the week, 00-06
+        BYTE    sec;        // 6 BCD codification for seconds, 00-59
+        BYTE    min;        // 7 BCD codification for minutes, 00-59
     }f;                     // field access
     BYTE        b[8];       // BYTE access
     WORD        w[4];       // 16 bits access

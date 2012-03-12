@@ -182,6 +182,7 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
     adxl345_write_byte(ADXL345_POWR_CTL,
             ADXL345_POW_MEASURE | ADXL345_POW_LINK);
     Nop();
+    
     *initmsg = adxl345_read_byte(ADXL345_POWR_CTL);
     *initmsg<<8;
 
@@ -223,4 +224,10 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
 
     *initmsg |= adxl345_read_byte(ADXL345_CHIP_ID);
     *initmsg<<8;
+}
+
+void adxl345_deep_sleep(void)
+{
+    adxl345_write_byte(ADXL345_POWR_CTL,ADXL345_POW_SLEEP);
+    Nop();
 }

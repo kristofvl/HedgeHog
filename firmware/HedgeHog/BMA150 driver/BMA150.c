@@ -38,7 +38,7 @@ void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg)
         case '1': range = BMA150_RANGE_4G; break;
         case '2': range = BMA150_RANGE_8G; break;
         case '3': range = BMA150_RANGE_8G; break;
-        default:  range = BMA150_RANGE_2G; break;
+        default:  range = BMA150_RANGE_8G; break;
     }
     bw = cnf.f.bw;
     switch (bw) {
@@ -74,7 +74,6 @@ void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg)
     *initmsg = reg.range;
     *initmsg<<8;
     *initmsg |= reg.bandwidth;
-
 }
 
 void bma150_write_byte(BYTE address, BYTE data)

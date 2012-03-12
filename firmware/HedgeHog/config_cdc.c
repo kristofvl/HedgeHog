@@ -42,6 +42,7 @@ void cdc_main_menu( rom char* name_str, rom char* ver_str)
         if (getsUSBUSART(&uart_c, 1) != 0) {
             switch (uart_c) {
                 case 't': cdc_start_set_time(); break;
+                case 'T': cdc_start_stop_time(); break;
                 case 'r': cdc_start_read(); break;
                 case 's': cdc_start_log(); break;
                 case 'v': cdc_print_ver(name_str,  ver_str); break;
