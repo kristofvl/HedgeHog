@@ -146,7 +146,7 @@ class conf_HHG_dialog:
 			if rec_date.month == now_date.month:
 				entry_date.mark_day(now_date.day)
 			entry_date.set_display_options( gtk.CALENDAR_SHOW_HEADING |
-				gtk.CALENDAR_SHOW_DAY_NAMES | gtk.CALENDAR_SHOW_WEEK_NUMBERS 
+				gtk.CALENDAR_SHOW_DAY_NAMES | gtk.CALENDAR_SHOW_WEEK_NUMBERS
 				| gtk.CALENDAR_WEEK_START_MONDAY );
 			entry_hour = gtk.combo_box_new_text()
 			for i in range(0,24): 
@@ -170,7 +170,11 @@ class conf_HHG_dialog:
 			dlg.vbox.pack_end(box1, True, True, 0)
 			dlg.show_all()
 			dlg.run()
+			rd = entry_date.get_date(); 
+			rt = (entry_hour.get_active(), entry_mins.get_active())
+			rec_date = rec_date.replace(rd[0],rd[1],rd[2], rt[0], rt[1]*5)
 			dlg.destroy()
+			print rec_date
 			#### serial comms #############################################
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect()
@@ -242,13 +246,13 @@ class conf_HHG_dialog:
 			entry_bw.append_text("1.5kHz")
 			entry_bw.set_active(5)
 			hbox1 = gtk.HBox()
-			hbox1.pack_start(gtk.Label("Name:"), False, 5, 5)
+			hbox1.pack_start(gtk.Label("Name:"), False, False, 1)
 			hbox1.pack_end(entry_id)
 			hbox2 = gtk.HBox()
-			hbox2.pack_start(gtk.Label("Acc range:"), False, 5, 5)
+			hbox2.pack_start(gtk.Label("Acc range:"), False, False, 1)
 			hbox2.pack_end(entry_range)
 			hbox3 = gtk.HBox()
-			hbox3.pack_start(gtk.Label("Acc bandwidth:"), False, 5, 5)
+			hbox3.pack_start(gtk.Label("Acc bandwidth:"), False, False, 1)
 			hbox3.pack_end(entry_bw)
 			dlg.vbox.pack_end(hbox3, True, True, 0)
 			dlg.vbox.pack_end(hbox2, True, True, 0)
@@ -256,6 +260,9 @@ class conf_HHG_dialog:
 			dlg.show_all()
 			dlg.run()
 			id_text = entry_id.get_text()
+			if len(id_text)!=4:
+				id_text.zfill(4) # pad with zeros for a valid entry
+				print id_text
 			range_sel = entry_range.get_active()
 			if range_sel > -1:
 				acc_text = str(range_sel)
