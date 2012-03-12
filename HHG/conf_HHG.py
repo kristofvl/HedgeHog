@@ -138,9 +138,9 @@ class conf_HHG_dialog:
 			
 
 	def record(self, widget, data=None):
-		#if not self.connected:
-		#	self.select(None)
-		#if self.connected:
+		if not self.connected:
+			self.select(None)
+		if self.connected:
 			### time set dialog ###########################################
 			dlg =  gtk.MessageDialog( None, 
 						gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
