@@ -62,22 +62,22 @@ class HHG_comms:
 	def disconnect(self):
 		self.ser.close()
 		
-	def getVersion(self, time_out, exp_len):
+	def get_version(self, time_out, exp_len):
 		self.ser.write("v")
 		time.sleep(time_out)
 		return self.ser.read(16)
 		
-	def setFat(self, time_out, exp_len):
+	def set_FAT(self, time_out, exp_len):
 		self.ser.write("f")
 		time.sleep(time_out)
 		return self.ser.read(exp_len)
 
-	def initHHG(self, time_out, exp_len):
+	def init_HHG(self, time_out, exp_len):
 		self.ser.write("i")
 		time.sleep(time_out)
 		return self.ser.read(exp_len)
 		
-	def setHHGID(self, HHGid, HHGacc, time_out, exp_len):
+	def set_HHGID(self, HHGid, HHGacc, time_out, exp_len):
 		self.ser.write("w")
 		# HedgeHog id"
 		time.sleep(time_out)
@@ -127,13 +127,13 @@ class HHG_comms:
 		ret = self.ser.read(exp_len)
 		return ret
 		
-	def getHHGID(self, time_out, exp_len):
+	def get_HHGID(self, time_out, exp_len):
 		self.ser.write("u")
 		time.sleep(time_out)
 		ret = self.ser.read(exp_len)
 		return ret
 		
-	def synchronizeClock(self, time_out, exp_len):
+	def synchronize_clock(self, time_out, exp_len):
 		mydate = datetime.datetime.now()
 		self.ser.write("t"); 
 		time.sleep(time_out)
@@ -151,7 +151,22 @@ class HHG_comms:
 		ret = self.ser.read(exp_len)
 		return ret
 		
-	def readData(self, time_out, exp_len):
+	def set_timeout_clock(self, tdate, time_out, exp_len):
+		self.ser.write("T");
+		time.sleep(time_out)
+		self.ser.write(chr(tdate.year-2000))
+		time.sleep(time_out)
+		self.ser.write(chr(tdate.month))
+		time.sleep(time_out)
+		self.ser.write(chr(tdate.day))
+		time.sleep(time_out)
+		self.ser.write(chr(tdate.hour)) 
+		time.sleep(time_out)
+		self.ser.write(chr(tdate.minute))
+		ret = self.ser.read(exp_len)
+		return ret
+		
+	def read_data(self, time_out, exp_len):
 		self.ser.write("r")
 		time.sleep(time_out)
 		ret = self.ser.read(exp_len)

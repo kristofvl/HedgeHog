@@ -62,16 +62,16 @@ class conf_HHG_dialog:
 		self.portstr.set_text(self.portname)
 		self.currentHHG = hcs.HHG_comms(self.portname)
 		self.currentHHG.connect()
-		ret = self.currentHHG.initHHG(0, 18)
+		ret = self.currentHHG.init_HHG(0, 18)
 		if len(ret) == 18:
 			self.initstr.set_text(ret[6:14])
 		print "init:", ret, len(ret)
-		ret = self.currentHHG.readData(0,65)
+		ret = self.currentHHG.read_data(0,65)
 		print "data:", ret, len(ret)
 		if len(ret) == 65:
 			self.datastr.set_text(ret[:35])
 			self.timestr.set_text(ret[40:59])
-		ret = self.currentHHG.getVersion(0,16)
+		ret = self.currentHHG.get_version(0,16)
 		print "ver:", ret, len(ret)
 		if len(ret) == 16:
 			self.versionstr.set_text(ret[:16])
@@ -93,49 +93,39 @@ class conf_HHG_dialog:
 				while gtk.events_pending(): gtk.main_iteration()
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect(0.5)
-			############################################################
-			ret = self.currentHHG.initHHG(0, 18)
+			ret = self.currentHHG.init_HHG(0, 18)
 			print "init:", ret, len(ret)
 			if len(ret) == 18:
 				self.initstr.set_text(ret[6:14])
 			if progressbar:
 				pbar.set_fraction(0.1)
 				while gtk.events_pending(): gtk.main_iteration()
-			############################################################
-			ret = self.currentHHG.synchronizeClock(0.1, 3)
+			ret = self.currentHHG.synchronize_clock(0.1, 3)
 			print "set clock:", ret, len(ret)
 			if progressbar:
 				pbar.set_fraction(0.3)
 				while gtk.events_pending(): gtk.main_iteration()
-			############################################################
-			ret = self.currentHHG.readData(0, 65)
+			ret = self.currentHHG.read_data(0, 65)
 			print "data:", ret, len(ret)
 			if len(ret) == 65:
 				self.datastr.set_text(ret[:35])
 				self.timestr.set_text(ret[40:59])
-			############################################################
-			ret = self.currentHHG.getVersion(0, 16)
+			ret = self.currentHHG.get_version(0, 16)
 			if len(ret) == 16:
 				self.versionstr.set_text(ret[:16])
 			print "ver:", ret, len(ret)
-			############################################################
-			#ret = self.currentHHG.setFat(0.1, 3)
-			#print "FAT IO:", ret, len(ret)
 			if progressbar:
 				pbar.set_fraction(0.8)
 				while gtk.events_pending(): gtk.main_iteration()
-			############################################################
-			ret = self.currentHHG.getHHGID(0, 21)
+			ret = self.currentHHG.get_HHGID(0, 21)
 			print "conf IO:", ret[:4], len(ret)
 			if len(ret) > 19:
 				self.idstr.set_text(ret[:20])
-			############################################################
 			if progressbar:
 				pgrsdlg.hide()
 				pgrsdlg.destroy()
 				while gtk.events_pending(): gtk.main_iteration()
 			self.currentHHG.disconnect()
-			
 
 	def record(self, widget, data=None):
 		if not self.connected:
@@ -181,17 +171,13 @@ class conf_HHG_dialog:
 			dlg.show_all()
 			dlg.run()
 			dlg.destroy()
-			###############################################################
+			#### serial comms #############################################
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect()
-			###############################################################
-			ret = self.currentHHG.initHHG(0, 18)
-			print "init:", ret, len(ret)
-			if len(ret) == 18:
-				self.initstr.set_text(ret[6:14])
-			ret = self.currentHHG.synchronizeClock(0.1, 3)
+			ret = self.currentHHG.set_timeout_clock(rec_date, 0.1, 3)
+			print "set timeout:", ret, len(ret)
+			ret = self.currentHHG.synchronize_clock(0.1, 3)
 			print "set clock:", ret, len(ret)
-			###############################################################
 			ret = self.currentHHG.record_HHG()
 			print ret
 			self.currentHHG.disconnect()
@@ -219,15 +205,13 @@ class conf_HHG_dialog:
 				while gtk.events_pending(): gtk.main_iteration()
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect(0.5)
-			###############################################################
-			ret = self.currentHHG.setFat(0.1, 3)
+			ret = self.currentHHG.set_FAT(0.1, 3)
 			print "FAT IO:", ret, len(ret)
 			if progressbar:
 				pgrsdlg.hide()
 				pgrsdlg.destroy()
 				while gtk.events_pending(): gtk.main_iteration()
 			self.currentHHG.disconnect()
-				
 
 	def conf(self, widget, data=None):
 		if not self.connected:
@@ -237,7 +221,7 @@ class conf_HHG_dialog:
 						gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
 						gtk.MESSAGE_QUESTION, gtk.BUTTONS_OK, None)
 			dlg.set_size_request(450, 250)
-			dlg.set_markup('Enter below <b>all</b> configuration info:')
+			dlg.set_markup('Enter below the HedgeHog configuration:')
 			entry_id = gtk.Entry()
 			entry_range = gtk.combo_box_new_text()
 			entry_range.append_text("-2 to +2 g")
@@ -286,7 +270,7 @@ class conf_HHG_dialog:
 			dlg.destroy()
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect()
-			ret = self.currentHHG.setHHGID(id_text, acc_text, 0.05, 3)
+			ret = self.currentHHG.set_HHGID(id_text, acc_text, 0.05, 3)
 			print "set conf:", ret, len(ret)
 			self.currentHHG.disconnect()
 
@@ -317,7 +301,7 @@ class conf_HHG_dialog:
 		self.window.set_border_width(4)
 		self.window.set_title('HHG control interface')
 		self.vbox = gtk.VBox()
-		
+		##################################################################
 		bas_f = gtk.Frame("main functions")
 		vbox_bas = gtk.VBox()
 		bas_f.add(vbox_bas)
@@ -333,7 +317,7 @@ class conf_HHG_dialog:
 											gtk.Widget.destroy, self.window)
 		vbox_bas.add(self.quit_button)
 		self.vbox.pack_start(bas_f, True, True, 0)
-		
+		##################################################################
 		adv_f = gtk.Frame("advanced")
 		vbox_adv = gtk.VBox()
 		adv_f.add(vbox_adv)
@@ -371,7 +355,7 @@ class conf_HHG_dialog:
 		hbox_adv.add(self.conf_button)
 		vbox_adv.add(hbox_adv)
 		self.vbox.pack_start(adv_f, False, True, 0)	
-		
+		##################################################################
 		self.window.add(self.vbox)
 		self.window.show_all()
 
