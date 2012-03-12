@@ -334,9 +334,11 @@ void log_process() {
         env_on(); // pull down power pin for light, do something else:
         rtcc_read(&tm);
         sd_buffer.f.timestmp = rtcc_2uint32(&tm);
-        if (sd_buffer.f.timestmp > 0xFFFFFFF0) { // tm_stop
+        if (sd_buffer.f.timestmp > tm_stop) {
             // go into shutdown mode, interrupted by USB comms presence:
+            #if defined(ADXL345_ENABLED)
             adxl345_deep_sleep();       // saves ~0.1mA draw
+            #endif
             MDD_SDSPI_ShutdownMedia();  // saves ~0.07mA draw
             set_osc_deep_sleep();       // saves ~0.4mA draw
         }
@@ -407,7 +409,7 @@ void config_process(void) {
         }
     }
     else if (cdc_config_cmd('T')) { // read stop-logging time from host
-        if (cdc_get_conf((char*)tm.b,5)) { // b[7]=min, b[6]=sec, ..., b[3]=mnth
+        if (cdc_get_conf((char*)tm.b,6)) { // b[7]=min, b[6]=sec, ..., b[3]=mnth
             tm.b[7]=tm.b[4]; tm.b[6]=tm.b[5]; tm.b[4]=tm.b[3]; tm.b[3]=tm.b[1];
             tm_stop = rtcc_2uint32(&tm);
             cdc_write_ok();

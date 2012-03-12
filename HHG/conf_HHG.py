@@ -172,7 +172,7 @@ class conf_HHG_dialog:
 			dlg.run()
 			rd = entry_date.get_date(); 
 			rt = (entry_hour.get_active(), entry_mins.get_active())
-			rec_date = rec_date.replace(rd[0],rd[1],rd[2], rt[0], rt[1]*5)
+			rec_date = rec_date.replace(rd[0],rd[1]+1,rd[2], rt[0], rt[1]*5)
 			dlg.destroy()
 			print rec_date
 			#### serial comms #############################################

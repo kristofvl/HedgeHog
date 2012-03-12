@@ -163,6 +163,8 @@ class HHG_comms:
 		self.ser.write(chr(tdate.hour)) 
 		time.sleep(time_out)
 		self.ser.write(chr(tdate.minute))
+		time.sleep(time_out)
+		self.ser.write(chr(tdate.second)) 
 		ret = self.ser.read(exp_len)
 		return ret
 		
