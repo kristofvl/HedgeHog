@@ -69,9 +69,10 @@ sd_buffer_t sd_buffer;
 hhg_conf_t hhg_conf;
 
 // time variables
-rtccTimeDate tm; // variable holding time info
+rtccTimeDate tm; //  holding time info for current time
 char date_str[11] = "01/01/2012";
 char time_str[9] = "00:00:00";
+UINT32 tm_stop;
 
 // sensor variables:
 WORD_VAL light;
@@ -194,7 +195,7 @@ static void init_system(void) {
     oled_init();
     #endif
 
-    MDD_SDSPI_InitIO(); // SD-SPI.c
+    sdbuf_init();
 
     user_init(); // Our init routines come last
 }
@@ -211,27 +212,22 @@ void user_init(void) {
     is_logging = 0;
 
     // wait 10,000,000 ticks till all systems are powered
-    Delay10KTCYx(250); Delay10KTCYx(250);
-    Delay10KTCYx(250); Delay10KTCYx(250);
+    Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250);
 
-    // get the configuration:
-    read_HHG_conf(&hhg_conf);
+    read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
 
-    rtcc_init(); // Set clock to:
-    rtcc_write(&tm); // update time
+    rtcc_init(); // init clock
+    rtcc_write(&tm); // update time to last entry
     rtcc_writestr(&tm, date_str, time_str); // write time
 
     env_init(); // set up environment sensors (light, temp, ...)
-
-    acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // Setup accelerometer
+    acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // setup accelerometer
     
     #if defined(DISPLAY_ENABLED)
     disp_init();
     #endif
 
-    // initialize configuration state variables:
-    config_cdc_init();
-
+    config_cdc_init(); // initialize configuration state variables (counters)
 }
 
 /*******************************************************************************
@@ -338,6 +334,12 @@ void log_process() {
         env_on(); // pull down power pin for light, do something else:
         rtcc_read(&tm);
         sd_buffer.f.timestmp = rtcc_2uint32(&tm);
+        if (sd_buffer.f.timestmp > 0xFFFFFFF0) { // tm_stop
+            // go into shutdown mode, interrupted by USB comms presence:
+            adxl345_deep_sleep();       // saves ~0.1mA draw
+            MDD_SDSPI_ShutdownMedia();  // saves ~0.07mA draw
+            set_osc_deep_sleep();       // saves ~0.4mA draw
+        }
         env_read(light, thermo); // read time stamp and light (env) value
         sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo);
         sdbuf_init_buffer();
@@ -367,11 +369,10 @@ void log_process() {
         #if defined(DISPLAY_ENABLED)
         disp_log_subdue();  // switch off the display if it is on
         #endif
-        sdbuf_write(); // write to SD card and update counters
+        sdbuf_write(); // write to SD card and update counters (~8.5ms)
         #if defined(DISPLAY_ENABLED)
         disp_log_revive();
         #endif
-        //set_osc_deep_sleep();
         return; // return to IOProcess
     }
 }
@@ -398,10 +399,17 @@ void config_process(void) {
         }
     }
     else if (cdc_config_cmd('t')) { // read time from host
-        if (cdc_get_conf((char*)tm.b,6)) {
+        if (cdc_get_conf((char*)tm.b,6)) { // b[7]=min, b[6]=sec, ..., b[3]=mnth
             tm.b[7]=tm.b[4]; tm.b[6]=tm.b[5]; tm.b[4]=tm.b[3]; tm.b[3]=tm.b[1]; 
             rtcc_write(&tm);
             rtcc_writestr(&tm,date_str,time_str);
+            cdc_write_ok();
+        }
+    }
+    else if (cdc_config_cmd('T')) { // read stop-logging time from host
+        if (cdc_get_conf((char*)tm.b,5)) { // b[7]=min, b[6]=sec, ..., b[3]=mnth
+            tm.b[7]=tm.b[4]; tm.b[6]=tm.b[5]; tm.b[4]=tm.b[3]; tm.b[3]=tm.b[1];
+            tm_stop = rtcc_2uint32(&tm);
             cdc_write_ok();
         }
     }
