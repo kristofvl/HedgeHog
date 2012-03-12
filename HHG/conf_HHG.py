@@ -29,7 +29,7 @@
 import hhg_comms.hhg_comms as hcs
 import gtk
 import pango							# for tweaking the conf window font
-
+import datetime
 
 
 # the main configuration dialog window
@@ -138,19 +138,60 @@ class conf_HHG_dialog:
 			
 
 	def record(self, widget, data=None):
-		if not self.connected:
-			self.select(None)
-		if self.connected:
+		#if not self.connected:
+		#	self.select(None)
+		#if self.connected:
+			### time set dialog ###########################################
+			dlg =  gtk.MessageDialog( None, 
+						gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+						gtk.MESSAGE_QUESTION, gtk.BUTTONS_OK, None)
+			dlg.set_size_request(450, 360)
+			dlg.set_markup("Enter below the time to <b>stop</b> logging\n"+
+			"<i>(by default, the HedgeHog stops logging after a week)</i>")
+			entry_date = gtk.Calendar()
+			now_date = datetime.datetime.now()
+			rec_date = now_date + datetime.timedelta(days=7)
+			entry_date.select_month(rec_date.month-1, rec_date.year)
+			entry_date.select_day(rec_date.day)
+			if rec_date.month == now_date.month:
+				entry_date.mark_day(now_date.day)
+			entry_date.set_display_options( gtk.CALENDAR_SHOW_HEADING |
+				gtk.CALENDAR_SHOW_DAY_NAMES | gtk.CALENDAR_SHOW_WEEK_NUMBERS 
+				| gtk.CALENDAR_WEEK_START_MONDAY );
+			entry_hour = gtk.combo_box_new_text()
+			for i in range(0,24): 
+				entry_hour.append_text( str(i).zfill(2) )
+			entry_hour.set_active(rec_date.hour)
+			entry_mins = gtk.combo_box_new_text()
+			for i in range(0,60,5):
+				entry_mins.append_text( str(i).zfill(2) )
+			entry_mins.set_active(rec_date.minute/5)
+			box1 = gtk.VBox(homogeneous=False, spacing=1)
+			box1_text = gtk.Label("Date:");   ###### TODO: left-justify
+			box1_text.set_justify(gtk.JUSTIFY_LEFT)  ### doesn't work
+			box1.pack_start(box1_text, False, False, 1)
+			box1.pack_start(entry_date, True, True, 2)
+			box2 = gtk.HBox(homogeneous=False, spacing=1)
+			box2.pack_start(gtk.Label("Time:"), False, False, 2)
+			box2.pack_start(entry_hour, False, False, 2)
+			box2.pack_start(gtk.Label(":"), False, False, 2)
+			box2.pack_start(entry_mins, False, False, 2)
+			dlg.vbox.pack_end(box2, True, False, 0)
+			dlg.vbox.pack_end(box1, True, True, 0)
+			dlg.show_all()
+			dlg.run()
+			dlg.destroy()
+			###############################################################
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect()
-			############################################################
+			###############################################################
 			ret = self.currentHHG.initHHG(0, 18)
 			print "init:", ret, len(ret)
 			if len(ret) == 18:
 				self.initstr.set_text(ret[6:14])
 			ret = self.currentHHG.synchronizeClock(0.1, 3)
 			print "set clock:", ret, len(ret)
-			############################################################
+			###############################################################
 			ret = self.currentHHG.record_HHG()
 			print ret
 			self.currentHHG.disconnect()
@@ -178,7 +219,7 @@ class conf_HHG_dialog:
 				while gtk.events_pending(): gtk.main_iteration()
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect(0.5)
-			############################################################
+			###############################################################
 			ret = self.currentHHG.setFat(0.1, 3)
 			print "FAT IO:", ret, len(ret)
 			if progressbar:
@@ -297,22 +338,22 @@ class conf_HHG_dialog:
 		vbox_adv = gtk.VBox()
 		adv_f.add(vbox_adv)
 		tb = gtk.Table(2,5, False); vbox_adv.add(tb)
-		tb.attach(gtk.Label('version:'), 0, 1, 0, 1)
+		tb.attach(gtk.Label(' version:'), 0, 1, 0, 1)
 		self.versionstr = gtk.Label('HedgeHog vX.XXX')
 		tb.attach(self.versionstr, 1, 2, 0, 1)
-		tb.attach(gtk.Label('device configuration:'), 0, 1, 1, 2)
+		tb.attach(gtk.Label(' device configuration:'), 0, 1, 1, 2)
 		self.idstr = gtk.Label('XXXX')
 		tb.attach(self.idstr, 1, 2, 1, 2)
-		tb.attach(gtk.Label('hhg time:'), 0, 1, 2, 3)
+		tb.attach(gtk.Label(' hhg time:'), 0, 1, 2, 3)
 		self.timestr = gtk.Label('XX/XX/XXXX XX:XX:XX')
 		tb.attach(self.timestr, 1, 2, 2, 3)			
-		tb.attach(gtk.Label('port:'), 0, 1, 3, 4)
+		tb.attach(gtk.Label(' port:'), 0, 1, 3, 4)
 		self.portstr = gtk.Label('/dev/ttyAXXXX')
 		tb.attach(self.portstr, 1, 2, 3, 4)
-		tb.attach(gtk.Label('init reply:'), 0, 1, 4, 5)
+		tb.attach(gtk.Label(' init reply:'), 0, 1, 4, 5)
 		self.initstr = gtk.Label('init: XX XX XX')
 		tb.attach(self.initstr, 1, 2, 4, 5)
-		tb.attach(gtk.Label('last data:'), 0, 1, 5, 6)
+		tb.attach(gtk.Label(' last data:'), 0, 1, 5, 6)
 		self.datastr = gtk.Label('acc[XXX XXX XXX] lgt[XXX] tmp[XXX]')
 		tb.attach(self.datastr, 1, 2, 5, 6)
 		for l in tb:	
