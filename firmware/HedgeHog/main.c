@@ -334,13 +334,10 @@ void log_process() {
         env_on(); // pull down power pin for light, do something else:
         rtcc_read(&tm);
         sd_buffer.f.timestmp = rtcc_2uint32(&tm);
-        if (sd_buffer.f.timestmp > tm_stop) {
-            // go into shutdown mode, interrupted by USB comms presence:
-            #if defined(ADXL345_ENABLED)
-            adxl345_deep_sleep();       // saves ~0.1mA draw
-            #endif
-            MDD_SDSPI_ShutdownMedia();  // saves ~0.07mA draw
-            set_osc_deep_sleep();       // saves ~0.4mA draw
+        if (sd_buffer.f.timestmp > tm_stop) { // go into shutdown mode
+            acc_deep_sleep();           // saves ~0.1mA draw for ADXL345
+            MDD_SDSPI_ShutdownMedia();  // saves ~0.07mA draw for basic
+            set_osc_deep_sleep();       // saves ~0.4mA draw for basic
         }
         env_read(light, thermo); // read time stamp and light (env) value
         sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo);
