@@ -173,10 +173,10 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
 
     // configure interrupts:
     // for the HedgeHOG, RP5 (B2) has been mapped to INT1 (see HardwareProfile)
-    ACC_INT_TRIS = INPUT_PIN; // set interrupt pin to input
-    INTCON3bits.INT1IP = 1; // high priority int1
-    INTCON3bits.INT1IF = 0;
-    INTCON3bits.INT1IE = 1;
+    //ACC_INT_TRIS = INPUT_PIN; // set interrupt pin to input
+    //INTCON3bits.INT1IP = 1; // high priority int1
+    //INTCON3bits.INT1IF = 0;
+    //INTCON3bits.INT1IE = 1;
 
     // go into power mode:
     adxl345_write_byte(ADXL345_POWR_CTL,
@@ -220,7 +220,7 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
     *initmsg |= adxl345_read_byte(ADXL345_DATA_FMT);
     *initmsg<<8;
 
-    adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
+    //adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
 
     *initmsg |= adxl345_read_byte(ADXL345_CHIP_ID);
     *initmsg<<8;
