@@ -134,7 +134,7 @@ class conf_HHG_dialog:
 			### time set dialog ###########################################
 			dlg =  gtk.MessageDialog( None, 
 						gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-						gtk.MESSAGE_QUESTION, gtk.BUTTONS_OK, None)
+						gtk.MESSAGE_QUESTION, gtk.BUTTONS_OK_CANCEL, None)
 			dlg.set_size_request(450, 360)
 			dlg.set_markup("Enter below the time to <b>stop</b> logging\n"+
 			"<i>(by default, the HedgeHog stops logging after a week)</i>")
@@ -169,12 +169,13 @@ class conf_HHG_dialog:
 			dlg.vbox.pack_end(box2, True, False, 0)
 			dlg.vbox.pack_end(box1, True, True, 0)
 			dlg.show_all()
-			dlg.run()
+			if dlg.run() != gtk.RESPONSE_OK:
+				dlg.destroy()
+				return
 			rd = entry_date.get_date(); 
 			rt = (entry_hour.get_active(), entry_mins.get_active())
-			rec_date = rec_date.replace(rd[0],rd[1]+1,rd[2], rt[0], rt[1]*5)
+			rec_date = rec_date.replace(rd[0],rd[1]+1,rd[2],rt[0],rt[1]*5)
 			dlg.destroy()
-			print rec_date
 			#### serial comms #############################################
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect()
