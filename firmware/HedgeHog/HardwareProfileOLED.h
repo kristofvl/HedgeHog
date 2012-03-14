@@ -106,13 +106,14 @@ extern char is_logging;
 // Accelerometer:
 #define ACC_CS           LATCbits.LATC7
 #define ACC_CS_TRIS      TRISCbits.TRISC7
+#define ACC_INT          PORTBbits.RB2
+#define ACC_INT_TRIS     TRISBbits.TRISB2
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
 #define LIGHTCHANNEL  4
 #define LIGHT_PWR 	PORTBbits.RB0
-
 
 /*******************************************************************/
 /******** remap pins ***********************************************/
