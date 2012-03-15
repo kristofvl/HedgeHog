@@ -206,7 +206,7 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
         case '7': bw = ADXL345_BWRATE_400_HZ; break;
         case '8': bw = ADXL345_BWRATE_800_HZ; break;
         case '9': bw = ADXL345_BWRATE_1600HZ; break;
-        default:  bw = ADXL345_BWRATE_100_HZ; break;
+        default:  bw = ADXL345_BWRATE_200_HZ; break;
     }
 
     // set right data format:

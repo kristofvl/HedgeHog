@@ -235,17 +235,12 @@ class conf_HHG_dialog:
 			entry_range.append_text("-16 to +16 g")
 			entry_range.set_active(1)
 			entry_bw = gtk.combo_box_new_text()
-			entry_bw.append_text("0.1Hz")
-			entry_bw.append_text("5Hz")
-			entry_bw.append_text("10Hz")
-			entry_bw.append_text("25Hz")
-			entry_bw.append_text("50Hz")
-			entry_bw.append_text("100Hz")
-			entry_bw.append_text("0.2kHz")
-			entry_bw.append_text("0.4kHz")
-			entry_bw.append_text("0.8kHz")
-			entry_bw.append_text("1.5kHz")
-			entry_bw.set_active(5)
+			entry_bw.append_text("0.1Hz");	entry_bw.append_text("5Hz");
+			entry_bw.append_text("10Hz"); 	entry_bw.append_text("25Hz");
+			entry_bw.append_text("50Hz"); 	entry_bw.append_text("100Hz");
+			entry_bw.append_text("0.2kHz");	entry_bw.append_text("0.4kHz")
+			entry_bw.append_text("0.8kHz");	entry_bw.append_text("1.5kHz")
+			entry_bw.set_active(6)
 			hbox1 = gtk.HBox()
 			hbox1.pack_start(gtk.Label("Name:"), False, False, 1)
 			hbox1.pack_end(entry_id)
