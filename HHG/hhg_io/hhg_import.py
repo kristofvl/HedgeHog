@@ -26,7 +26,7 @@
 
 import sys, os, glob, shutil, time
 import numpy as np
-from matplotlib.dates import date2num
+from matplotlib.dates import date2num, num2date
 from datetime import datetime
 from struct import unpack
 import pygtk, gtk

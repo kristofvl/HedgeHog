@@ -29,7 +29,7 @@
 import hhg_comms.hhg_comms as hcs
 import gtk
 import pango							# for tweaking the conf window font
-import datetime
+import datetime, string
 
 
 # the main configuration dialog window
@@ -225,7 +225,7 @@ class conf_HHG_dialog:
 			dlg =  gtk.MessageDialog( None, 
 						gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
 						gtk.MESSAGE_QUESTION, gtk.BUTTONS_OK, None)
-			dlg.set_size_request(450, 250)
+			dlg.set_size_request(450, 350)
 			dlg.set_markup('Enter below the HedgeHog configuration:')
 			entry_id = gtk.Entry()
 			entry_range = gtk.combo_box_new_text()
@@ -240,7 +240,15 @@ class conf_HHG_dialog:
 			entry_bw.append_text("50Hz"); 	entry_bw.append_text("100Hz");
 			entry_bw.append_text("0.2kHz");	entry_bw.append_text("0.4kHz")
 			entry_bw.append_text("0.8kHz");	entry_bw.append_text("1.5kHz")
-			entry_bw.set_active(6)
+			entry_bw.set_active(5)
+			entry_mode = gtk.combo_box_new_text()
+			entry_mode.append_text("micro-controller raw sampling");	
+			entry_mode.append_text("on-chip FIFO, raw sampling");
+			entry_mode.set_active(0)
+			entry_pwr = gtk.combo_box_new_text()
+			entry_pwr.append_text("normal");	
+			entry_pwr.append_text("low-power");
+			entry_pwr.set_active(0)
 			hbox1 = gtk.HBox()
 			hbox1.pack_start(gtk.Label("Name:"), False, False, 1)
 			hbox1.pack_end(entry_id)
@@ -248,17 +256,27 @@ class conf_HHG_dialog:
 			hbox2.pack_start(gtk.Label("Acc range:"), False, False, 1)
 			hbox2.pack_end(entry_range)
 			hbox3 = gtk.HBox()
-			hbox3.pack_start(gtk.Label("Acc bandwidth:"), False, False, 1)
+			hbox3.pack_start(gtk.Label("Acc rate:"), False, False, 1)
 			hbox3.pack_end(entry_bw)
+			hbox4 = gtk.HBox()
+			hbox4.pack_start(gtk.Label("Acc mode:"), False, False, 1)
+			hbox4.pack_end(entry_mode)
+			hbox5 = gtk.HBox()
+			hbox5.pack_start(gtk.Label("Acc power:"), False, False, 1)
+			hbox5.pack_end(entry_pwr)
+			dlg.vbox.pack_end(hbox5, True, True, 0)
+			dlg.vbox.pack_end(hbox4, True, True, 0)
 			dlg.vbox.pack_end(hbox3, True, True, 0)
 			dlg.vbox.pack_end(hbox2, True, True, 0)
+			dlg.vbox.pack_end(gtk.HSeparator(), True, True, 0)
 			dlg.vbox.pack_end(hbox1, True, True, 0)
 			dlg.show_all()
-			dlg.run()
+			ret = dlg.run()
 			id_text = entry_id.get_text()
-			if len(id_text)!=4:
-				id_text.zfill(4) # pad with zeros for a valid entry
-				print id_text
+			if len(id_text)<4:
+				id_text = string.rjust(id_text,4) # pad with spaces 
+			elif len(id_text)>4:
+				id_text = id_text[0:4];
 			range_sel = entry_range.get_active()
 			if range_sel > -1:
 				acc_text = str(range_sel)
@@ -269,13 +287,23 @@ class conf_HHG_dialog:
 				acc_text += str(range_sel)
 			else:
 				acc_text += "-"
-			acc_text += "--"
+			range_sel = entry_mode.get_active()
+			if range_sel > -1:
+				acc_text += str(range_sel)
+			else:
+				acc_text += "-"
+			range_sel = entry_pwr.get_active()
+			if range_sel > -1:
+				acc_text += str(range_sel)
+			else:
+				acc_text += "-"
 			dlg.destroy()
-			self.currentHHG = hcs.HHG_comms(self.portname)
-			self.currentHHG.connect()
-			ret = self.currentHHG.set_HHGID(id_text, acc_text, 0.05, 3)
-			print "set conf:", ret, len(ret)
-			self.currentHHG.disconnect()
+			if ret==gtk.RESPONSE_OK:
+				self.currentHHG = hcs.HHG_comms(self.portname)
+				self.currentHHG.connect()
+				ret = self.currentHHG.set_HHGID(id_text, acc_text, 0.05, 3)
+				print "set conf:", ret, len(ret)
+				self.currentHHG.disconnect()
 
 	def leave(self, widget, data=None):
 		return False

@@ -165,7 +165,7 @@ class Hhg_nights_plot(Hhg_plot):
 		self.e_ax = self.fig.add_subplot(rws,cls,whr, axisbg='#777777')
 		self.envd = self.e_ax.fill_between(self.t[::self.itr], 
 			     self.l[::self.itr]>>8, facecolor='yellow', lw=0, alpha=.6)
-		self.e_ax.plot(self.t[::self.itr], ((self.l[::self.itr]&0xFF)/2-30), 
+		self.e_ax.plot(self.t[::self.itr],((self.l[::self.itr]&0xFF)/2-30), 
 					'-', color='r', lw=.5, label='temperature')
 	def show(self):
 		self.fix_margins()
