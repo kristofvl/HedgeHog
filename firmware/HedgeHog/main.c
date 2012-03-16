@@ -343,27 +343,33 @@ void log_process() {
         sdbuf_init_buffer();
         return;
     }
-    if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
-        while ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) {
-            acc_getxyz(&accval);
-            sdbuf_add_acc(&accval); // add/overwrite the new sensor values
-            sdbuf_goto_next_accslot();
-            sdbuf_init_buffer();
-        }
-        #if defined(led_pin)
-        led_on();
-        #endif
-        set_osc_sleep_int1();   // sleep till watermark is reached
-        #if defined(led_pin)
-        led_off();
-        #endif
-    } else { // pull new accelerometer samples each 10 ms by default:
-        if (sdbuf_notfull()) { // log acc data (RLE)
+    if (sdbuf_notfull()) { // log the main data
+        if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
+            while ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) {
+                acc_getxyz(&accval);
+                if (!sdbuf_is_new_accslot()) {         // if not in fresh slot,
+                    if (sdbuf_check_rle(&accval, 2))   // & if different values
+                        sdbuf_goto_next_accslot();     // then go to next slot
+                }
+                if (sdbuf_notfull())
+                    sdbuf_add_acc(&accval); // add/overwrite new sensor values
+                if (sdbuf_deltaT_full())
+                    sdbuf_goto_next_accslot();
+                if (sdbuf_full())
+                    return;
+            }
+            #if defined(led_pin)
+            led_on();
+            #endif
+            set_osc_sleep_int1();   // sleep till watermark is reached
+            #if defined(led_pin)
+            led_off();
+            #endif
+        } else { // pull new accelerometer samples each 10 ms by default:
             acc_getxyz(&accval);
             if (!sdbuf_is_new_accslot()) {         // if not in fresh new slot,
-                if (sdbuf_check_rle(&accval, 2)) { // & if different acc values
+                if (sdbuf_check_rle(&accval, 2))   // & if different acc values
                     sdbuf_goto_next_accslot();     // then go to the next slot
-                }
             }
             if (sdbuf_notfull()) {
                 sdbuf_add_acc(&accval); // add/overwrite the new sensor values
