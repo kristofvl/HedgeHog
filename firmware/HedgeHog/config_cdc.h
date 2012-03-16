@@ -33,7 +33,7 @@ BYTE cdc_config_cmd(BYTE c);
 void cdc_main_menu( rom char* name_str, rom char* ver_str);
 void cdc_print_ver(rom char* name_str, rom char* ver_str);
 void cdc_print_help(void);
-void cdc_print_init(UINT32 msg);
+void cdc_print_init(UINT32_VAL msg);
 void cdc_print_all(BYTE x,BYTE y,BYTE z,UINT16 l,BYTE t,char* dstr,char* tstr);
 void cdc_write_ok(void);
 void cdc_eol(void);

@@ -51,6 +51,7 @@ static UINT16 sdbuffer_i;
 
 /******************************************************************************/
 void sdbuf_init_buffer(void);
+void sdbuf_set_full(void);
 BYTE sdbuf_full(void);
 BYTE sdbuf_notfull(void);
 void sdbuf_set_onhold(void);

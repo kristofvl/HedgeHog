@@ -75,10 +75,10 @@ void cdc_print_help(void)
 }
 
 /******************************************************************************/
-void cdc_print_init(UINT32 msg)
+void cdc_print_init(UINT32_VAL msg)
 {
     sprintf(USB_Buffer, "init: %02x %02x %02x",
-                        (BYTE)msg>>24, (BYTE)msg>>16, (BYTE)msg>>8);
+                        (msg.v[0]), (msg.v[1]), (msg.v[2]));
     USB_Buffer[14] = 0;
     putUSBUSART(USB_Buffer, 15);
 }

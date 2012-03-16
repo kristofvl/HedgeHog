@@ -91,6 +91,7 @@
 #define ADXL345_INT_DTBIT    0x20   // double tap bit
 #define ADXL345_INT_ACBIT    0x10   // activity bit
 #define ADXL345_INT_INBIT    0x08   // inactivity bit
+#define ADXL345_INT_WMBIT    0x02   // watermark bit
 
 #define ADXL345_FIFO_CTL 0x38   // Fifo Control
 #define ADXL345_FIFO_ST  0x39   // Fifo Status
@@ -114,16 +115,14 @@
 #define adxl345_doubletap (PORTBbits.RB2)
 #define adxl345_clear_int1() {adxl345_read_byte(ADXL345_INT_SRC);}
 
-void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg);
-void adxl345_get_xyz(PACC_XYZ adxl345);
-void adxl345_setmode_fifo();
-void adxl345_setmode_pull();
-void adxl345_setmode_acti(UINT8 th);
+void  adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg);
+void  adxl345_get_xyz(PACC_XYZ adxl345);
+void  adxl345_setmode_acti(UINT8 th);
 UINT8 adxl345_getint();
-void adxl345_conf_tap(UINT8 axes, UINT8 th, UINT8 dur, UINT8 lat, UINT8 win);
-void adxl345_write_byte(BYTE address, BYTE data);
-BYTE adxl345_read_byte(BYTE address);
-void adxl345_write_str(PACC_XYZ adxl345_xyz, char* acc_buff);
-void adxl345_deep_sleep(void);
+void  adxl345_conf_tap(UINT8 axes, UINT8 th, UINT8 dur, UINT8 lat, UINT8 win);
+void  adxl345_write_byte(BYTE address, BYTE data);
+BYTE  adxl345_read_byte(BYTE address);
+void  adxl345_write_str(PACC_XYZ adxl345_xyz, char* acc_buff);
+void  adxl345_deep_sleep(void);
 
 #endif // ADXL345__H

@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '0', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '1', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -133,9 +133,6 @@ void high_priority_ISR() {
     #if defined(ADXL345_ENABLED)
     if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // if INT1 is set:
         INTCON3bits.INT1IE = 0;
-        INTCON3bits.INT1IF = 0;
-        adxl345_read_byte(ADXL345_INT_SRC); // read and clear interrupt
-        INTCON3bits.INT1IE = 1;
     } else
     #endif
     {
@@ -319,12 +316,14 @@ void log_process() {
         set_osc_8Mhz();
         startup = TRUE;
         TRISB=TRISC=TRISD=0; // default all pins to digital output
+        ACC_INT = 0; // pull down B2
         sdbuf_init();
         #if defined(led_pin)
         led_init();
         #endif
-        env_init();
-        acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // init all sensors
+        read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
+        env_init();                                     //
+        acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); //- init all sensors
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
@@ -340,29 +339,45 @@ void log_process() {
             set_osc_deep_sleep();       // saves ~0.4mA draw for basic
         }
         env_read(light, thermo); // read time stamp and light (env) value
-        sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo);
+        sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo); 
         sdbuf_init_buffer();
         return;
     }
-    if (sdbuf_notfull()) { // log acc data (RLE)
-        acc_getxyz(&accval);
-        if (!sdbuf_is_new_accslot()) {         // if we are not in a new slot,
-            if (sdbuf_check_rle(&accval, 2)) { // and if different acc values
-                sdbuf_goto_next_accslot();     // then go to the next slot
-            }
-        }
-        if (sdbuf_notfull()) {
+    if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
+        while ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) {
+            acc_getxyz(&accval);
             sdbuf_add_acc(&accval); // add/overwrite the new sensor values
-            #if defined(led_pin)
-            led_on();
-            #endif
-            set_osc_sleep_t1(36);   // go to sleep for timeout of ~9.5ms
-            #if defined(led_pin)
-            led_off();
-            #endif
-        }
-        if (sdbuf_deltaT_full())
             sdbuf_goto_next_accslot();
+            sdbuf_init_buffer();
+        }
+        #if defined(led_pin)
+        led_on();
+        #endif
+        set_osc_sleep_int1();   // sleep till watermark is reached
+        #if defined(led_pin)
+        led_off();
+        #endif
+    } else { // pull new accelerometer samples each 10 ms by default:
+        if (sdbuf_notfull()) { // log acc data (RLE)
+            acc_getxyz(&accval);
+            if (!sdbuf_is_new_accslot()) {         // if not in fresh new slot,
+                if (sdbuf_check_rle(&accval, 2)) { // & if different acc values
+                    sdbuf_goto_next_accslot();     // then go to the next slot
+                }
+            }
+            if (sdbuf_notfull()) {
+                sdbuf_add_acc(&accval); // add/overwrite the new sensor values
+                #if defined(led_pin)
+                led_on();
+                #endif
+                set_osc_sleep_t1(36);   // go to sleep for timeout of ~9.5ms
+                #if defined(led_pin)
+                led_off();
+                #endif
+            }
+            if (sdbuf_deltaT_full())
+                sdbuf_goto_next_accslot();
+        }
     }
     if (sdbuf_full()) { // write log to page
         #if defined(DISPLAY_ENABLED)
@@ -372,7 +387,7 @@ void log_process() {
         #if defined(DISPLAY_ENABLED)
         disp_log_revive();
         #endif
-        return; // return to IOProcess
+        return; // return to IOProcess, buffer is now on_hold
     }
 }
 

@@ -16,6 +16,10 @@ void sdbuf_init_buffer(void) {
     sd_buffer.f.acc[0].t = 0;
 }
 
+void sdbuf_set_full(void) {
+    sdbuffer_i = SD_BUF_MAX_RAW_SAMPLES_PER_PAGE;
+}
+
 BYTE sdbuf_full(void) {
     return (sdbuffer_i == SD_BUF_MAX_RAW_SAMPLES_PER_PAGE);
 }

@@ -16,13 +16,15 @@
 #define HHG_CONF_FLASHADDR 0xFB00
 #define HHG_CONF_BYTES 32
 
+#define HHG_CONF_IN_FIFOMODE (hhg_conf.cs.acc_s.f.mode == '1')
+
 typedef union {
             UINT32 u32;
             struct {
                 UINT8 range;
                 UINT8 bw;
-                UINT8 extra1;
-                UINT8 extra2;
+                UINT8 mode; // operating mode fifo, rle, etc.
+                UINT8 power; // low power options
             } f;
         } hhg_conf_accs_t;
 
@@ -34,7 +36,7 @@ typedef union {
     struct {                // config structure:
         UINT32 ID;          // identifier
         UINT32 time;        // time stamp
-        UINT32 acc;         // accelerometer configuration
+        UINT32_VAL acc;         // accelerometer configuration
         hhg_conf_accs_t acc_s;       // accelerometer sensitivity
         UINT32 env;         // environmental sensor setup
     } cs;

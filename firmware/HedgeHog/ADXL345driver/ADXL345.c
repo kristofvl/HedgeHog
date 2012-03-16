@@ -9,20 +9,6 @@
 
 #include "ADXL345.h"
 
-void adxl345_setmode_fifo() {
-    adxl345_write_byte(ADXL345_BWRATE,
-        ADXL345_BWRATE_100_HZ | ADXL345_BWRATE_LOWPWR ); // sets low power mode
-    Nop();
-    adxl345_write_byte(ADXL345_FIFO_CTL,
-        ADXL345_FIFOMODE_FIFO | ADXL345_FIFOSAMPLES_32); // FIFOmode, 32 samples
-    Nop();
-}
-
-void adxl345_setmode_pull() {
-    adxl345_write_byte(ADXL345_FIFO_CTL, ADXL345_FIFOMODE_BYPASS);
-    Nop();
-}
-
 void adxl345_setmode_acti(UINT8 th) {
     adxl345_write_byte(ADXL345_BWRATE, ADXL345_BWRATE_100_HZ);
     Nop();
@@ -92,7 +78,7 @@ void adxl345_get_xyz(PACC_XYZ adxl345) {
     Nop();
 
     SPI_INTERRUPT_FLAG = 0;
-    SPIBUF = 0xF2; // do a multiread of all 6 bytes
+    SPIBUF = 0xF2; // do a multiread of all 6 bytes (0b11[0x32: DATAX0])
     while (!SPI_INTERRUPT_FLAG);
 
     SPI_INTERRUPT_FLAG = 0;
@@ -145,13 +131,13 @@ void adxl345_write_str(PACC_XYZ adxl345, char* acc_buff) {
 }
 
 
-void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
-    UINT8 range, bw;
+void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
+    UINT8 range, bw, mode, pwr;
     
     SD_CS = 1;
-#if defined(oledSC)
+    #if defined(oledSC)
     oledCS = 1;
-#endif
+    #endif
 
     // configure SPI:
     SPISTAT = 0x0000; // power on state
@@ -171,21 +157,12 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
     SPICON1bits.CKP = 1; // set clock polarity
     SPIENABLE = 1; // enable synchronous serial port
 
-    // configure interrupts:
-    // for the HedgeHOG, RP5 (B2) has been mapped to INT1 (see HardwareProfile)
-    //ACC_INT_TRIS = INPUT_PIN; // set interrupt pin to input
-    //INTCON3bits.INT1IP = 1; // high priority int1
-    //INTCON3bits.INT1IF = 0;
-    //INTCON3bits.INT1IE = 1;
+    // turn in stand-by and disable interrupts
+    adxl345_write_byte(ADXL345_INT_EN, 0); // disable interrupts
+    adxl345_write_byte(ADXL345_FIFO_CTL, ADXL345_FIFOMODE_BYPASS); // clear FIFO
+    adxl345_write_byte(ADXL345_POWR_CTL, ADXL345_POW_SLEEP);
 
-    // go into power mode:
-    adxl345_write_byte(ADXL345_POWR_CTL,
-            ADXL345_POW_MEASURE | ADXL345_POW_LINK);
-    Nop();
-    
-    *initmsg = adxl345_read_byte(ADXL345_POWR_CTL);
-    *initmsg<<8;
-
+    // translation from config structure to actual adxl345 parameters:
     range = cnf.f.range;
     switch (range) {
         case '0': range = ADXL345_FORM_2G;  break;
@@ -206,24 +183,50 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32* initmsg) {
         case '7': bw = ADXL345_BWRATE_400_HZ; break;
         case '8': bw = ADXL345_BWRATE_800_HZ; break;
         case '9': bw = ADXL345_BWRATE_1600HZ; break;
-        default:  bw = ADXL345_BWRATE_200_HZ; break;
+        default:  bw = ADXL345_BWRATE_100_HZ; break;
+    }
+    mode = cnf.f.mode;
+    switch (mode) {
+        case '0': mode = ADXL345_FIFOMODE_BYPASS; break; // pull samples
+        case '1': mode = ADXL345_FIFOMODE_FIFO | ADXL345_FIFOSAMPLES_32; break;
+        case '2': mode = ADXL345_FIFOMODE_STREAM| ADXL345_FIFOSAMPLES_32; break;
+        case '3': mode = ADXL345_FIFOMODE_TRIGGER| ADXL345_FIFOSAMPLES_32;break;
+        default: mode = ADXL345_FIFOMODE_BYPASS; break;
+    }
+    pwr = cnf.f.power;
+    switch (pwr) {
+        case '0': pwr = 0; break; // no low power settings
+        case '1': pwr = ADXL345_BWRATE_LOWPWR; break;
+        default: pwr = 0; break; // no low power settings
     }
 
-    // set right data format:
+    // set right data format, filter- and fifo settings:
     adxl345_write_byte(ADXL345_DATA_FMT, range | ADXL345_FORM_LFTJUST );
-    Nop();
-    adxl345_write_byte(ADXL345_BWRATE, bw ); // sets low power mode by default
-    Nop();
-    adxl345_write_byte(ADXL345_FIFO_CTL, ADXL345_FIFOMODE_BYPASS);
-    Nop();
-
-    *initmsg |= adxl345_read_byte(ADXL345_DATA_FMT);
-    *initmsg<<8;
-
+    adxl345_write_byte(ADXL345_BWRATE, bw | pwr );
+    
+    // Configure FIFO:
+    adxl345_write_byte(ADXL345_FIFO_CTL, mode);
+    if (cnf.f.mode == '1') {
+        // for the HedgeHOG, RP5 (B2) mapped to INT1 (see HardwareProfile)
+        ACC_INT_TRIS = INPUT_PIN; // set interrupt pin to input
+        INTCON2bits.INTEDG1 = 1; // interrupt on rising edge
+        INTCON3bits.INT1IP = 1; // high priority int1
+        INTCON3bits.INT1IF = 0;
+        INTCON3bits.INT1IE = 1;
+        // configure ADXL interrupts:
+        adxl345_write_byte(ADXL345_INT_EN,   ADXL345_INT_WMBIT); // watermark
+        adxl345_write_byte(ADXL345_INT_MAP,  0x00); // set all to INT1
+    }
+    
+    // go into power mode:
+    adxl345_write_byte(ADXL345_POWR_CTL, ADXL345_POW_MEASURE|ADXL345_POW_LINK);
+    
     //adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
 
-    *initmsg |= adxl345_read_byte(ADXL345_CHIP_ID);
-    *initmsg<<8;
+    (*initmsg).v[0] = adxl345_read_byte(ADXL345_POWR_CTL); // power mode
+    (*initmsg).v[1] = adxl345_read_byte(ADXL345_DATA_FMT); // data format
+    (*initmsg).v[2] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID
+    (*initmsg).v[3] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID
 }
 
 void adxl345_deep_sleep(void)

@@ -47,6 +47,8 @@ void set_osc_sleep_t1(unsigned char to) {
 }
 
 void set_osc_sleep_int1(void) {
+    INTCON3bits.INT1IF = 0;
+    INTCON3bits.INT1IE = 1; // enable watermark interrupt
     OSCCONbits.IDLEN = 0; // sleep starts sleep mode (not idle)
     Sleep(); // Zzzzzz....
 }
