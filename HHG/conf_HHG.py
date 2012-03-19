@@ -305,36 +305,44 @@ class conf_HHG_dialog:
 			dlg.vbox.pack_end(hbox1, False, False, 1)
 			dlg.show_all()
 			ret = dlg.run()
-			id_text = entry_id.get_text()
-			if len(id_text)<4:
-				id_text = string.rjust(id_text,4) # pad with spaces 
-			elif len(id_text)>4:
-				id_text = id_text[0:4];
+			conf_str = entry_id.get_text()
+			if len(conf_str)<4:
+				conf_str = string.rjust(conf_str,4) # pad with spaces 
+			elif len(conf_str)>4:
+				conf_str = conf_str[0:4];
+			conf_str += '____'
+			range_sel = entry_rled.get_active()
+			if range_sel > -1:
+				conf_str += str(range_sel)
+			else:
+				conf_str = "-"
+			conf_str += "---"
 			range_sel = entry_range.get_active()
 			if range_sel > -1:
-				acc_text = str(range_sel)
+				conf_str += str(range_sel)
 			else:
-				acc_text = "-"
+				conf_str = "-"
 			range_sel = entry_bw.get_active()
 			if range_sel > -1:
-				acc_text += str(range_sel)
+				conf_str += str(range_sel)
 			else:
-				acc_text += "-"
+				conf_str += "-"
 			range_sel = entry_mode.get_active()
 			if range_sel > -1:
-				acc_text += str(range_sel)
+				conf_str += str(range_sel)
 			else:
-				acc_text += "-"
+				conf_str += "-"
 			range_sel = entry_pwr.get_active()
 			if range_sel > -1:
-				acc_text += str(range_sel)
+				conf_str += str(range_sel)
 			else:
-				acc_text += "-"
+				conf_str += "-"
+			conf_str += "----"
 			dlg.destroy()
 			if ret==gtk.RESPONSE_OK:
 				self.currentHHG = hcs.HHG_comms(self.portname)
 				self.currentHHG.connect()
-				ret = self.currentHHG.set_HHGID(id_text, acc_text, 0.05, 3)
+				ret = self.currentHHG.set_HHGID(conf_str, 0.05, 3)
 				print "set conf:", ret, len(ret)
 				self.currentHHG.disconnect()
 

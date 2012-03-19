@@ -77,52 +77,11 @@ class HHG_comms:
 		time.sleep(time_out)
 		return self.ser.read(exp_len)
 		
-	def set_HHGID(self, HHGid, HHGacc, time_out, exp_len):
+	def set_HHGID(self, conf_str, time_out, exp_len):
 		self.ser.write("w")
-		# HedgeHog id"
-		time.sleep(time_out)
-		self.ser.write(HHGid[0])
-		time.sleep(time_out)
-		self.ser.write(HHGid[1])
-		time.sleep(time_out)
-		self.ser.write(HHGid[2])
-		time.sleep(time_out)
-		self.ser.write(HHGid[3])
-		# HedgeHog make timestamp:
-		time.sleep(time_out)
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
-		# HedgeHog acc conf:
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
-		time.sleep(time_out)
-		# HedgeHog acc id:
-		self.ser.write(HHGacc[0])
-		time.sleep(time_out)
-		self.ser.write(HHGacc[1])
-		time.sleep(time_out)
-		self.ser.write(HHGacc[2])
-		time.sleep(time_out)
-		self.ser.write(HHGacc[3])
-		time.sleep(time_out)
-		# HedgeHog env id:
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
-		time.sleep(time_out)
-		self.ser.write("_")
+		for i in range(0,20):
+			time.sleep(time_out)
+			self.ser.write(conf_str[i])
 		time.sleep(time_out)
 		ret = self.ser.read(exp_len)
 		return ret
