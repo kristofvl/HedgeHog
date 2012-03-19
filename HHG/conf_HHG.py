@@ -225,7 +225,7 @@ class conf_HHG_dialog:
 			dlg =  gtk.MessageDialog( None, 
 						gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
 						gtk.MESSAGE_QUESTION, gtk.BUTTONS_OK, None)
-			dlg.set_size_request(450, 350)
+			dlg.set_size_request(450, 320)
 			dlg.set_markup('Enter below the HedgeHog configuration:')
 			entry_id = gtk.Entry()
 			entry_range = gtk.combo_box_new_text()
@@ -242,33 +242,54 @@ class conf_HHG_dialog:
 			entry_bw.append_text("0.8kHz");	entry_bw.append_text("1.5kHz")
 			entry_bw.set_active(5)
 			entry_mode = gtk.combo_box_new_text()
-			entry_mode.append_text("micro-controller raw sampling");	
+			entry_mode.append_text("micro-controller sampling");	
 			entry_mode.append_text("on-chip FIFO, raw sampling");
 			entry_mode.set_active(0)
 			entry_pwr = gtk.combo_box_new_text()
 			entry_pwr.append_text("normal");	
 			entry_pwr.append_text("low-power");
+			entry_pwr.append_text("auto-sleep");
+			entry_pwr.append_text("low / auto");
 			entry_pwr.set_active(0)
+			entry_rled = gtk.combo_box_new_text()
+			for i in range(0,8): 
+				entry_rled.append_text(str(i));
+			entry_rled.set_active(2)
+			entry_proc = gtk.combo_box_new_text()
+			entry_proc.append_text("raw data logging");	
+			entry_proc.append_text("mean/var logging");	
+			entry_proc.append_text("emSWAB logging");	
+			entry_proc.set_active(0);			
 			hbox1 = gtk.HBox()
 			hbox1.pack_start(gtk.Label("Name:"), False, False, 1)
 			hbox1.pack_end(entry_id)
 			hbox2 = gtk.HBox()
-			hbox2.pack_start(gtk.Label("Acc range:"), False, False, 1)
-			hbox2.pack_end(entry_range)
+			hbox2.pack_start(gtk.Label("Range:"), False, False, 1)
+			hbox2.pack_start(entry_range)
+			hbox2.pack_start(gtk.Label("  Sample rate:"), False, False, 1)
+			hbox2.pack_start(entry_bw)
+			hbox2.pack_start(gtk.Label("  RLE delta:"), False, False, 1)
+			hbox2.pack_start(entry_rled)
 			hbox3 = gtk.HBox()
-			hbox3.pack_start(gtk.Label("Acc rate:"), False, False, 1)
-			hbox3.pack_end(entry_bw)
+			hbox3.pack_start(gtk.Label("Mode:"), False, False, 1)
+			hbox3.pack_start(entry_mode)
+			hbox3.pack_start(gtk.Label("  Power:"), False, False, 1)
+			hbox3.pack_start(entry_pwr)
 			hbox4 = gtk.HBox()
-			hbox4.pack_start(gtk.Label("Acc mode:"), False, False, 1)
-			hbox4.pack_end(entry_mode)
-			hbox5 = gtk.HBox()
-			hbox5.pack_start(gtk.Label("Acc power:"), False, False, 1)
-			hbox5.pack_end(entry_pwr)
-			dlg.vbox.pack_end(hbox5, True, True, 0)
-			dlg.vbox.pack_end(hbox4, True, True, 0)
-			dlg.vbox.pack_end(hbox3, True, True, 0)
-			dlg.vbox.pack_end(hbox2, True, True, 0)
-			dlg.vbox.pack_end(gtk.HSeparator(), True, True, 0)
+			hbox4.pack_start(gtk.Label("Mode:"), False, False, 1)
+			hbox4.pack_start(entry_proc)
+			acc_f = gtk.Frame("Inertial Sensing Options")
+			vbox_acc = gtk.VBox()
+			acc_f.add(vbox_acc)
+			vbox_acc.pack_end(hbox3, True, True, 0)
+			vbox_acc.pack_end(hbox2, True, True, 0)
+			pro_f = gtk.Frame("On-board Processing Options")
+			vbox_pro = gtk.VBox()
+			pro_f.add(vbox_pro)
+			vbox_pro.pack_end(gtk.Label("."), True, True, 0)
+			vbox_pro.pack_end(hbox4, True, True, 0)
+			dlg.vbox.pack_end(pro_f, True, True, 0)
+			dlg.vbox.pack_end(acc_f, True, True, 0)
 			dlg.vbox.pack_end(hbox1, True, True, 0)
 			dlg.show_all()
 			ret = dlg.run()
