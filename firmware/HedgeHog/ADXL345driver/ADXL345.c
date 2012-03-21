@@ -132,7 +132,7 @@ void adxl345_write_str(PACC_XYZ adxl345, char* acc_buff) {
 
 
 void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
-    UINT8 range, bw, mode, pwr;
+    UINT8 range, bw, mode, pwr_low, pwr_autosleep;
     
     SD_CS = 1;
     #if defined(oledSC)
@@ -160,19 +160,17 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
     // turn in stand-by and disable interrupts
     adxl345_write_byte(ADXL345_INT_EN, 0); // disable interrupts
     adxl345_write_byte(ADXL345_FIFO_CTL, ADXL345_FIFOMODE_BYPASS); // clear FIFO
-    adxl345_write_byte(ADXL345_POWR_CTL, ADXL345_POW_SLEEP);
+    adxl345_write_byte(ADXL345_POWR_CTL, ADXL345_POW_SLEEP); // turn sensor off
 
     // translation from config structure to actual adxl345 parameters:
-    range = cnf.f.range;
-    switch (range) {
+    switch (cnf.f.range) {
         case '0': range = ADXL345_FORM_2G;  break;
         case '1': range = ADXL345_FORM_4G;  break;
         case '2': range = ADXL345_FORM_8G;  break;
         case '3': range = ADXL345_FORM_16G; break;
         default:  range = ADXL345_FORM_4G;  break;
     }
-    bw = cnf.f.bw;
-    switch (bw) {
+    switch (cnf.f.bw) {
         case '0': bw = ADXL345_BWRATE_0_10HZ; break;
         case '1': bw = ADXL345_BWRATE_6_25HZ; break;
         case '2': bw = ADXL345_BWRATE_12_5HZ; break;
@@ -185,24 +183,25 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
         case '9': bw = ADXL345_BWRATE_1600HZ; break;
         default:  bw = ADXL345_BWRATE_100_HZ; break;
     }
-    mode = cnf.f.mode;
-    switch (mode) {
+    switch (cnf.f.mode) {
         case '0': mode = ADXL345_FIFOMODE_BYPASS; break; // pull samples
         case '1': mode = ADXL345_FIFOMODE_FIFO | ADXL345_FIFOSAMPLES_32; break;
         case '2': mode = ADXL345_FIFOMODE_STREAM| ADXL345_FIFOSAMPLES_32; break;
         case '3': mode = ADXL345_FIFOMODE_TRIGGER| ADXL345_FIFOSAMPLES_32;break;
         default: mode = ADXL345_FIFOMODE_BYPASS; break;
     }
-    pwr = cnf.f.power;
-    switch (pwr) {
-        case '0': pwr = 0; break; // no low power settings
-        case '1': pwr = ADXL345_BWRATE_LOWPWR; break;
-        default: pwr = 0; break; // no low power settings
+    switch (cnf.f.power) {
+        case '0': pwr_low = pwr_autosleep = 0;  break; // no low power settings
+        case '1': pwr_low = ADXL345_BWRATE_LOWPWR; pwr_autosleep = 0; break;
+        case '2': pwr_low = 0; pwr_autosleep = ADXL345_POW_AUTOSLEEP; break;
+        case '3': pwr_low = ADXL345_BWRATE_LOWPWR;
+                  pwr_autosleep = ADXL345_POW_AUTOSLEEP; break;
+        default: pwr_low = pwr_autosleep = 0; break; // no low power settings
     }
 
     // set right data format, filter- and fifo settings:
     adxl345_write_byte(ADXL345_DATA_FMT, range | ADXL345_FORM_LFTJUST );
-    adxl345_write_byte(ADXL345_BWRATE, bw | pwr );
+    adxl345_write_byte(ADXL345_BWRATE, bw | pwr_low );
     
     // Configure FIFO:
     adxl345_write_byte(ADXL345_FIFO_CTL, mode);
@@ -219,7 +218,8 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
     }
     
     // go into power mode:
-    adxl345_write_byte(ADXL345_POWR_CTL, ADXL345_POW_MEASURE|ADXL345_POW_LINK);
+    adxl345_write_byte(ADXL345_POWR_CTL, 
+            ADXL345_POW_MEASURE | ADXL345_POW_LINK | pwr_autosleep);
     
     //adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
 
@@ -231,6 +231,9 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
 
 void adxl345_deep_sleep(void)
 {
-    adxl345_write_byte(ADXL345_POWR_CTL,ADXL345_POW_SLEEP);
+    INTCON3bits.INT1IE = 0;
+    adxl345_write_byte(ADXL345_INT_EN, 0); // disable interrupts
+    adxl345_write_byte(ADXL345_FIFO_CTL, ADXL345_FIFOMODE_BYPASS); // clear FIFO
+    adxl345_write_byte(ADXL345_POWR_CTL, ADXL345_POW_SLEEP); // turn sensor off
     Nop();
 }

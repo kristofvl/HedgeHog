@@ -33,12 +33,12 @@ typedef union {
     char   cstr[HHG_CONF_BYTES];   // c bytestring access
     UINT16 uint16s[HHG_CONF_BYTES/2];     // word access
     UINT32 uint32s[HHG_CONF_BYTES/4];     // uint32 access
-    struct {                // config structure:
-        UINT32 ID;          // identifier
-        UINT32 time;        // time stamp
-        UINT32_VAL acc;         // accelerometer configuration
-        hhg_conf_accs_t acc_s;       // accelerometer sensitivity
-        UINT32 env;         // environmental sensor setup
+    struct {                       // config structure:
+        UINT32 ID;                  // identifier
+        UINT32 time;                // time stamp
+        UINT32_VAL acc;             // accelerometer configuration
+        hhg_conf_accs_t acc_s;      // accelerometer sensitivity
+        UINT32_VAL logg;            // logging & processing setup
     } cs;
 } hhg_conf_t;
 

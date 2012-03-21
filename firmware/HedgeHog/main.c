@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '1', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '2', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -84,6 +84,7 @@ char tmp_str[4];
 
 // config variables:
 UINT16 config_cycle = 0;
+UINT8 rle_delta = 0;
 
 /** CONSTANTS *****************************************************************/
 /* Standard Response to INQUIRY command stored in ROM 	*/
@@ -322,6 +323,7 @@ void log_process() {
         led_init();
         #endif
         read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
+        rle_delta = hhg_conf.cs.acc.v[0] - 48; // extract from config string
         env_init();                                     //
         acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); //- init all sensors
         #if defined(DISPLAY_ENABLED)
@@ -333,14 +335,14 @@ void log_process() {
         env_on(); // pull down power pin for light, do something else:
         rtcc_read(&tm);
         sd_buffer.f.timestmp = rtcc_2uint32(&tm);
+        env_read(light, thermo); // read time stamp and light (env) value
+        sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo); 
+        sdbuf_init_buffer();
         if (sd_buffer.f.timestmp > tm_stop) { // go into shutdown mode
             acc_deep_sleep();           // saves ~0.1mA draw for ADXL345
             MDD_SDSPI_ShutdownMedia();  // saves ~0.07mA draw for basic
             set_osc_deep_sleep();       // saves ~0.4mA draw for basic
         }
-        env_read(light, thermo); // read time stamp and light (env) value
-        sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo); 
-        sdbuf_init_buffer();
         return;
     }
     if (sdbuf_notfull()) { // log the main data
@@ -348,7 +350,7 @@ void log_process() {
             while ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) {
                 acc_getxyz(&accval);
                 if (!sdbuf_is_new_accslot()) {         // if not in fresh slot,
-                    if (sdbuf_check_rle(&accval, 2))   // & if different values
+                    if (sdbuf_check_rle(&accval, rle_delta)) // and different 
                         sdbuf_goto_next_accslot();     // then go to next slot
                 }
                 if (sdbuf_notfull())
@@ -368,7 +370,7 @@ void log_process() {
         } else { // pull new accelerometer samples each 10 ms by default:
             acc_getxyz(&accval);
             if (!sdbuf_is_new_accslot()) {         // if not in fresh new slot,
-                if (sdbuf_check_rle(&accval, 2))   // & if different acc values
+                if (sdbuf_check_rle(&accval, rle_delta)) // and different 
                     sdbuf_goto_next_accslot();     // then go to the next slot
             }
             if (sdbuf_notfull()) {
