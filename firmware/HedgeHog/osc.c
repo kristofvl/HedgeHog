@@ -61,4 +61,3 @@ void set_osc_deep_sleep(void) {
     DSCONHbits.DSEN = 1; // deep sleep enable
     Sleep();
 }
-

@@ -319,9 +319,6 @@ void log_process() {
         TRISB=TRISC=TRISD=0; // default all pins to digital output
         ACC_INT = 0; // pull down B2
         sdbuf_init();
-        #if defined(led_pin)
-        led_init();
-        #endif
         read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
         rle_delta = hhg_conf.cs.acc.v[0] - 48; // extract from config string
         env_init();                                     //
@@ -360,13 +357,7 @@ void log_process() {
                 if (sdbuf_full())
                     return;
             }
-            #if defined(led_pin)
-            led_on();
-            #endif
             set_osc_sleep_int1();   // sleep till watermark is reached
-            #if defined(led_pin)
-            led_off();
-            #endif
         } else { // pull new accelerometer samples each 10 ms by default:
             acc_getxyz(&accval);
             if (!sdbuf_is_new_accslot()) {         // if not in fresh new slot,
@@ -375,13 +366,7 @@ void log_process() {
             }
             if (sdbuf_notfull()) {
                 sdbuf_add_acc(&accval); // add/overwrite the new sensor values
-                #if defined(led_pin)
-                led_on();
-                #endif
                 set_osc_sleep_t1(36);   // go to sleep for timeout of ~9.5ms
-                #if defined(led_pin)
-                led_off();
-                #endif
             }
             if (sdbuf_deltaT_full())
                 sdbuf_goto_next_accslot();
