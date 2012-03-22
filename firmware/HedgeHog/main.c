@@ -15,6 +15,7 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 
 /** INCLUDES ******************************************************************/
 
+#include "dpslp.h"
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
 #include "HardwareProfile.h"			// Hardware design wrapper
 #include "sensor_wrapper.h"			// all sensors 
@@ -178,14 +179,6 @@ static void init_system(void) {
     INTCONbits.GIEH = 1; // Enable High-priority Interrupts
     INTCONbits.GIEL = 0; // Disable Low-priority Interrupts
 
-    #if defined(USE_USB_BUS_SENSE_IO)
-    tris_usb_bus_sense = INPUT_PIN; // See HardwareProfile.h
-    #endif
-
-    #if defined(USE_SELF_POWER_SENSE_IO)
-    tris_self_power = INPUT_PIN; // See HardwareProfile.h
-    #endif
-
     remap_pins();           // remap IO and INT pins
     USBDeviceInit();        // usb_device.c
 
@@ -193,7 +186,7 @@ static void init_system(void) {
     oled_init();
     #endif
 
-    sdbuf_init();
+    sdbuf_init(); // init MSD functions for SD card read/write
 
     user_init(); // Our init routines come last
 }
@@ -208,9 +201,6 @@ void user_init(void) {
 
     // By default, start in configuration mode:
     is_logging = 0;
-
-    // wait 10,000,000 ticks till all systems are powered
-    Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250);
 
     read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
 
@@ -337,9 +327,6 @@ void log_process() {
         sdbuf_init_buffer();
         if (sd_buffer.f.timestmp > tm_stop) { // go into shutdown mode
             Reset();
-            //acc_deep_sleep();           // saves ~0.1mA draw for ADXL345
-            //MDD_SDSPI_ShutdownMedia();  // saves ~0.07mA draw for basic
-            //set_osc_deep_sleep();       // saves ~0.4mA draw for basic
         }
         return;
     }
