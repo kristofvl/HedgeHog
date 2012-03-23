@@ -244,11 +244,12 @@ void process_IO(void) {
     if (is_logging)
         log_process(); // go to the logging process
     else {
-        // Wait for 2 sec
+        D2s_48M();
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
 		// configure RTCC alarm to current time +5 sec
 		// Change the return statement to a deep sleep with RTCC configured
+            goto_deep_sleep();
             return;
 	}
         CDCTxService();     // CDC transimssion tasks
