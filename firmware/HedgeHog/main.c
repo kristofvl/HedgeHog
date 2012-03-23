@@ -8,16 +8,15 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '3', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '2', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 
 /** INCLUDES ******************************************************************/
-
-#include "dpslp.h"
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
 #include "HardwareProfile.h"			// Hardware design wrapper
+#include "DSleep_Alarm.h"
 #include "sensor_wrapper.h"			// all sensors 
 #include "USB/usb_function_msd.h"		// Mass storage over USB
 #include "SD_Buffer.h"
@@ -27,6 +26,7 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 #include "delays.h"
 #include "HHG_conf.h"
 #include "config_cdc.h"
+
 // timeouts (eg logstart)
 // Soft Start Circuit:
 #if defined(SOFTSTART_ENABLED)
@@ -179,6 +179,14 @@ static void init_system(void) {
     INTCONbits.GIEH = 1; // Enable High-priority Interrupts
     INTCONbits.GIEL = 0; // Disable Low-priority Interrupts
 
+    #if defined(USE_USB_BUS_SENSE_IO)
+    tris_usb_bus_sense = INPUT_PIN; // See HardwareProfile.h
+    #endif
+
+    #if defined(USE_SELF_POWER_SENSE_IO)
+    tris_self_power = INPUT_PIN; // See HardwareProfile.h
+    #endif
+
     remap_pins();           // remap IO and INT pins
     USBDeviceInit();        // usb_device.c
 
@@ -186,7 +194,7 @@ static void init_system(void) {
     oled_init();
     #endif
 
-    sdbuf_init(); // init MSD functions for SD card read/write
+    sdbuf_init();
 
     user_init(); // Our init routines come last
 }
@@ -201,6 +209,9 @@ void user_init(void) {
 
     // By default, start in configuration mode:
     is_logging = 0;
+
+    // wait 10,000,000 ticks till all systems are powered
+    Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250);
 
     read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
 
@@ -233,8 +244,13 @@ void process_IO(void) {
     if (is_logging)
         log_process(); // go to the logging process
     else {
+        // Wait for 2 sec
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
+	{
+		// configure RTCC alarm to current time +5 sec
+		// Change the return statement to a deep sleep with RTCC configured
             return;
+	}
         CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
@@ -316,7 +332,7 @@ void log_process() {
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
-        return; 
+        return;
     }
     if (sdbuf_is_onhold()) { // log time stamp and env data in first 8 bytes
         env_on(); // pull down power pin for light, do something else:
@@ -326,14 +342,15 @@ void log_process() {
         sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo); 
         sdbuf_init_buffer();
         if (sd_buffer.f.timestmp > tm_stop) { // go into shutdown mode
-            Reset();
+            acc_deep_sleep();           // saves ~0.1mA draw for ADXL345
+            MDD_SDSPI_ShutdownMedia();  // saves ~0.07mA draw for basic
+            set_osc_deep_sleep();       // saves ~0.4mA draw for basic
         }
         return;
     }
     if (sdbuf_notfull()) { // log the main data
         if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
-            while ( ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) ||
-                    (ACC_INT==1) ) { // while FIFO not empty & interrupt high:
+            while ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) {
                 acc_getxyz(&accval);
                 if (!sdbuf_is_new_accslot()) {         // if not in fresh slot,
                     if (sdbuf_check_rle(&accval, rle_delta)) // and different 
