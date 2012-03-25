@@ -21,7 +21,7 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 #include "USB/usb_function_msd.h"		// Mass storage over USB
 #include "SD_Buffer.h"
 #include "SD_FAT.h"				// SD card FAT tables
-#include "RTC/rtcc.h"				// RTC functions
+#include "RTC/rtc.h"				// RTC functions
 #include "osc.h"
 #include "delays.h"
 #include "HHG_conf.h"
