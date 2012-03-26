@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '2', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '3', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -351,7 +351,8 @@ void log_process() {
     }
     if (sdbuf_notfull()) { // log the main data
         if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
-            while ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) {
+            while ( ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) ||
+                    (ACC_INT==1) ) { // while FIFO not empty & interrupt high:
                 acc_getxyz(&accval);
                 if (!sdbuf_is_new_accslot()) {         // if not in fresh slot,
                     if (sdbuf_check_rle(&accval, rle_delta)) // and different 
