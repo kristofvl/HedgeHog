@@ -134,28 +134,7 @@ void adxl345_write_str(PACC_XYZ adxl345, char* acc_buff) {
 void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
     UINT8 range, bw, mode, pwr_low, pwr_autosleep;
     
-    SD_CS = 1;
-    #if defined(oledSC)
-    oledCS = 1;
-    #endif
-
-    // configure SPI:
-    SPISTAT = 0x0000; // power on state
-    SPICON1bits.WCOL = 1;
-    SPICON1bits.SSPOV = 0;
-    SPICON1bits.SSPEN = 0;
-    SPICON1bits.CKP = 0;
-    SPICON1bits.SSPM3 = 0; // SPI Master mode, FOSC/4
-    SPICON1bits.SSPM2 = 0;
-    SPICON1bits.SSPM1 = 0;
-    SPICON1bits.SSPM0 = 0;
-    SPISTATbits.CKE = 0;
-    SPICLOCK = 0;
-    SPIOUT = OUTPUT_PIN; // define SDO1 as output (master or slave)
-    SPIIN = INPUT_PIN; // define SDI1 as input (master or slave)
-    ACC_CS_TRIS = OUTPUT_PIN; // define the Chip Select pin as output
-    SPICON1bits.CKP = 1; // set clock polarity
-    SPIENABLE = 1; // enable synchronous serial port
+    adxl345_SPI_init();
 
     // turn in stand-by and disable interrupts
     adxl345_write_byte(ADXL345_INT_EN, 0); // disable interrupts
@@ -227,6 +206,32 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
     (*initmsg).v[1] = adxl345_read_byte(ADXL345_DATA_FMT); // data format
     (*initmsg).v[2] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID
     (*initmsg).v[3] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID
+}
+
+void adxl345_SPI_init(void)
+{
+    SD_CS = 1;
+    #if defined(oledSC)
+    oledCS = 1;
+    #endif
+
+    // configure SPI:
+    SPISTAT = 0x0000; // power on state
+    SPICON1bits.WCOL = 1;
+    SPICON1bits.SSPOV = 0;
+    SPICON1bits.SSPEN = 0;
+    SPICON1bits.CKP = 0;
+    SPICON1bits.SSPM3 = 0; // SPI Master mode, FOSC/4
+    SPICON1bits.SSPM2 = 0;
+    SPICON1bits.SSPM1 = 0;
+    SPICON1bits.SSPM0 = 0;
+    SPISTATbits.CKE = 0;
+    SPICLOCK = 0;
+    SPIOUT = OUTPUT_PIN; // define SDO1 as output (master or slave)
+    SPIIN = INPUT_PIN; // define SDI1 as input (master or slave)
+    ACC_CS_TRIS = OUTPUT_PIN; // define the Chip Select pin as output
+    SPICON1bits.CKP = 1; // set clock polarity
+    SPIENABLE = 1; // enable synchronous serial port
 }
 
 void adxl345_deep_sleep(void)

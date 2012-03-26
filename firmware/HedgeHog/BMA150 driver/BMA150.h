@@ -110,6 +110,7 @@ typedef union
 #define bma150_get_tmp() (bma150_read_byte(BMA150_TEMP))
 
 void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg);
+void bma150_SPI_init(void);
 void bma150_getXYZ(PACC_XYZ);
 void bma150_write_byte(BYTE address, BYTE data);
 BYTE bma150_read_byte(BYTE address);

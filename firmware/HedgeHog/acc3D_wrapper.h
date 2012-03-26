@@ -27,6 +27,7 @@ typedef struct {
 #define acc_setmode_pull()                  adxl345_setmode_pull()
 #define acc_setmode_acti(t)                 adxl345_setmode_acti((t))
 #define acc_getint()                        adxl345_getint()
+#define acc_SPI_init()                      adxl345_SPI_init()
 #define acc_deep_sleep()                    adxl345_deep_sleep() 
 #endif
 
@@ -42,6 +43,7 @@ typedef struct {
 #define acc_getint()                       0x00
 #define tmp_init()                         {;}
 #define tmp_read                           bma150_get_tmp
+#define acc_SPI_init()                     bma150_SPI_init()
 #define acc_deep_sleep()                   {;}
 
 #endif

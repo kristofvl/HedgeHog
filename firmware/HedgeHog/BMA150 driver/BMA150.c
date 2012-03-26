@@ -7,22 +7,7 @@ void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg)
     BMA150_REG reg;
     BYTE range, bw;
     
-    SPISTAT = 0x0000;          // power on state
-    SPICON1bits.WCOL = 1;
-    SPICON1bits.SSPOV = 0;
-    SPICON1bits.SSPEN = 0;
-    SPICON1bits.CKP = 0;
-    SPICON1bits.SSPM3 = 0;		// SPI Master mode, FOSC/4
-    SPICON1bits.SSPM2 = 0;
-    SPICON1bits.SSPM1 = 0;
-    SPICON1bits.SSPM0 = 0;
-    SPISTATbits.CKE = 0;
-    SPICLOCK = 0;
-    SPIOUT = 0;                // define SDO1 as output (master or slave)
-    SPIIN = 1;                 // define SDI1 as input (master or slave)
-    ACC_CS_TRIS = OUTPUT_PIN; // define the Chip Select pin as output
-    SPICON1bits.CKP = 1;
-    SPIENABLE = 1;             // enable synchronous serial port
+    bma150_SPI_init();
 	
     reg.val = bma150_read_byte(BMA150_CHIP_ID);
     Nop();
@@ -74,6 +59,26 @@ void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg)
     *initmsg = reg.range;
     *initmsg<<8;
     *initmsg |= reg.bandwidth;
+}
+
+void bma150_SPI_init(void)
+{
+    SPISTAT = 0x0000;          // power on state
+    SPICON1bits.WCOL = 1;
+    SPICON1bits.SSPOV = 0;
+    SPICON1bits.SSPEN = 0;
+    SPICON1bits.CKP = 0;
+    SPICON1bits.SSPM3 = 0;		// SPI Master mode, FOSC/4
+    SPICON1bits.SSPM2 = 0;
+    SPICON1bits.SSPM1 = 0;
+    SPICON1bits.SSPM0 = 0;
+    SPISTATbits.CKE = 0;
+    SPICLOCK = 0;
+    SPIOUT = 0;                // define SDO1 as output (master or slave)
+    SPIIN = 1;                 // define SDI1 as input (master or slave)
+    ACC_CS_TRIS = OUTPUT_PIN; // define the Chip Select pin as output
+    SPICON1bits.CKP = 1;
+    SPIENABLE = 1;             // enable synchronous serial port
 }
 
 void bma150_write_byte(BYTE address, BYTE data)

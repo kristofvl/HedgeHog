@@ -220,7 +220,7 @@ void user_init(void) {
     rtcc_writestr(&tm, date_str, time_str); // write time
 
     env_init(); // set up environment sensors (light, temp, ...)
-    acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // setup accelerometer
+    //acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // setup accelerometer
     
     #if defined(DISPLAY_ENABLED)
     disp_init();
@@ -247,8 +247,9 @@ void process_IO(void) {
         // Wait for 2 sec
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
-		// configure RTCC alarm to current time +5 sec
-		// Change the return statement to a deep sleep with RTCC configured
+            // configure RTCC alarm to current time +5 sec
+            // Change the return statement to a deep sleep with RTCC configured
+            //goto_deep_sleep();
             return;
 	}
         CDCTxService();     // CDC transimssion tasks

@@ -123,6 +123,7 @@ void  adxl345_conf_tap(UINT8 axes, UINT8 th, UINT8 dur, UINT8 lat, UINT8 win);
 void  adxl345_write_byte(BYTE address, BYTE data);
 BYTE  adxl345_read_byte(BYTE address);
 void  adxl345_write_str(PACC_XYZ adxl345_xyz, char* acc_buff);
+void  adxl345_SPI_init(void);
 void  adxl345_deep_sleep(void);
 
 #endif // ADXL345__H
