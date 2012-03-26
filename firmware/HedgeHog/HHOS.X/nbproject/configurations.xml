@@ -45,12 +45,12 @@
       <itemPath>../SD_FAT.h</itemPath>
       <itemPath>../emswab.h</itemPath>
       <itemPath>../osc.h</itemPath>
-      <itemPath>../RTC/rtcc.h</itemPath>
       <itemPath>../Soft Start/soft_start.h</itemPath>
       <itemPath>../usb_config.h</itemPath>
       <itemPath>../config_cdc.h</itemPath>
       <itemPath>../HHG_conf.h</itemPath>
-      <itemPath>../../../../../HedgeHog/HedgeHog/firmware/HedgeHog/DSleep_Alarm.h</itemPath>
+      <itemPath>../RTC/rtc.h</itemPath>
+      <itemPath>../dsleep_alarm.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LibraryFiles"
                    displayName="Library Files"
@@ -89,14 +89,14 @@
       </logicalFolder>
       <itemPath>../../HedgeHog/SD_FAT.c</itemPath>
       <itemPath>../osc.c</itemPath>
-      <itemPath>../RTC/rtcc.c</itemPath>
       <itemPath>../Soft Start/soft_start.c</itemPath>
       <itemPath>../usb_descriptors.c</itemPath>
       <itemPath>../config_cdc.c</itemPath>
       <itemPath>../HHG_conf.c</itemPath>
       <itemPath>../SD_Buffer.c</itemPath>
       <itemPath>../main.c</itemPath>
-      <itemPath>../../../../../HedgeHog/HedgeHog/firmware/HedgeHog/DSleep_Alarm.c</itemPath>
+      <itemPath>../RTC/rtc.c</itemPath>
+      <itemPath>../dsleep_alarm.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

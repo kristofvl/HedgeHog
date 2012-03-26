@@ -41,11 +41,11 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/247156599/SD-SPI.o ${OBJECTDIR}/_ext/1134515050/ADXL345.o ${OBJECTDIR}/_ext/677419432/ambient_light.o ${OBJECTDIR}/_ext/82867227/usb_device.o ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o ${OBJECTDIR}/_ext/983254276/usb_function_msd.o ${OBJECTDIR}/_ext/2138657381/SD_FAT.o ${OBJECTDIR}/_ext/1472/osc.o ${OBJECTDIR}/_ext/1360904562/rtcc.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/config_cdc.o ${OBJECTDIR}/_ext/1472/HHG_conf.o ${OBJECTDIR}/_ext/1472/SD_Buffer.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/247156599/SD-SPI.o.d ${OBJECTDIR}/_ext/1134515050/ADXL345.o.d ${OBJECTDIR}/_ext/677419432/ambient_light.o.d ${OBJECTDIR}/_ext/82867227/usb_device.o.d ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o.d ${OBJECTDIR}/_ext/983254276/usb_function_msd.o.d ${OBJECTDIR}/_ext/2138657381/SD_FAT.o.d ${OBJECTDIR}/_ext/1472/osc.o.d ${OBJECTDIR}/_ext/1360904562/rtcc.o.d ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d ${OBJECTDIR}/_ext/1472/config_cdc.o.d ${OBJECTDIR}/_ext/1472/HHG_conf.o.d ${OBJECTDIR}/_ext/1472/SD_Buffer.o.d ${OBJECTDIR}/_ext/1472/main.o.d ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/247156599/SD-SPI.o ${OBJECTDIR}/_ext/1134515050/ADXL345.o ${OBJECTDIR}/_ext/677419432/ambient_light.o ${OBJECTDIR}/_ext/82867227/usb_device.o ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o ${OBJECTDIR}/_ext/983254276/usb_function_msd.o ${OBJECTDIR}/_ext/2138657381/SD_FAT.o ${OBJECTDIR}/_ext/1472/osc.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/config_cdc.o ${OBJECTDIR}/_ext/1472/HHG_conf.o ${OBJECTDIR}/_ext/1472/SD_Buffer.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/1360904562/rtc.o ${OBJECTDIR}/_ext/1472/dsleep_alarm.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/247156599/SD-SPI.o.d ${OBJECTDIR}/_ext/1134515050/ADXL345.o.d ${OBJECTDIR}/_ext/677419432/ambient_light.o.d ${OBJECTDIR}/_ext/82867227/usb_device.o.d ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o.d ${OBJECTDIR}/_ext/983254276/usb_function_msd.o.d ${OBJECTDIR}/_ext/2138657381/SD_FAT.o.d ${OBJECTDIR}/_ext/1472/osc.o.d ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d ${OBJECTDIR}/_ext/1472/config_cdc.o.d ${OBJECTDIR}/_ext/1472/HHG_conf.o.d ${OBJECTDIR}/_ext/1472/SD_Buffer.o.d ${OBJECTDIR}/_ext/1472/main.o.d ${OBJECTDIR}/_ext/1360904562/rtc.o.d ${OBJECTDIR}/_ext/1472/dsleep_alarm.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/247156599/SD-SPI.o ${OBJECTDIR}/_ext/1134515050/ADXL345.o ${OBJECTDIR}/_ext/677419432/ambient_light.o ${OBJECTDIR}/_ext/82867227/usb_device.o ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o ${OBJECTDIR}/_ext/983254276/usb_function_msd.o ${OBJECTDIR}/_ext/2138657381/SD_FAT.o ${OBJECTDIR}/_ext/1472/osc.o ${OBJECTDIR}/_ext/1360904562/rtcc.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/config_cdc.o ${OBJECTDIR}/_ext/1472/HHG_conf.o ${OBJECTDIR}/_ext/1472/SD_Buffer.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o
+OBJECTFILES=${OBJECTDIR}/_ext/247156599/SD-SPI.o ${OBJECTDIR}/_ext/1134515050/ADXL345.o ${OBJECTDIR}/_ext/677419432/ambient_light.o ${OBJECTDIR}/_ext/82867227/usb_device.o ${OBJECTDIR}/_ext/224044192/usb_function_cdc.o ${OBJECTDIR}/_ext/983254276/usb_function_msd.o ${OBJECTDIR}/_ext/2138657381/SD_FAT.o ${OBJECTDIR}/_ext/1472/osc.o ${OBJECTDIR}/_ext/1472/usb_descriptors.o ${OBJECTDIR}/_ext/1472/config_cdc.o ${OBJECTDIR}/_ext/1472/HHG_conf.o ${OBJECTDIR}/_ext/1472/SD_Buffer.o ${OBJECTDIR}/_ext/1472/main.o ${OBJECTDIR}/_ext/1360904562/rtc.o ${OBJECTDIR}/_ext/1472/dsleep_alarm.o
 
 
 CFLAGS=
@@ -124,12 +124,6 @@ ${OBJECTDIR}/_ext/1472/osc.o: ../osc.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/osc.o   ../osc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/osc.o 
 	
-${OBJECTDIR}/_ext/1360904562/rtcc.o: ../RTC/rtcc.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1360904562 
-	@${RM} ${OBJECTDIR}/_ext/1360904562/rtcc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1360904562/rtcc.o   ../RTC/rtcc.c 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1360904562/rtcc.o 
-	
 ${OBJECTDIR}/_ext/1472/usb_descriptors.o: ../usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d 
@@ -160,11 +154,17 @@ ${OBJECTDIR}/_ext/1472/main.o: ../main.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/main.o   ../main.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/main.o 
 	
-${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o: ../../../../../HedgeHog/HedgeHog/firmware/HedgeHog/DSleep_Alarm.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1967410624 
-	@${RM} ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o   ../../../../../HedgeHog/HedgeHog/firmware/HedgeHog/DSleep_Alarm.c 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o 
+${OBJECTDIR}/_ext/1360904562/rtc.o: ../RTC/rtc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360904562 
+	@${RM} ${OBJECTDIR}/_ext/1360904562/rtc.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1360904562/rtc.o   ../RTC/rtc.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1360904562/rtc.o 
+	
+${OBJECTDIR}/_ext/1472/dsleep_alarm.o: ../dsleep_alarm.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/dsleep_alarm.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG  -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/dsleep_alarm.o   ../dsleep_alarm.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/dsleep_alarm.o 
 	
 else
 ${OBJECTDIR}/_ext/247156599/SD-SPI.o: /opt/microchip/Microchip/MDD\ File\ System/SD-SPI.c  nbproject/Makefile-${CND_CONF}.mk
@@ -215,12 +215,6 @@ ${OBJECTDIR}/_ext/1472/osc.o: ../osc.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/osc.o   ../osc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/osc.o 
 	
-${OBJECTDIR}/_ext/1360904562/rtcc.o: ../RTC/rtcc.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1360904562 
-	@${RM} ${OBJECTDIR}/_ext/1360904562/rtcc.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1360904562/rtcc.o   ../RTC/rtcc.c 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1360904562/rtcc.o 
-	
 ${OBJECTDIR}/_ext/1472/usb_descriptors.o: ../usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
 	@${RM} ${OBJECTDIR}/_ext/1472/usb_descriptors.o.d 
@@ -251,11 +245,17 @@ ${OBJECTDIR}/_ext/1472/main.o: ../main.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/main.o   ../main.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/main.o 
 	
-${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o: ../../../../../HedgeHog/HedgeHog/firmware/HedgeHog/DSleep_Alarm.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1967410624 
-	@${RM} ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o   ../../../../../HedgeHog/HedgeHog/firmware/HedgeHog/DSleep_Alarm.c 
-	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1967410624/DSleep_Alarm.o 
+${OBJECTDIR}/_ext/1360904562/rtc.o: ../RTC/rtc.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360904562 
+	@${RM} ${OBJECTDIR}/_ext/1360904562/rtc.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1360904562/rtc.o   ../RTC/rtc.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1360904562/rtc.o 
+	
+${OBJECTDIR}/_ext/1472/dsleep_alarm.o: ../dsleep_alarm.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/dsleep_alarm.o.d 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -DHEDGEHOG_BASIC -DRAW_SAMPLING -I"/opt/microchip/Microchip/Include" -I"../BMA150 driver" -I"../ADXL345driver" -I"../Soft Start" -I"../RTC" -I"../OLED driver" -I"../" -mL  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/_ext/1472/dsleep_alarm.o   ../dsleep_alarm.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/_ext/1472/dsleep_alarm.o 
 	
 endif
 
