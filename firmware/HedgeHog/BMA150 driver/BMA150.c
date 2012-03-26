@@ -1,7 +1,7 @@
 #include "BMA150.h"
 
 
-void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg)
+void bma150_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg)
 {
     WORD i;
     BMA150_REG reg;
@@ -52,13 +52,10 @@ void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg)
     Nop();
 
     reg.val = bma150_read_byte(BMA150_ADDR14);
-    *initmsg = reg.range;
-    *initmsg<<8;
-    *initmsg |= reg.bandwidth;
-    *initmsg<<8;
-    *initmsg = reg.range;
-    *initmsg<<8;
-    *initmsg |= reg.bandwidth;
+    (*initmsg).v[0] = reg.range;
+    (*initmsg).v[1] = reg.bandwidth;
+    (*initmsg).v[2] = reg.range;
+    (*initmsg).v[3] = reg.bandwidth;
 }
 
 void bma150_SPI_init(void)

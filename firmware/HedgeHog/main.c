@@ -274,7 +274,7 @@ void update_display(void) {
             disp_user_log_toggle();
         }
         if (disp_update_log_time()) // refresh display:
-            rtcc_writestr(&tm, date_str, time_str);
+            rtc_writestr(&tm, date_str, time_str);
     } else { // in config mode:
         // user interaction? => switch mode:
         if (button_pressed) {
@@ -283,7 +283,7 @@ void update_display(void) {
         }
         // prepare to refresh display:
         if (disp_update_time()) {
-            rtcc_writestr(&tm, date_str, time_str);
+            rtc_writestr(&tm, date_str, time_str);
         }
         else if (disp_update_env()) {
             env_read(light, thermo);
@@ -324,7 +324,9 @@ void log_process() {
         set_osc_8Mhz();
         startup = TRUE;
         TRISB=TRISC=TRISD=0; // default all pins to digital output
+        #if defined(ADXL345_ENABLED)
         ACC_INT = 0; // pull down B2
+        #endif
         sdbuf_init();
         read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
         rle_delta = hhg_conf.cs.acc.v[0] - 48; // extract from config string
@@ -343,13 +345,12 @@ void log_process() {
         sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo); 
         sdbuf_init_buffer();
         if (sd_buffer.f.timestmp > tm_stop) { // go into shutdown mode
-            acc_deep_sleep();           // saves ~0.1mA draw for ADXL345
-            MDD_SDSPI_ShutdownMedia();  // saves ~0.07mA draw for basic
-            set_osc_deep_sleep();       // saves ~0.4mA draw for basic
+            Reset();
         }
         return;
     }
     if (sdbuf_notfull()) { // log the main data
+        #if defined(ADXL345_ENABLED)
         if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
             while ( ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) ||
                     (ACC_INT==1) ) { // while FIFO not empty & interrupt high:
@@ -366,7 +367,9 @@ void log_process() {
                     return;
             }
             set_osc_sleep_int1();   // sleep till watermark is reached
-        } else { // pull new accelerometer samples each 10 ms by default:
+        } else
+        #endif // ADXL345_ENABLED
+        { // pull new accelerometer samples each 10 ms by default:
             acc_getxyz(&accval);
             if (!sdbuf_is_new_accslot()) {         // if not in fresh new slot,
                 if (sdbuf_check_rle(&accval, rle_delta)) // and different 

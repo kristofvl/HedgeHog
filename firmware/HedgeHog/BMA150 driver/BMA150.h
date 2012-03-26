@@ -1,3 +1,12 @@
+/********************************************************************
+ FileName:     	BMA150.h,     the BMA150 lib header file
+ Dependencies:
+ Processor:	PIC18F46J50
+ Hardware:	Porcupine HedgeHog Testbed
+ Compiler:  	Microchip C18
+ Author:        KristofVL
+ ********************************************************************/
+
 #ifndef BMA150__H
 #define BMA150__H
 
@@ -109,7 +118,7 @@ typedef union
 
 #define bma150_get_tmp() (bma150_read_byte(BMA150_TEMP))
 
-void bma150_init(hhg_conf_accs_t cnf, UINT32* initmsg);
+void bma150_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg);
 void bma150_SPI_init(void);
 void bma150_getXYZ(PACC_XYZ);
 void bma150_write_byte(BYTE address, BYTE data);
