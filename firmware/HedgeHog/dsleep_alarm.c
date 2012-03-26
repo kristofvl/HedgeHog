@@ -1,4 +1,4 @@
-#include "DSleep_Alarm.h"
+#include "dsleep_alarm.h"
 
 //Global structures used in deep sleep library
 SRC ptr;
@@ -19,7 +19,7 @@ void RTCC_configure( )
 	
 	RtccWrOn();
 	
-	RtccReadTimeDate(RtccTimeDate); 
+	RtccReadTimeDate(&RtccTimeDate);
         RtccAlrmTimeDate.f.hour = RtccTimeDate.f.hour;
         RtccAlrmTimeDate.f.min = RtccTimeDate.f.min +1 ;
         RtccAlrmTimeDate.f.sec = RtccTimeDate.f.sec + 6;
