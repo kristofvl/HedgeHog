@@ -16,7 +16,7 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 /** INCLUDES ******************************************************************/
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
 #include "HardwareProfile.h"			// Hardware design wrapper
-#include "DSleep_Alarm.h"
+#include "dsleep_alarm.h"
 #include "sensor_wrapper.h"			// all sensors 
 #include "USB/usb_function_msd.h"		// Mass storage over USB
 #include "SD_Buffer.h"
@@ -215,9 +215,9 @@ void user_init(void) {
 
     read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
 
-    rtcc_init(); // init clock
-    rtcc_write(&tm); // update time to last entry
-    rtcc_writestr(&tm, date_str, time_str); // write time
+    rtc_init(); // init clock
+    rtc_write(&tm); // update time to last entry
+    rtc_writestr(&tm, date_str, time_str); // write time
 
     env_init(); // set up environment sensors (light, temp, ...)
     //acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // setup accelerometer
@@ -244,12 +244,12 @@ void process_IO(void) {
     if (is_logging)
         log_process(); // go to the logging process
     else {
-        D2s_48M();
+        //D2s_48M();
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
-		// configure RTCC alarm to current time +5 sec
-		// Change the return statement to a deep sleep with RTCC configured
-            goto_deep_sleep();
+            // configure RTCC alarm to current time +5 sec
+            // Change the return statement to a deep sleep with RTCC configured
+            //goto_deep_sleep();
             return;
 	}
         CDCTxService();     // CDC transimssion tasks
@@ -337,8 +337,8 @@ void log_process() {
     }
     if (sdbuf_is_onhold()) { // log time stamp and env data in first 8 bytes
         env_on(); // pull down power pin for light, do something else:
-        rtcc_read(&tm);
-        sd_buffer.f.timestmp = rtcc_2uint32(&tm);
+        rtc_read(&tm);
+        sd_buffer.f.timestmp = rtc_2uint32(&tm);
         env_read(light, thermo); // read time stamp and light (env) value
         sd_buffer.f.envdata  = ((light.Val>>3)<<8) | (thermo); 
         sdbuf_init_buffer();
@@ -403,7 +403,7 @@ void config_process(void) {
     if (cdc_config_cmd(0))  cdc_main_menu( HH_NAME_STR, HH_VER_STR );
     else if (cdc_config_cmd('i')) {
         switch (config_cycle) {
-            case 100: rtcc_init(); break;
+            case 100: rtc_init(); break;
             #if defined(DISPLAY_ENABLED)
             case 90: disp_start_usb(); break;
             #endif
@@ -415,15 +415,15 @@ void config_process(void) {
     else if (cdc_config_cmd('t')) { // read time from host
         if (cdc_get_conf((char*)tm.b,6)) { // b[7]=min, b[6]=sec, ..., b[3]=mnth
             tm.b[7]=tm.b[4]; tm.b[6]=tm.b[5]; tm.b[4]=tm.b[3]; tm.b[3]=tm.b[1]; 
-            rtcc_write(&tm);
-            rtcc_writestr(&tm,date_str,time_str);
+            rtc_write(&tm);
+            rtc_writestr(&tm,date_str,time_str);
             cdc_write_ok();
         }
     }
     else if (cdc_config_cmd('T')) { // read stop-logging time from host
         if (cdc_get_conf((char*)tm.b,6)) { // b[7]=min, b[6]=sec, ..., b[3]=mnth
             tm.b[7]=tm.b[4]; tm.b[6]=tm.b[5]; tm.b[4]=tm.b[3]; tm.b[3]=tm.b[1];
-            tm_stop = rtcc_2uint32(&tm);
+            tm_stop = rtc_2uint32(&tm);
             cdc_write_ok();
         }
     }
@@ -431,7 +431,7 @@ void config_process(void) {
         switch (config_cycle) {
             case 100: acc_getxyz(&accval); env_on(); break;
             case 80: env_read(light, thermo); break;
-            case 70: rtcc_writestr(&tm,date_str,time_str); break;
+            case 70: rtc_writestr(&tm,date_str,time_str); break;
             case 50: cdc_print_all( accval.x, accval.y, accval.z,
                 light.Val,thermo,(char*)date_str,(char*)time_str);
                 break;

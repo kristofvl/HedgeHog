@@ -4,7 +4,6 @@
 #include "Compiler.h"
 #include "GenericTypeDefs.h"
 #include "HardwareProfile.h"
-#include "../RTC/rtcc.h"
 
 #ifndef LIGHTCHANNEL
 #error "LIGHTCHANNEL needs to be defined in the HardwareProfile"
