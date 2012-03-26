@@ -21,7 +21,7 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 #include "USB/usb_function_msd.h"		// Mass storage over USB
 #include "SD_Buffer.h"
 #include "SD_FAT.h"				// SD card FAT tables
-#include "RTC/rtcc.h"				// RTC functions
+#include "RTC/rtc.h"				// RTC functions
 #include "osc.h"
 #include "delays.h"
 #include "HHG_conf.h"
@@ -244,12 +244,12 @@ void process_IO(void) {
     if (is_logging)
         log_process(); // go to the logging process
     else {
-        // Wait for 2 sec
+        D2s_48M();
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
-            // configure RTCC alarm to current time +5 sec
-            // Change the return statement to a deep sleep with RTCC configured
-            //goto_deep_sleep();
+		// configure RTCC alarm to current time +5 sec
+		// Change the return statement to a deep sleep with RTCC configured
+            goto_deep_sleep();
             return;
 	}
         CDCTxService();     // CDC transimssion tasks
