@@ -50,7 +50,7 @@
       <itemPath>../usb_config.h</itemPath>
       <itemPath>../config_cdc.h</itemPath>
       <itemPath>../HHG_conf.h</itemPath>
-      <itemPath>../DSleep_Alarm.h</itemPath>
+      <itemPath>../../../../../HedgeHog/HedgeHog/firmware/HedgeHog/DSleep_Alarm.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LibraryFiles"
                    displayName="Library Files"
@@ -96,7 +96,7 @@
       <itemPath>../HHG_conf.c</itemPath>
       <itemPath>../SD_Buffer.c</itemPath>
       <itemPath>../main.c</itemPath>
-      <itemPath>../DSleep_Alarm.c</itemPath>
+      <itemPath>../../../../../HedgeHog/HedgeHog/firmware/HedgeHog/DSleep_Alarm.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
