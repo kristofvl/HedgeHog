@@ -128,13 +128,13 @@ void remapped_low_ISR(void) {
 #pragma interrupt high_priority_ISR
 void high_priority_ISR() {
     if (PIE1bits.TMR1IE && PIR1bits.TMR1IF) { // if timer1 interrupt:
-        PIE1bits.TMR1IE = 0;
+        PIE1bits.TMR1IE = 0;  // turn interrupt t1 off
         PIR1bits.TMR1IF = 0;
         T1CONbits.TMR1ON = 0; // turn timer 1 off
     } else
     #if defined(ADXL345_ENABLED)
     if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // if INT1 is set:
-        INTCON3bits.INT1IE = 0;
+        INTCON3bits.INT1IE = 0; // turn interrupt in1 off
     } else
     #endif
     {
@@ -244,7 +244,7 @@ void process_IO(void) {
     if (is_logging)
         log_process(); // go to the logging process
     else {
-        //D2s_48M();
+        //    d2s_48M();
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
             // configure RTCC alarm to current time +5 sec

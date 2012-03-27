@@ -12,4 +12,6 @@
 
 void goto_deep_sleep(void);
 void RTCC_configure(void);
+void d2s_48M(void);
+
 #endif
