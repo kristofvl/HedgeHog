@@ -60,6 +60,7 @@ BYTE sdbuf_deltaT_full(void);
 void sdbuf_goto_next_accslot(void);
 BYTE sdbuf_is_new_accslot(void);
 void sdbuf_add_acc(PACC_XYZ accval);
+BYTE sdbuf_page(void);
 
 /******************************************************************************/
 BYTE sdbuf_check_rle(PACC_XYZ accval, BYTE rle_th);

@@ -103,11 +103,18 @@ extern char is_logging;
 /*******************************************************************/
 /******** Accelerometer definitions and options ********************/
 /*******************************************************************/
-// Accelerometer:
 #define ACC_CS           LATCbits.LATC7
 #define ACC_CS_TRIS      TRISCbits.TRISC7
 #define ACC_INT          PORTBbits.RB2
 #define ACC_INT_TRIS     TRISBbits.TRISB2
+
+
+/*******************************************************************/
+/******** USB Power Sense pin definitions and options **************/
+/*******************************************************************/
+#define USBP_INT_TRIS    TRISBbits.TRISB7
+#define USBP_INT         PORTBbits.RB7
+
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/

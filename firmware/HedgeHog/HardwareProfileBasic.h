@@ -81,19 +81,16 @@ extern char is_logging;
 #define ACC_INT_TRIS     TRISBbits.TRISB2
 
 /*******************************************************************/
+/******** USB Power Sense pin definitions and options **************/
+/*******************************************************************/
+#define USBP_INT_TRIS    TRISBbits.TRISB7
+#define USBP_INT         PORTBbits.RB7
+
+/*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
 #define LIGHTCHANNEL    4
 #define LIGHT_PWR 	LATBbits.LATB0
-
-/*******************************************************************/
-/******** LED definition *******************************************/
-/*******************************************************************/
-#define led_pin         LATBbits.LATB7
-#define led_TRIS	TRISBbits.TRISB7
-#define led_init()	{led_TRIS = 0;    led_pin = 1;}
-#define led_on()	{led_pin = 0;}
-#define led_off()	{led_pin = 1;}
 
 /*******************************************************************/
 /******** remap pins ***********************************************/

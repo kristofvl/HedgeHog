@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '3', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '4', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -82,6 +82,7 @@ ACC_XYZ accval; // variable for current acceleration readings
 char acc_str[12];
 char lt_str[4];
 char tmp_str[4];
+BOOL usbp_int;
 
 // config variables:
 UINT16 config_cycle = 0;
@@ -211,7 +212,7 @@ void user_init(void) {
     is_logging = 0;
 
     // wait 10,000,000 ticks till all systems are powered
-    Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250);
+    Delay10KTCYx(250); 
 
     read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
 
@@ -324,8 +325,11 @@ void log_process() {
         set_osc_8Mhz();
         startup = TRUE;
         TRISB=TRISC=TRISD=0; // default all pins to digital output
+        usbp_int = 0;
         #if defined(ADXL345_ENABLED)
         ACC_INT = 0; // pull down B2
+        USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin 
+        usbp_int = !(USBP_INT);
         #endif
         sdbuf_init();
         read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
@@ -338,6 +342,12 @@ void log_process() {
         return;
     }
     if (sdbuf_is_onhold()) { // log time stamp and env data in first 8 bytes
+        if (usbp_int) {
+            if (sdbuf_page()>5) {   // we assume here that the user needs a
+                if (USBP_INT==0)    // while (5 page writes) to plug usb back in
+                    Reset();
+            }
+        }
         env_on(); // pull down power pin for light, do something else:
         rtc_read(&tm);
         sd_buffer.f.timestmp = rtc_2uint32(&tm);

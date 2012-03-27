@@ -55,6 +55,11 @@ void sdbuf_add_acc(PACC_XYZ accval) {
     sd_buffer.f.acc[sdbuffer_i].xyz = *accval; // acc XYZ
 }
 
+BYTE sdbuf_page(void)
+{
+    return (sdbuffer_p-512);
+}
+
 /******************************************************************************/
 BYTE sdbuf_check_rle(PACC_XYZ accval, BYTE rle_th) {
     return ( (ABSDIF(accval->x, sd_buffer.f.acc[sdbuffer_i].xyz.x) +

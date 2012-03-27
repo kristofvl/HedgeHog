@@ -8,6 +8,7 @@
 #include "dpslp.h"
 #include "portb.h"
 #include "rtcc.h"
+#include "delays.h"
 
 
 void goto_deep_sleep(void);

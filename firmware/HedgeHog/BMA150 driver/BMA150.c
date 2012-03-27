@@ -1,3 +1,11 @@
+/*******************************************************************************
+ FileName:     BMA150.c,   the BMA150 lib file
+ Processor:	PIC18F46J50
+ Hardware:	Porcupine HedgeHog TESTBED
+ Compiler:  	Microchip C18
+ Author:        kRISTOFvl
+ ******************************************************************************/
+
 #include "BMA150.h"
 
 

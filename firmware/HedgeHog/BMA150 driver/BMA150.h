@@ -2,7 +2,7 @@
  FileName:     	BMA150.h,     the BMA150 lib header file
  Dependencies:
  Processor:	PIC18F46J50
- Hardware:	Porcupine HedgeHog Testbed
+ Hardware:	Porcupine HedgeHog TESTBED
  Compiler:  	Microchip C18
  Author:        KristofVL
  ********************************************************************/
