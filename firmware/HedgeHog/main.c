@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '4', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '5', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -211,7 +211,7 @@ void user_init(void) {
     // By default, start in configuration mode:
     is_logging = 0;
 
-    // wait 10,000,000 ticks till all systems are powered
+    // wait 2,500,000 ticks till all systems are powered
     Delay10KTCYx(250); 
 
     read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
@@ -245,14 +245,18 @@ void process_IO(void) {
     if (is_logging)
         log_process(); // go to the logging process
     else {
+        //if (mRtccIsAlrmEnabled()) {
         //    d2s_48M();
+        //}
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
             // configure RTCC alarm to current time +5 sec
             // Change the return statement to a deep sleep with RTCC configured
-            //goto_deep_sleep();
+            //if (USBDeviceState == DETACHED_STATE)
+            //    goto_deep_sleep();
             return;
 	}
+        //mRtccAlrmDisable();
         CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
@@ -339,13 +343,18 @@ void log_process() {
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
+        #if defined(HEDGEHOG_OLED)
+        adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
+        #endif
         return;
     }
     if (sdbuf_is_onhold()) { // log time stamp and env data in first 8 bytes
         if (usbp_int) {
             if (sdbuf_page()>5) {   // we assume here that the user needs a
+                #if defined(USBP_INT)
                 if (USBP_INT==0)    // while (5 page writes) to plug usb back in
                     Reset();
+                #endif
             }
         }
         env_on(); // pull down power pin for light, do something else:

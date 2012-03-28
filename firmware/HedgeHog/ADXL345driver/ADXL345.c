@@ -200,8 +200,6 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
     adxl345_write_byte(ADXL345_POWR_CTL, 
             ADXL345_POW_MEASURE | ADXL345_POW_LINK | pwr_autosleep);
     
-    //adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
-
     (*initmsg).v[0] = adxl345_read_byte(ADXL345_POWR_CTL); // power mode
     (*initmsg).v[1] = adxl345_read_byte(ADXL345_DATA_FMT); // data format
     (*initmsg).v[2] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID

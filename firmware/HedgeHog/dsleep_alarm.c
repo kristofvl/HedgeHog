@@ -27,7 +27,7 @@ void RTCC_configure( )
 	RtccWrOn();
 	RtccReadTimeDate(&RtccTimeDate);
         RtccAlrmTimeDate.f.hour = RtccTimeDate.f.hour;
-        RtccAlrmTimeDate.f.min = RtccTimeDate.f.min +1 ;
+        RtccAlrmTimeDate.f.min = RtccTimeDate.f.min + 1;
         RtccAlrmTimeDate.f.sec = RtccTimeDate.f.sec + 6;
         RtccAlrmTimeDate.f.mday = RtccTimeDate.f.mday;
         RtccAlrmTimeDate.f.mon = RtccTimeDate.f.mon;
