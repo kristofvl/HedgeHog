@@ -70,6 +70,7 @@ def hhg_import(filen):
 	pgrsdlg = gtk.Dialog("Importing...", None, 0, None)
 	pbar = gtk.ProgressBar()
 	pgrsdlg.vbox.add(pbar)
+	pgrsdlg.set_size_request(200, 50)
 	pbar.show()
 	pgrsdlg.vbox.show()
 	pgrsdlg.show()

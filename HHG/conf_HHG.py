@@ -84,6 +84,7 @@ class conf_HHG_dialog:
 			progressbar = 1
 			if progressbar:
 				pgrsdlg = gtk.Dialog("Syncing...", None, 0, None)
+				pgrsdlg.set_size_request(200, 50)
 				pbar = gtk.ProgressBar()
 				pgrsdlg.vbox.add(pbar)
 				pbar.set_fraction(0.05)
@@ -201,6 +202,7 @@ class conf_HHG_dialog:
 			progressbar = 1
 			if progressbar:
 				pgrsdlg = gtk.Dialog("Formatting...", None, 0, None)
+				pgrsdlg.set_size_request(200, 50)
 				pbar = gtk.ProgressBar()
 				pgrsdlg.vbox.add(pbar)
 				pbar.set_fraction(0.05)
@@ -225,7 +227,7 @@ class conf_HHG_dialog:
 			dlg =  gtk.MessageDialog( None, 
 						gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
 						gtk.MESSAGE_QUESTION, gtk.BUTTONS_OK_CANCEL, None)
-			dlg.set_size_request(450, 370)
+			dlg.set_size_request(550, 420)
 			dlg.set_markup('<b>Enter below the HedgeHog configuration</b>'+
 				':\n(Note: re-configuring your HedgeHog might be risky, ' +
 				'press the cancel button below to keep it the way it is)')
