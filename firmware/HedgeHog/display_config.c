@@ -134,7 +134,7 @@ BYTE disp_update_init(void){
 }
 
 BYTE disp_update_log_time(void) {
-    if ((disp_cycle > 100) && (disp_mode == DISP_MODE_TIME)) {
+    if ((disp_cycle > DISP_CYCLE_1STICKS) && (disp_mode == DISP_MODE_TIME)) {
         disp_cmd = DISP_CMD_CLOCK;
         disp_cycle = 0;
         return 1;
@@ -163,7 +163,7 @@ void disp_user_log_toggle(void) {
     }
     else {  disp_mode = DISP_MODE_TIME;
             disp_time_init();
-            disp_cycle = 101; // refresh soon..
+            disp_cycle = DISP_CYCLE_1STICKS+1; // refresh soon..
     }
 }
 

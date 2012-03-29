@@ -42,6 +42,7 @@ typedef enum {
 
 // cycle variables for display:
 #define MAX_DISPCYCLE 9000
+#define DISP_CYCLE_1STICKS 100
 
 static DISP_MODE disp_mode = 0;
 static DISP_CMD disp_cmd = 0; 
