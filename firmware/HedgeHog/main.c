@@ -155,6 +155,8 @@ void low_priority_ISR() {
  * Overview:        Main program entry point.
  ******************************************************************************/
 void main(void) {
+    wakeup_check();
+    USBSoftDetach();
     init_system();
     USBDeviceAttach();
     while (1) {
@@ -256,6 +258,7 @@ void process_IO(void) {
             // Change the return statement to a deep sleep with RTCC configured
             if (USBDeviceState == USB_prev_state)
                 goto_deep_sleep();
+                //Reset();
             return;
 	}
         //mRtccAlrmDisable();
