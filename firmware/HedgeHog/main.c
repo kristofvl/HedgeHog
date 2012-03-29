@@ -221,9 +221,10 @@ void user_init(void) {
     rtc_writestr(&tm, date_str, time_str); // write time
 
     env_init(); // set up environment sensors (light, temp, ...)
-    //acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // setup accelerometer
+    acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // setup accelerometer
     
     #if defined(DISPLAY_ENABLED)
+    Delay10KTCYx(250);Delay10KTCYx(250);Delay10KTCYx(250);Delay10KTCYx(250);
     disp_init();
     #endif
 
@@ -273,8 +274,7 @@ void update_display(void) {
 #if defined(DISPLAY_ENABLED)
     up_dispcycle(); 
     if (is_logging) { // in logging mode:
-        // user interaction? => switch mode:
-        if (button_pressed) {
+        if (button_pressed) { // user interaction? => switch mode:
             button_clear();
             disp_user_log_toggle();
         }
