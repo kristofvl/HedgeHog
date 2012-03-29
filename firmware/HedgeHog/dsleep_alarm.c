@@ -42,15 +42,18 @@ void RTCC_configure( )
 
 void goto_deep_sleep(void) {
     char config = 0;
-    while (1) {
+    //while (1) {
         {
-            Write_DSGPR(0x67, 0x7A); // save important data prior to deep sleep
+            //Write_DSGPR(0x67, 0x7A); // save important data prior to deep sleep
             RTCC_configure(); // configure RTCC as one of sources of wake up
             //*************** configure deep sleep wake up sources ************
-            config = DPSLP_ULPWU_DISABLE | DPSLP_RTCC_WAKEUP_ENABLE;
-            GotoDeepSleep(config);
+            //config = DPSLP_ULPWU_DISABLE | DPSLP_RTCC_WAKEUP_ENABLE;
+            //GotoDeepSleep(config);
+            PIE3bits.RTCCIE = 1;
+            OSCCONbits.IDLEN = 0; // sleep starts sleep mode (not idle)
+            Sleep();
         }
-    }
+    //}
 }
 
 void d2s_48M(void)

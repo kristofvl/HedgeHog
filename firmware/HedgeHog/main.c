@@ -136,6 +136,11 @@ void high_priority_ISR() {
     #if defined(ADXL345_ENABLED)
     if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // if INT1 is set:
         INTCON3bits.INT1IE = 0; // turn interrupt in1 off
+    } else 
+    if (PIE3bits.RTCCIE && PIR3bits.RTCCIF)
+    {
+        PIR3bits.RTCCIF = 0;
+        PIE3bits.RTCCIE = 0;
     } else
     #endif
     {
@@ -155,8 +160,6 @@ void low_priority_ISR() {
  * Overview:        Main program entry point.
  ******************************************************************************/
 void main(void) {
-    wakeup_check();
-    USBSoftDetach();
     init_system();
     USBDeviceAttach();
     while (1) {
@@ -252,17 +255,17 @@ void process_IO(void) {
         USB_prev_state = USBDeviceState;
         if(USBDeviceState < CONFIGURED_STATE)
             d2s_48M();
-
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
             // configure RTCC alarm to current time +5 sec
             // Change the return statement to a deep sleep with RTCC configured
             if (USBDeviceState == USB_prev_state)
-                goto_deep_sleep();
+            {
+                //goto_deep_sleep();
                 //Reset();
+            }
             return;
 	}
-        //mRtccAlrmDisable();
         CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
