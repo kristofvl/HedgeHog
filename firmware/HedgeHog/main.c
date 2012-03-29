@@ -236,6 +236,7 @@ void user_init(void) {
  * Overview:        This function runs all basic application tasks
  ******************************************************************************/
 void process_IO(void) {
+    char USB_prev_state = 0;
     #if defined(SOFTSTART_ENABLED)
     if (AppPowerReady() == FALSE) return; // Soft Start APP_VDD
     #endif
@@ -245,15 +246,16 @@ void process_IO(void) {
     if (is_logging)
         log_process(); // go to the logging process
     else {
-        //if (mRtccIsAlrmEnabled()) {
-        //    d2s_48M();
-        //}
+        USB_prev_state = USBDeviceState;
+        if(USBDeviceState < CONFIGURED_STATE)
+            d2s_48M();
+
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
             // configure RTCC alarm to current time +5 sec
             // Change the return statement to a deep sleep with RTCC configured
-            //if (USBDeviceState == DETACHED_STATE)
-            //    goto_deep_sleep();
+            if (USBDeviceState == USB_prev_state)
+                goto_deep_sleep();
             return;
 	}
         //mRtccAlrmDisable();
