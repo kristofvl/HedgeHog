@@ -27,12 +27,9 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 #include "HHG_conf.h"
 #include "config_cdc.h"
 
-// timeouts (eg logstart)
-// Soft Start Circuit:
 #if defined(SOFTSTART_ENABLED)
 #include "./Soft Start/soft_start.h"            // controls soft start
 #endif
-// OLED driver:
 #if defined(DISPLAY_ENABLED)
 #include "display_config.h"			// OLED display defines
 #endif
@@ -128,16 +125,16 @@ void remapped_low_ISR(void) {
 // interrupt handling routines:
 #pragma interrupt high_priority_ISR
 void high_priority_ISR() {
-    if (PIE1bits.TMR1IE && PIR1bits.TMR1IF) { // if timer1 interrupt:
+    if (PIE1bits.TMR1IE && PIR1bits.TMR1IF) { // handle timer1 interrupts
         PIE1bits.TMR1IE = 0;  // turn interrupt t1 off
         PIR1bits.TMR1IF = 0;
         T1CONbits.TMR1ON = 0; // turn timer 1 off
     } else
     #if defined(ADXL345_ENABLED)
-    if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // if INT1 is set:
+    if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // handle INT1 interrupts
         INTCON3bits.INT1IE = 0; // turn interrupt in1 off
     } else 
-    if (PIE3bits.RTCCIE && PIR3bits.RTCCIF)
+    if (PIE3bits.RTCCIE && PIR3bits.RTCCIF) // handle RTC interrupts
     {
         PIR3bits.RTCCIF = 0;
         PIE3bits.RTCCIE = 0;
@@ -229,7 +226,7 @@ void user_init(void) {
     acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // setup accelerometer
     
     #if defined(DISPLAY_ENABLED)
-    Delay10KTCYx(250);Delay10KTCYx(250);Delay10KTCYx(250);Delay10KTCYx(250);
+    Delay10KTCYx(250);Delay10KTCYx(250);Delay10KTCYx(250);
     disp_init();
     #endif
 
@@ -253,13 +250,11 @@ void process_IO(void) {
         log_process(); // go to the logging process
     else {
         USB_prev_state = USBDeviceState;
-        if(USBDeviceState < CONFIGURED_STATE)
+        if(USBDeviceState < CONFIGURED_STATE) // wait 2 seconds to configure
             d2s_48M();
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
-            // configure RTCC alarm to current time +5 sec
-            // Change the return statement to a deep sleep with RTCC configured
-            if (USBDeviceState == USB_prev_state)
+            if (USBDeviceState == USB_prev_state)   // state doesn't change?
             {
                 //goto_deep_sleep();
                 //Reset();
