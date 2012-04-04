@@ -7,8 +7,9 @@
 
 #include "dpslp.h"
 #include "portb.h"
-#include "rtcc.h"
+#include "RTC/rtc.h"
 #include "delays.h"
+#include "USB/usb.h"
 
 
 void goto_deep_sleep(void);

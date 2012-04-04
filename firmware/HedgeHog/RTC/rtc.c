@@ -48,6 +48,18 @@ void rtc_write(rtccTimeDate *tm) {
     RTCLock(0);
 }
 
+void rtc_write_alarm(rtccTimeDate *tm) {
+    RTCLock(1);
+    ALRMRPT = 1;
+    ALRMCFG = 0b00001011; // set RTCPTR bits to 11
+    ALRMVALL = mDec2Bcd(tm->f.mday); //RTCPTR = 11
+    ALRMVALH = mDec2Bcd(tm->f.mon); //RTCPTR = 11
+    ALRMVALL = mDec2Bcd(tm->f.hour); //RTCPTR = 10
+    ALRMVALH = tm->f.wday; //RTCPTR = 10
+    ALRMVALL = mDec2Bcd(tm->f.sec); //RTCPTR = 00
+    ALRMVALH = mDec2Bcd(tm->f.min); //RTCPTR = 00
+    RTCLock(0);
+}
 
 BYTE rtc_get_sec(void) {
     RTCCFG |= 0x00; // set RTCPTR bits to 00

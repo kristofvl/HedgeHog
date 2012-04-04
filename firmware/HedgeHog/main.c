@@ -157,6 +157,7 @@ void low_priority_ISR() {
  * Overview:        Main program entry point.
  ******************************************************************************/
 void main(void) {
+    wakeup_check();
     init_system();
     USBDeviceAttach();
     while (1) {
@@ -254,11 +255,8 @@ void process_IO(void) {
             d2s_48M();
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
 	{
-            if (USBDeviceState == USB_prev_state)   // state doesn't change?
-            {
-                //goto_deep_sleep();
-                //Reset();
-            }
+            //if (USBDeviceState == USB_prev_state)   // state doesn't change?
+            //    goto_deep_sleep();
             return;
 	}
         CDCTxService();     // CDC transimssion tasks

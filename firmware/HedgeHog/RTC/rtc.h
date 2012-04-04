@@ -119,6 +119,7 @@ typedef enum
 void   rtc_init(void);
 void   rtc_read(rtccTimeDate *tm);
 void   rtc_write(rtccTimeDate *tm);
+void   rtc_write_alarm(rtccTimeDate *tm);
 BYTE   rtc_get_sec(void);
 void   rtc_writestr(rtccTimeDate *tm, char* date_buff, char* time_buff);
 UINT32 rtc_2uint32(rtccTimeDate *tm);
