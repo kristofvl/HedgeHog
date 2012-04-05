@@ -22,7 +22,7 @@ void rtc_init(void) {
     RTCLock(0);
 }
 
-void rtc_read(rtccTimeDate *tm) {
+void rtc_read(rtc_timedate *tm) {
     RTCCFG |= 0x03; // set RTCPTR bits to 11
     tm->f.year = mBcd2Dec(RTCVALL); //RTCPTR = 11
     tm->f.rsvd = RTCVALH; //RTCPTR = 11
@@ -34,7 +34,7 @@ void rtc_read(rtccTimeDate *tm) {
     tm->f.min = mBcd2Dec(RTCVALH); //RTCPTR = 00
 }
 
-void rtc_write(rtccTimeDate *tm) {
+void rtc_write(rtc_timedate *tm) {
     RTCLock(1);
     RTCCFG |= 0x03; // set RTCPTR bits to 11
     RTCVALL = mDec2Bcd(tm->f.year); //RTCPTR = 11
@@ -48,17 +48,34 @@ void rtc_write(rtccTimeDate *tm) {
     RTCLock(0);
 }
 
-void rtc_write_alarm(rtccTimeDate *tm) {
+void rtc_write_alarm(rtc_timedate *tm) {
     RTCLock(1);
-    ALRMRPT = 1;
-    ALRMCFG = 0b00001011; // set RTCPTR bits to 11
-    ALRMVALL = mDec2Bcd(tm->f.mday); //RTCPTR = 11
-    ALRMVALH = mDec2Bcd(tm->f.mon); //RTCPTR = 11
-    ALRMVALL = mDec2Bcd(tm->f.hour); //RTCPTR = 10
-    ALRMVALH = tm->f.wday; //RTCPTR = 10
+    while (RTCCFGbits.RTCSYNC!=0); // wait till 0
+    ALRMRPT = 0;
+    while (RTCCFGbits.RTCSYNC!=0); // wait till 0
+    ALRMCFG = 0b00000000;
+    ALRMCFG |= (RTCC_RPT_YEAR<<2);
+    ALRMCFG |= 0x02; // set RTCPTR bits to 10
+    ALRMVALL = mDec2Bcd(tm->f.mday); //RTCPTR = 10
+    ALRMVALH = mDec2Bcd(tm->f.mon); //RTCPTR = 10
+    ALRMVALL = mDec2Bcd(tm->f.hour); //RTCPTR = 01
+    ALRMVALH = tm->f.wday; //RTCPTR = 01
     ALRMVALL = mDec2Bcd(tm->f.sec); //RTCPTR = 00
     ALRMVALH = mDec2Bcd(tm->f.min); //RTCPTR = 00
     RTCLock(0);
+}
+
+void rtc_set_timeout_s(rtc_timedate *tm, int seconds)
+{
+    tm->f.year = 1; tm->f.mon  = 1; tm->f.mday = 1; tm->f.wday = 1;
+    tm->f.hour = 1; tm->f.min  = 1; tm->f.sec  = 0;
+    rtc_write(tm);
+
+    tm->f.sec   = seconds;
+    rtc_write_alarm(tm);
+
+    mRtccOn();
+    mRtccAlrmEnable();
 }
 
 BYTE rtc_get_sec(void) {
@@ -66,7 +83,7 @@ BYTE rtc_get_sec(void) {
     return mBcd2Dec(RTCVALL); //RTCPTR = 00
 }
 
-void rtc_writestr(rtccTimeDate *tm, char* date_buff, char* time_buff) {
+void rtc_writestr(rtc_timedate *tm, char* date_buff, char* time_buff) {
     rtc_read(tm);
     time_buff[0] = 48 + (tm->f.hour / 10);
     time_buff[1] = 48 + (tm->f.hour % 10);
@@ -89,7 +106,7 @@ void rtc_writestr(rtccTimeDate *tm, char* date_buff, char* time_buff) {
     //date_buff[10] = 0;
 }
 
-UINT32 rtc_2uint32(rtccTimeDate *tm) {
+UINT32 rtc_2uint32(rtc_timedate *tm) {
     UINT32 ret = (UINT32) tm->f.sec;
     ret |= ((UINT32) tm->f.min << 6);
     ret |= ((UINT32) tm->f.hour << 12);
@@ -106,12 +123,12 @@ void RTCLock(char Lock) {
     else {
         _asm
         movlb 0x0f
-                movlw 0x55
-                movwf EECON2, 0
-                movlw 0xAA
-                movwf EECON2, 0
-                bsf RTCCFG, 5, 1
-                _endasm
+        movlw 0x55
+        movwf EECON2, 0
+        movlw 0xAA
+        movwf EECON2, 0
+        bsf RTCCFG, 5, 1
+        _endasm
     }
 }
 

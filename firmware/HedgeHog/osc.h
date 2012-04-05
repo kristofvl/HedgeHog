@@ -12,6 +12,7 @@
 
 #include <p18f46j50.h>	// contains registers
 
+void set_osc_31khz(void);
 void set_osc_8Mhz(void);
 void set_osc_48Mhz(void);
 void set_osc_sleep_t1(unsigned char to);

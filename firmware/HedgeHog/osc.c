@@ -9,6 +9,14 @@
 
 #include "osc.h"
 
+void set_osc_31khz(void) {
+    OSCCONbits.IRCF2 = 0; // set internal OSC to 8 Mhz
+    OSCCONbits.IRCF1 = 0; //
+    OSCCONbits.IRCF0 = 0; //
+    OSCCONbits.SCS0 = 1; // use postscaled internal clock
+    OSCCONbits.SCS1 = 1; //  (RC_RUN)
+    OSCTUNEbits.PLLEN = 0; // disable PLL
+}
 
 void set_osc_8Mhz(void) {
     OSCCONbits.IRCF2 = 1; // set internal OSC to 8 Mhz

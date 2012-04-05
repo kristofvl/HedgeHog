@@ -64,10 +64,10 @@ typedef union
     BYTE        b[8];       // BYTE access
     WORD        w[4];       // 16 bits access
     UINT32      l[2];       // 32 bits access
-}rtccTimeDate;
+}rtc_timedate;
 
 // valid values of alarm repetition for the RTCC device
-typedef enum
+enum
 {
     RTCC_RPT_HALF_SEC,      // repeat alarm every half second
     RTCC_RPT_SEC,           // repeat alarm every second
@@ -79,7 +79,7 @@ typedef enum
     RTCC_RPT_WEEK,          // repeat alarm every week
     RTCC_RPT_MON,           // repeat alarm every month
     RTCC_RPT_YEAR           // repeat alarm every year (except for Feb 29th.) 
-}rtccRepeat;
+};
 
 #define MAX_MIN         (0x59)/* BCD codification for minutes, 00-59 */
 #define MAX_SEC         (0x59) /* BCD codification for seconds, 00-59 */
@@ -117,11 +117,12 @@ typedef enum
 #define mRtccGetAlarmRptCount()	(ALRMRPT)	
 
 void   rtc_init(void);
-void   rtc_read(rtccTimeDate *tm);
-void   rtc_write(rtccTimeDate *tm);
-void   rtc_write_alarm(rtccTimeDate *tm);
+void   rtc_read(rtc_timedate *tm);
+void   rtc_write(rtc_timedate *tm);
+void   rtc_write_alarm(rtc_timedate *tm);
+void   rtc_set_timeout_s(rtc_timedate *tm, int seconds);
 BYTE   rtc_get_sec(void);
-void   rtc_writestr(rtccTimeDate *tm, char* date_buff, char* time_buff);
-UINT32 rtc_2uint32(rtccTimeDate *tm);
+void   rtc_writestr(rtc_timedate *tm, char* date_buff, char* time_buff);
+UINT32 rtc_2uint32(rtc_timedate *tm);
 
 #endif /* __RTCCHEDGEHOG_H */

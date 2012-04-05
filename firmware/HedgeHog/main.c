@@ -67,7 +67,7 @@ sd_buffer_t sd_buffer;
 hhg_conf_t hhg_conf;
 
 // time variables
-rtccTimeDate tm; //  holding time info for current time
+rtc_timedate tm; //  holding time info for current time
 char date_str[11] = "01/01/2012";
 char time_str[9] = "00:00:00";
 UINT32 tm_stop;
@@ -133,11 +133,6 @@ void high_priority_ISR() {
     #if defined(ADXL345_ENABLED)
     if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // handle INT1 interrupts
         INTCON3bits.INT1IE = 0; // turn interrupt in1 off
-    } else 
-    if (PIE3bits.RTCCIE && PIR3bits.RTCCIF) // handle RTC interrupts
-    {
-        PIR3bits.RTCCIF = 0;
-        PIE3bits.RTCCIE = 0;
     } else
     #endif
     {
@@ -157,7 +152,7 @@ void low_priority_ISR() {
  * Overview:        Main program entry point.
  ******************************************************************************/
 void main(void) {
-    wakeup_check();
+    //wakeup_check(&tm, 2); // wake up and check every 2 seconds for USB presence
     init_system();
     USBDeviceAttach();
     while (1) {
@@ -174,6 +169,9 @@ void main(void) {
  ******************************************************************************/
 static void init_system(void) {
     set_osc_48Mhz();
+
+    // wait 2,500,000 ticks till all systems are powered
+    Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250);
 
     ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
     set_unused_pins_to_output();
@@ -214,9 +212,6 @@ void user_init(void) {
     // By default, start in configuration mode:
     is_logging = 0;
 
-    // wait 2,500,000 ticks till all systems are powered
-    Delay10KTCYx(250); 
-
     read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
 
     rtc_init(); // init clock
@@ -240,7 +235,6 @@ void user_init(void) {
  * Overview:        This function runs all basic application tasks
  ******************************************************************************/
 void process_IO(void) {
-    char USB_prev_state = 0;
     #if defined(SOFTSTART_ENABLED)
     if (AppPowerReady() == FALSE) return; // Soft Start APP_VDD
     #endif
@@ -250,15 +244,8 @@ void process_IO(void) {
     if (is_logging)
         log_process(); // go to the logging process
     else {
-        USB_prev_state = USBDeviceState;
-        if(USBDeviceState < CONFIGURED_STATE) // wait 2 seconds to configure
-            d2s_48M();
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
-	{
-            //if (USBDeviceState == USB_prev_state)   // state doesn't change?
-            //    goto_deep_sleep();
             return;
-	}
         CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
