@@ -83,7 +83,8 @@ BYTE rtc_get_sec(void) {
     return mBcd2Dec(RTCVALL); //RTCPTR = 00
 }
 
-void rtc_writestr(rtc_timedate *tm, char* date_buff, char* time_buff) {
+void rtc_writestr(rtc_timedate *tm, char* date_buff, char* time_buff)
+{
     rtc_read(tm);
     time_buff[0] = 48 + (tm->f.hour / 10);
     time_buff[1] = 48 + (tm->f.hour % 10);

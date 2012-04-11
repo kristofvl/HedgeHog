@@ -15,32 +15,27 @@
 
 void goto_deep_sleep(rtc_timedate *tm, int seconds)
 {
-    INTCONbits.GIE = 0;  //global interrupts disable
-    Write_DSGPR(0x67, 0x7A); // save important data prior to deep sleep
+    INTCONbits.GIE = 0;  //global interrupts disable (to stop interference)
     rtc_init();
     rtc_set_timeout_s(tm, seconds);
-
-    while (RTCCFGbits.RTCSYNC != 0);
-    GotoDeepSleep(DPSLP_ULPWU_DISABLE | DPSLP_RTCC_WAKEUP_ENABLE);
+    while (RTCCFGbits.RTCSYNC != 0); // make sure RTC is ready to roll
+    set_osc_deep_sleep();
 }
 
 void wakeup_check(rtc_timedate *tm, int seconds)
 {
-    if( IsResetFromDeepSleep() ) {
-        ReleaseDeepSleep();
-        Reset();
-    }
-    else {
-        set_osc_31khz();
+    if( WDTCONbits.DS ) { // woke up from deep sleep?
+        release_deep_sleep();
+        INTCON2bits.RBPU = 1; // disable all port B pull-ups
         ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
         set_unused_pins_to_output();
+        set_osc_31khz();
+        Delay10TCYx(1);
         // check whether USB is there:
-        USBP_INT_TRIS = INPUT_PIN;
-        Delay1KTCYx(2);
         if (USBP_INT != 0) { // if USB power is not present:
             goto_deep_sleep(tm, seconds);
         }
         else
-            Reset();
+            return; // continue if USB power present
     }
 }

@@ -92,12 +92,13 @@ enum
 #define MAX_YEAR        (0x99)/* BCD codification for year, 00-99 */
 
 // helper macros
+#define rtc_alrm()	(ALRMCFGbits.ALRMEN)
+
 #define mRtccIsWrEn()	(RTCCFGbits.RTCWREN)		
 #define mRtccWrOff()	(RTCCFGbits.RTCWREN = 0)	
 #define mRtccIsOn()	(RTCCFGbits.RTCEN)				
 #define mRtccOff()	(RTCCFGbits.RTCEN=0)			
 #define mRtccOn()	(RTCCFGbits.RTCEN=1)			
-#define mRtccIsAlrmEnabled()	(ALRMCFGbits.ALRMEN)
 #define mRtccAlrmEnable()	(ALRMCFGbits.ALRMEN=1)
 #define mRtccAlrmDisable()	(ALRMCFGbits.ALRMEN=0)
 #define mRtccIsSync()	(RTCCFGbits.RTCSYNC)

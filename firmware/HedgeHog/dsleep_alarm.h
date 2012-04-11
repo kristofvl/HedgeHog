@@ -10,7 +10,6 @@
 #define	DSLEEP_ALARM_H
 
 #include "HardwareProfile.h"
-#include "dpslp.h"
 #include "portb.h"
 #include "RTC/rtc.h"
 #include "delays.h"

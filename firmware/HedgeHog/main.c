@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '5', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '6', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -152,7 +152,7 @@ void low_priority_ISR() {
  * Overview:        Main program entry point.
  ******************************************************************************/
 void main(void) {
-    //wakeup_check(&tm, 2); // wake up and check every 2 seconds for USB presence
+    wakeup_check(&tm, 2); // wake up and check every 2 seconds for USB presence
     init_system();
     USBDeviceAttach();
     while (1) {
@@ -169,9 +169,6 @@ void main(void) {
  ******************************************************************************/
 static void init_system(void) {
     set_osc_48Mhz();
-
-    // wait 2,500,000 ticks till all systems are powered
-    Delay10KTCYx(250); Delay10KTCYx(250); Delay10KTCYx(250);
 
     ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
     set_unused_pins_to_output();
@@ -190,15 +187,18 @@ static void init_system(void) {
     #endif
 
     remap_pins();           // remap IO and INT pins
+    
     USBDeviceInit();        // usb_device.c
 
     #if defined(DISPLAY_ENABLED)
     oled_init();
     #endif
 
+    // wait 5,000,000 ticks till SD card is powered
+    Delay10KTCYx(250); Delay10KTCYx(250);
     sdbuf_init();
 
-    user_init(); // Our init routines come last
+    user_init(); // Our other init routines come last
 }
 
 /*******************************************************************************
@@ -214,19 +214,21 @@ void user_init(void) {
 
     read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
 
+    // wait 5,000,000 ticks till system is powered
+    Delay10KTCYx(250); Delay10KTCYx(250);
+    
     rtc_init(); // init clock
-    rtc_write(&tm); // update time to last entry
-    rtc_writestr(&tm, date_str, time_str); // write time
-
+    acc_deep_sleep(); // put accelerometer to sleep for now
     env_init(); // set up environment sensors (light, temp, ...)
-    acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); // setup accelerometer
     
     #if defined(DISPLAY_ENABLED)
-    Delay10KTCYx(250);Delay10KTCYx(250);Delay10KTCYx(250);
+    Delay10KTCYx(250);Delay10KTCYx(250);
     disp_init();
     #endif
 
     config_cdc_init(); // initialize configuration state variables (counters)
+
+    rtc_set_timeout_s(&tm, 5); // set alarm after 5 seconds (to check USB)
 }
 
 /*******************************************************************************
@@ -245,7 +247,10 @@ void process_IO(void) {
         log_process(); // go to the logging process
     else {
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
-            return;
+            if (!rtc_alrm())
+                goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
+            else
+                return;
         CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
@@ -341,7 +346,7 @@ void log_process() {
             if (sdbuf_page()>5) {   // we assume here that the user needs a
                 #if defined(USBP_INT)
                 if (USBP_INT==0)    // while (5 page writes) to plug usb back in
-                    Reset();
+                    goto_deep_sleep(&tm, 1); // go for a second in deep sleep
                 #endif
             }
         }

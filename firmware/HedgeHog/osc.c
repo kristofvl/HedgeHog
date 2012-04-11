@@ -63,9 +63,19 @@ void set_osc_sleep_int1(void) {
 
 void set_osc_deep_sleep(void) {
     // see section 4.6 Deep Sleep Mode in the PIC 18F46j50 data sheet:
+    UCONbits.SUSPND = 1; // suspend USB 
     WDTCONbits.REGSLP = 1;
-    OSCCONbits.IDLEN = 0; // sleep starts sleep mode (not idle)
     INTCONbits.GIE = 0;
+    DSCONHbits.RTCWDIS = 0; // RTC can wake up
+    DSCONHbits.DSULPEN = 0; // no ultra low power wake up
+    DSCONLbits.ULPWDIS = 1;
+    OSCCONbits.IDLEN = 0; // sleep starts sleep mode (not idle)
     DSCONHbits.DSEN = 1; // deep sleep enable
     Sleep();
+}
+
+void release_deep_sleep(void) {
+    WDTCONbits.DS=0;
+    DSCONLbits.RELEASE=0;
+    Nop();Nop();
 }
