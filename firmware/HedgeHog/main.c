@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '6', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '1', '9', '7', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -328,7 +328,7 @@ void log_process() {
         USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin 
         usbp_int = !(USBP_INT);
         #endif
-        sdbuf_init();
+        sdbuf_init(); 
         read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
         rle_delta = hhg_conf.cs.acc.v[0] - 48; // extract from config string
         env_init();                                     //
