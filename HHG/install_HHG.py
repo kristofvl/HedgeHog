@@ -27,9 +27,9 @@
 import sys, os, stat
  
 exefiles = ('plot_HHG.py', 'conf_HHG.py', 'comp_HHG.py', 
-				'rawplot_HHG.py', 'install_HHG.py', 'readme1st.py')
+				'rawplot_HHG.py', 'install_HHG.py', 'download_HHG.py', 'readme1st.py')
 icnfiles = ('plot_HHG.py', 'conf_HHG.py', 'comp_HHG.py', 
-				'rawplot_HHG.py')
+				'rawplot_HHG.py', 'download_HHG.py')
  
  
  
