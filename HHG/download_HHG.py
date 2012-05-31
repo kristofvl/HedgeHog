@@ -36,7 +36,7 @@ homedir=os.path.expanduser("~")
 sys.path.append(os.path.join(homedir, 'HedgeHog/HHG'))
 import hhg_io.hhg_import as hgi
 sys.path.append('./hhg_tools')
-import hhg_split as hhg_tools
+import hhg_io.hhg_split as hhg_split
 import hhg_dialogs.hhg_fopen as hhg_fopen
 import shutil
 import numpy as np
@@ -166,7 +166,7 @@ for file in list_of_files:
 		joindta = np.concatenate((joindta, dta))
 
 #start splitting up the data
-hhg_tools.splithhg(joindta)
+hhg_split.splithhg(joindta)
 
 toc = time.clock()
 
