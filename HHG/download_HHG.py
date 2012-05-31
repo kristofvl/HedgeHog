@@ -1,10 +1,10 @@
-#######################################################################
-#																	  
-# (c) Enzo Torella for ESS											  
-# www.ess.tu-darmstadt.de											  
-#																	  
-# download_logHHG.py												  
-# 
+#!/usr/bin/env python
+
+########################################################################
+#
+# Filename: download_HHG.py 							Author: Enzo Torella 
+#
+#
 # Descript: Download from the Hedgehog, convert the log files, split 
 # 			the data into days and save them as a numpy file in the 
 #			users home folder in 'HHG'. The log files are being stored
@@ -24,10 +24,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
+# 
 #######################################################################
 
+
 import sys, time
-import wx
+#import wx ==> what is this for?? is not standard 
 import os
 #looking for the home directory of the system 
 homedir=os.path.expanduser("~")

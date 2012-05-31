@@ -1,15 +1,14 @@
-#######################################################################
-#																	  
-# (c) Enzo Torella for ESS											  
-# www.ess.tu-darmstadt.de											  
-#																	  
-# convert_HHG.py													  
-# 																	  
-# Descript: Convert the log files, split the data into days and save 
-#		    them as a numpy file in the users home folder in 'HHG'.
+#!/usr/bin/env python
+
+########################################################################
+#
+# Filename: comp_HHG.py   								Author: Enzo Torella 
 #
 # ATTENTION:
 # You should always import your data in the right order! 
+#
+# Descript: Convert the log files, split the data into days and save 
+#		    them as a numpy file in the users home folder in 'HHG'.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +24,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
+# 
 #######################################################################
+
 
 import sys, time
 import os 
