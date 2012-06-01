@@ -30,9 +30,7 @@
 
 import sys, time
 import os 
-#sys.path.append(os.path.join(homedir, 'HedgeHog/HHG'))
 import hhg_io.hhg_import as hgi
-#sys.path.append('./hhg_tools')
 import hhg_io.hhg_split as hhg_split
 import hhg_dialogs.hhg_fopen as hhg_fopen
 import numpy as np
