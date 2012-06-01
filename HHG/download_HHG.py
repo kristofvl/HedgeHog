@@ -29,13 +29,10 @@
 
 
 import sys, time
-#import wx ==> what is this for?? is not standard 
 import os
-#looking for the home directory of the system 
-homedir=os.path.expanduser("~")
-sys.path.append(os.path.join(homedir, 'HedgeHog/HHG'))
+#sys.path.append(os.path.join(homedir, 'HedgeHog/HHG'))
 import hhg_io.hhg_import as hgi
-sys.path.append('./hhg_tools')
+#sys.path.append('./hhg_tools')
 import hhg_io.hhg_split as hhg_split
 import hhg_dialogs.hhg_fopen as hhg_fopen
 import shutil
@@ -44,6 +41,9 @@ import pygtk, gtk
 import re
 import pygtk, gtk
 from struct import unpack
+
+#looking for the home directory of the system 
+homedir=os.path.expanduser("~")
 
 #-------------------------------------
 
@@ -117,16 +117,18 @@ while i<len(flst):
 
 	f=open(flst[i],"rb")
 	bs=f.read(4)
+	f.close()
 	bs=unpack("%sB"%len(bs),bs)
 	tme1 = hgi.hhg_convtime(bs[0],bs[1],bs[2],bs[3])
 	
-	if i+1 > len(flst):
+	if i+1 >= len(flst):
 		break 
 	else:
 	
 		g=open(flst[i+1],"rb")
 		bl=g.read(4)
-		
+		g.close()
+
 		if len(bl)==0:
 			shutil.copyfile(flst[i], os.path.join(opath,lst[i]))
 			break
@@ -139,7 +141,7 @@ while i<len(flst):
 			else:
 				shutil.copyfile(flst[i], os.path.join(opath,lst[i]))
 				shutil.copyfile(flst[i+1], os.path.join(opath,lst[i+1]))
-				i+=1
+			i+=1
 			continue
 		else:
 			shutil.copyfile(flst[i], os.path.join(opath,lst[i]))
@@ -170,7 +172,7 @@ hhg_split.splithhg(joindta)
 
 toc = time.clock()
 
-stats = ('imported: ' + str(i) + ' files, ' + str(len(joindta))
+stats = ('imported: ' + str(i+1) + ' files, ' + str(len(joindta))
 				 + ' entries, format=raw' + ', time(s): ' + str(toc-tic))
 
 print stats
