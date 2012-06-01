@@ -30,17 +30,18 @@
 
 import sys, time
 import os 
-#looking for the home directory of the system
-homedir=os.path.expanduser("~")
-sys.path.append(os.path.join(homedir, 'HedgeHog/HHG'))
+#sys.path.append(os.path.join(homedir, 'HedgeHog/HHG'))
 import hhg_io.hhg_import as hgi
-sys.path.append('./hhg_tools')
-import hhg_split as hhg_tools
+#sys.path.append('./hhg_tools')
+import hhg_io.hhg_split as hhg_split
 import hhg_dialogs.hhg_fopen as hhg_fopen
 import numpy as np
 import pygtk, gtk
 import re
 from struct import unpack
+
+#looking for the home directory of the system
+homedir=os.path.expanduser("~")
 
 #----------------------------------------------------------------------#
 
@@ -102,18 +103,18 @@ jj=[]
 while i<len(flst):
 	f=open(flst[i],"rb")
 	bs=f.read(4)
+	f.close()
+
 	bs=unpack("%sB"%len(bs),bs)
 	tme1 = hgi.hhg_convtime(bs[0],bs[1],bs[2],bs[3])
 	
-	if i+1 > len(flst):
-		
+	if i+1 >= len(flst):		
 		break 
-	else:
-	
+	else:	
 		g=open(flst[i+1],"rb")
 		bl=g.read(4)
+		g.close()
 		if len(bl)==0:
-			
 			break
 		bl=unpack("%sB"%len(bl),bl)
 		tme2=hgi.hhg_convtime(bl[0],bl[1],bl[2],bl[3])
@@ -138,7 +139,7 @@ while i<len(flst):
 joindta=[]
 for file in jj:
 	dta = hgi.hhg_import(os.path.join(src,file))
-	print dta.dtype
+
 	if joindta==[]:
 		joindta = dta
 		
@@ -146,11 +147,11 @@ for file in jj:
 		joindta = np.concatenate((joindta, dta))
 
 #start splitting up the data
-hhg_tools.splithhg(joindta)
+hhg_split.splithhg(joindta)
 
 toc = time.clock()
 
-stats = ('imported: ' + str(i) + ' files, ' + str(len(joindta))
+stats = ('converted: ' + str(i+1) + ' files, ' + str(len(joindta))
 				 + ' entries, format=raw' + ', time(s): ' + str(toc-tic))
 
 print stats
