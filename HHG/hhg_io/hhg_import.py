@@ -165,7 +165,6 @@ def hhg_import(filen):
 	pgrsdlg.destroy()
 	while gtk.events_pending(): gtk.main_iteration()
 	if ii:
-		np.save('/home/enzo/fta.npy',fta)
 		return dta[:ii-1], fta[:mm-1]
 	else:
 		return []
