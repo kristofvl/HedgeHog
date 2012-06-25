@@ -108,6 +108,7 @@ def hhg_import(filen):
 				else:
 					bs = (1,) # force us out of this loop!
 		else: # else we assume raw data:
+			fta = np.recarray((FBUFSIZE,),dtype=desc_raw) # init raw dta
 			dta = np.recarray((FBUFSIZE,),dtype=desc_raw) # init raw dta
 			if  len(bs) > 6:
 				tme = hhg_convtime(bs[0],bs[1],bs[2],bs[3])
@@ -115,6 +116,12 @@ def hhg_import(filen):
 				bs = f.read(512)
 				bs = unpack('%sB'%len(bs),bs)
 			invalid_data = False
+			mm = 0;
+			tmetmp = tme
+			tmetmp += 1./1440
+			fta[mm] = np.array( (tme, bs[4], 
+									bs[1+(4)], bs[2+(4)],
+									bs[3+(4)],lgt), dtype=desc_raw)	
 			while (len(bs)==512) and not invalid_data:
 				# update progress bar:
 				if (pg_i%10)==0:
@@ -135,6 +142,14 @@ def hhg_import(filen):
 													bs[3+(j*4)],lgt), dtype=desc_raw)
 						ii+=1
 						tme += bs[j*4]*tme_delta
+						if tme >= tmetmp:
+							mm += 1
+							#tmarr[mm] = tme
+							tmetmp = tme
+							tmetmp += 1./1440
+							fta[mm] = np.array( (tme, bs[j*4], 
+													bs[1+(j*4)], bs[2+(j*4)],
+													bs[3+(j*4)],lgt), dtype=desc_raw)
 					pg_i+=1
 					tme = tme_next
 					bs = f.read(512)
@@ -150,7 +165,8 @@ def hhg_import(filen):
 	pgrsdlg.destroy()
 	while gtk.events_pending(): gtk.main_iteration()
 	if ii:
-		return dta[:ii-1]
+		np.save('/home/enzo/fta.npy',fta)
+		return dta[:ii-1], fta[:mm-1]
 	else:
 		return []
 
@@ -179,7 +195,7 @@ def hhg_open_data(filename):
 		return [], 'no data'
 	if len(filename)>3:
 		if filename[-3:]=='HHG':
-			dta = hhg_import(filename)
+			dta, fta = hhg_import(filename)
 		elif filename[-3:]=='npy':
 			try:
 				# import from an already-converted npy dataset:
