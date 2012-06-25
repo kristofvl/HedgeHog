@@ -32,6 +32,11 @@ extern char is_logging;
 
 /******************************************************************************/
 /******** USB stack hardware selection options ********************************/
+/*******************************************************************/
+/******** USB Power Sense pin definitions and options **************/
+/*******************************************************************/
+#define USBP_INT_TRIS    TRISBbits.TRISB7
+#define USBP_INT         PORTBbits.RB7
 /******************************************************************************/
 // definitions required by the MCHPFSUSB framework. 
 //#define USE_SELF_POWER_SENSE_IO
