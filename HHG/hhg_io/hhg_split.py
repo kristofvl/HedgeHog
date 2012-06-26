@@ -34,7 +34,9 @@ homedir=os.path.expanduser("~")
 dst=os.path.join(homedir,'HHG')
 
 #-----------------------------------------------------------------------
-def splithhg(fle):
+
+#'splithhg calls the function splitting fot the input files
+def splithhg(joindta, joinfta):
 	# open progress bar:
 	pgrsdlg = gtk.Dialog("Splitting...", None, 0, None)
 	pbar = gtk.ProgressBar()
@@ -63,10 +65,11 @@ def splithhg(fle):
 	else:
 		nday = 1
 	
-	posi = find_pos(fle)
+	posi1 = find_pos(joindta)
+	posi2 = find_pos(joinfta)
 	
-	splitting(fle,posi,nday)
-	
+	splitting(joindta,posi1,nday, posi2, joinfta)
+	#splitting2(joinfta, posi2)
 	pgrsdlg.hide()
 	pgrsdlg.destroy()
 	while gtk.events_pending(): gtk.main_iteration()
@@ -119,33 +122,41 @@ def creadir(fle):
 	return fdir, boo
 
 #-----------------------------------------------------------------------
-#the function 'splitting' takes as inputs two files: the whole 
-#'npy file',referred to all 14 log files and a list of positions of the
-#zeros. It splits the npy file,that is the numpy array,according to each
-# day by referring to the position of the zeros.
-def splitting(inp, pos,d):
+#the function splits joindta and joinfta into days, always as numpy files
+def splitting(joindta, pos1, d, pos2, joinfta):
 	j=0
-	
-	for i in pos:
-		outpath, boo = creadir(inp[j:i-1])
-		if(boo):
-			fst=(os.path.join(outpath,'day%03d.npy' % d))
-			outday=np.load(fst)
-			joinday=np.concatenate((outday, inp[j:i-1]))
-			np.save(os.path.join(outpath,'day%03d' % d),joinday )
-			d=d + 1
-			j=i	
-		else:
-			
-			if d > 1:
+	xx=0
+	for i in pos1:
+		for ind in pos2:
+			outpath, boo = creadir(joindta[j:i-1])
+		
+			if (boo):
+				fst=(os.path.join(outpath,'day%03d.npy' % d))
+				outday=np.load(fst)
+				joinday=np.concatenate((outday, joindta[j:i-1]))
+				np.save(os.path.join(outpath,'day%03d' % d),joindta [j:i-1] )
+				if os.path_exists(os.path.join(outpath, 'prev%03d' % d)):
+					prev=np.concatenate((os.path.join(outpath, 'prev%03d' % d),joinfta[xx:ind-1]))
+				else:
+					np.save(os.path.join(outpath, 'prev%03d' % d), joinfta[xx:ind-1])
 				
-				np.save(os.path.join(outpath,'day%03d' % d), inp[j:i-1])
-				d=d+1
+				d=d + 1
+				j=i
+				xx=ind	
 			else:
-				np.save(os.path.join(outpath,'day%03d' % d), inp[j:i-1])
-				d=d+1   
-		j=i
-	outpath, boo = creadir(inp[j:])
-	np.save(os.path.join(outpath, 'day%03d' % d), inp[j:])
+			
+				if d > 1:
+				
+					np.save(os.path.join(outpath,'day%03d' % d), joindta[j:i-1])
+					np.save(os.path.join(outpath, 'prev%03d' % d),joinfta[xx:ind-1]) 
+					d=d+1
+				else:
+					np.save(os.path.join(outpath,'day%03d' % d), joindta[j:i-1])
+					np.save(os.path.join(outpath, 'prev%03d' % d),joinfta[xx:ind-1])
+					d=d+1   
+			j=i
+	outpath, boo = creadir(joindta[j:])
+	np.save(os.path.join(outpath, 'day%03d' % d), joindta[j:])
+	np.save(os.path.join(outpath, 'prev%03d' % d), joinfta[xx:])
 
 #-----------------------------------------------------------------------
