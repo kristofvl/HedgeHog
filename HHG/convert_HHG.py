@@ -135,8 +135,9 @@ while i<len(flst):
 #open/parse the data:
 #we slide the list and join all the log files inside into one file
 joindta=[]
+joinfta=[]
 for file in jj:
-	dta = hgi.hhg_import(os.path.join(src,file))
+	dta, fta = hgi.hhg_import(os.path.join(src,file))
 
 	if joindta==[]:
 		joindta = dta
@@ -144,8 +145,12 @@ for file in jj:
 	else:
 		joindta = np.concatenate((joindta, dta))
 
+	if joinfta==[]:
+		joinfta = fta
+	else:
+		joinfta = np.concatenate((joinfta, fta))
 #start splitting up the data
-hhg_split.splithhg(joindta)
+hhg_split.splithhg(joindta, joinfta)
 
 toc = time.clock()
 

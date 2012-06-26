@@ -155,18 +155,25 @@ while gtk.events_pending(): gtk.main_iteration()
 list_of_files = [file for file in os.listdir(opath) if file.endswith(extension)]
 list_of_files.sort()
 
+joinfta=[]
 joindta=[]
-#we slide the list and join all the log files inside into one file
+#we slide the list and join all the log files inside into two files
 for file in list_of_files:
-	dta = hgi.hhg_import(os.path.join(opath,file))
+	dta, fta = hgi.hhg_import(os.path.join(opath,file))
 	if joindta==[]:
 		joindta = dta
 		
 	else:
 		joindta = np.concatenate((joindta, dta))
+	if joinfta==[]:
+		joinfta = fta
+		
+	else:
+		joinfta = np.concatenate((joinfta, fta))
+
 
 #start splitting up the data
-hhg_split.splithhg(joindta)
+hhg_split.splithhg(joindta, joinfta)
 
 toc = time.clock()
 
