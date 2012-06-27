@@ -28,8 +28,8 @@ import sys, os, stat
  
 exefiles = ('plot_HHG.py', 'conf_HHG.py', 'comp_HHG.py', 'readme1st.py',
 			'convert_HHG.py', 'rawplot_HHG.py', 'install_HHG.py', 'download_HHG.py')
-icnfiles = ('plot_HHG.py', 'conf_HHG.py','convert_HHG.py', 'download_HHG.py')
-icns     = ('htop',        'logviewer',   'logviewer', 'gdu-unmount')
+icnfiles = ('plot_HHG.py', 'conf_HHG.py', 'download_HHG.py')
+icns     = ('htop',        'logviewer',   'gdu-unmount')
 
 # create a desktop or menu launcher file in a Ubuntu distro
 def create_Ublauncher(where, exefile, name, icn='gnome-panel-launcher'):
