@@ -60,6 +60,7 @@ def splithhg(joindta, joinfta):
 		outper=os.path.join(dst, lastdir)
 	
 		n_arr= str(os.listdir(outper))
+		print n_arr
 		jj=re.findall('\d+', n_arr)
 		nday= int(jj[0])
 	else:
@@ -69,7 +70,6 @@ def splithhg(joindta, joinfta):
 	posi2 = find_pos(joinfta)
 	
 	splitting(joindta,posi1,nday, posi2, joinfta)
-	#splitting2(joinfta, posi2)
 	pgrsdlg.hide()
 	pgrsdlg.destroy()
 	while gtk.events_pending(): gtk.main_iteration()
@@ -106,15 +106,17 @@ def creadir(fle):
 	fdir=''
 	if not os.path.exists(outdir):
 		os.makedirs(outdir)
-	
-	pel=fle[0]
-	rs = pel[0]
-	hh=num2date(rs)
-	b = '%02d' % hh.month
-	a=str(hh.year)
-	c='%02d' % hh.day
-	stringa=a+b+c
-	fdir=os.path.join(dst,stringa)
+	if len(fle) == 0:
+		return fdir, boo
+	else:
+		pel=fle[0]
+		rs = pel[0]
+		hh=num2date(rs)
+		b = '%02d' % hh.month
+		a=str(hh.year)
+		c='%02d' % hh.day
+		stringa=a+b+c
+		fdir=os.path.join(dst,stringa)
 	if not os.path.exists(fdir):
 		os.makedirs(fdir)
 	else:
@@ -126,37 +128,33 @@ def creadir(fle):
 def splitting(joindta, pos1, d, pos2, joinfta):
 	j=0
 	xx=0
+	k=0
 	for i in pos1:
-		for ind in pos2:
-			outpath, boo = creadir(joindta[j:i-1])
+		ind=pos2[k]
 		
-			if (boo):
-				fst=(os.path.join(outpath,'day%03d.npy' % d))
-				outday=np.load(fst)
-				joinday=np.concatenate((outday, joindta[j:i-1]))
-				np.save(os.path.join(outpath,'day%03d' % d),joindta [j:i-1] )
-				if os.path_exists(os.path.join(outpath, 'prev%03d' % d)):
-					prev=np.concatenate((os.path.join(outpath, 'prev%03d' % d),joinfta[xx:ind-1]))
-				else:
-					np.save(os.path.join(outpath, 'prev%03d' % d), joinfta[xx:ind-1])
-				
-				d=d + 1
-				j=i
-				xx=ind	
-			else:
-			
-				if d > 1:
-				
-					np.save(os.path.join(outpath,'day%03d' % d), joindta[j:i-1])
-					np.save(os.path.join(outpath, 'prev%03d' % d),joinfta[xx:ind-1]) 
-					d=d+1
-				else:
-					np.save(os.path.join(outpath,'day%03d' % d), joindta[j:i-1])
-					np.save(os.path.join(outpath, 'prev%03d' % d),joinfta[xx:ind-1])
-					d=d+1   
-			j=i
+		outpath, boo = creadir(joindta[j:i-1])
+	
+		if (boo):
+			#day dataset
+			fst=(os.path.join(outpath,'day%03d.npy' % d))
+			outday=np.load(fst)
+			joinday=np.concatenate((outday, joindta[j:i-1]))
+			np.save(os.path.join(outpath,'day%03d' % d),joinday)
+			#preview dataset
+			sst=(os.path.join(outpath,'prev%03d.npy' % d))
+			outprev=np.load(sst)
+			prev=np.concatenate((outprev,joinfta[xx:ind-1]))
+			np.save(os.path.join(outpath, 'prev%03d' % d), prev)
+		else:
+			np.save(os.path.join(outpath,'day%03d' % d), joindta[j:i-1])
+			np.save(os.path.join(outpath, 'prev%03d' % d),joinfta[xx:ind-1]) 
+		
+		xx=ind
+		j=i
+		k+=1
 	outpath, boo = creadir(joindta[j:])
+	d+=1
 	np.save(os.path.join(outpath, 'day%03d' % d), joindta[j:])
 	np.save(os.path.join(outpath, 'prev%03d' % d), joinfta[xx:])
-
+	
 #-----------------------------------------------------------------------
