@@ -72,5 +72,9 @@ else:
 # if selected, write data to binary file (so it can be used later):
 if fig.save_dta_file:
 	print 'saving data to ' + fig.save_dta_file
-	save(fig.save_dta_file, dta)
+	if (fig.save_dta_file.endswith(".csv") or fig.save_dta_type=='csv'):
+		from matplotlib.mlab import rec2csv
+		rec2csv(dta,fig.save_dta_file)
+	else:
+		save(fig.save_dta_file, dta)
 

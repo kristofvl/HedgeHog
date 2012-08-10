@@ -69,7 +69,7 @@ class Hhg_plot:
 					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))	
 	# obtain the filename to which the original data should be saved
 	def save_data(self, tdata):
-		self.save_dta_file = fsave_dlg.hhg_fsave()
+		self.save_dta_file,self.save_dta_type = fsave_dlg.hhg_fsave()
 	# read user clicks on the plot for annotation
 	def mark_label(self, tb_data):
 		res = ginput(2,timeout=-1) # wait for the user to mark two points
@@ -163,10 +163,8 @@ class Hhg_nights_plot(Hhg_plot):
 		self.n_ax.plot(t, res_ngt,'s', color='#000000',lw=.5)
 	def plot_env(self, rws=4, cls=1, whr=2):
 		self.e_ax = self.fig.add_subplot(rws,cls,whr, axisbg='#777777')
-		self.envd = self.e_ax.fill_between(self.t[::self.itr], 
-			     self.l[::self.itr]>>8, facecolor='yellow', lw=0, alpha=.6)
-		self.e_ax.plot(self.t[::self.itr],((self.l[::self.itr]&0xFF)/2-30), 
-					'-', color='r', lw=.5, label='temperature')
+		self.envd = self.e_ax.fill_between(self.t[::self.itr], self.l[::self.itr]>>8, facecolor='yellow', lw=0, alpha=.6)
+		self.e_ax.plot(self.t[::self.itr],((self.l[::self.itr]&0xFF)/2-30), '-', color='r', lw=.5, label='temperature')
 	def show(self):
 		self.fix_margins()
 		self.add_extra_tools()

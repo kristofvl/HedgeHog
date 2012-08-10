@@ -44,12 +44,18 @@ def hhg_fsave(default_file=''):
 	filter_npy.add_mime_type("hedgehog/npy")
 	filter_npy.add_pattern("*.npy")
 	dlg.add_filter(filter_npy)
+
+	filter_csv = gtk.FileFilter()
+	filter_csv.set_name("csv")
+	filter_csv.add_mime_type("hedgehog/csv")
+	filter_csv.add_pattern("*.csv")
+	dlg.add_filter(filter_csv)
+
 	dlgres = dlg.run()
 	if dlgres == gtk.RESPONSE_OK:
 		filename = dlg.get_filename()
+		filter = dlg.get_filter().get_name()
 	else:
 		filename = ''
 	dlg.destroy()
-	return filename
-	
-	
+	return filename,filter
