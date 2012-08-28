@@ -16,6 +16,8 @@
 #include "HardwareProfileOLED.h"
 #elif defined(HEDGEHOG_BASIC)
 #include "HardwareProfileBasic.h"
+#elif defined(HEDGEHOG_BASIC_NEW)
+#include "HardwareProfileBasicNew.h"
 #else
 #error No Hardware Profile Defined. See HardwareProfile.h
 #endif
