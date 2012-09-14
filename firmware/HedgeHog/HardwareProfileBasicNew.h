@@ -1,14 +1,14 @@
 /********************************************************************
- FileName:     	HardwareProfileBasic.h
+ FileName:     	HardwareProfileBasicNew.h
  Dependencies:
  Processor:	PIC18F46J50
  Hardware:	Porcupine HedgeHog BASIC
  Compiler:  	Microchip C18
- Author:        KristofVL
+ Author:        EBerlin
  ********************************************************************/
 
-#ifndef HARDWARE_PROFILE_HEDGEHOG_BASIC_H
-#define HARDWARE_PROFILE_HEDGEHOG_BASIC_H
+#ifndef HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H
+#define HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H
 
 /*******************************************************************/
 /******** Board-specific definitions *******************************/
@@ -62,11 +62,11 @@ extern char is_logging;
 /*******************************************************************/
 /******** MDD File System selection options ************************/
 /*******************************************************************/
-#define USE_PIC18				// used by FSConfig.h
+#define USE_PIC18                               // used by FSConfig.h
 #define USE_SD_INTERFACE_WITH_SPI
-#define SD_CS               PORTCbits.RC6  // Chip Select
-#define SD_CS_TRIS          TRISCbits.TRISC6
-#define SD_CD               0           	// Card detect
+#define SD_CS               PORTBbits.RB5       // Chip Select
+#define SD_CS_TRIS          TRISBbits.TRISB5
+#define SD_CD               0                   // Card Detect
 #define SD_CD_TRIS          TRISAbits.TRISA3
 #define SD_WE               0
 #define SD_WE_TRIS          TRISAbits.TRISA3
@@ -75,34 +75,40 @@ extern char is_logging;
 /*******************************************************************/
 /******** Accelerometer definitions and options ********************/
 /*******************************************************************/
-
-#define ACC_CS          LATCbits.LATC7
-#define ACC_CS_TRIS     TRISCbits.TRISC7
-#define ACC_INT         PORTBbits.RB2
-#define ACC_INT_TRIS    TRISBbits.TRISB2
-
+#define ACC_CS              LATBbits.LATB4
+#define ACC_CS_TRIS         TRISBbits.TRISB4
+#define ACC_INT             PORTBbits.RB2
+#define ACC_INT_TRIS        TRISBbits.TRISB2
 
 /*******************************************************************/
 /******** USB Power Sense pin definitions and options **************/
 /*******************************************************************/
-#define USBP_INT_TRIS   TRISBbits.TRISB7
-#define USBP_INT        PORTBbits.RB7
+#define USBP_INT_TRIS       TRISBbits.TRISB7
+#define USBP_INT            PORTBbits.RB7
+
+/*******************************************************************/
+/******** Power Circuit sense pins definitions and options *********/
+/*******************************************************************/
+#define POK_INT_TRIS        TRISDbits.TRISD4   // USB charger "power ok"
+#define POK_INT             PORTDbits.RD4
+#define PWRGD_INT_TRIS      TRISDbits.TRISD5   // Voltage converter "power good"
+#define PWRGD_INT           PORTDbits.RD5
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
-#define LIGHTCHANNEL    4
-#define LIGHT_PWR 	LATBbits.LATB0
+#define LIGHTCHANNEL        6               // CHS=6 == AN6 == RE1 (PIN26)
+#define LIGHT_PWR           LATEbits.LATE0  // RE0          == RE0 (PIN25)
 
 /*******************************************************************/
 /******** remap pins ***********************************************/
 /*******************************************************************/
-#define ul_reg() { EECON2 = 0x55;EECON2 = 0xAA;PPSCONbits.IOLOCK = 0;}
-#define l_reg()  { EECON2 = 0x55;EECON2 = 0xAA;PPSCONbits.IOLOCK = 1;}
+#define ul_reg() { EECON2 = 0x55; EECON2 = 0xAA; PPSCONbits.IOLOCK = 0; }
+#define l_reg()  { EECON2 = 0x55; EECON2 = 0xAA; PPSCONbits.IOLOCK = 1; }
+
 //  RP6  as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P), RP5(B2) as INT1
-#define remap_pins() {ul_reg(); RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5; l_reg();}
+#define remap_pins() {ul_reg();RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5;l_reg();}
 
-// make sure all pins are output, except for B7 (USB power) and B5 (acc INT)
-#define set_unused_pins_to_output() {TRISD=0; TRISB=0xb00000101; }
-
-#endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_H
+// set pins to input: B2 (acc INT) ¦ B7 (USB power) ¦ D4 (POK) ¦ D5 (PWRGD)
+#define set_unused_pins_to_output() {TRISA=0;TRISB=0xb10000100;TRISD=0xb00110000;}
+#endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H

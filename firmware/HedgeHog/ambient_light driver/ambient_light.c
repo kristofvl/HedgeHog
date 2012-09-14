@@ -2,12 +2,18 @@
 
 void light_init(void)
 {
+#if defined(HEDGEHOG_BASIC_NEW)
+    TRISEbits.TRISE1 = 1;       // light sensor data input (INPUT  = 1)
+    TRISEbits.TRISE0 = 0;       // light sensor power pin  (OUTPUT = 0)
+    LIGHT_PWR        = 1;       // pull power pin up
+#else
     TRISAbits.TRISA5 = 1;
-    ANCON0bits.PCFG4 = 0;
-#if defined(LIGHT_PWR)
-    TRISBbits.TRISB0 = 0;
-    LIGHT_PWR        = 1;
+    #if defined(LIGHT_PWR)
+        TRISBbits.TRISB0 = 0;
+        LIGHT_PWR        = 1;
+    #endif
 #endif
+    ANCON0bits.PCFG4 = 0;
     ADCON1bits.ADFM  = 1;
     ADCON1bits.ADCAL = 0;
     ADCON1bits.ACQT  = 1;

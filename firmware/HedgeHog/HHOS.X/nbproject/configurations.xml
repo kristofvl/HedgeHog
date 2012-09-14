@@ -460,12 +460,12 @@
       <SKDEPIC18FJPlatformTool>
       </SKDEPIC18FJPlatformTool>
     </conf>
-    <conf name="raw_sampling_basic_1.7" type="2">
+    <conf name="raw_sampling_basic_new" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC18F46J50</targetDevice>
         <targetHeader></targetHeader>
-        <platformTool>PICkit2PlatformTool</platformTool>
+        <platformTool>SKDEPIC18FJPlatformTool</platformTool>
         <languageToolchain>C18</languageToolchain>
         <languageToolchainVersion>3.40</languageToolchainVersion>
         <platform>2</platform>

@@ -174,9 +174,9 @@ static void init_system(void) {
     set_unused_pins_to_output();
     
     //Configure interrupts:
-    RCONbits.IPEN = 1; // Enable Interrupt Priority levels
-    INTCONbits.GIEH = 1; // Enable High-priority Interrupts
-    INTCONbits.GIEL = 0; // Disable Low-priority Interrupts
+    RCONbits.IPEN   = 1;    // Enable  Interrupt Priority levels
+    INTCONbits.GIEH = 1;    // Enable  High-priority Interrupts
+    INTCONbits.GIEL = 0;    // Disable Low-priority Interrupts
 
     #if defined(USE_USB_BUS_SENSE_IO)
     tris_usb_bus_sense = INPUT_PIN; // See HardwareProfile.h
@@ -208,27 +208,27 @@ static void init_system(void) {
  *                  application's code initialization.
  ******************************************************************************/
 void user_init(void) {
-
-    // By default, start in configuration mode:
+    
+    // By default, start in configuration mode
     is_logging = 0;
 
-    read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
+    // read HedgeHog configuration structure
+    read_HHG_conf(&hhg_conf);
 
     // wait 5,000,000 ticks till system is powered
     Delay10KTCYx(250); Delay10KTCYx(250);
     
-    rtc_init(); // init clock
-    acc_deep_sleep(); // put accelerometer to sleep for now
-    env_init(); // set up environment sensors (light, temp, ...)
+    rtc_init();         // init clock
+    acc_deep_sleep();   // put accelerometer to sleep for now
+    env_init();         // set up environment sensors (light, temp, ...)
     
     #if defined(DISPLAY_ENABLED)
     Delay10KTCYx(250);Delay10KTCYx(250);
     disp_init();
     #endif
 
-    config_cdc_init(); // initialize configuration state variables (counters)
-
-    rtc_set_timeout_s(&tm, 5); // set alarm after 5 seconds (to check USB)
+    config_cdc_init();          // init configuration state variables (counters)
+    rtc_set_timeout_s(&tm, 5);  // set alarm after 5 seconds (to check USB)
 }
 
 /*******************************************************************************
@@ -241,16 +241,17 @@ void process_IO(void) {
     if (AppPowerReady() == FALSE) return; // Soft Start APP_VDD
     #endif
 
-    update_display(); // Update routine for the display
+    update_display();       // Update routine for the display
 
     if (is_logging)
-        log_process(); // go to the logging process
+        log_process();      // go to the logging process
     else {
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
             if (!rtc_alrm())
-                goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
+               goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
             else
                 return;
+        
         CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
