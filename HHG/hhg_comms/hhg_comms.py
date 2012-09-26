@@ -132,6 +132,12 @@ class HHG_comms:
 		time.sleep(time_out)
 		ret = self.ser.read(exp_len)
 		return ret
+
+	def read_log(self, time_out, exp_len):
+		self.ser.write("c")
+		time.sleep(time_out)
+		ret = self.ser.read(exp_len)
+		return ret
 		
 	def record_HHG(self):
 		self.ser.write("s")

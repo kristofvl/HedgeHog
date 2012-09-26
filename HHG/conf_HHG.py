@@ -76,7 +76,25 @@ class conf_HHG_dialog:
 		if len(ret) == 16:
 			self.versionstr.set_text(ret[:16])
 		self.currentHHG.disconnect()
-				
+
+	def show_log(self, widget, data=None):
+		if not self.connected:
+			self.select(None)
+		if self.connected:
+			self.currentHHG = hcs.HHG_comms(self.portname)
+			self.currentHHG.connect(0.5)
+			ret = self.currentHHG.read_ser_data(0,255)
+			print "read:", ret
+			dlg = gtk.MessageDialog(None, 
+				gtk.DIALOG_DESTROY_WITH_PARENT, 
+				gtk.MESSAGE_INFO,
+				gtk.BUTTONS_CLOSE, None)
+			dlg.set_size_request(350,420)
+			dlg.set_markup(ret)
+			dlg.show_all()
+			dlg.run()
+			dlg.destroy()
+
 	def syncHHG(self, widget, data=None):
 		if not self.connected:
 			self.select(None)
@@ -385,10 +403,12 @@ class conf_HHG_dialog:
 		self.recd_button = gtk.Button('start recording')
 		self.recd_button.connect("clicked", self.record, None)
 		vbox_bas.add(self.recd_button)
+		self.slog_button = gtk.Button('show log')
+		self.slog_button.connect("clicked", self.show_log, None)
+		vbox_bas.add(self.slog_button)
 		self.quit_button = gtk.Button("exit")
 		self.quit_button.connect("clicked", self.leave, None)
-		self.quit_button.connect_object("clicked", 
-											gtk.Widget.destroy, self.window)
+		self.quit_button.connect_object("clicked", gtk.Widget.destroy, self.window)
 		vbox_bas.add(self.quit_button)
 		self.vbox.pack_start(bas_f, True, True, 0)
 		##################################################################
