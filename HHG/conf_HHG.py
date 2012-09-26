@@ -83,7 +83,7 @@ class conf_HHG_dialog:
 		if self.connected:
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect(0.5)
-			ret = self.currentHHG.read_ser_data(0,255)
+			ret = self.currentHHG.read_log(0,255)
 			print "read:", ret
 			dlg = gtk.MessageDialog(None, 
 				gtk.DIALOG_DESTROY_WITH_PARENT, 
@@ -387,7 +387,7 @@ class conf_HHG_dialog:
 		# GUI construction:
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.set_position(gtk.WIN_POS_CENTER)
-		self.window.set_size_request(500, 250)
+		self.window.set_size_request(500, 270)
 		self.window.connect('delete_event', self.delete_event)
 		self.window.connect('destroy', self.destroy)
 		self.window.set_border_width(4)
