@@ -248,7 +248,7 @@ void process_IO(void) {
     else {
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
             if (!rtc_alrm())
-               goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
+                goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
             else
                 return;
         

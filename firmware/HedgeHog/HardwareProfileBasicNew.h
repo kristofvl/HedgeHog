@@ -81,16 +81,10 @@ extern char is_logging;
 #define ACC_INT_TRIS        TRISBbits.TRISB2
 
 /*******************************************************************/
-/******** USB Power Sense pin definitions and options **************/
-/*******************************************************************/
-#define USBP_INT_TRIS       TRISBbits.TRISB7
-#define USBP_INT            PORTBbits.RB7
-
-/*******************************************************************/
 /******** Power Circuit sense pins definitions and options *********/
 /*******************************************************************/
-#define POK_INT_TRIS        TRISDbits.TRISD4   // USB charger "power ok"
-#define POK_INT             PORTDbits.RD4
+#define USBP_INT_TRIS       TRISDbits.TRISD4   // POK_INT_TRIS = charger "POK"
+#define USBP_INT            PORTDbits.RD4      // POK_INT
 #define PWRGD_INT_TRIS      TRISDbits.TRISD5   // Voltage converter "power good"
 #define PWRGD_INT           PORTDbits.RD5
 
@@ -106,9 +100,9 @@ extern char is_logging;
 #define ul_reg() { EECON2 = 0x55; EECON2 = 0xAA; PPSCONbits.IOLOCK = 0; }
 #define l_reg()  { EECON2 = 0x55; EECON2 = 0xAA; PPSCONbits.IOLOCK = 1; }
 
-//  RP6  as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P), RP5(B2) as INT1
+// RP6 as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P), RP5(B2) as INT1
 #define remap_pins() {ul_reg();RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5;l_reg();}
 
-// set pins to input: B2 (acc INT) ¦ B7 (USB power) ¦ D4 (POK) ¦ D5 (PWRGD)
-#define set_unused_pins_to_output() {TRISA=0;TRISB=0xb10000100;TRISD=0xb00110000;}
+// set pins to input: B2 (acc INT) | D4 (POK) | D5 (PWRGD)
+#define set_unused_pins_to_output() {TRISA=0;TRISB=0xb00000010;TRISD=0xb00010000;}
 #endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H
