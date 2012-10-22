@@ -1,53 +1,45 @@
 SectorSize = 512       # bytes
 SectorsPerCluster = 64 # Sectors per cluster
 NumberOfLogFiles = 15  # max is 15 (including config.txt)
-scaleFactor = 100
+scaleFactor = 10
 FirstClusterOfFiles = 2
 def printFAT():
-    firstFileSize = 100*SectorSize*SectorsPerCluster # ~3.2MB
+    firstFileSize = 65 # Clusters in first file ~2.1MB
     i = 0
     fileSizeList = []
-    nextFileSz = 0
-    totalSz = 0
+    nextFileSz = firstFileSize  # in Clusters
+    totalSz = 0         # in Clusters
     numOfClustersInFile = 1
     for i in range(0, NumberOfLogFiles):
-        nextFileSz = firstFileSize + nextFileSz + scaleFactor*i
         totalSz = totalSz + nextFileSz
         fileSizeList.append(nextFileSz)
         numOfClustersInFile = nextFileSz/(SectorSize*SectorsPerCluster)
+        nextFileSz = nextFileSz + (i) * firstFileSize
+        
+    print 'Total Size = ', totalSz, 'clusters'
+    print fileSizeList
 
-        print totalSz
-
-    ClustersPerFile = []
-    temp = 0
+    startCluster = 50
+    endClusterOfFile = 0
+    startClusterList = []
+    finalClusterList = []
     for i in range(0, NumberOfLogFiles):
-        temp = fileSizeList[i]
-        numOfClustersInFile = temp / (SectorSize *  SectorsPerCluster)
-        ClustersPerFile.append(numOfClustersInFile)
-#        print ClustersPerFile[i]
-
-    StartCluster =  [FirstClusterOfFiles]
-    EndingCluster = [FirstClusterOfFiles + ClustersPerFile[0]]
-    for i in range(1, NumberOfLogFiles):
-        StartCluster.append( EndingCluster[i-1]+1 )
-        EndingCluster.append( EndingCluster[i-1] + ClustersPerFile[i] )
-#        print ("*", EndingCluster[i])
-
-    StartingSector = []
-    EndingSector = []
-    for i in range(0, NumberOfLogFiles):
-        StartingSector.append( StartCluster[i] * SectorsPerCluster )
-        EndingSector.append( EndingCluster[i]*SectorsPerCluster )
-#        print("**", EndingSector[i])
+        startClusterList.append(startCluster)
+        endClusterOfFile = startCluster + fileSizeList[i]
+        finalClusterList.append(endClusterOfFile)
+        startCluster = endClusterOfFile + 1
+        
+    print 'start', startClusterList
+    print 'end', finalClusterList
 
     f = open('array.txt', 'w')
     print f
 
-    f.write('Files BEGIN at the following sectors:\n')
+    f.write('Files BEGIN at the following clusters:\n')
     for i in range(0, NumberOfLogFiles):
-        f.write(str(StartingSector[i]))
-        f.write(',\n')
-    f.write('Files END at the following sectors:\n')
+        f.write(str(startClusterList[i]))
+        f.write(', ')
+    f.write('\n\nFiles END at the following clusters:\n')
     for i in range(0, NumberOfLogFiles):
-        f.write(str(EndingSector[i]))
-        f.write(',\n')
+        f.write(str(finalClusterList[i]))
+        f.write(', ')
