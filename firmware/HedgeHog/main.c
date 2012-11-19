@@ -154,6 +154,7 @@ void low_priority_ISR() {
 void main(void) {
     wakeup_check(&tm, 2); // wake up and check every 2 seconds for USB presence
     init_system();
+
     USBDeviceAttach();
     while (1) {
         process_IO(); // Application tasks: logging, configuring
@@ -242,6 +243,7 @@ void process_IO(void) {
     #endif
 
     update_display(); // Update routine for the display
+
 
     if (is_logging)
         log_process(); // go to the logging process
@@ -466,19 +468,26 @@ void config_process(void) {
         }
     }
     else if (cdc_config_cmd('f')) {
-        if ((config_cycle>70)&&(config_cycle<170)) {
-            if (config_cycle%10==0) {
-                write_FAT(&sd_buffer,(config_cycle/10)-8);
-                write_SD( config_cycle/10, sd_buffer.bytes);
-            }
+        //UINT16 format_i = 0;
+        if((config_cycle>=60) && (config_cycle <= 210))
+        {
+            write_FAT(&sd_buffer, config_cycle - 60);
+            write_SD(config_cycle - 52, sd_buffer.bytes);
         }
+
+//        if ((config_cycle>70)&&(config_cycle<170)) {
+//            if (config_cycle%10==0) {
+//                write_FAT(&sd_buffer,(config_cycle/10)-8);
+//                write_SD( config_cycle/10, sd_buffer.bytes);
+//            }
+//        }
         switch (config_cycle) {
             case 230: write_MBR(&sd_buffer); break; // (sector 1)
             case 220: MDD_SDSPI_SectorWrite(0, sd_buffer.bytes, 1); break;
-            case 210: write_root_table(&sd_buffer);    break; 
-            case 200: write_SD(480, sd_buffer.bytes);  break; 
-            case 15:  write_FAT(&sd_buffer,9); close_FAT(&sd_buffer); break;
-            case 10:  write_SD(17, sd_buffer.bytes);  break;
+            case 50: write_root_table(&sd_buffer);    break;
+            case 40: write_SD(244, sd_buffer.bytes);  break;    // Root directory at sector 244
+//            case 15:  write_FAT(&sd_buffer,9); close_FAT(&sd_buffer); break;
+//            case 10:  close_FAT(&sd_buffer); write_SD(17, sd_buffer.bytes);  break;
             case 1:   cdc_write_ok(); break;
         }
     }
