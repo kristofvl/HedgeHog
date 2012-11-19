@@ -32,6 +32,10 @@ def printFAT():
     print 'start', startClusterList
     print 'end', finalClusterList
 
+    fileSizes = []
+    for i in range(0, NumberOfLogFiles):
+        fileSizes.append( fileSizeList[i] * SectorSize * SectorsPerCluster )
+        
     f = open('array.txt', 'w')
     print f
 
@@ -42,4 +46,8 @@ def printFAT():
     f.write('\n\nFiles END at the following clusters:\n')
     for i in range(0, NumberOfLogFiles):
         f.write(str(finalClusterList[i]))
+        f.write(', ')
+    f.write('\n\nFiles Sizes in Bytes:\n')
+    for i in range(0, NumberOfLogFiles):
+        f.write(str(fileSizes[i]))
         f.write(', ')
