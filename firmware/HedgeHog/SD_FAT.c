@@ -35,6 +35,23 @@
 #define FIRST_CLUSTER__SZ    2
 #define FILE_SIZE__SZ        4
 
+//rom UINT16 startC[] =   {
+//    3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45
+//                        };
+rom UINT16 startC[15] =     {
+    50, 116, 182, 313, 574, 1030, 1746, 2787, 4218, 6104, 8510, 11501, 15142, 19498, 24634
+                            };
+rom UINT16 endC[15] =    {
+    115, 181, 312, 573, 1029, 1745, 2786, 4217, 6103, 8509, 11500, 15141, 19497, 24633, 30614
+                            };
+rom UINT32 fileSz[15] =       {
+    2129920, 2129920, 4259840, 8519680, 14909440, 23429120, 34078720, 46858240, 61767680, 78807040, 97976320, 119275520, 142704640, 168263680, 195952640
+                            };
+
+//rom UINT16 endC[] =     {
+//    5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35, 38, 41, 44, 47
+//                        };
+
 // Root Table for Logging SD card, naming the disk to HEDGEHOG,
 // and displaying logfile (LOGXXX.HHG) to log to:
 const BYTE SDRootTable[] = {
@@ -47,12 +64,12 @@ const BYTE SDRootTable[] = {
 };
 const BYTE SDRootTable2[] = {
     0x4C,0x4F,0x47,0x30,0x30,0x30,0x20,0x20,0x48,0x48,0x47,0x20,8,6,0x3B,0x8A,
-0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0,0,0x19,0x00
+0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0x00,0x80,0x01,0x00
 };
 
 const BYTE SDRootTable3[] = {
     'c','o','n','f','i','g',0x20,0x20,0x48,0x48,0x47,0x20,8,6,0x3B,0x8A,
-0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0,0,0x19,0x00
+0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0x00,0x80,0x20,0x00
 };
 
 const BYTE SDMasterBootRecord[] = {	// based on MSDOS MBR, without boot code
@@ -61,7 +78,7 @@ const BYTE SDMasterBootRecord[] = {	// based on MSDOS MBR, without boot code
 	0x00, 0x02, 			// 512 bytes per sector
 	0x40, 				// 64 sectors per cluster
 	0x08, 0x00, 			// 8-1 reserved sectors
-	0x02, 				// 2 FATs
+	0x01, 				// 1 FATs
 	0x00, 0x02, 			// max. 512 entries in root
 	0x00, 0x00,
 	0xF8, 				// media descriptor: HD
@@ -93,36 +110,103 @@ void write_root_table(sd_buffer_t *sd_buffer)
 {
     UINT16 clustp = 0;
     UINT16 file_i = 0;
-
+    UINT16 sdbuffer_i = 0;
     //Write Volume Label
     for (sdbuffer_i = 0; sdbuffer_i < 32; sdbuffer_i++)
         sd_buffer->bytes[sdbuffer_i] = SDRootTable[sdbuffer_i];
 
     // Write config file
-    clustp = 0x0002;
+    clustp = startC[0];
     for(sdbuffer_i=32; sdbuffer_i<64; sdbuffer_i++)
         sd_buffer->bytes[sdbuffer_i] = SDRootTable3[sdbuffer_i%32];
-    clustp += 0x32;
+//    clustp += 0x32;
     sd_buffer->bytes[64-5] = clustp >> 8;
     sd_buffer->bytes[64-6] = clustp;
+    
+    // Write File Size
+    sd_buffer->bytes[32+OFFSET_FILE_SIZE+0]   = fileSz[0];
+    sd_buffer->bytes[32+OFFSET_FILE_SIZE+1] = fileSz[0]>>8;
+    sd_buffer->bytes[32+OFFSET_FILE_SIZE+2] = fileSz[0]>>16;
+    sd_buffer->bytes[32+OFFSET_FILE_SIZE+3] = fileSz[0]>>24;
 
     // Write log files
     for (file_i=0; file_i<14; file_i++) {
         for (sdbuffer_i=64+32*file_i;sdbuffer_i<(64+32*(file_i+1));sdbuffer_i++)
             sd_buffer->bytes[sdbuffer_i] = SDRootTable2[sdbuffer_i%32];
+
         sd_buffer->bytes[32+36+(32*file_i)] = 48 + (file_i / 10);
         sd_buffer->bytes[32+37+(32*file_i)] = 48 + (file_i % 10);
-        clustp += 0x32;
-        sd_buffer->bytes[32+32+(32*(file_i+1))-5] = clustp >> 8;
-        sd_buffer->bytes[32+32+(32*(file_i+1))-6] = clustp;
+//        clustp += 0x32;
+//        sd_buffer->bytes[32+32+(32*(file_i+1))-5] = clustp >> 8;
+//        sd_buffer->bytes[32+32+(32*(file_i+1))-6] = clustp;
+        sd_buffer->bytes[32+32+(32*(file_i+1))-5] = startC[file_i+1]>>8;
+        sd_buffer->bytes[32+32+(32*(file_i+1))-6] = startC[file_i+1];
+
+        sd_buffer->bytes[32+(32*(file_i+1)) + OFFSET_FILE_SIZE+0] = fileSz[file_i+1];
+        sd_buffer->bytes[32+(32*(file_i+1)) + OFFSET_FILE_SIZE+1] = fileSz[file_i+1]>>8;
+        sd_buffer->bytes[32+(32*(file_i+1)) + OFFSET_FILE_SIZE+2] = fileSz[file_i+1]>>16;
+        sd_buffer->bytes[32+(32*(file_i+1)) + OFFSET_FILE_SIZE+3] = fileSz[file_i+1]>>24;
     }
-    sd_buffer->bytes[511] = 0x01; // last file holds 17Mb
+//    sd_buffer->bytes[511] = 0x01; // last file holds 17Mb
 }
+
 
 void write_FAT(sd_buffer_t *sd_buffer, UINT16 i)
 {
-    for (sdbuffer_i=0;sdbuffer_i<256;sdbuffer_i++) {
-        sd_buffer->wrd[sdbuffer_i] = sdbuffer_i + 256*(i)+1;
+    UINT16 checkByte = 0;
+    UINT16  test = 0;
+    UINT8  look_i = 0;
+    for (sdbuffer_i=0; sdbuffer_i<256; sdbuffer_i++) {
+        checkByte = sdbuffer_i + 256*(i) + 1;
+        sd_buffer->wrd[sdbuffer_i] = checkByte;
+
+        if(checkByte-1 == 0x00)
+            sd_buffer->wrd[sdbuffer_i] = 0xfff8;
+        if(checkByte-1 == 0x01)
+            sd_buffer->wrd[sdbuffer_i] = 0xffff;
+        
+        for(look_i = 0; look_i<15; look_i++)
+        {
+            test = endC[look_i];
+            if(test == (checkByte-1))
+                sd_buffer->wrd[sdbuffer_i] =  0xFFFF;
+        }
+//        test = isInArray(endC, checkByte, 15);
+//        if( test )
+//        {
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        }
+
+//        if(checkByte == 3)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 4)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 5)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 6)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 7)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 8)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 9)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 10)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 11)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 12)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 13)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 14)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 15)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 16)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
+//        else if(checkByte == 17)
+//            sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
     }
 }
 
@@ -131,3 +215,6 @@ void close_FAT(sd_buffer_t *sd_buffer)
     sd_buffer->bytes[510] = 0xFF;
     sd_buffer->bytes[511] = 0xFF;
 }
+
+
+
