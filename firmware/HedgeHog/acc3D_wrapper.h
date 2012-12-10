@@ -7,11 +7,11 @@
  Author:        KristofVL
  ******************************************************************************/
 
-#ifndef ACCEL3DWRAPPER__H
-#define ACCEL3DWRAPPER__H
-
 #include "Compiler.h"
 #include "GenericTypeDefs.h"
+
+#ifndef ACCEL3DWRAPPER__H
+#define ACCEL3DWRAPPER__H
 
 typedef struct {
     UINT8 x, y, z;
