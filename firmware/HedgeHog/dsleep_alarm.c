@@ -29,8 +29,7 @@ void wakeup_check(rtc_timedate *tm, int seconds)
         INTCON2bits.RBPU = 1; // disable all port B pull-ups
         ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
         set_unused_pins_to_output();
-        TRISD = 0;
-        LATDbits.LATD6  = 1;    // LATD6 = SDO, is pulled up in hardware
+        SPIINLAT = 1;    // SPIINLAT = LATD6 = SDO, is pulled up in hardware
         set_osc_31khz();
         Delay10TCYx(1);
         // check whether USB is there:
