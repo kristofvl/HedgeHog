@@ -225,11 +225,11 @@ void adxl345_SPI_init(void)
     SPICON1bits.SSPM0 = 0;
     SPISTATbits.CKE = 0;
     SPICLOCK = 0;
-    SPIOUT = OUTPUT_PIN; // define SDO1 as output (master or slave)
-    SPIIN = INPUT_PIN; // define SDI1 as input (master or slave)
-    ACC_CS_TRIS = OUTPUT_PIN; // define the Chip Select pin as output
-    SPICON1bits.CKP = 1; // set clock polarity
-    SPIENABLE = 1; // enable synchronous serial port
+    SPIOUT = OUTPUT_PIN;        // define SDO1 as output (master or slave)
+    SPIIN = INPUT_PIN;          // define SDI1 as input (master or slave)
+    ACC_CS_TRIS = OUTPUT_PIN;   // define the Chip Select pin as output
+    SPICON1bits.CKP = 1;        // set clock polarity
+    SPIENABLE = 1;              // enable synchronous serial port
 }
 
 void adxl345_deep_sleep(void)

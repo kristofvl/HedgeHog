@@ -76,9 +76,9 @@ extern char is_logging;
 /******** Accelerometer definitions and options ********************/
 /*******************************************************************/
 #define ACC_CS              LATBbits.LATB4
-#define ACC_CS_TRIS         TRISBbits.TRISB4
+#define ACC_CS_TRIS         TRISBbits.TRISB4        // OUTPUT
 #define ACC_INT             PORTBbits.RB2
-#define ACC_INT_TRIS        TRISBbits.TRISB2
+#define ACC_INT_TRIS        TRISBbits.TRISB2        // INPUT
 
 /*******************************************************************/
 /******** Power Circuit sense pins definitions and options *********/
@@ -86,7 +86,7 @@ extern char is_logging;
 #define USBP_INT_TRIS       TRISDbits.TRISD4   // POK_INT_TRIS = charger "POK"
 #define USBP_INT            PORTDbits.RD4      // POK_INT
 #define PWRGD_INT_TRIS      TRISDbits.TRISD5   // Voltage converter "power good"
-#define PWRGD_INT           PORTDbits.RD5
+#define PWRGD_INT           PORTDbits.RD5      // PWRGD_INT
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
@@ -103,6 +103,6 @@ extern char is_logging;
 // RP6 as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P), RP5(B2) as INT1
 #define remap_pins() {ul_reg();RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5;l_reg();}
 
-// set pins to input: B2 (acc INT) | D4 (POK) | D5 (PWRGD)
-#define set_unused_pins_to_output() {TRISA=0;TRISB=0xb00000010;TRISD=0xb00010000;}
+// set pins to input: B2 (acc INT) | D4 (POK) | D5 (PWRGD) | D6 (SPIIN)
+#define set_unused_pins_to_output() {TRISA=0;TRISB=0xb00000100;TRISD=0xb01110000;}
 #endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H

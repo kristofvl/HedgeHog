@@ -102,7 +102,8 @@ const ROM InquiryResponse inq_resp = {
 };
 
 /** PRIVATE PROTOTYPES ********************************************************/
-#include "USBCallbacks.c"                   // USB bus comms implementations
+#include "USBCallbacks.c"
+//#include "HardwareProfileBasic.h"                   // USB bus comms implementations
 void high_priority_ISR(void);               // interrupt service routines
 void low_priority_ISR(void);
 static void init_system(void);
@@ -172,7 +173,7 @@ static void init_system(void) {
 
     ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
     set_unused_pins_to_output();
-    
+
     //Configure interrupts:
     RCONbits.IPEN   = 1;    // Enable  Interrupt Priority levels
     INTCONbits.GIEH = 1;    // Enable  High-priority Interrupts
@@ -322,7 +323,8 @@ void log_process() {
         Delay10KTCYx(250);
         set_osc_8Mhz();
         startup = TRUE;
-        TRISB=TRISC=TRISD=0; // default all pins to digital output
+        set_unused_pins_to_output();
+        //TRISB=TRISC=TRISD=0; // default all pins to digital output
         usbp_int = 0;
         #if defined(ADXL345_ENABLED)
         ACC_INT = 0; // pull down B2
@@ -417,7 +419,8 @@ void config_process(void) {
     char uart_c;
     UINT16 file_i, clustp; // used in writing the FAT root table
 
-    if (cdc_config_cmd(0))  cdc_main_menu( HH_NAME_STR, HH_VER_STR );
+    if (cdc_config_cmd(0))
+        cdc_main_menu( HH_NAME_STR, HH_VER_STR );
     else if (cdc_config_cmd('i')) {
         switch (config_cycle) {
             case 100: rtc_init(); break;

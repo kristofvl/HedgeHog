@@ -30,7 +30,7 @@ import hhg_dialogs.hhg_fopen as hhg_fopen
 import hhg_io.hhg_import as hgi
 from hhg_features.hhg_nght_stats import *
 
-
+import pdb
 
 #check where to load from (default is the 1st HedgeHog's data):
 filename, scr = hhg_fopen.load('/media/HEDGEHOG/log000.HHG')
