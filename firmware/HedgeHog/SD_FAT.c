@@ -46,22 +46,19 @@ rom UINT32 fileSz[15] =       {
                             };
 
 
-// Root Table for Logging SD card, naming the disk to HEDGEHOG,
-// and displaying logfile (LOGXXX.HHG) to log to:
-const BYTE SDRootTable[] = {
+// The following 32 bytes describe the volume label of the SD Card:
+rom BYTE SDVolLabel[] = {
 //0    1    2    3    4    5    6    7    8    9    A    B  C D   E    F
 0x48,0x45,0x44,0x47,0x45,0x48,0x4F,0x47,0x20,0x20,0x20,0x08,0,0,0x00,0x00,
-0x00,0x00,0x00,0x00,0x00,0x00,0x66,0x86,0xA7,0x3C,0x00,0x00,0,0,0x00,0x00,
-0x4C,0x4F,0x47,0x30,0x30,0x30,0x20,0x20,0x48,0x48,0x47,0x20,8,6,0x3B,0x8A,
-0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0,0,0x19,0x00
+0x00,0x00,0x00,0x00,0x00,0x00,0x66,0x86,0xA7,0x3C,0x00,0x00,0,0,0x00,0x00
                                     // ... [2:start cluster] [4:file size]
 };
-const BYTE SDRootTable2[] = {
+rom BYTE SDLogFiles[] = {
     0x4C,0x4F,0x47,0x30,0x30,0x30,0x20,0x20,0x48,0x48,0x47,0x20,8,6,0x3B,0x8A,
 0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0x00,0x80,0x01,0x00
 };
 
-const BYTE SDRootTable3[] = {
+rom BYTE SDConfigFile[] = {
     'c','o','n','f','i','g',0x20,0x20,0x48,0x48,0x47,0x20,8,6,0x3B,0x8A,
 0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0x00,0x80,0x20,0x00
 };
@@ -100,6 +97,9 @@ void write_MBR(sd_buffer_t *sd_buffer) {
         sd_buffer->bytes[448 + sdbuff_i] = SDMasterBootRecord[sdbuff_i];
 }
 
+/*!
+ * Writes the Root Table for a FAT16 filesystem
+ */
 void write_root_table(sd_buffer_t *sd_buffer)
 {
     UINT16 clustp = 0;
@@ -107,13 +107,12 @@ void write_root_table(sd_buffer_t *sd_buffer)
     UINT16 sdbuffer_i = 0;
 //Write Volume Label
     for (sdbuffer_i = 0; sdbuffer_i < 32; sdbuffer_i++)
-        sd_buffer->bytes[sdbuffer_i] = SDRootTable[sdbuffer_i];
+        sd_buffer->bytes[sdbuffer_i] = SDVolLabel[sdbuffer_i];
 
 // Write config file
     clustp = startC[0];
     for(sdbuffer_i=32; sdbuffer_i<64; sdbuffer_i++)
-        sd_buffer->bytes[sdbuffer_i] = SDRootTable3[sdbuffer_i%32];
-//    clustp += 0x32;
+        sd_buffer->bytes[sdbuffer_i] = SDConfigFile[sdbuffer_i%32];
     sd_buffer->bytes[64-5] = clustp >> 8;
     sd_buffer->bytes[64-6] = clustp;
 
@@ -126,7 +125,7 @@ void write_root_table(sd_buffer_t *sd_buffer)
     // Write log files
     for (file_i=0; file_i<14; file_i++) {
         for (sdbuffer_i=64+32*file_i;sdbuffer_i<(64+32*(file_i+1));sdbuffer_i++)
-            sd_buffer->bytes[sdbuffer_i] = SDRootTable2[sdbuffer_i%32];
+            sd_buffer->bytes[sdbuffer_i] = SDLogFiles[sdbuffer_i%32];
 
         sd_buffer->bytes[32+36+(32*file_i)] = 48 + (file_i / 10);
         sd_buffer->bytes[32+37+(32*file_i)] = 48 + (file_i % 10);

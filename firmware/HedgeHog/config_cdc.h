@@ -6,11 +6,12 @@
  Compiler:  	Microchip C18
  Author:        KristofVL
  ******************************************************************************/
+#include "USB/usb_function_cdc.h"
 
 #ifndef CONFIG_CDC_H
 #define	CONFIG_CDC_H
 
-#include "USB/usb_function_cdc.h"
+
 
 /******************************************************************************/
 

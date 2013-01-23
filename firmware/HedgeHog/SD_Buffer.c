@@ -68,7 +68,13 @@ BYTE sdbuf_check_rle(PACC_XYZ accval, BYTE rle_th) {
 
 /******************************************************************************/
 void sdbuf_init(void) {
-    sdbuffer_p = 512; // start at 512 (offset is required sometimes!!!?)
+    /* sdbuffer_p points to the sector (also called 'page' in our project)
+     * where the data is written. The actual value of SD_BUF_START_SECTOR
+     * should correspond to the start of the log000 file in the root table.
+     *
+     * see the definition of SD_BUF_START_SECTOR for some other relevant details
+     */
+    sdbuffer_p = SD_BUF_START_SECTOR; // start at this sector
     sdbuffer_i = 0xFFF;
     MDD_SDSPI_InitIO();
     MDD_SDSPI_MediaInitialize(); // init SD SPI settings
