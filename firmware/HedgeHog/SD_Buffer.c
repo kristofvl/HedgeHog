@@ -56,7 +56,7 @@ void sdbuf_add_acc(PACC_XYZ accval) {
 }
 
 BYTE sdbuf_page(void) {
-    return (sdbuffer_p-512);
+    return (sdbuffer_p - SD_BUF_START_SECTOR);
 }
 
 /******************************************************************************/
