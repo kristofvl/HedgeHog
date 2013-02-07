@@ -25,7 +25,7 @@ def printFAT():
     finalClusterList = []
     for i in range(0, NumberOfLogFiles):
         startClusterList.append(startCluster)
-        endClusterOfFile = startCluster + fileSizeList[i]
+        endClusterOfFile = startCluster + fileSizeList[i] - 1
         finalClusterList.append(endClusterOfFile)
         startCluster = endClusterOfFile + 1
         
