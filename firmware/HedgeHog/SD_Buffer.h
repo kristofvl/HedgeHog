@@ -14,7 +14,7 @@
 #ifndef SD_BUFFER__H
 #define SD_BUFFER__H
 
-#define SD_BUF_START_SECTOR     4564    // see definition of startC in SD_FAT.c
+#define SD_BUF_START_SECTOR     4500    // see definition of startC in SD_FAT.c
 #define SD_BUF_MAX_RAW_SAMPLES_PER_PAGE 126 // 4-bytes per sample = 504/4 = 126
 #define ABSDIF(x,y) ((x)>(y))?((x)-(y)):((y)-(x))
 
