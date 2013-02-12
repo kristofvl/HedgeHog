@@ -100,7 +100,7 @@ extern char is_logging;
 //  RP6  as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P), RP5(B2) as INT1
 #define remap_pins() {ul_reg(); RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5; l_reg();}
 
-// make sure all pins are output, except for B7 (USB power) and B5 (acc INT)
-#define set_unused_pins_to_output() {TRISD=0; TRISB=0xb00000101; }
+// set all pins to output, except for B7 (USB power), B2 (acc INT), D6 (SPIIN)
+#define set_unused_pins_to_output() {TRISB=0xb10000100;TRISD=0xb01000000;}
 
 #endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_H
