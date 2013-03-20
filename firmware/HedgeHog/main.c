@@ -326,7 +326,6 @@ void log_process() {
         set_osc_8Mhz();
         startup = TRUE;
         set_unused_pins_to_output();
-        //TRISB=TRISC=TRISD=0; // default all pins to digital output
         usbp_int = 0;
         #if defined(ADXL345_ENABLED)
         ACC_INT = 0; // pull down B2

@@ -31,7 +31,6 @@ from matplotlib.pylab import *
 import matplotlib.dates as mld
 import hhg_dialogs.hhg_fsave as fsave_dlg
 
-
 # main plotting routine for generic purposes
 class Hhg_plot:
 	def __init__(self, fig_x=10, fig_y=6, fdpi=80):
@@ -39,6 +38,7 @@ class Hhg_plot:
 		self.save_dta_file = ''
 		self.labels = None
 		self.a_ax = None
+		self.dayborders = []
 		try:
 			self.fig = figure(	num=None, figsize=(fig_x, fig_y), 
 										dpi=fdpi, facecolor='w', edgecolor='k' )
@@ -70,6 +70,10 @@ class Hhg_plot:
 	# obtain the filename to which the original data should be saved
 	def save_data(self, tdata):
 		self.save_dta_file,self.save_dta_type = fsave_dlg.hhg_fsave()
+	def mark_day(self,tb_data):
+		res = ginput(1,timeout=-1)
+		self.dayborders.append(res[0][0])
+		print self.dayborders
 	# read user clicks on the plot for annotation
 	def mark_label(self, tb_data):
 		res = ginput(2,timeout=-1) # wait for the user to mark two points
@@ -106,6 +110,9 @@ class Hhg_plot:
 		label_tb = gtk.ToolButton(gtk.STOCK_INDEX); label_tb.show()
 		label_tb.connect("clicked", self.mark_label)
 		sep2_tb = gtk.SeparatorToolItem(); sep2_tb.show()
+		day_tb = gtk.ToolButton(gtk.STOCK_CUT);  day_tb.show()
+		day_tb.connect("clicked",self.mark_day)
+		sep3_tb = gtk.SeparatorToolItem(); sep3_tb.show()
 		exit_tb = gtk.ToolButton(gtk.STOCK_QUIT); exit_tb.show()
 		exit_tb.connect("clicked", gtk.main_quit)
 		try:
@@ -120,7 +127,9 @@ class Hhg_plot:
 		toolbar.insert(labelstr_tb,10)
 		toolbar.insert(label_tb, 	11)
 		toolbar.insert(sep2_tb,  	12)
-		toolbar.insert(exit_tb,  	13)
+		toolbar.insert(day_tb,  	13)
+		toolbar.insert(sep3_tb,  	14)
+		toolbar.insert(exit_tb,  	15)
 	def show(self):
 		self.fix_margins()
 		self.fig.show(); show()

@@ -99,10 +99,10 @@ extern char is_logging;
 /*******************************************************************/
 #define ul_reg() { EECON2 = 0x55; EECON2 = 0xAA; PPSCONbits.IOLOCK = 0; }
 #define l_reg()  { EECON2 = 0x55; EECON2 = 0xAA; PPSCONbits.IOLOCK = 1; }
-
 // RP6 as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P), RP5(B2) as INT1
 #define remap_pins() {ul_reg();RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5;l_reg();}
 
 // set pins to input: B2 (acc INT) | D4 (POK) | D5 (PWRGD) | D6 (SPIIN)
 #define set_unused_pins_to_output() {TRISA=0;TRISB=0xb00000100;TRISD=0xb01110000;}
+
 #endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H

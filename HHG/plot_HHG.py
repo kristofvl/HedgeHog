@@ -72,9 +72,17 @@ else:
 # if selected, write data to binary file (so it can be used later):
 if fig.save_dta_file:
 	print 'saving data to ' + fig.save_dta_file
+	
 	if (fig.save_dta_file.endswith(".csv") or fig.save_dta_type=='csv'):
 		from matplotlib.mlab import rec2csv
 		rec2csv(dta,fig.save_dta_file)
 	else:
-		save(fig.save_dta_file, dta)
+		if len(fig.dayborders) == 2:
+			dayborders = sorted(fig.dayborders)
+			print 'selected dayborders are: ' + str(dayborders)
+			day_str = where(dta.t>=dayborders[0])[0][0]
+			day_end = where(dta.t>=dayborders[1])[0][0]
+			save(fig.save_dta_file, dta[day_str:day_end])
+		else:
+			save(fig.save_dta_file, dta)
 
