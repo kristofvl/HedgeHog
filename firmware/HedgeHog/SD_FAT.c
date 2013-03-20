@@ -125,8 +125,11 @@ void write_root_table(sd_buffer_t *sd_buffer)
     // Write log files
     for (file_i=0; file_i<14; file_i++) {
         for (sdbuffer_i=64+32*file_i;sdbuffer_i<(64+32*(file_i+1));sdbuffer_i++)
+        {
             sd_buffer->bytes[sdbuffer_i] = SDLogFiles[sdbuffer_i%32];
-
+            if(file_i > 2)
+                sd_buffer->bytes[sdbuffer_i] =  0;
+        }
         sd_buffer->bytes[32+36+(32*file_i)] = 48 + (file_i / 10);
         sd_buffer->bytes[32+37+(32*file_i)] = 48 + (file_i % 10);
 

@@ -252,10 +252,12 @@ void process_IO(void) {
                goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
             else
                 return;
-        
-        CDCTxService();     // CDC transimssion tasks
-        MSDTasks();         // mass storage device tasks
-        config_process();   // CDC configuration tasks
+        if((USBDeviceState >= CONFIGURED_STATE) && (USBSuspendControl != 1))
+        {
+            CDCTxService();     // CDC transimssion tasks
+            MSDTasks();         // mass storage device tasks
+            config_process();   // CDC configuration tasks
+        }
     }
 }
 
