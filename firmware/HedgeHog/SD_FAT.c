@@ -77,7 +77,8 @@ const BYTE SDMasterBootRecord[] = {	// based on MSDOS MBR, without boot code
 	0x3F, 0x00, 			// sectors per track
 	0xFF, 0x00, 			// number of pages / heads
 	0x87, 0x00, 0x00, 0x00, 	// number of hidden sectors
-	0x39, 0xE0, 0x3A, 0x00, 	// total number of sectors
+	//0x39, 0xE0, 0x3A, 0x00, 	// total number of sectors
+        0xC6, 0xC0, 0x1E, 0x00,
 	0x00, 				// physical BIOS number
 	0x00, 				// reserved
 	0x29, 				// ext. boot signature
@@ -127,7 +128,7 @@ void write_root_table(sd_buffer_t *sd_buffer)
         for (sdbuffer_i=64+32*file_i;sdbuffer_i<(64+32*(file_i+1));sdbuffer_i++)
         {
             sd_buffer->bytes[sdbuffer_i] = SDLogFiles[sdbuffer_i%32];
-            if(file_i > 2)
+            if(file_i > 8)          // Write 8 files
                 sd_buffer->bytes[sdbuffer_i] =  0;
         }
         sd_buffer->bytes[32+36+(32*file_i)] = 48 + (file_i / 10);
