@@ -229,7 +229,7 @@ class conf_HHG_dialog:
 				pgrsdlg.show()
 				while gtk.events_pending(): gtk.main_iteration()
 			self.currentHHG = hcs.HHG_comms(self.portname)
-			self.currentHHG.connect(0.5)
+			self.currentHHG.connect(time_out=7)
 			ret = self.currentHHG.set_FAT(0.1, 3)
 			print "FAT IO:", ret, len(ret)
 			if progressbar:
