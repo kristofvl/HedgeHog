@@ -475,9 +475,9 @@ void config_process(void) {
         switch (config_cycle) {
             case 230: write_MBR(&sd_buffer); break; // (sector 1)
             case 220: MDD_SDSPI_SectorWrite(0, sd_buffer.bytes, 1); break;
-            case 50: write_root_table(&sd_buffer);    break;
-            case 40: write_SD(244, sd_buffer.bytes);  break; // Root dir at 244
-            case 1:  cdc_write_ok(); break;
+            case 50:  write_root_table(&sd_buffer);    break;
+            case 40:  write_SD(244, sd_buffer.bytes);  break; // Root dir at 244
+            case 1:   cdc_write_ok(); break;
         }
     }
     else if (cdc_config_cmd('u')) {
