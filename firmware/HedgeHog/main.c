@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '6', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '7', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -413,9 +413,6 @@ void log_process() {
  * Overview:        Setting the HedgeHog's configuration via serial
  ******************************************************************************/
 void config_process(void) {
-    char uart_c;
-    UINT16 file_i, clustp; // used in writing the FAT root table
-
     if (cdc_config_cmd(0))
         cdc_main_menu( HH_NAME_STR, HH_VER_STR );
     else if (cdc_config_cmd('i')) {
