@@ -104,12 +104,17 @@ void write_root_table(sd_buffer_t *sd_buffer)
 {
     UINT16 clustp = 0;
     UINT16 file_i = 0;
-    UINT16 sdbuffer_i = 0;
-//Write Volume Label
+    UINT16 sdbuffer_i;
+
+    // Clean buffer, we assume the config file is always there
+    for (sdbuffer_i = 96; sdbuffer_i<512; sdbuffer_i++)
+        sd_buffer->bytes[sdbuffer_i] =  0;
+
+    // Write Volume Label
     for (sdbuffer_i = 0; sdbuffer_i < 32; sdbuffer_i++)
         sd_buffer->bytes[sdbuffer_i] = SDVolLabel[sdbuffer_i];
 
-// Write config file
+    // Write config file
     clustp = startC[0];
     for(sdbuffer_i=32; sdbuffer_i<64; sdbuffer_i++)
         sd_buffer->bytes[sdbuffer_i] = SDConfigFile[sdbuffer_i%32];
@@ -127,8 +132,6 @@ void write_root_table(sd_buffer_t *sd_buffer)
         for (sdbuffer_i=64+32*file_i;sdbuffer_i<(64+32*(file_i+1));sdbuffer_i++)
         {
             sd_buffer->bytes[sdbuffer_i] = SDLogFiles[sdbuffer_i%32];
-            if(file_i > 8)          // Write 8 files
-                sd_buffer->bytes[sdbuffer_i] =  0;
         }
         sd_buffer->bytes[32+36+(32*file_i)] = 48 + (file_i / 10);
         sd_buffer->bytes[32+37+(32*file_i)] = 48 + (file_i % 10);
@@ -147,7 +150,7 @@ void write_root_table(sd_buffer_t *sd_buffer)
 void write_FAT(sd_buffer_t *sd_buffer, UINT16 i)
 {
     UINT16 checkByte = 0;
-    UINT16  test = 0;
+    UINT16 test = 0;
     UINT8  look_i = 0;
     for (sdbuffer_i=0; sdbuffer_i<256; sdbuffer_i++) {
         checkByte = sdbuffer_i + 256*(i) + 1;
@@ -158,7 +161,7 @@ void write_FAT(sd_buffer_t *sd_buffer, UINT16 i)
         if(checkByte-1 == 0x01)
             sd_buffer->wrd[sdbuffer_i] = 0xffff;
 
-        for(look_i = 0; look_i<15; look_i++)
+        for(look_i = 0; look_i<NUM_FILES; look_i++)
         {
             test = endC[look_i];
             if(test == (checkByte-1))

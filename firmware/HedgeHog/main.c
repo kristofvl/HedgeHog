@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '3', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '5', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -83,7 +83,7 @@ BOOL usbp_int;
 
 // config variables:
 UINT16 config_cycle = 0;
-UINT8 rle_delta = 0;
+UINT8  rle_delta = 0;
 
 /** CONSTANTS *****************************************************************/
 /* Standard Response to INQUIRY command stored in ROM 	*/
@@ -103,7 +103,7 @@ const ROM InquiryResponse inq_resp = {
 
 /** PRIVATE PROTOTYPES ********************************************************/
 #include "USBCallbacks.c"
-//#include "HardwareProfileBasic.h"                   // USB bus comms implementations
+//#include "HardwareProfileBasic.h"         // USB bus comms implementations
 void high_priority_ISR(void);               // interrupt service routines
 void low_priority_ISR(void);
 static void init_system(void);
@@ -209,7 +209,6 @@ static void init_system(void) {
  *                  application's code initialization.
  ******************************************************************************/
 void user_init(void) {
-    
     // By default, start in configuration mode
     is_logging = 0;
 
@@ -252,11 +251,9 @@ void process_IO(void) {
                goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
             else
                 return;
-
         CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
-
     }
 }
 
@@ -470,19 +467,17 @@ void config_process(void) {
         }
     }
     else if (cdc_config_cmd('f')) {
-        //UINT16 format_i = 0;
-        if((config_cycle>=60) && (config_cycle <= 150)) // 210->150 (150 is enough for 8 files)
-        {
+        if((config_cycle>=60) && (config_cycle <= 150)) 
+        {  // 210->150 (150 is enough for 8 files)
             write_FAT(&sd_buffer, config_cycle - 60);
             write_SD(config_cycle - 52, sd_buffer.bytes);
         }
-
         switch (config_cycle) {
             case 230: write_MBR(&sd_buffer); break; // (sector 1)
             case 220: MDD_SDSPI_SectorWrite(0, sd_buffer.bytes, 1); break;
             case 50: write_root_table(&sd_buffer);    break;
-            case 40: write_SD(244, sd_buffer.bytes);  break;    // Root directory at sector 244
-            case 1:   cdc_write_ok(); break;
+            case 40: write_SD(244, sd_buffer.bytes);  break; // Root dir at 244
+            case 1:  cdc_write_ok(); break;
         }
     }
     else if (cdc_config_cmd('u')) {
