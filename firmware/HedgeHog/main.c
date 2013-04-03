@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '5', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '6', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -467,8 +467,8 @@ void config_process(void) {
         }
     }
     else if (cdc_config_cmd('f')) {
-        if((config_cycle>=60) && (config_cycle <= 150)) 
-        {  // 210->150 (150 is enough for 8 files)
+        if((config_cycle >= 60) && (config_cycle <= 150))
+        {  // 150 is enough for 8 files
             write_FAT(&sd_buffer, config_cycle - 60);
             write_SD(config_cycle - 52, sd_buffer.bytes);
         }
