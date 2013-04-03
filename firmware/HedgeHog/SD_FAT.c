@@ -20,7 +20,7 @@
 #define OFFSET_LAST_UP_T        0x16
 #define OFFSET_LAST_UP_DATE     0x18
 #define OFFSET_FIRST_CLUSTER    0x1A
-#define OFFSET_FILE_SIZE        0x1C
+#define OFFSET_FLS              0x1C   // offset file size
 
 #define FILENAME__SZ         8
 #define FILE_EXT__SZ         3
@@ -35,16 +35,15 @@
 #define FIRST_CLUSTER__SZ    2
 #define FILE_SIZE__SZ        4
 
-rom UINT16 startC[15] =     {
-    3, 68, 133, 263, 523, 978, 1693, 2733, 4163, 6048, 8453, 11443, 15083, 19438, 24573
-                            };
-rom UINT16 endC[15] =    {
-    67, 132, 262, 522, 977, 1692, 2732, 4162, 6047, 8452, 11442, 15082, 19437, 24572, 30552
-                            };
-rom UINT32 fileSz[15] =       {
-    2129920, 2129920, 4259840, 8519680, 14909440, 23429120, 34078720, 46858240, 61767680, 78807040, 97976320, 119275520, 142704640, 168263680, 195952640
-                            };
+#define NUM_FILES            9
 
+rom UINT16 startC[NUM_FILES] = { 3, 68, 133, 263, 523,  978, 1693, 2733, 4163 };
+            //, 6048, 8453, 11443, 15083, 19438, 24573 };
+rom UINT16 endC[NUM_FILES] = { 67, 132, 262, 522, 977, 1692, 2732, 4162, 6047);
+            //, 8452, 11442, 15082, 19437, 24572, 30552  };
+rom UINT32 fileSz[NUM_FILES] = { 2129920,  2129920,  4259840, 8519680, 14909440,
+                                 23429120, 34078720, 46858240, 61767680 };
+            //78807040, 97976320, 119275520, 142704640, 168263680, 195952640 };
 
 // The following 32 bytes describe the volume label of the SD Card:
 rom BYTE SDVolLabel[] = {
@@ -118,13 +117,13 @@ void write_root_table(sd_buffer_t *sd_buffer)
     sd_buffer->bytes[64-6] = clustp;
 
     // Write File Size
-    sd_buffer->bytes[32+OFFSET_FILE_SIZE+0]   = fileSz[0];
-    sd_buffer->bytes[32+OFFSET_FILE_SIZE+1] = fileSz[0]>>8;
-    sd_buffer->bytes[32+OFFSET_FILE_SIZE+2] = fileSz[0]>>16;
-    sd_buffer->bytes[32+OFFSET_FILE_SIZE+3] = fileSz[0]>>24;
+    sd_buffer->bytes[32+OFFSET_FLS+0]   = fileSz[0];
+    sd_buffer->bytes[32+OFFSET_FLS+1] = fileSz[0]>>8;
+    sd_buffer->bytes[32+OFFSET_FLS+2] = fileSz[0]>>16;
+    sd_buffer->bytes[32+OFFSET_FLS+3] = fileSz[0]>>24;
 
     // Write log files
-    for (file_i=0; file_i<14; file_i++) {
+    for (file_i=0; file_i<NUM_FILES-1; file_i++) {
         for (sdbuffer_i=64+32*file_i;sdbuffer_i<(64+32*(file_i+1));sdbuffer_i++)
         {
             sd_buffer->bytes[sdbuffer_i] = SDLogFiles[sdbuffer_i%32];
@@ -137,10 +136,10 @@ void write_root_table(sd_buffer_t *sd_buffer)
         sd_buffer->bytes[32+32+(32*(file_i+1))-5] = startC[file_i+1]>>8;
         sd_buffer->bytes[32+32+(32*(file_i+1))-6] = startC[file_i+1];
 
-        sd_buffer->bytes[32+(32*(file_i+1)) + OFFSET_FILE_SIZE+0] = fileSz[file_i+1];
-        sd_buffer->bytes[32+(32*(file_i+1)) + OFFSET_FILE_SIZE+1] = fileSz[file_i+1]>>8;
-        sd_buffer->bytes[32+(32*(file_i+1)) + OFFSET_FILE_SIZE+2] = fileSz[file_i+1]>>16;
-        sd_buffer->bytes[32+(32*(file_i+1)) + OFFSET_FILE_SIZE+3] = fileSz[file_i+1]>>24;
+        sd_buffer->bytes[32+(32*(file_i+1))+OFFSET_FLS+0] =fileSz[file_i+1];
+        sd_buffer->bytes[32+(32*(file_i+1))+OFFSET_FLS+1] =fileSz[file_i+1]>>8;
+        sd_buffer->bytes[32+(32*(file_i+1))+OFFSET_FLS+2] =fileSz[file_i+1]>>16;
+        sd_buffer->bytes[32+(32*(file_i+1))+OFFSET_FLS+3] =fileSz[file_i+1]>>24;
     }
 }
 
