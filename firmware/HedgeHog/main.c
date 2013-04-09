@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '7', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '8', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -486,6 +486,11 @@ void config_process(void) {
             hhg_conf.cstr[20] = 0;
             write_HHG_conf(hhg_conf);
             cdc_write_ok();
+        }
+    }
+    else if (cdc_config_cmd('x')) { // reset!
+        switch (config_cycle) {
+            case 1: USBSoftDetach(); init_system(); break;
         }
     }
     up_cdc_cycle();
