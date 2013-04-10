@@ -18,11 +18,13 @@
 #define cdc_start_set_time()    { config_cycle = 7;     config_mode = uart_c; }
 #define cdc_start_stop_time()   { config_cycle = 7;     config_mode = uart_c; }
 #define cdc_start_read()        { config_cycle = 105;   config_mode = uart_c; }
-#define cdc_start_log()         { config_cycle = 55;   config_mode = uart_c;  }
+#define cdc_start_log()         { config_cycle = 55;    config_mode = uart_c; }
 #define cdc_start_format()      { config_cycle = 250;   config_mode = uart_c; }
+#define cdc_start_erase()       { config_cycle = 640;   config_mode = uart_c; }
 #define cdc_start_init()        { config_cycle = 105;   config_mode = uart_c; }
 #define cdc_start_conf_read()   { config_cycle = 55;    config_mode = uart_c; }
 #define cdc_start_conf_write()  { config_cycle = 21;    config_mode = uart_c; }
+#define cdc_start_reset()       { config_cycle = 17;    config_mode = uart_c; }
 
 extern UINT16 config_cycle;
 static UINT8 config_mode;

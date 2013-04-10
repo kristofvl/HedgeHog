@@ -48,9 +48,11 @@ void cdc_main_menu( rom char* name_str, rom char* ver_str)
                 case 'v': cdc_print_ver(name_str,  ver_str); break;
                 case '?': cdc_print_help(); break;
                 case 'f': cdc_start_format(); break;
+                case '0': cdc_start_erase(); break;
                 case 'i': cdc_start_init(); break;
                 case 'u': cdc_start_conf_read(); break;
                 case 'w': cdc_start_conf_write(); break;
+                case 'x': cdc_start_reset(); break;
             } // switch
         } // if numBytesRead!=0
     } // if (mUSBUSARTIsTxTrfReady)

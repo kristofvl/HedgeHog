@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '8', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '9', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -476,6 +476,12 @@ void config_process(void) {
             case 40:  write_SD(244, sd_buffer.bytes);  break; // Root dir at 244
             case 1:   cdc_write_ok(); break;
         }
+    }
+    else if (cdc_config_cmd('0')) {
+        // for every page from 640 to 0, write zeros:
+            memset((void*)&sd_buffer, 0, 512);
+            write_SD(config_cycle, sd_buffer.bytes);
+            if (config_cycle%100==0)    cdc_write_ok();
     }
     else if (cdc_config_cmd('u')) {
         read_HHG_conf(&hhg_conf);
