@@ -56,7 +56,7 @@ void sdbuf_add_acc(PACC_XYZ accval) {
 }
 
 BYTE sdbuf_page(void) {
-    return (sdbuffer_p - SD_BUF_START_SECTOR);
+    return (sdbuffer_p - SECTOR_LG);
 }
 
 /******************************************************************************/
@@ -74,7 +74,7 @@ void sdbuf_init(void) {
      *
      * see the definition of SD_BUF_START_SECTOR for some other relevant details
      */
-    sdbuffer_p = SD_BUF_START_SECTOR; // start at this sector
+    sdbuffer_p = SECTOR_LG; // start at this sector
     sdbuffer_i = 0xFFF;
     MDD_SDSPI_InitIO();
     MDD_SDSPI_MediaInitialize(); // init SD SPI settings

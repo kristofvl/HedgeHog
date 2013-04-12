@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '0', '9', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '1', '0', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -213,7 +213,7 @@ void user_init(void) {
     is_logging = 0;
 
     // read HedgeHog configuration structure
-    read_HHG_conf(&hhg_conf);
+    read_HHG_conf(&hhg_conf, &sd_buffer);
 
     // wait 5,000,000 ticks till system is powered
     Delay10KTCYx(250); Delay10KTCYx(250);
@@ -329,7 +329,7 @@ void log_process() {
         usbp_int = !(USBP_INT);
         #endif
         sdbuf_init(); 
-        read_HHG_conf(&hhg_conf); // read HedgeHog configuration structure
+        read_HHG_conf(&hhg_conf, &sd_buffer); // read HedgeHog configuration 
         rle_delta = hhg_conf.cs.acc.v[0] - 48; // extract from config string
         env_init();                                     //
         acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); //- init all sensors
@@ -472,8 +472,8 @@ void config_process(void) {
         switch (config_cycle) {
             case 230: write_MBR(&sd_buffer); break; // (sector 1)
             case 220: MDD_SDSPI_SectorWrite(0, sd_buffer.bytes, 1); break;
-            case 50:  write_root_table(&sd_buffer);    break;
-            case 40:  write_SD(244, sd_buffer.bytes);  break; // Root dir at 244
+            case 50:  write_root_table(&sd_buffer, NULL);    break;
+            case 40:  write_SD(SECTOR_RT, sd_buffer.bytes);  break; 
             case 1:   cdc_write_ok(); break;
         }
     }
@@ -484,13 +484,13 @@ void config_process(void) {
             if (config_cycle%100==0)    cdc_write_ok();
     }
     else if (cdc_config_cmd('u')) {
-        read_HHG_conf(&hhg_conf);
+        read_HHG_conf(&hhg_conf, &sd_buffer);
         cdc_write_conf(hhg_conf.cstr);
     }
     else if (cdc_config_cmd('w')) { // read configuration from cdc
         if (cdc_get_conf(hhg_conf.cstr,20)) {
             hhg_conf.cstr[20] = 0;
-            write_HHG_conf(hhg_conf);
+            write_HHG_conf(&hhg_conf, &sd_buffer);
             cdc_write_ok();
         }
     }

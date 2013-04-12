@@ -9,12 +9,11 @@
 #include <GenericTypeDefs.h>    // for UINT8 and UINT16
 #include "acc3D_wrapper.h"      // for ACC_XYZ
 #include "MDD File System/SD-SPI.h" // for storing the buffer to SD
-
+#include "SD_FAT.h" // for sector start address (SECTOR_LG)
 
 #ifndef SD_BUFFER__H
 #define SD_BUFFER__H
 
-#define SD_BUF_START_SECTOR     4500    // see definition of startC in SD_FAT.c
 #define SD_BUF_MAX_RAW_SAMPLES_PER_PAGE 126 // 4-bytes per sample = 504/4 = 126
 #define ABSDIF(x,y) ((x)>(y))?((x)-(y)):((y)-(x))
 

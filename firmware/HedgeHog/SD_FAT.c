@@ -47,8 +47,8 @@ rom UINT32 fileSz[NUM_FILES] = { 2129920,  2129920,  4259840, 8519680, 14909440,
 
 // The following 32 bytes describe the volume label of the SD Card:
 rom BYTE SDVolLabel[] = {
-//0    1    2    3    4    5    6    7    8    9    A    B  C D   E    F
-0x48,0x45,0x44,0x47,0x45,0x48,0x4F,0x47,0x20,0x20,0x20,0x08,0,0,0x00,0x00,
+//0    1    2    3    4    5    6    7    8    9    A    B   C   D   E    F
+'H','E','D','G','E','H','G','0','0','0','0',0x08,0,0,0x00,0x00,
 0x00,0x00,0x00,0x00,0x00,0x00,0x66,0x86,0xA7,0x3C,0x00,0x00,0,0,0x00,0x00
                                     // ... [2:start cluster] [4:file size]
 };
@@ -88,7 +88,8 @@ const BYTE SDMasterBootRecord[] = {	// based on MSDOS MBR, without boot code
 	0x55, 0xAA			// final two bytes of bootrecord
 };
 
-void write_MBR(sd_buffer_t *sd_buffer) {
+void write_MBR(sd_buffer_t *sd_buffer)
+{
     UINT16 sdbuff_i = 0;
     for (sdbuff_i = 0; sdbuff_i < 62; sdbuff_i++)
         sd_buffer->bytes[sdbuff_i] = SDMasterBootRecord[sdbuff_i];
@@ -96,10 +97,8 @@ void write_MBR(sd_buffer_t *sd_buffer) {
         sd_buffer->bytes[448 + sdbuff_i] = SDMasterBootRecord[sdbuff_i];
 }
 
-/*!
- * Writes the Root Table for a FAT16 filesystem
- */
-void write_root_table(sd_buffer_t *sd_buffer)
+// Writes the Root Table for a FAT16 filesystem, with the ID in volume label
+void write_root_table(sd_buffer_t *sd_buffer, char *id_str)
 {
     UINT16 clustp = 0;
     UINT16 file_i = 0;
@@ -112,7 +111,12 @@ void write_root_table(sd_buffer_t *sd_buffer)
     // Write Volume Label
     for (sdbuffer_i = 0; sdbuffer_i < 32; sdbuffer_i++)
         sd_buffer->bytes[sdbuffer_i] = SDVolLabel[sdbuffer_i];
-
+    // update with 4-byte ID string (if not NULL)
+    if (id_str != NULL) {
+        for (sdbuffer_i = 7; sdbuffer_i < 11; sdbuffer_i++)
+            sd_buffer->bytes[sdbuffer_i] = id_str[sdbuffer_i-7];
+    }
+    
     // Write config file
     clustp = startC[0];
     for(sdbuffer_i=32; sdbuffer_i<64; sdbuffer_i++)
@@ -147,19 +151,19 @@ void write_root_table(sd_buffer_t *sd_buffer)
 
 void write_FAT(sd_buffer_t *sd_buffer, UINT16 i)
 {
-    UINT16 checkByte = 0;
+    UINT16 check_byte = 0;
     UINT16 test = 0;
     UINT8  look_i = 0;
     for (sdbuffer_i=0; sdbuffer_i<256; sdbuffer_i++) {
-        checkByte = sdbuffer_i + 256*(i) + 1;
-        sd_buffer->wrd[sdbuffer_i] = checkByte;
-        if(checkByte-1 == 0x00)
+        check_byte = sdbuffer_i + 256*(i) + 1;
+        sd_buffer->wrd[sdbuffer_i] = check_byte;
+        if(check_byte-1 == 0x00)
             sd_buffer->wrd[sdbuffer_i] = 0xFFF8;
-        if(checkByte-1 == 0x01)
+        if(check_byte-1 == 0x01)
             sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
         for(look_i=0; look_i<NUM_FILES; look_i++) {
             test = endC[look_i];
-            if(test == (checkByte-1))
+            if(test == (check_byte-1))
                 sd_buffer->wrd[sdbuffer_i] =  0xFFFF;
         }
     }
@@ -167,6 +171,5 @@ void write_FAT(sd_buffer_t *sd_buffer, UINT16 i)
 
 void close_FAT(sd_buffer_t *sd_buffer)
 {
-    sd_buffer->bytes[510] = 0xFF;
-    sd_buffer->bytes[511] = 0xFF;
+    sd_buffer->wrd[255] = 0xFFFF;
 }

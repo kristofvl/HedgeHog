@@ -12,9 +12,11 @@
 
 #include "GenericTypeDefs.h"
 #include "flash.h"
+#include "SD_Buffer.h"
+#include "SD_FAT.h"
 
 #define HHG_CONF_FLASHADDR 0xFB00
-#define HHG_CONF_BYTES 32
+#define HHG_CONF_BYTES 32               // length of the config string
 
 #define HHG_CONF_IN_FIFOMODE (hhg_conf.cs.acc_s.f.mode == '1')
 
@@ -42,7 +44,7 @@ typedef union {
     } cs;
 } hhg_conf_t;
 
-void write_HHG_conf(hhg_conf_t conf);
-void read_HHG_conf(hhg_conf_t* conf);
+void write_HHG_conf(hhg_conf_t* conf, sd_buffer_t* sd_buffer);
+void read_HHG_conf( hhg_conf_t* conf, sd_buffer_t* sd_buffer);
 
 #endif
