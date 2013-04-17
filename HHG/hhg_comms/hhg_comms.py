@@ -48,16 +48,20 @@ class HHG_comms:
 		self.PORT = port
 		
 	def connect(self, time_out=0.2):
-		self.ser = serial.Serial(
-		self.PORT,			#number of device or a device string
-		baudrate=115200,	#baudrate
-		bytesize=8,			#number of databits
-		parity='N',			#enable parity checking
-		stopbits=1,			#number of stopbits
-		timeout=time_out,	#set a timeout value, None for waiting forever
-		xonxoff=0,          #enable software flow control
-		rtscts=0			#enable RTS/CTS flow control
-		)
+		try:
+			self.ser = serial.Serial(
+			self.PORT,			#number of device or a device string
+			baudrate=115200,	#baudrate
+			bytesize=8,			#number of databits
+			parity='N',			#enable parity checking
+			stopbits=1,			#number of stopbits
+			timeout=time_out,	#set timeout value, None for waiting forever
+			xonxoff=0,        #enable software flow control
+			rtscts=0				#enable RTS/CTS flow control
+			)
+			return True
+		except serial.SerialException as e:
+			return False
 		
 	def disconnect(self):
 		self.ser.close()
@@ -74,6 +78,16 @@ class HHG_comms:
 
 	def init_HHG(self, time_out, exp_len):
 		self.ser.write("i")
+		time.sleep(time_out)
+		return self.ser.read(exp_len)
+		
+	def boot_HHG(self, time_out, exp_len):
+		self.ser.write("x")
+		time.sleep(time_out)
+		return self.ser.read(exp_len)
+		
+	def wipe_HHG(self, time_out, exp_len):
+		self.ser.write("0")
 		time.sleep(time_out)
 		return self.ser.read(exp_len)
 		

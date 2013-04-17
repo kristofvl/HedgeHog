@@ -100,52 +100,59 @@ class conf_HHG_dialog:
 			self.select(None)
 		if self.connected:
 			progressbar = 1
-			if progressbar:
-				pgrsdlg = gtk.Dialog("Syncing...", None, 0, None)
-				pgrsdlg.set_size_request(200, 50)
-				pbar = gtk.ProgressBar()
-				pgrsdlg.vbox.add(pbar)
-				pbar.set_fraction(0.05)
-				pbar.show()
-				pgrsdlg.vbox.show()
-				pgrsdlg.show()
-				while gtk.events_pending(): gtk.main_iteration()
 			self.currentHHG = hcs.HHG_comms(self.portname)
-			self.currentHHG.connect(0.5)
-			ret = self.currentHHG.init_HHG(0, 18)
-			print "init:", ret, len(ret)
-			if len(ret) == 18:
-				self.initstr.set_text(ret[6:14])
-			if progressbar:
-				pbar.set_fraction(0.1)
-				while gtk.events_pending(): gtk.main_iteration()
-			ret = self.currentHHG.synchronize_clock(0.1, 3)
-			print "set clock:", ret, len(ret)
-			if progressbar:
-				pbar.set_fraction(0.3)
-				while gtk.events_pending(): gtk.main_iteration()
-			ret = self.currentHHG.read_data(0, 65)
-			print "data:", ret, len(ret)
-			if len(ret) == 65:
-				self.datastr.set_text(ret[:35])
-				self.timestr.set_text(ret[40:59])
-			ret = self.currentHHG.get_version(0, 16)
-			if len(ret) == 16:
-				self.versionstr.set_text(ret[:16])
-			print "ver:", ret, len(ret)
-			if progressbar:
-				pbar.set_fraction(0.8)
-				while gtk.events_pending(): gtk.main_iteration()
-			ret = self.currentHHG.get_HHGID(0, 21)
-			print "conf IO:", ret[:4], len(ret)
-			if len(ret) > 19:
-				self.idstr.set_text(ret[:20])
-			if progressbar:
-				pgrsdlg.hide()
-				pgrsdlg.destroy()
-				while gtk.events_pending(): gtk.main_iteration()
-			self.currentHHG.disconnect()
-
+			if self.currentHHG.connect(0.5):
+				if progressbar:
+					pgrsdlg = gtk.Dialog("Syncing...", None, 0, None)
+					pgrsdlg.set_size_request(200, 50)
+					pbar = gtk.ProgressBar()
+					pgrsdlg.vbox.add(pbar)
+					pbar.set_fraction(0.05)
+					pbar.show()
+					pgrsdlg.vbox.show()
+					pgrsdlg.show()
+					while gtk.events_pending(): gtk.main_iteration()	
+				ret = self.currentHHG.init_HHG(0, 18)
+				print "init:", ret, len(ret)
+				if len(ret) == 18:
+					self.initstr.set_text(ret[6:14])
+				if progressbar:
+					pbar.set_fraction(0.1)
+					while gtk.events_pending(): gtk.main_iteration()
+				ret = self.currentHHG.synchronize_clock(0.1, 3)
+				print "set clock:", ret, len(ret)
+				if progressbar:
+					pbar.set_fraction(0.3)
+					while gtk.events_pending(): gtk.main_iteration()
+				ret = self.currentHHG.read_data(0, 65)
+				print "data:", ret, len(ret)
+				if len(ret) == 65:
+					self.datastr.set_text(ret[:35])
+					self.timestr.set_text(ret[40:59])
+				ret = self.currentHHG.get_version(0, 16)
+				if len(ret) == 16:
+					self.versionstr.set_text(ret[:16])
+				print "ver:", ret, len(ret)
+				if progressbar:
+					pbar.set_fraction(0.8)
+					while gtk.events_pending(): gtk.main_iteration()
+				ret = self.currentHHG.get_HHGID(0, 21)
+				print "conf IO:", ret[:4], len(ret)
+				if len(ret) > 19:
+					self.idstr.set_text(ret[:20])
+				if progressbar:
+					pgrsdlg.hide()
+					pgrsdlg.destroy()
+					while gtk.events_pending(): gtk.main_iteration()
+				self.currentHHG.disconnect()
+			else:
+				errdlg= gtk.MessageDialog(self.window, 
+					gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, 
+					gtk.BUTTONS_CLOSE, "Your HedgeHog is not accessible\n"+"IO Error")
+				errdlg.set_size_request(320, 80)
+				errdlg.run()
+				errdlg.destroy()
+				
 	def record(self, widget, data=None):
 		if not self.connected:
 			self.select(None)
@@ -218,26 +225,41 @@ class conf_HHG_dialog:
 			self.select(None)
 		if self.connected:
 			progressbar = 1
-			if progressbar:
-				pgrsdlg = gtk.Dialog("Formatting...", None, 0, None)
-				pgrsdlg.set_size_request(200, 50)
-				pbar = gtk.ProgressBar()
-				pgrsdlg.vbox.add(pbar)
-				pbar.set_fraction(0.05)
-				pbar.show()
-				pgrsdlg.vbox.show()
-				pgrsdlg.show()
-				while gtk.events_pending(): gtk.main_iteration()
 			self.currentHHG = hcs.HHG_comms(self.portname)
-			self.currentHHG.connect(time_out=7)
-			ret = self.currentHHG.set_FAT(0.1, 3)
-			print "FAT IO:", ret, len(ret)
-			if progressbar:
-				pgrsdlg.hide()
-				pgrsdlg.destroy()
-				while gtk.events_pending(): gtk.main_iteration()
-			self.currentHHG.disconnect()
-
+			if self.currentHHG.connect(time_out=7):
+				if progressbar:
+					pgrsdlg = gtk.Dialog("Format", None, 0, None)
+					pgrsdlg.set_size_request(200, 50)
+					pbar = gtk.ProgressBar()
+					pgrsdlg.vbox.add(pbar)
+					pbar.set_fraction(0.05)
+					pbar.show()
+					pgrsdlg.vbox.show()
+					pgrsdlg.show()
+					while gtk.events_pending(): gtk.main_iteration()
+				ret = self.currentHHG.wipe_HHG(7, 21)
+				if progressbar:
+					pbar.set_fraction(0.65)
+					while gtk.events_pending(): gtk.main_iteration()
+				print "Wipe IO:", ret, len(ret)
+				ret = self.currentHHG.set_FAT(0.1, 3)
+				if progressbar:
+					pbar.set_fraction(0.95)
+					while gtk.events_pending(): gtk.main_iteration()
+				print "FAT IO:", ret, len(ret)
+				if progressbar:
+					pgrsdlg.hide()
+					pgrsdlg.destroy()
+					while gtk.events_pending(): gtk.main_iteration()
+				self.currentHHG.disconnect()
+			else:
+				errdlg= gtk.MessageDialog(self.window, 
+					gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, 
+					gtk.BUTTONS_CLOSE, "Your HedgeHog is not accessible\n"+"IO Error")
+				errdlg.set_size_request(320, 80)
+				errdlg.run()
+				errdlg.destroy()
+				
 	def conf(self, widget, data=None):
 		if not self.connected:
 			self.select(None)
