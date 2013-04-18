@@ -62,16 +62,16 @@ class conf_HHG_dialog:
 		self.portstr.set_text(self.portname)
 		self.currentHHG = hcs.HHG_comms(self.portname)
 		if self.currentHHG.connect():
-			ret = self.currentHHG.init_HHG(0, 18)
+			ret = self.currentHHG.init_HHG(0.2, 18)
 			if len(ret) == 18:
 				self.initstr.set_text(ret[6:14])
 			print "init:", ret, len(ret)
-			ret = self.currentHHG.read_data(0,65)
+			ret = self.currentHHG.read_data(0.4,65)
 			print "data:", ret, len(ret)
 			if len(ret) == 65:
 				self.datastr.set_text(ret[:35])
 				self.timestr.set_text(ret[40:59])
-			ret = self.currentHHG.get_version(0,16)
+			ret = self.currentHHG.get_version(0.2,16)
 			print "ver:", ret, len(ret)
 			if len(ret) == 16:
 				self.versionstr.set_text(ret[:16])
@@ -114,19 +114,19 @@ class conf_HHG_dialog:
 					pgrsdlg.vbox.show()
 					pgrsdlg.show()
 					while gtk.events_pending(): gtk.main_iteration()	
-				ret = self.currentHHG.init_HHG(0.3, 18)
+				ret = self.currentHHG.init_HHG(0.1, 18)
 				print "init:", ret, len(ret)
 				if len(ret) == 18:
 					self.initstr.set_text(ret[6:14])
 				if progressbar:
 					pbar.set_fraction(0.1)
 					while gtk.events_pending(): gtk.main_iteration()
-				ret = self.currentHHG.synchronize_clock(0.4, 3)
+				ret = self.currentHHG.synchronize_clock(0.1, 3)
 				print "set clock:", ret, len(ret)
 				if progressbar:
 					pbar.set_fraction(0.3)
 					while gtk.events_pending(): gtk.main_iteration()
-				ret = self.currentHHG.read_data(0.3, 65)
+				ret = self.currentHHG.read_data(0.1, 65)
 				print "data:", ret, len(ret)
 				if len(ret) == 65:
 					self.datastr.set_text(ret[:35])
@@ -138,7 +138,7 @@ class conf_HHG_dialog:
 				if progressbar:
 					pbar.set_fraction(0.8)
 					while gtk.events_pending(): gtk.main_iteration()
-				ret = self.currentHHG.get_HHGID(0.2, 21)
+				ret = self.currentHHG.get_HHGID(0.1, 21)
 				print "conf IO:", ret[:4], len(ret)
 				if len(ret) > 19:
 					self.idstr.set_text(ret[:20])
@@ -201,21 +201,23 @@ class conf_HHG_dialog:
 			dlg.destroy()
 			#### serial comms #############################################
 			self.currentHHG = hcs.HHG_comms(self.portname)
-			self.currentHHG.connect()
-			ret = self.currentHHG.set_timeout_clock(rec_date, 0.1, 3)
-			print "set timeout:", ret, len(ret)
-			ret = self.currentHHG.synchronize_clock(0.1, 3)
-			print "set clock:", ret, len(ret)
-			ret = self.currentHHG.record_HHG()
-			print ret
-			self.currentHHG.disconnect()
-			self.connected = False
-			dlg= gtk.MessageDialog(self.window, 
-					gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
-					gtk.BUTTONS_CLOSE, "Your HedgeHog is now recording")
-			dlg.set_size_request(320, 80)
-			dlg.run()
-			dlg.destroy()
+			if self.currentHHG.connect():
+				ret = self.currentHHG.set_timeout_clock(rec_date, 0.1, 3)
+				print "set timeout:", ret, len(ret)
+				ret = self.currentHHG.synchronize_clock(0.1, 3)
+				print "set clock:", ret, len(ret)
+				ret = self.currentHHG.record_HHG()
+				print ret
+				self.currentHHG.disconnect()
+				self.connected = False
+				dlg= gtk.MessageDialog(self.window, 
+						gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
+						gtk.BUTTONS_CLOSE, "Your HedgeHog is now recording")
+				dlg.set_size_request(320, 80)
+				dlg.run()
+				dlg.destroy()
+			else:
+				self.show_errordlg("I/O Error")
         
 	def refat(self, widget, data=None):
 		if not self.connected:
@@ -411,19 +413,12 @@ class conf_HHG_dialog:
 		bas_f = gtk.Frame("main functions")
 		vbox_bas = gtk.VBox()
 		bas_f.add(vbox_bas)
-		self.selt_button = gtk.Button('select HedgeHog')
-		self.selt_button.connect('clicked', self.select, None)
-		vbox_bas.add(self.selt_button)
-		self.recd_button = gtk.Button('start recording')
+		self.sync_button = gtk.Button('acquire HedgeHog settings...')
+		self.sync_button.connect('clicked', self.syncHHG, None)
+		vbox_bas.add(self.sync_button)
+		self.recd_button = gtk.Button('start recording with a HedgeHog...')
 		self.recd_button.connect("clicked", self.record, None)
 		vbox_bas.add(self.recd_button)
-		self.slog_button = gtk.Button('show log')
-		self.slog_button.connect("clicked", self.show_log, None)
-		vbox_bas.add(self.slog_button)
-		self.quit_button = gtk.Button("exit")
-		self.quit_button.connect("clicked", self.leave, None)
-		self.quit_button.connect_object("clicked", gtk.Widget.destroy, self.window)
-		vbox_bas.add(self.quit_button)
 		self.vbox.pack_start(bas_f, True, True, 0)
 		##################################################################
 		adv_f = gtk.Frame("advanced")
@@ -452,12 +447,15 @@ class conf_HHG_dialog:
 			l.set_alignment(0, 0.5)
 			l.modify_font(pango.FontDescription("courier 10"))
 		hbox_adv = gtk.HBox()
-		self.rfat_button = gtk.Button('quick-format SD card')
+		self.rfat_button = gtk.Button('clean-format SD card')
 		self.rfat_button.connect("clicked", self.refat, None)
 		hbox_adv.add(self.rfat_button)
-		self.sync_button = gtk.Button('synchronize HedgeHog')
+		self.sync_button = gtk.Button('reset')
 		self.sync_button.connect('clicked', self.syncHHG, None)
 		hbox_adv.add(self.sync_button)
+		self.slog_button = gtk.Button('show log')
+		self.slog_button.connect("clicked", self.show_log, None)
+		hbox_adv.add(self.slog_button)
 		self.conf_button = gtk.Button('configure HedgeHog')
 		self.conf_button.connect("clicked", self.conf, None)
 		hbox_adv.add(self.conf_button)

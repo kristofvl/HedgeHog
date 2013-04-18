@@ -56,17 +56,17 @@ class HHG_comms:
 			parity='N',			#enable parity checking
 			stopbits=1,			#number of stopbits
 			timeout=time_out,	#set timeout value, None for waiting forever
-			xonxoff=0,        #enable software flow control
-			rtscts=0				#enable RTS/CTS flow control
+			xonxoff=False,    #enable software flow control
+			rtscts=False,		#enable RTS/CTS flow control
+			dsrdtr=False,		#enable DSR/DTR low control
+			writeTimeout=0,	
+			interCharTimeout=None # Inter-character timeout
 			)
 			return True
 		except serial.SerialException as e:
 			return False
 		
 	def disconnect(self):
-		self.ser.flushInput()
-		self.ser.flushOutput()
-		self.ser.flush()
 		self.ser.close()
 		
 	def get_version(self, time_out, exp_len):
