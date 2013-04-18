@@ -64,6 +64,9 @@ class HHG_comms:
 			return False
 		
 	def disconnect(self):
+		self.ser.flushInput()
+		self.ser.flushOutput()
+		self.ser.flush()
 		self.ser.close()
 		
 	def get_version(self, time_out, exp_len):

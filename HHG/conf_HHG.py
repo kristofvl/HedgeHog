@@ -61,22 +61,24 @@ class conf_HHG_dialog:
 		self.portname = hhglist[i-1]
 		self.portstr.set_text(self.portname)
 		self.currentHHG = hcs.HHG_comms(self.portname)
-		self.currentHHG.connect()
-		ret = self.currentHHG.init_HHG(0, 18)
-		if len(ret) == 18:
-			self.initstr.set_text(ret[6:14])
-		print "init:", ret, len(ret)
-		ret = self.currentHHG.read_data(0,65)
-		print "data:", ret, len(ret)
-		if len(ret) == 65:
-			self.datastr.set_text(ret[:35])
-			self.timestr.set_text(ret[40:59])
-		ret = self.currentHHG.get_version(0,16)
-		print "ver:", ret, len(ret)
-		if len(ret) == 16:
-			self.versionstr.set_text(ret[:16])
-		self.currentHHG.disconnect()
-
+		if self.currentHHG.connect():
+			ret = self.currentHHG.init_HHG(0, 18)
+			if len(ret) == 18:
+				self.initstr.set_text(ret[6:14])
+			print "init:", ret, len(ret)
+			ret = self.currentHHG.read_data(0,65)
+			print "data:", ret, len(ret)
+			if len(ret) == 65:
+				self.datastr.set_text(ret[:35])
+				self.timestr.set_text(ret[40:59])
+			ret = self.currentHHG.get_version(0,16)
+			print "ver:", ret, len(ret)
+			if len(ret) == 16:
+				self.versionstr.set_text(ret[:16])
+			self.currentHHG.disconnect()
+		else:	
+			self.show_errordlg("I/O Error")
+			
 	def show_log(self, widget, data=None):
 		if not self.connected:
 			self.select(None)
@@ -101,7 +103,7 @@ class conf_HHG_dialog:
 		if self.connected:
 			progressbar = 1
 			self.currentHHG = hcs.HHG_comms(self.portname)
-			if self.currentHHG.connect(0.5):
+			if self.currentHHG.connect(0.2):
 				if progressbar:
 					pgrsdlg = gtk.Dialog("Syncing...", None, 0, None)
 					pgrsdlg.set_size_request(200, 50)
@@ -112,31 +114,31 @@ class conf_HHG_dialog:
 					pgrsdlg.vbox.show()
 					pgrsdlg.show()
 					while gtk.events_pending(): gtk.main_iteration()	
-				ret = self.currentHHG.init_HHG(0, 18)
+				ret = self.currentHHG.init_HHG(0.3, 18)
 				print "init:", ret, len(ret)
 				if len(ret) == 18:
 					self.initstr.set_text(ret[6:14])
 				if progressbar:
 					pbar.set_fraction(0.1)
 					while gtk.events_pending(): gtk.main_iteration()
-				ret = self.currentHHG.synchronize_clock(0.1, 3)
+				ret = self.currentHHG.synchronize_clock(0.4, 3)
 				print "set clock:", ret, len(ret)
 				if progressbar:
 					pbar.set_fraction(0.3)
 					while gtk.events_pending(): gtk.main_iteration()
-				ret = self.currentHHG.read_data(0, 65)
+				ret = self.currentHHG.read_data(0.3, 65)
 				print "data:", ret, len(ret)
 				if len(ret) == 65:
 					self.datastr.set_text(ret[:35])
 					self.timestr.set_text(ret[40:59])
-				ret = self.currentHHG.get_version(0, 16)
+				ret = self.currentHHG.get_version(0.1, 16)
 				if len(ret) == 16:
 					self.versionstr.set_text(ret[:16])
 				print "ver:", ret, len(ret)
 				if progressbar:
 					pbar.set_fraction(0.8)
 					while gtk.events_pending(): gtk.main_iteration()
-				ret = self.currentHHG.get_HHGID(0, 21)
+				ret = self.currentHHG.get_HHGID(0.2, 21)
 				print "conf IO:", ret[:4], len(ret)
 				if len(ret) > 19:
 					self.idstr.set_text(ret[:20])
@@ -146,12 +148,7 @@ class conf_HHG_dialog:
 					while gtk.events_pending(): gtk.main_iteration()
 				self.currentHHG.disconnect()
 			else:
-				errdlg= gtk.MessageDialog(self.window, 
-					gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, 
-					gtk.BUTTONS_CLOSE, "Your HedgeHog is not accessible\n"+"IO Error")
-				errdlg.set_size_request(320, 80)
-				errdlg.run()
-				errdlg.destroy()
+				self.show_errordlg("I/O Error")
 				
 	def record(self, widget, data=None):
 		if not self.connected:
@@ -253,12 +250,7 @@ class conf_HHG_dialog:
 					while gtk.events_pending(): gtk.main_iteration()
 				self.currentHHG.disconnect()
 			else:
-				errdlg= gtk.MessageDialog(self.window, 
-					gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, 
-					gtk.BUTTONS_CLOSE, "Your HedgeHog is not accessible\n"+"IO Error")
-				errdlg.set_size_request(320, 80)
-				errdlg.run()
-				errdlg.destroy()
+				self.show_errordlg("I/O Error")
 				
 	def conf(self, widget, data=None):
 		if not self.connected:
@@ -477,6 +469,14 @@ class conf_HHG_dialog:
 
 	def main(self):
 		gtk.main()
+		
+	def show_errordlg(self, data):
+		errdlg= gtk.MessageDialog(self.window, 
+			gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, 
+			gtk.BUTTONS_CLOSE, "Error:"+data)
+		errdlg.set_size_request(320, 80)
+		errdlg.run()
+		errdlg.destroy()
 
 # If program is ran directly or passed as an argument to python:
 if __name__ == "__main__":
