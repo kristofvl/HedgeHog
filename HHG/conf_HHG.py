@@ -62,19 +62,6 @@ class conf_HHG_dialog:
 		self.portstr.set_text(self.portname)
 		self.currentHHG = hcs.HHG_comms(self.portname)
 		if self.currentHHG.connect():
-			ret = self.currentHHG.init_HHG(0.2, 18)
-			if len(ret) == 18:
-				self.initstr.set_text(ret[6:14])
-			print "init:", ret, len(ret)
-			ret = self.currentHHG.read_data(0.4,65)
-			print "data:", ret, len(ret)
-			if len(ret) == 65:
-				self.datastr.set_text(ret[:35])
-				self.timestr.set_text(ret[40:59])
-			ret = self.currentHHG.get_version(0.2,16)
-			print "ver:", ret, len(ret)
-			if len(ret) == 16:
-				self.versionstr.set_text(ret[:16])
 			self.currentHHG.disconnect()
 		else:	
 			self.show_errordlg("I/O Error")
@@ -251,6 +238,25 @@ class conf_HHG_dialog:
 					pgrsdlg.destroy()
 					while gtk.events_pending(): gtk.main_iteration()
 				self.currentHHG.disconnect()
+			else:
+				self.show_errordlg("I/O Error")
+				
+	def boot(self, widget, data=None):
+		if not self.connected:
+			self.select(None)
+		if self.connected:
+			self.currentHHG = hcs.HHG_comms(self.portname)
+			if self.currentHHG.connect():
+				ret = self.currentHHG.boot_HHG(0.1, 0)
+				print "boot IO:", ret, len(ret)
+				self.currentHHG.disconnect()
+				self.connected = False
+				dlg= gtk.MessageDialog(self.window, 
+						gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
+						gtk.BUTTONS_CLOSE, "Your HedgeHog is now resetting")
+				dlg.set_size_request(320, 80)
+				dlg.run()
+				dlg.destroy()
 			else:
 				self.show_errordlg("I/O Error")
 				
@@ -450,9 +456,9 @@ class conf_HHG_dialog:
 		self.rfat_button = gtk.Button('clean-format SD card')
 		self.rfat_button.connect("clicked", self.refat, None)
 		hbox_adv.add(self.rfat_button)
-		self.sync_button = gtk.Button('reset')
-		self.sync_button.connect('clicked', self.syncHHG, None)
-		hbox_adv.add(self.sync_button)
+		self.boot_button = gtk.Button('reset')
+		self.boot_button.connect('clicked', self.boot, None)
+		hbox_adv.add(self.boot_button)
 		self.slog_button = gtk.Button('show log')
 		self.slog_button.connect("clicked", self.show_log, None)
 		hbox_adv.add(self.slog_button)
