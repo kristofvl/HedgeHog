@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '1', '0', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '1', '1', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -16,7 +16,9 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 /** INCLUDES ******************************************************************/
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
 #include "HardwareProfile.h"			// Hardware design wrapper
+#if defined(USBP_INT)
 #include "dsleep_alarm.h"
+#endif
 #include "sensor_wrapper.h"			// all sensors 
 #include "USB/usb_function_msd.h"		// Mass storage over USB
 #include "SD_Buffer.h"
@@ -153,7 +155,9 @@ void low_priority_ISR() {
  * Overview:        Main program entry point.
  ******************************************************************************/
 void main(void) {
+    #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
     wakeup_check(&tm, 2); // wake up and check every 2 seconds for USB presence
+    #endif
     init_system();
     USBDeviceAttach();
     while (1) {
@@ -228,7 +232,9 @@ void user_init(void) {
     #endif
 
     config_cdc_init();          // init configuration state variables (counters)
-    rtc_set_timeout_s(&tm, 5);  // set alarm after 5 seconds (to check USB)
+    #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
+        rtc_set_timeout_s(&tm, 5);  // set alarm after 5 seconds (to check USB)
+    #endif
 }
 
 /*******************************************************************************
@@ -246,11 +252,16 @@ void process_IO(void) {
     if (is_logging)
         log_process();      // go to the logging process
     else {
+        #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
             if (!rtc_alrm())
                goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
             else
                 return;
+        #else
+        if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
+            return;
+        #endif
         CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
