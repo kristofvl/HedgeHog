@@ -31,7 +31,7 @@ DEFAULTCONF=raw_sampling_testbed
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=raw_sampling_testbed raw_sampling_basic mv_sampling_oled 
+ALLCONFS=raw_sampling_testbed raw_sampling_basic mv_sampling_oled raw_sampling_basic_new 
 
 
 # build
@@ -48,6 +48,7 @@ ALLCONFS=raw_sampling_testbed raw_sampling_basic mv_sampling_oled
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_testbed clean
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_basic clean
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=mv_sampling_oled clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_basic_new clean
 
 
 
@@ -56,6 +57,7 @@ ALLCONFS=raw_sampling_testbed raw_sampling_basic mv_sampling_oled
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_testbed build
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_basic build
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=mv_sampling_oled build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=raw_sampling_basic_new build
 
 
 

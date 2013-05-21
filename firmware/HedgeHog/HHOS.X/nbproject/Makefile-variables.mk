@@ -25,3 +25,10 @@ CND_ARTIFACT_PATH_mv_sampling_oled=dist/mv_sampling_oled/production/HHOS.X.produ
 CND_PACKAGE_DIR_mv_sampling_oled=${CND_DISTDIR}/mv_sampling_oled/package
 CND_PACKAGE_NAME_mv_sampling_oled=hhos.x.tar
 CND_PACKAGE_PATH_mv_sampling_oled=${CND_DISTDIR}/mv_sampling_oled/package/hhos.x.tar
+# raw_sampling_basic_new configuration
+CND_ARTIFACT_DIR_raw_sampling_basic_new=dist/raw_sampling_basic_new/production
+CND_ARTIFACT_NAME_raw_sampling_basic_new=HHOS.X.production.hex
+CND_ARTIFACT_PATH_raw_sampling_basic_new=dist/raw_sampling_basic_new/production/HHOS.X.production.hex
+CND_PACKAGE_DIR_raw_sampling_basic_new=${CND_DISTDIR}/raw_sampling_basic_new/package
+CND_PACKAGE_NAME_raw_sampling_basic_new=hhos.x.tar
+CND_PACKAGE_PATH_raw_sampling_basic_new=${CND_DISTDIR}/raw_sampling_basic_new/package/hhos.x.tar
