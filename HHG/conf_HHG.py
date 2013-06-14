@@ -60,15 +60,9 @@ class conf_HHG_dialog:
 		self.connected = True
 		self.portname = hhglist[i-1]
 		self.portstr.set_text(self.portname)
-		self.currentHHG = hcs.HHG_comms(self.portname)
-		if self.currentHHG.connect():
-			self.currentHHG.disconnect()
-		else:	
-			self.show_errordlg("I/O Error")
 			
 	def show_log(self, widget, data=None):
-		if not self.connected:
-			self.select(None)
+		self.select(None)
 		if self.connected:
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			self.currentHHG.connect(0.5)
@@ -83,10 +77,10 @@ class conf_HHG_dialog:
 			dlg.show_all()
 			dlg.run()
 			dlg.destroy()
+		self.connected = False
 
 	def syncHHG(self, widget, data=None):
-		if not self.connected:
-			self.select(None)
+		self.select(None)
 		if self.connected:
 			progressbar = 1
 			self.currentHHG = hcs.HHG_comms(self.portname)
@@ -136,10 +130,10 @@ class conf_HHG_dialog:
 				self.currentHHG.disconnect()
 			else:
 				self.show_errordlg("I/O Error")
+		self.connected = False
 				
 	def record(self, widget, data=None):
-		if not self.connected:
-			self.select(None)
+		self.select(None)
 		if self.connected:
 			### time set dialog ###########################################
 			dlg =  gtk.MessageDialog( None, 
@@ -205,10 +199,10 @@ class conf_HHG_dialog:
 				dlg.destroy()
 			else:
 				self.show_errordlg("I/O Error")
+		self.connected = False
         
 	def refat(self, widget, data=None):
-		if not self.connected:
-			self.select(None)
+		self.select(None)
 		if self.connected:
 			progressbar = 1
 			self.currentHHG = hcs.HHG_comms(self.portname)
@@ -240,10 +234,10 @@ class conf_HHG_dialog:
 				self.currentHHG.disconnect()
 			else:
 				self.show_errordlg("I/O Error")
+		self.connected = False
 				
 	def boot(self, widget, data=None):
-		if not self.connected:
-			self.select(None)
+		self.select(None)
 		if self.connected:
 			self.currentHHG = hcs.HHG_comms(self.portname)
 			if self.currentHHG.connect():
@@ -259,10 +253,10 @@ class conf_HHG_dialog:
 				dlg.destroy()
 			else:
 				self.show_errordlg("I/O Error")
+		self.connected = False
 				
 	def conf(self, widget, data=None):
-		if not self.connected:
-			self.select(None)
+		self.select(None)
 		if self.connected:
 			dlg =  gtk.MessageDialog( None, 
 						gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
@@ -387,6 +381,7 @@ class conf_HHG_dialog:
 				ret = self.currentHHG.set_HHGID(conf_str, 0.05, 3)
 				print "set conf:", ret, len(ret)
 				self.currentHHG.disconnect()
+		self.connected = False
 
 	def leave(self, widget, data=None):
 		return False

@@ -196,7 +196,6 @@ void USBCBErrorHandler(void)
 void USBCBCheckOtherReq(void)
 {
 	USBCheckMSDRequest();
-    USBCheckCDCRequest();
 }//end
 
 
@@ -241,10 +240,9 @@ void USBCBInitEP(void)
     #endif
     #if defined(DISPLAY_ENABLED)
         oled_cmd(OLEDREG_DISPLAY_OFF); // to avoid interference
-        disp_start_usb();
+        //disp_start_usb();
     #endif
     USBMSDInit();	// init Mass Sstorage Device over USB
-    CDCInitEP();	// init serial line over USB
 }
 
 /********************************************************************

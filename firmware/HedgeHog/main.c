@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '1', '1', 0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '7', '3', 0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -27,7 +27,6 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 #include "osc.h"
 #include "delays.h"
 #include "HHG_conf.h"
-#include "config_cdc.h"
 
 #if defined(SOFTSTART_ENABLED)
 #include "./Soft Start/soft_start.h"            // controls soft start
@@ -231,7 +230,6 @@ void user_init(void) {
     disp_init();
     #endif
 
-    config_cdc_init();          // init configuration state variables (counters)
     #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
         rtc_set_timeout_s(&tm, 5);  // set alarm after 5 seconds (to check USB)
     #endif
@@ -262,7 +260,6 @@ void process_IO(void) {
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
             return;
         #endif
-        CDCTxService();     // CDC transimssion tasks
         MSDTasks();         // mass storage device tasks
         config_process();   // CDC configuration tasks
     }
@@ -424,92 +421,6 @@ void log_process() {
  * Overview:        Setting the HedgeHog's configuration via serial
  ******************************************************************************/
 void config_process(void) {
-    if (cdc_config_cmd(0))
-        cdc_main_menu( HH_NAME_STR, HH_VER_STR );
-    else if (cdc_config_cmd('i')) {
-        switch (config_cycle) {
-            case 100: rtc_init(); break;
-            #if defined(DISPLAY_ENABLED)
-            case 90: disp_start_usb(); break;
-            #endif
-            case 80:  acc_init(hhg_conf.cs.acc_s, &(hhg_conf.cs.acc)); break;
-            case 50:  cdc_print_init(hhg_conf.cs.acc); break;
-            case 10:  cdc_eol(); break;
-        }
-    }
-    else if (cdc_config_cmd('t')) { // read time from host
-        if (cdc_get_conf((char*)tm.b,6)) { // b[7]=min, b[6]=sec, ..., b[3]=mnth
-            tm.b[7]=tm.b[4]; tm.b[6]=tm.b[5]; tm.b[4]=tm.b[3]; tm.b[3]=tm.b[1]; 
-            rtc_write(&tm);
-            rtc_writestr(&tm,date_str,time_str);
-            cdc_write_ok();
-        }
-    }
-    else if (cdc_config_cmd('T')) { // read stop-logging time from host
-        if (cdc_get_conf((char*)tm.b,6)) { // b[7]=min, b[6]=sec, ..., b[3]=mnth
-            tm.b[7]=tm.b[4]; tm.b[6]=tm.b[5]; tm.b[4]=tm.b[3]; tm.b[3]=tm.b[1];
-            tm_stop = rtc_2uint32(&tm);
-            cdc_write_ok();
-        }
-    }
-    else if (cdc_config_cmd('r')) {
-        switch (config_cycle) {
-            case 100: acc_getxyz(&accval); env_on(); break;
-            case 80: env_read(light, thermo); break;
-            case 70: rtc_writestr(&tm,date_str,time_str); break;
-            case 50: cdc_print_all( accval.x, accval.y, accval.z,
-                light.Val,thermo,(char*)date_str,(char*)time_str);
-                break;
-            case 10: cdc_eol(); break;
-        }
-    }
-    else if (cdc_config_cmd('s')) {
-        switch (config_cycle) {
-            case 10: cdc_write_log(); break;
-            case 5: // USBSoftDetach();
-                #if defined(DISPLAY_ENABLED)
-                disp_cmd = DISP_CMD_LOGNG;
-                #endif
-                break;
-            case 1: USBSoftDetach();  is_logging = 1; break;
-        }
-    }
-    else if (cdc_config_cmd('f')) {
-        if((config_cycle >= 60) && (config_cycle <= 150))
-        {  // 150 is enough for 8 files
-            write_FAT(&sd_buffer, config_cycle - 60);
-            write_SD(config_cycle - 52, sd_buffer.bytes);
-        }
-        switch (config_cycle) {
-            case 230: write_MBR(&sd_buffer); break; // (sector 1)
-            case 220: MDD_SDSPI_SectorWrite(0, sd_buffer.bytes, 1); break;
-            case 50:  write_root_table(&sd_buffer, NULL);    break;
-            case 40:  write_SD(SECTOR_RT, sd_buffer.bytes);  break; 
-            case 1:   cdc_write_ok(); break;
-        }
-    }
-    else if (cdc_config_cmd('0')) {
-        // for every page from 640 to 0, write zeros:
-            memset((void*)&sd_buffer, 0, 512);
-            write_SD(config_cycle, sd_buffer.bytes);
-            if (config_cycle%100==0)    cdc_write_ok();
-    }
-    else if (cdc_config_cmd('u')) {
-        read_HHG_conf(&hhg_conf, &sd_buffer);
-        cdc_write_conf(hhg_conf.cstr);
-    }
-    else if (cdc_config_cmd('w')) { // read configuration from cdc
-        if (cdc_get_conf(hhg_conf.cstr,20)) {
-            hhg_conf.cstr[20] = 0;
-            write_HHG_conf(&hhg_conf, &sd_buffer);
-            cdc_write_ok();
-        }
-    }
-    else if (cdc_config_cmd('x')) { // reset!
-        switch (config_cycle) {
-            case 1: USBSoftDetach(); init_system(); break;
-        }
-    }
-    up_cdc_cycle();
+    // here comes maintenance code for configuration
 }
 /******************************************************************************/
