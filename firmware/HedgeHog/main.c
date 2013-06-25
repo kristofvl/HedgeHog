@@ -6,9 +6,8 @@
  Compiler:  	Microchip C18
  Author:        KristofVL
  ******************************************************************************/
-
-rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g', 0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '7', '3', 0};
+char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g'};
+char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '7', '3'};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -69,6 +68,7 @@ hhg_conf_t hhg_conf;
 
 // time variables
 rtc_timedate tm; //  holding time info for current time
+rtc_timedate Tm; // holding time info for stop time
 char date_str[11] = "01/01/2012";
 char time_str[9] = "00:00:00";
 UINT32 tm_stop;
@@ -85,6 +85,10 @@ BOOL usbp_int;
 // config variables:
 UINT16 config_cycle = 0;
 UINT8  rle_delta = 0;
+
+// help variables:
+UINT8 i = 0;
+
 
 /** CONSTANTS *****************************************************************/
 /* Standard Response to INQUIRY command stored in ROM 	*/
@@ -216,7 +220,8 @@ void user_init(void) {
     is_logging = 0;
 
     // read HedgeHog configuration structure
-    read_HHG_conf(&hhg_conf, &sd_buffer);
+       read_SD(SECTOR_CF, sd_buffer.bytes);
+    // read_HHG_conf(&hhg_conf, &sd_buffer);
 
     // wait 5,000,000 ticks till system is powered
     Delay10KTCYx(250); Delay10KTCYx(250);
@@ -300,7 +305,7 @@ void update_display(void) {
             acc_write_string(&accval, acc_str);
         }
         else if (disp_update_init()) {
-            acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc));
+            acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
         }
     }
     // execute possible commands to the display update routine:
@@ -324,6 +329,7 @@ void update_display(void) {
  *                  are header, the other 504 are data increments
  ******************************************************************************/
 void log_process() {
+
     static BOOL startup = 0; // startup after a while
     if (startup == 0) { // to init light sensors, accelerometer & SD card
         Delay10KTCYx(250);
@@ -333,14 +339,18 @@ void log_process() {
         usbp_int = 0;
         #if defined(ADXL345_ENABLED)
         ACC_INT = 0; // pull down B2
-        USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin 
+        USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin
         usbp_int = !(USBP_INT);
         #endif
-        sdbuf_init(); 
-        read_HHG_conf(&hhg_conf, &sd_buffer); // read HedgeHog configuration 
-        rle_delta = hhg_conf.cs.acc.v[0] - 48; // extract from config string
+        sdbuf_init();
+        rle_delta = sd_buffer.conf.acc.v[0] - 48;
         env_init();                                     //
-        acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); //- init all sensors
+        acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
+//        read_HHG_conf(&hhg_conf, &sd_buffer); // read HedgeHog configuration
+//        rle_delta = hhg_conf.cs.acc.v[0] - 48; // extract from config string
+//        env_init();                                     //
+//        acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); //- init all sensors
+
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
@@ -371,7 +381,8 @@ void log_process() {
     }
     if (sdbuf_notfull()) { // log the main data
         #if defined(ADXL345_ENABLED)
-        if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
+//        if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
+          if (CONF_IN_FIFOMODE) { // in FIFO logging mode?
             while ( ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) ||
                     (ACC_INT==1) ) { // while FIFO not empty & interrupt high:
                 acc_getxyz(&accval);
@@ -421,6 +432,54 @@ void log_process() {
  * Overview:        Setting the HedgeHog's configuration via serial
  ******************************************************************************/
 void config_process(void) {
-    // here comes maintenance code for configuration
+
+ // read 512 Bytes from config.hhg
+    read_SD(SECTOR_CF, sd_buffer.bytes);
+
+    switch(sd_buffer.conf.flag){
+
+        case 'w':
+              // write Version String to SD-Buffer
+                 memcpy(sd_buffer.conf.ver, HH_VER_STR, strlen(HH_VER_STR));
+              // write Name String to SD-Buffer
+                 memcpy(sd_buffer.conf.name, HH_NAME_STR, strlen(HH_NAME_STR));
+
+              // Initialze Sensors with Settings from SD-Buffer
+                 rtc_init();
+                 acc_init(sd_buffer.conf.acc_s, &(sd_buffer.conf.acc));
+                 env_init();
+
+              // write Initial Sensor Data to SD-Buffer
+                 acc_getxyz(&accval); env_on();
+                 env_read(light, thermo);
+                 rtc_writestr(&tm,date_str,time_str);
+                 sd_buffer.conf.init_acc = accval;
+                 sd_buffer.conf.init_light =  light;
+                 sd_buffer.conf.init_thermo = thermo;
+
+              // write SD_buffer to SD Card
+                 sd_buffer.conf.flag = 0;
+                 write_SD(SECTOR_CF, sd_buffer.bytes);
+                 break;
+
+        case 'l':
+              // read and set System Time from SD-Buffer
+                 memcpy(tm.b, sd_buffer.conf.systime, 8*sizeof(BYTE));
+                 rtc_write(&tm);
+                 rtc_writestr(&tm,date_str,time_str);
+                   
+              // read and set Stop Time from SD-Buffer
+                 memcpy(Tm.b, sd_buffer.conf.stptime, 8*sizeof(BYTE));
+                 tm_stop = rtc_2uint32(&Tm);
+     
+             //  start logging
+                 sd_buffer.conf.flag = 0;
+                 write_SD(SECTOR_CF, sd_buffer.bytes);
+                 USBSoftDetach();
+                 is_logging = 1;                   
+                 break;
+
+     }
 }
 /******************************************************************************/
+
