@@ -17,8 +17,21 @@
 #define SD_BUF_MAX_RAW_SAMPLES_PER_PAGE 126 // 4-bytes per sample = 504/4 = 126
 #define ABSDIF(x,y) ((x)>(y))?((x)-(y)):((y)-(x))
 
+#define CONF_IN_FIFOMODE (sd_buffer.conf.acc_s.f.mode == '1')
 /******************************************************************************/
 // SD Card Buffer variables:
+
+
+typedef union {
+            UINT32 u32;
+            struct {
+                UINT8 range;
+                UINT8 bw;
+                UINT8 mode; // operating mode fifo, rle, etc.
+                UINT8 power; // low power options
+            } f;
+        } hhg_conf_accs_t;
+        
 typedef union {
     BYTE   bytes[512]; // byte access,
     WORD   wrd[256];   // word access,
@@ -41,12 +54,38 @@ typedef union {
             UINT16 l;       // - light (env)
         } acc[42];
     } mvf;
+
+    struct {                       // config structure:
+        UINT32 ID;                  // identifier
+        UINT32 time;                // time stamp
+        UINT32_VAL acc;             // accelerometer configuration
+        hhg_conf_accs_t acc_s;      // accelerometer sensitivity
+        UINT32_VAL logg;            // logging & processing setup
+        UINT8 separator_1[3];
+        UINT8 name[8];
+        UINT8 separator_2[3];
+        UINT8 ver[7];
+        UINT8 separator_3[3];
+        ACC_XYZ init_acc;
+        UINT8 separator_4[3];
+        WORD_VAL init_light;
+        UINT8 separator_5[3];
+        UINT8 init_thermo;
+        UINT8 separator_6[3];
+        BYTE  systime[8];
+        UINT8 separator_7[3];
+        BYTE  stptime[8];
+        UINT8 separator_8[433];
+        UINT8 flag;
+    } conf;
+
 } sd_buffer_t;
 
 /******************************************************************************/
 extern sd_buffer_t sd_buffer;
 static UINT16 sdbuffer_p;
 static UINT16 sdbuffer_i;
+
 
 /******************************************************************************/
 void sdbuf_init_buffer(void);
