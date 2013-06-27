@@ -124,9 +124,12 @@ class conf_HHG_dialog:
 					while gtk.events_pending(): gtk.main_iteration()
 				with open ("/media/HHG/config.hhg","r+w") as confhhg:
 					confhhg.seek(0,0);		
-				        ret_id_char = confhhg.read(4)
-                           	print "conf IO:", ret_id_char, len(ret_id_char)
-			        self.idstr.set_text("%c%c%c%c" % (ret_id_char[0],ret_id_char[1],ret_id_char[2],ret_id_char[3]))
+				        ret_ver_char = confhhg.read(4)
+					print "ver:", ret_ver_char, len(ret_ver_char)
+                                self.versionstr.set_text("HedgeHog v.%c%c%c%c%c" % (ret_ver_char[0],ret_ver_char[1],ret_ver_char[2],
+                                                                                    ret_ver_char[3],ret_ver_char[4]))
+				print "conf IO:", ret[:4], len(ret)
+			        self.idstr.set_text(ret[:20])
 				if progressbar:
 					pgrsdlg.hide()
 					pgrsdlg.destroy()

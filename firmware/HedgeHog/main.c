@@ -83,12 +83,7 @@ char tmp_str[4];
 BOOL usbp_int;
 
 // config variables:
-UINT16 config_cycle = 0;
 UINT8  rle_delta = 0;
-
-// help variables:
-UINT8 i = 0;
-
 
 /** CONSTANTS *****************************************************************/
 /* Standard Response to INQUIRY command stored in ROM 	*/
@@ -221,7 +216,6 @@ void user_init(void) {
 
     // read HedgeHog configuration structure
        read_SD(SECTOR_CF, sd_buffer.bytes);
-    // read_HHG_conf(&hhg_conf, &sd_buffer);
 
     // wait 5,000,000 ticks till system is powered
     Delay10KTCYx(250); Delay10KTCYx(250);
@@ -346,10 +340,6 @@ void log_process() {
         rle_delta = sd_buffer.conf.acc.v[0] - 48;
         env_init();                                     //
         acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
-//        read_HHG_conf(&hhg_conf, &sd_buffer); // read HedgeHog configuration
-//        rle_delta = hhg_conf.cs.acc.v[0] - 48; // extract from config string
-//        env_init();                                     //
-//        acc_init(hhg_conf.cs.acc_s,&(hhg_conf.cs.acc)); //- init all sensors
 
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
@@ -478,7 +468,6 @@ void config_process(void) {
                  USBSoftDetach();
                  is_logging = 1;                   
                  break;
-
      }
 }
 /******************************************************************************/

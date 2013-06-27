@@ -23,29 +23,20 @@
 #       
  
 
+
+
+
 import hhg_comms.hhg_comms as hcs
 import gtk
 import pango							# for tweaking the conf window font
 import datetime, string
-import subprocess
-import serial, time, os
-import glob
 
-class HHG_find:
-	
-	def __init__(self):
-		# ideally, we could detect the OS here...
-		print ''
-		
-	def list(self):
-		res = sorted(glob.glob('/dev/disk/by-uuid/C886-380A'))	# most Linux distros
-		return res
 
 # the main configuration dialog window
 class conf_HHG_dialog:
 
 	def select(self, widget, data=None):
-		hhgfinder = HHG_find()
+		hhgfinder = hcs.HHG_find()
 		hhglist = hhgfinder.list()
 		if not hhglist:
 			md = gtk.MessageDialog(self.window, 
@@ -65,16 +56,35 @@ class conf_HHG_dialog:
 		for i in range(len(hhglist)):
 			dlg.add_button(hhglist[i],i+1)
 		i = dlg.run()
-	        subprocess.call(["mount", "-U","C886-380A","/media/HHG"]);
 		dlg.destroy()
 		self.connected = True
 		self.portname = hhglist[i-1]
 		self.portstr.set_text(self.portname)
 			
+	def show_log(self, widget, data=None):
+		self.select(None)
+		if self.connected:
+			self.currentHHG = hcs.HHG_comms(self.portname)
+			self.currentHHG.connect(0.5)
+			ret = self.currentHHG.read_log(0,255)
+			print "read:", ret
+			dlg = gtk.MessageDialog(None, 
+				gtk.DIALOG_DESTROY_WITH_PARENT, 
+				gtk.MESSAGE_INFO,
+				gtk.BUTTONS_CLOSE, None)
+			dlg.set_size_request(350,420)
+			dlg.set_markup(ret)
+			dlg.show_all()
+			dlg.run()
+			dlg.destroy()
+		self.connected = False
+
 	def syncHHG(self, widget, data=None):
-		     self.select(None)
-	 	     if self.connected:
-			        progressbar = 1
+		self.select(None)
+		if self.connected:
+			progressbar = 1
+			self.currentHHG = hcs.HHG_comms(self.portname)
+			if self.currentHHG.connect(0.2):
 				if progressbar:
 					pgrsdlg = gtk.Dialog("Syncing...", None, 0, None)
 					pgrsdlg.set_size_request(200, 50)
@@ -84,54 +94,43 @@ class conf_HHG_dialog:
 					pbar.show()
 					pgrsdlg.vbox.show()
 					pgrsdlg.show()
-					while gtk.events_pending(): gtk.main_iteration()
-				with open ("/media/HHG/config.hhg","r+w") as confhhg:
-					confhhg.seek(8,0);		
-				        ret_init_char = confhhg.read(3)
-#					ret_init_dec = [ord(ret_init_char[0]), ord(ret_init_char[1]),ord(ret_init_char[2])]
-				print "init:", ret_init_char, len(ret_init_char)
-			        self.initstr.set_text("%c%c%c" % (ret_init_char[0],ret_init_char[1],ret_init_char[2]))
+					while gtk.events_pending(): gtk.main_iteration()	
+				ret = self.currentHHG.init_HHG(0.1, 18)
+				print "init:", ret, len(ret)
+				if len(ret) == 18:
+					self.initstr.set_text(ret[6:14])
 				if progressbar:
 					pbar.set_fraction(0.1)
 					while gtk.events_pending(): gtk.main_iteration()
-                                with open ("/media/HHG/config.hhg","r+w") as confhhg:
-					confhhg.seek(59,0);		
-				        ret_time_char = confhhg.read(8)
-					ret_time_dec = [ord(ret_time_char[0]), ord(ret_time_char[3]), ord(ret_time_char[2]),
-                                                            ord(ret_time_char[4]), ord(ret_time_char[7]),ord(ret_time_char[6])]
-				print "set clock:", ret_time_dec, len(ret_time_dec)
-                                self.timestr.set_text("%d/%d/%d %d:%d:%d" % (ret_time_dec[2],ret_time_dec[1],ret_time_dec[0],
-										ret_time_dec[3],ret_time_dec[4],ret_time_dec[5]))
+				ret = self.currentHHG.synchronize_clock(0.1, 3)
+				print "set clock:", ret, len(ret)
 				if progressbar:
 					pbar.set_fraction(0.3)
 					while gtk.events_pending(): gtk.main_iteration()
-			        with open ("/media/HHG/config.hhg","r+w") as confhhg:
-					confhhg.seek(44,0);		
-				        ret_data_char = confhhg.read(12)
-					ret_data_dec = [ord(ret_data_char[0]), ord(ret_data_char[1]), ord(ret_data_char[2]),
-                                                            ord(ret_data_char[6])+ord(ret_data_char[7]),ord(ret_data_char[11])]
-				print "data:", ret_data_dec, len(ret_data_dec)
-                                self.datastr.set_text("acc[%d %d %d], lgt[%d], tmp[%d]" % (ret_data_dec[0],ret_data_dec[1],ret_data_dec[2],
-												ret_data_dec[3], ret_data_dec[4]))
-                                with open ("/media/HHG/config.hhg","r+w") as confhhg:
-					confhhg.seek(36,0);		
-				        ret_ver_char = confhhg.read(5)
-					print "ver:", ret_ver_char, len(ret_ver_char)
-                                self.versionstr.set_text("HedgeHog v.%c%c%c%c%c" % (ret_ver_char[0],ret_ver_char[1],ret_ver_char[2],
-                                                                                    ret_ver_char[3],ret_ver_char[4]))
+				ret = self.currentHHG.read_data(0.1, 65)
+				print "data:", ret, len(ret)
+				if len(ret) == 65:
+					self.datastr.set_text(ret[:35])
+					self.timestr.set_text(ret[40:59])
+				ret = self.currentHHG.get_version(0.1, 16)
+				if len(ret) == 16:
+					self.versionstr.set_text(ret[:16])
+				print "ver:", ret, len(ret)
 				if progressbar:
 					pbar.set_fraction(0.8)
 					while gtk.events_pending(): gtk.main_iteration()
-				with open ("/media/HHG/config.hhg","r+w") as confhhg:
-					confhhg.seek(0,0);		
-				        ret_id_char = confhhg.read(4)
-                           	print "conf IO:", ret_id_char, len(ret_id_char)
-			        self.idstr.set_text("%c%c%c%c" % (ret_id_char[0],ret_id_char[1],ret_id_char[2],ret_id_char[3]))
+				ret = self.currentHHG.get_HHGID(0.1, 21)
+				print "conf IO:", ret[:4], len(ret)
+				if len(ret) > 19:
+					self.idstr.set_text(ret[:20])
 				if progressbar:
 					pgrsdlg.hide()
 					pgrsdlg.destroy()
 					while gtk.events_pending(): gtk.main_iteration()
-	 	     self.connected = False
+				self.currentHHG.disconnect()
+			else:
+				self.show_errordlg("I/O Error")
+		self.connected = False
 				
 	def record(self, widget, data=None):
 		self.select(None)
@@ -181,37 +180,80 @@ class conf_HHG_dialog:
 			rt = (entry_hour.get_active(), entry_mins.get_active())
 			rec_date = rec_date.replace(rd[0],rd[1]+1,rd[2],rt[0],rt[1]*5)
 			dlg.destroy()
-			#### write to SD #######################################
-			with open ("/media/HHG/config.hhg","r+w") as confhhg:
-			    	confhhg.seek(59,0)
-				confhhg.write(chr(now_date.year-2000))
-				confhhg.write(chr(0))
-				confhhg.write(chr(now_date.day))
-				confhhg.write(chr(now_date.month))
-				confhhg.write(chr(now_date.hour))
-				confhhg.write(chr(0))
-				confhhg.write(chr(now_date.second))
-				confhhg.write(chr(now_date.minute))	  
-			       
-                                confhhg.seek(70,0)
-                                confhhg.write(chr(rec_date.year-2000))
-                                confhhg.write(chr(0))
-                                confhhg.write(chr(rec_date.day))
-                                confhhg.write(chr(rec_date.month))
-                                confhhg.write(chr(rec_date.hour))
-                                confhhg.write(chr(0))
-                                confhhg.write(chr(rec_date.second))
-                                confhhg.write(chr(rec_date.minute))
-				
-				confhhg.seek(511,0)
-				confhhg.write("l")
-                                self.connected = False
+			#### serial comms #############################################
+			self.currentHHG = hcs.HHG_comms(self.portname)
+			if self.currentHHG.connect():
+				ret = self.currentHHG.set_timeout_clock(rec_date, 0.1, 3)
+				print "set timeout:", ret, len(ret)
+				ret = self.currentHHG.synchronize_clock(0.1, 3)
+				print "set clock:", ret, len(ret)
+				ret = self.currentHHG.record_HHG()
+				print ret
+				self.currentHHG.disconnect()
+				self.connected = False
 				dlg= gtk.MessageDialog(self.window, 
 						gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
 						gtk.BUTTONS_CLOSE, "Your HedgeHog is now recording")
 				dlg.set_size_request(320, 80)
 				dlg.run()
 				dlg.destroy()
+			else:
+				self.show_errordlg("I/O Error")
+		self.connected = False
+        
+	def refat(self, widget, data=None):
+		self.select(None)
+		if self.connected:
+			progressbar = 1
+			self.currentHHG = hcs.HHG_comms(self.portname)
+			if self.currentHHG.connect(time_out=7):
+				if progressbar:
+					pgrsdlg = gtk.Dialog("Format", None, 0, None)
+					pgrsdlg.set_size_request(200, 50)
+					pbar = gtk.ProgressBar()
+					pgrsdlg.vbox.add(pbar)
+					pbar.set_fraction(0.05)
+					pbar.show()
+					pgrsdlg.vbox.show()
+					pgrsdlg.show()
+					while gtk.events_pending(): gtk.main_iteration()
+				ret = self.currentHHG.wipe_HHG(7, 21)
+				if progressbar:
+					pbar.set_fraction(0.65)
+					while gtk.events_pending(): gtk.main_iteration()
+				print "Wipe IO:", ret, len(ret)
+				ret = self.currentHHG.set_FAT(0.1, 3)
+				if progressbar:
+					pbar.set_fraction(0.95)
+					while gtk.events_pending(): gtk.main_iteration()
+				print "FAT IO:", ret, len(ret)
+				if progressbar:
+					pgrsdlg.hide()
+					pgrsdlg.destroy()
+					while gtk.events_pending(): gtk.main_iteration()
+				self.currentHHG.disconnect()
+			else:
+				self.show_errordlg("I/O Error")
+		self.connected = False
+				
+	def boot(self, widget, data=None):
+		self.select(None)
+		if self.connected:
+			self.currentHHG = hcs.HHG_comms(self.portname)
+			if self.currentHHG.connect():
+				ret = self.currentHHG.boot_HHG(0.1, 0)
+				print "boot IO:", ret, len(ret)
+				self.currentHHG.disconnect()
+				self.connected = False
+				dlg= gtk.MessageDialog(self.window, 
+						gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
+						gtk.BUTTONS_CLOSE, "Your HedgeHog is now resetting")
+				dlg.set_size_request(320, 80)
+				dlg.run()
+				dlg.destroy()
+			else:
+				self.show_errordlg("I/O Error")
+		self.connected = False
 				
 	def conf(self, widget, data=None):
 		self.select(None)
@@ -333,13 +375,13 @@ class conf_HHG_dialog:
 				conf_str += "-"
 			conf_str += "----"
 			dlg.destroy()
-			
-			######## write to SD ##########################
-			with open("/media/HHG/config.hhg","r+w") as confhhg:
-				confhhg.seek(0,0)
-				confhhg.write(conf_str)
-       
-	 	self.connected = False 
+			if ret==gtk.RESPONSE_OK:
+				self.currentHHG = hcs.HHG_comms(self.portname)
+				self.currentHHG.connect()
+				ret = self.currentHHG.set_HHGID(conf_str, 0.05, 3)
+				print "set conf:", ret, len(ret)
+				self.currentHHG.disconnect()
+		self.connected = False
 
 	def leave(self, widget, data=None):
 		return False
@@ -406,6 +448,15 @@ class conf_HHG_dialog:
 			l.set_alignment(0, 0.5)
 			l.modify_font(pango.FontDescription("courier 10"))
 		hbox_adv = gtk.HBox()
+		self.rfat_button = gtk.Button('clean-format SD card')
+		self.rfat_button.connect("clicked", self.refat, None)
+		hbox_adv.add(self.rfat_button)
+		self.boot_button = gtk.Button('reset')
+		self.boot_button.connect('clicked', self.boot, None)
+		hbox_adv.add(self.boot_button)
+		self.slog_button = gtk.Button('show log')
+		self.slog_button.connect("clicked", self.show_log, None)
+		hbox_adv.add(self.slog_button)
 		self.conf_button = gtk.Button('configure HedgeHog')
 		self.conf_button.connect("clicked", self.conf, None)
 		hbox_adv.add(self.conf_button)
