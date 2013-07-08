@@ -39,6 +39,7 @@ import pygtk, gtk
 import re
 import pygtk, gtk
 from struct import unpack
+import glob
 
 #looking for the home directory of the system 
 homedir=os.path.expanduser("~")
@@ -68,7 +69,7 @@ def check_raw(npath):
 
 #the tic counts how long time the programs takes
 tic = time.clock()
-src='/media/HEDGEHOG'
+src = glob.glob('/media/HEDG*')[0]
 
 outpath = os.path.join(homedir,'HHG')
 
@@ -77,9 +78,9 @@ if not os.path.exists(outpath):
 
 extension = ".HHG"
 
-#we have the list of the HHG files only
-lst=[file for file in os.listdir(src) if file.endswith(extension)]
-lst.sort()
+#we have the filelist (with path) and the filenamelist of log*.HHG files
+flst = sorted(glob.glob(src + '/log*.HHG'))
+lst  = [fl[-10:] for fl in flst]
 
 #create the directory where to put the log files
 opath = check_raw(outpath)
@@ -94,11 +95,6 @@ pgrsdlg.vbox.show()
 pgrsdlg.show()
 while gtk.events_pending(): gtk.main_iteration()
 
-flst = []
-k=0
-for file in lst:
-	flst.append(os.path.join(src,lst[k]))
-	k = k+1
 
 #first of all, in the cycle while, the main program takes the first 
 #4 bytes of each log files and converts it to floating point referred to
@@ -137,7 +133,7 @@ while i<len(flst):
 			if os.path.isfile(os.path.join(opath, lst[i])):
 				shutil.copyfile(flst[i+1], os.path.join(opath,lst[i+1]))
 			else:
-				shutil.copyfile(flst[i], os.path.join(opath,lst[i]))
+				shutil.copyfile(flst[i],   os.path.join(opath,lst[i]))
 				shutil.copyfile(flst[i+1], os.path.join(opath,lst[i+1]))
 			i+=1
 			continue
@@ -162,12 +158,11 @@ for file in list_of_files:
 	dta, fta = hgi.hhg_import(os.path.join(opath,file))
 	if joindta==[]:
 		joindta = dta
-		
 	else:
 		joindta = np.concatenate((joindta, dta))
+	
 	if joinfta==[]:
-		joinfta = fta
-		
+		joinfta = fta	
 	else:
 		joinfta = np.concatenate((joinfta, fta))
 
