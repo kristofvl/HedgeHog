@@ -116,6 +116,7 @@ while i<len(flst):
 	tme1 = hgi.hhg_convtime(bs[0],bs[1],bs[2],bs[3])
 	
 	if i+1 >= len(flst):
+		shutil.copyfile(flst[i], os.path.join(opath,lst[i]))
 		break 
 	else:
 	
