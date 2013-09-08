@@ -1,4 +1,4 @@
-Warning[2054] ../main.c 438 : suspicious pointer conversion
-Warning[2054] ../main.c 440 : suspicious pointer conversion
-Warning[2054] ../main.c 462 : suspicious pointer conversion
-Warning[2054] ../main.c 467 : suspicious pointer conversion
+Warning[2054] ../main.c 435 : suspicious pointer conversion
+Warning[2054] ../main.c 437 : suspicious pointer conversion
+Warning[2054] ../main.c 468 : suspicious pointer conversion
+Warning[2054] ../main.c 473 : suspicious pointer conversion

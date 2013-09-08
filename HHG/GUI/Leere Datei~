@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Name=configure
+GenericName=configure
+Name[en_US]=configure
+Exec=/home/hany/HedgeHog/nocdc/HHG/GUI/conf_HHG_2.py
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=htop
+Categories=Network;
+

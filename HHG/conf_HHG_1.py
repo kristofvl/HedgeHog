@@ -16,16 +16,15 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #       
-# You should have received a copy of the GNU General Public License
+su# You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 #       
  
 
-import hhg_comms.hhg_comms as hcs
 import gtk
-import pango							# for tweaking the conf window font
+import pango							
 import datetime, string
 import subprocess
 import serial, time, os
@@ -38,13 +37,14 @@ class HHG_find:
 		print ''
 		
 	def list(self):
-		res = sorted(glob.glob('/dev/disk/by-uuid/C886-380A'))	# most Linux distros
+		res = sorted(glob.glob('/dev/disk/by-uuid/C886-380*'))	# most Linux distros
 		return res
 
 # the main configuration dialog window
 class conf_HHG_dialog:
 
 	def select(self, widget, data=None):
+	    if self.connected == False:
 		hhgfinder = HHG_find()
 		hhglist = hhgfinder.list()
 		if not hhglist:
@@ -71,7 +71,7 @@ class conf_HHG_dialog:
 		self.portname = hhglist[i-1]
 		self.portstr.set_text(self.portname)
 			
-	def syncHHG(self, widget, data=None):
+	def syncHHG(self, widget, data=None):   	
 		     self.select(None)
 	 	     if self.connected:
 			        progressbar = 1
@@ -88,7 +88,6 @@ class conf_HHG_dialog:
 				with open ("/media/HHG/config.hhg","r+w") as confhhg:
 					confhhg.seek(8,0);		
 				        ret_init_char = confhhg.read(3)
-#					ret_init_dec = [ord(ret_init_char[0]), ord(ret_init_char[1]),ord(ret_init_char[2])]
 				print "init:", ret_init_char, len(ret_init_char)
 			        self.initstr.set_text("%c%c%c" % (ret_init_char[0],ret_init_char[1],ret_init_char[2]))
 				if progressbar:
@@ -131,7 +130,6 @@ class conf_HHG_dialog:
 					pgrsdlg.hide()
 					pgrsdlg.destroy()
 					while gtk.events_pending(): gtk.main_iteration()
-	 	     self.connected = False
 				
 	def record(self, widget, data=None):
 		self.select(None)
@@ -205,14 +203,14 @@ class conf_HHG_dialog:
 				
 				confhhg.seek(511,0)
 				confhhg.write("l")
-                                self.connected = False
+				confhhg.close()
 				dlg= gtk.MessageDialog(self.window, 
 						gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING, 
 						gtk.BUTTONS_CLOSE, "Your HedgeHog is now recording")
 				dlg.set_size_request(320, 80)
 				dlg.run()
 				dlg.destroy()
-				
+		
 	def conf(self, widget, data=None):
 		self.select(None)
 		if self.connected:
@@ -332,14 +330,18 @@ class conf_HHG_dialog:
 			else:
 				conf_str += "-"
 			conf_str += "----"
-			dlg.destroy()
-			
+						
 			######## write to SD ##########################
 			with open("/media/HHG/config.hhg","r+w") as confhhg:
 				confhhg.seek(0,0)
 				confhhg.write(conf_str)
-       
-	 	self.connected = False 
+	                        confhhg.seek(511,0)
+				confhhg.write("w")
+				confhhg.close()
+				subprocess.call(["umount", "/media/HHG"]);
+                                subprocess.call(["sleep", "1"]);
+                                subprocess.call(["mount", "-U","C886-380A" ,"/media/HHG"]);
+			dlg.destroy()      
 
 	def leave(self, widget, data=None):
 		return False

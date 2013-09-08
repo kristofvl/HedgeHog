@@ -200,6 +200,9 @@ static void init_system(void) {
     Delay10KTCYx(250); Delay10KTCYx(250);
     sdbuf_init();
 
+  //  write_root_table(&sd_buffer, "");
+  //  write_SD(SECTOR_RT, sd_buffer.bytes);
+
     user_init(); // Our other init routines come last
 }
 
@@ -251,7 +254,7 @@ void process_IO(void) {
         #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
             if (!rtc_alrm())
-                goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
+               goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
             else
                 return;
         #else
@@ -486,6 +489,7 @@ void config_process(void) {
                  
               // start logging
                  sd_buffer.conf.flag = 0;
+                // write_SD(387220, sd_buffer.bytes);
                  write_SD(SECTOR_LF, sd_buffer.bytes);
                  USBSoftDetach();
                  is_logging = 1;

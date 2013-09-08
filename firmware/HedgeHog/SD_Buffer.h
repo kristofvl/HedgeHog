@@ -33,6 +33,7 @@ typedef union {
         } hhg_conf_accs_t;
         
 typedef union {
+
     BYTE   bytes[512]; // byte access,
     WORD   wrd[256];   // word access,
 
