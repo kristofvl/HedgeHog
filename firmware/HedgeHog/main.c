@@ -201,6 +201,10 @@ static void init_system(void) {
     sdbuf_init();
 
     user_init(); // Our other init routines come last
+
+    write_root_table(&sd_buffer, "");
+    write_SD(SECTOR_RT, sd_buffer.bytes);
+    
 }
 
 /*******************************************************************************
@@ -259,7 +263,7 @@ void process_IO(void) {
             return;
         #endif
         MSDTasks();         // mass storage device tasks
-        config_process();   // CDC configuration tasks
+      //  config_process();   // CDC configuration tasks
     }
 }
 
@@ -325,6 +329,7 @@ void log_process() {
 
     static BOOL startup = 0; // startup after a while
     if (startup == 0) { // to init light sensors, accelerometer & SD card
+      //  read_SD(SECTOR_CF, sd_buffer.bytes);
         Delay10KTCYx(250);
         set_osc_8Mhz();
         startup = TRUE;
@@ -461,8 +466,9 @@ void config_process(void) {
 
               // Reinitialize Sensors with NEW Settings from SD-Buffer
                  rtc_init();
-                 acc_init(sd_buffer.conf.acc_s, &(sd_buffer.conf.acc));
+                 rle_delta = sd_buffer.conf.acc.v[0] - 48;
                  env_init();
+                 acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
 
               // read and set System Time from SD-Buffer
                  memcpy(tm.b, sd_buffer.conf.systime, 8*sizeof(BYTE));
@@ -472,7 +478,7 @@ void config_process(void) {
               // read and set Stop Time from SD-Buffer
                  memcpy(Tm.b, sd_buffer.conf.stptime, 8*sizeof(BYTE));
                  tm_stop = rtc_2uint32(&Tm);
-     
+                 
               // Update Disk Label to reflect ID
                  id_str[0] = sd_buffer.bytes[0];
                  id_str[1] = sd_buffer.bytes[1];

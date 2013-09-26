@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python2.7
 
 ########################################################################
 #
@@ -23,7 +23,7 @@
 # 
 
 
-
+import sys
 from numpy import *
 import hhg_plot.hhg_plot as hplt
 import hhg_dialogs.hhg_fopen as hhg_fopen
@@ -36,7 +36,7 @@ import pdb
 filename, scr = hhg_fopen.load('/media/HEDGEHOG/log000.HHG')
 
 #open/parse the data:
-dta, stats = hgi.hhg_open_data(filename)
+dta, stats = hgi.hhg_open_data(sys.argv[1])
 print stats
 
 if dta == []:

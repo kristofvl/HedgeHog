@@ -1,4 +1,5 @@
-Warning[2054] ../main.c 435 : suspicious pointer conversion
-Warning[2054] ../main.c 437 : suspicious pointer conversion
-Warning[2054] ../main.c 468 : suspicious pointer conversion
-Warning[2054] ../main.c 473 : suspicious pointer conversion
+Warning[2066] ../main.c 205 : type qualifier mismatch in assignment
+Warning[2054] ../main.c 440 : suspicious pointer conversion
+Warning[2054] ../main.c 442 : suspicious pointer conversion
+Warning[2054] ../main.c 474 : suspicious pointer conversion
+Warning[2054] ../main.c 479 : suspicious pointer conversion

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application                          
-Version=1.0                              
-Name=confer                            
-Comment= __
-Exec=conf_HHG_2.py                            
-Icon=jmemorize                            
-Terminal=false                            
-Categories=Education;Languages;Java;      
