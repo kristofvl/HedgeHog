@@ -4,22 +4,13 @@
 import sys
 from gi.repository import Gtk, GObject
 import glob
-import time, datetime, os
 import subprocess
-from math import exp
 
 class configure:
 
-    def getSysTime(self, sysTimeEntry, sysTime, stpTime):
-    	sysTime = datetime.datetime.now()
-    	sysTimeEntry.set_text(sysTime.strftime("%Y-%m-%d %H:%M:%S"))
-	stpTime.insert(0,sysTime.year)
-	stpTime.insert(1,sysTime.month)
-	stpTime.insert(2,sysTime.day+7)
-
-    def chooseHHG(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo, sysTimeEntry, sysTime, stpTime, lastStartEntry, lastStpEntry):
+    def readSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
 	confhhg_path = sys.argv[1] 
-	print(confhhg_path)	
+	#print(confhhg_path)	
         with open (confhhg_path,"r") as confhhg:
                confhhg.seek(0,0)
                idChar = confhhg.read(4)
@@ -31,27 +22,10 @@ class configure:
 	       freqCombo.set_active(int(confhhg.read(1)))
 	       modeCombo.set_active(int(confhhg.read(1)))
 	       powCombo.set_active(int(confhhg.read(1)))			       			
-	       self.getSysTime(sysTimeEntry, sysTime, stpTime) 
-	       confhhg.seek(59,0)	
-	       lastStartTimeChar = confhhg.read(8)
-	       lastStartTimeDec = [ord(lastStartTimeChar[0]),ord(lastStartTimeChar[3]),ord(lastStartTimeChar[2]),
-                                ord(lastStartTimeChar[4]),ord(lastStartTimeChar[7]),ord(lastStartTimeChar[6])]
-	       lastStartEntry.set_text("20%d-%d-%d %d:%d:%d" % (lastStartTimeDec[0],lastStartTimeDec[1],lastStartTimeDec[2],
-							       lastStartTimeDec[3],lastStartTimeDec[4],lastStartTimeDec[5]))
-	       confhhg.seek(70,0)	
-	       lastStpTimeChar = confhhg.read(8)
-	       lastStpTimeDec = [ord(lastStpTimeChar[0]),ord(lastStpTimeChar[3]),ord(lastStpTimeChar[2]),
-                                ord(lastStpTimeChar[4]),ord(lastStpTimeChar[7]),ord(lastStpTimeChar[6])]
-	       lastStpEntry.set_text("20%d-%d-%d %d:%d:%d" % (lastStpTimeDec[0],lastStpTimeDec[1],lastStpTimeDec[2],
-							     lastStpTimeDec[3],lastStpTimeDec[4],lastStpTimeDec[5]))
 	       confhhg.close()
 
-
-    def syncSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo, sysTimeEntry, sysTime, stpTime):
+    def syncSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
 	confhhg_path = sys.argv[1]
-	if (stpTime[0]<sysTime.year) or (stpTime[0]==sysTime.year and stpTime[1]<sysTime.month) or (stpTime[0]==sysTime.year and 
-						stpTime[1]==sysTime.month and stpTime[2]<sysTime.day):
-		self.getSysTime(sysTimeEntry, sysTime, stpTime)
 	      	 
 	idChar = idEntry.get_text();
 	with open (confhhg_path,"r+w") as confhhg:
@@ -67,24 +41,6 @@ class configure:
 		confhhg.write(str(freqCombo.get_active()))
 		confhhg.write(str(modeCombo.get_active()))
 		confhhg.write(str(powCombo.get_active()))
-		confhhg.seek(59,0)  # Write System Time
-		confhhg.write(chr(sysTime.year-2000))
-		confhhg.write(chr(0))
-		confhhg.write(chr(sysTime.day))
-		confhhg.write(chr(sysTime.month))
-		confhhg.write(chr(sysTime.hour))
-		confhhg.write(chr(0))
-		confhhg.write(chr(sysTime.second))
-		confhhg.write(chr(sysTime.minute))
-		confhhg.seek(70,0)  # Write Stop Time
-                confhhg.write(chr(stpTime[0]-2000))
-                confhhg.write(chr(0))
-                confhhg.write(chr(stpTime[2]))
-                confhhg.write(chr(stpTime[1])) # Month
-                confhhg.write(chr(sysTime.hour))
-                confhhg.write(chr(0))
-                confhhg.write(chr(sysTime.second))
-                confhhg.write(chr(sysTime.minute))
 		confhhg.close()
 		sys.exit()
 
@@ -98,11 +54,7 @@ class conf_HHG_dialog:
         self.window.set_title("HedgeHog Configuration")
         self.window.show_all()
 	
-        self.cal = self.builder.get_object("Cal")
         self.idEntry = self.builder.get_object("IDEntry")
-        self.sysTimeEntry = self.builder.get_object("SysTimeEntry")
-	self.lastStartEntry = self.builder.get_object("LastStart")
-	self.lastStpEntry = self.builder.get_object("LastStop")
 	self.rangeCombo = self.builder.get_object("RangeCombo")
 	self.powCombo = self.builder.get_object("PowCombo")
 	self.freqCombo = self.builder.get_object("FreqCombo")
@@ -111,7 +63,6 @@ class conf_HHG_dialog:
 	self.modeCombo = self.builder.get_object("ModeCombo")
 
 	self.stpTime = []
-    	self.sysTime = datetime.datetime.now()
 	self.ranges = ["-2 to +2 g","-4 to +4 g","-8 to +8 g","-16 to +16 g"]    
 	self.freqs =  ["0.1Hz","5Hz","10Hz","25Hz","50Hz","100Hz","0.2kHz","0.4kHz",
 			"0.8kHz","1.5kHz"]
@@ -122,9 +73,7 @@ class conf_HHG_dialog:
 
         dic = { 
            "on_HedgeHog_destroy" : self.Quit,
-           "on_SysTimeButton_clicked": self.SysTimeButtonClick,
            "on_SyncButton_clicked": self.SyncButtonClick,
-	   "on_Cal_day_selected_double_click": self.CalDayClick,
         }
         self.builder.connect_signals(dic)
 
@@ -146,33 +95,17 @@ class conf_HHG_dialog:
 	for mod in self.mods:
 	    self.modeCombo.append_text(mod)
 
-	self.confer.chooseHHG(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo, self.sysTimeEntry, self.sysTime, self.stpTime, 			   					self.lastStartEntry,self.lastStpEntry)					   		
+	self.confer.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)					   		
 	
-	self.cal.clear_marks()
-   	self.cal.select_month(self.stpTime[1]-1, self.stpTime[0])	
-	self.cal.mark_day(self.stpTime[2])
-
-    	
-
     def HHGReadSettings(self, widget):
-	self.confer.chooseHHG(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo, self.sysTimeEntry, self.sysTime, self.stpTime, 			   					self.lastStartEntry,self.lastStpEntry)
-
-    def SysTimeButtonClick(self, widget):
-	self.confer.getSysTime(self.sysTimeEntry, self.sysTime, self.stpTime)
+	self.confer.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
 	
-    def CalDayClick(self, widget): 
-	self.cal.clear_marks()
-	self.stpTime = list(self.cal.get_date())
-	self.stpTime[1] = self.stpTime[1]+1	
-	self.cal.mark_day(self.stpTime[2])
-
     def SyncButtonClick(self, widget):
-   	self.confer.syncSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo, self.sysTimeEntry, self.sysTime, self.stpTime)
+   	self.confer.syncSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
     		    		
     def Quit(self, widget):
         sys.exit(0)
 
-	
 hhg_dialog = conf_HHG_dialog()
 Gtk.main()
 

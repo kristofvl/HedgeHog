@@ -24,7 +24,7 @@ class configure:
                confhhg.seek(0,0)
                idChar = confhhg.read(4)
                idEntry.set_text(idChar)
-	       confhhg.seek(4,0)
+	       confhhg.seek(8,0)
 	       rleCombo.set_active(int(confhhg.read(1)))
 	       confhhg.seek(12,0)
 	       rangeCombo.set_active(int(confhhg.read(1)))
