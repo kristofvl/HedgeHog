@@ -48,7 +48,7 @@ class conf_HHG_dialog:
 	def __init__( self ):
 		self.confer = configure()
 		self.builder = Gtk.Builder()
-		self.builder.add_from_file("/home/hwlab/HedgeHog_nocdc/HedgeHog/HHG/Conf.ui")
+		self.builder.add_from_file("Conf.ui")
 		self.window = self.builder.get_object("HedgeHog")
 		self.window.set_title("HedgeHog Configuration")
 		self.window.show_all()
@@ -57,7 +57,6 @@ class conf_HHG_dialog:
 		self.rangeCombo = self.builder.get_object("RangeCombo")
 		self.powCombo = self.builder.get_object("PowCombo")
 		self.freqCombo = self.builder.get_object("FreqCombo")
-		self.compCombo = self.builder.get_object("CompCombo")
 		self.rleCombo = self.builder.get_object("RLECombo")
 		self.modeCombo = self.builder.get_object("ModeCombo")
 
@@ -66,7 +65,6 @@ class conf_HHG_dialog:
 		self.freqs =  ["0.1Hz","5Hz","10Hz","25Hz","50Hz","100Hz","0.2kHz","0.4kHz",
 			"0.8kHz","1.5kHz"]
 		self.pows = ["normal","low-power","auto-sleep","low / auto"]
-		self.comps = ["none (raw data)", "mean/variance","emSWAB","tap features"]	
 		self.mods = ["mirco-controller sampling", "on-chio FIFO, raw sampling"] 
 		self.deltas = ["0","1","2","3","4","5","6","7"]
 
@@ -82,9 +80,6 @@ class conf_HHG_dialog:
 		for power in self.pows:
 			self.powCombo.append_text(power)		
 				
-		for comp in self.comps:
-			self.compCombo.append_text(comp)	
-			
 		for delta in self.deltas:
 			self.rleCombo.append_text(delta)
 			
