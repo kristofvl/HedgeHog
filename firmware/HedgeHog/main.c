@@ -202,7 +202,12 @@ static void init_system(void) {
 
     user_init(); // Our other init routines come last
 
-    write_root_table(&sd_buffer, "");
+    read_SD(SECTOR_CF, sd_buffer.bytes);
+    id_str[0] = sd_buffer.bytes[0];
+    id_str[1] = sd_buffer.bytes[1];
+    id_str[2] = sd_buffer.bytes[2];
+    id_str[3] = sd_buffer.bytes[3];
+    write_root_table(&sd_buffer, id_str);
     write_SD(SECTOR_RT, sd_buffer.bytes);
     
 }
@@ -263,7 +268,7 @@ void process_IO(void) {
             return;
         #endif
         MSDTasks();         // mass storage device tasks
-      //  config_process();   // CDC configuration tasks
+        config_process();   // CDC configuration tasks
     }
 }
 
