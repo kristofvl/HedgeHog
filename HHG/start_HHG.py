@@ -48,7 +48,7 @@ class start_HHG_dialog:
 	def __init__( self ):
 		self.timer = timer();	
 		self.builder = Gtk.Builder()
-		self.builder.add_from_file("/home/hwlab/HedgeHog_nocdc/HedgeHog/HHG/Start.ui")
+		self.builder.add_from_file("/home/hany/HedgeHog/nocdc/HHG/Start.ui")
 		self.logger = self.builder.get_object("Logger")
 		self.cal = self.builder.get_object("Cal")
 		dic = {

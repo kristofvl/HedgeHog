@@ -3,15 +3,15 @@
 
 if [[ $1 == *"start.now"* ]]
 then
-	/home/hwlab/HedgeHog_nocdc/HedgeHog/HHG/start_HHG.py $1 $PWD
+	~/HedgeHog/nocdc/HHG/start_HHG.py $1 $PWD
 fi
 
 if [[ $1 == *"config.ure"* ]]
 then
-        /home/hwlab/HedgeHog_nocdc/HedgeHog/HHG/conf_HHG.py $1
+    ~/HedgeHog/nocdc/HHG/conf_HHG.py $1
 fi
 
 if [[ $1 == *"log"* ]]
 then
-        /home/hwlab/HedgeHog_nocdc/HedgeHog/HHG/plot_HHG.py $1
+    ~/HedgeHog/nocdc/HHG/plot_HHG.py $1
 fi

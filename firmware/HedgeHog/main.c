@@ -6,8 +6,9 @@
  Compiler:  	Microchip C18
  Author:        KristofVL
  ******************************************************************************/
-char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g'};
-char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '7', '3'};
+
+rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '7', '3',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -223,7 +224,7 @@ void user_init(void) {
     is_logging = 0;
         
     // read HedgeHog configuration structure
-       read_SD(SECTOR_CF, sd_buffer.bytes);
+    //   read_SD(SECTOR_CF, sd_buffer.bytes);
 
     // wait 5,000,000 ticks till system is powered
     Delay10KTCYx(250); Delay10KTCYx(250);
@@ -331,10 +332,8 @@ void update_display(void) {
  *                  are header, the other 504 are data increments
  ******************************************************************************/
 void log_process() {
-
     static BOOL startup = 0; // startup after a while
     if (startup == 0) { // to init light sensors, accelerometer & SD card
-      //  read_SD(SECTOR_CF, sd_buffer.bytes);
         Delay10KTCYx(250);
         set_osc_8Mhz();
         startup = TRUE;
@@ -346,10 +345,10 @@ void log_process() {
         usbp_int = !(USBP_INT);
         #endif
         sdbuf_init();
+        read_SD(SECTOR_CF, sd_buffer.bytes);
         rle_delta = sd_buffer.conf.acc.v[0] - 48;
         env_init();                                     //
         acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
-
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
