@@ -5,6 +5,7 @@ import sys
 from gi.repository import Gtk, GObject
 import glob
 import subprocess
+import os
 
 class configure:
 
@@ -48,7 +49,8 @@ class conf_HHG_dialog:
 	def __init__( self ):
 		self.confer = configure()
 		self.builder = Gtk.Builder()
-		self.builder.add_from_file("/home/hany/HedgeHog/nocdc/HHG/Conf.ui")
+		self.home_dir = os.environ['HOME']
+		self.builder.add_from_file(self.home_dir+"/bin/HHG/Conf.ui")
 		self.window = self.builder.get_object("HedgeHog")
 		self.window.set_title("HedgeHog Configuration")
 		self.window.show_all()
