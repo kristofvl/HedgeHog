@@ -36,7 +36,11 @@ import pdb
 filename, scr = hhg_fopen.load('/media/HEDGEHOG/log000.HHG')
 
 #open/parse the data:
-dta, stats = hgi.hhg_open_data(sys.argv[1])
+if not sys.argv:
+    dta, stats = hgi.hhg_open_data(filename)
+if sys.argv:    
+    dta, stats = hgi.hhg_open_data(sys.argv[1])
+    
 print stats
 
 if dta == []:
