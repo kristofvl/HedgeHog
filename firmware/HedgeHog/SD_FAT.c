@@ -35,14 +35,14 @@
 #define FIRST_CLUSTER__SZ    2
 #define FILE_SIZE__SZ        4
 
-#define NUM_FILES            10
+#define NUM_FILES            9
 
-rom UINT16 startC[NUM_FILES] = {3, 68, 133, 263, 523,  978, 1693, 2733, 4163, 6048};
+rom UINT16 startC[NUM_FILES] = {3, 68, 133, 263, 523,  978, 1693, 2733, 4163};
             //, 6048, 8453, 11443, 15083, 19438, 24573 };
-rom UINT16 endC[NUM_FILES] = {67, 132, 262, 522, 977, 1692, 2732, 4162, 6047, 6112};
+rom UINT16 endC[NUM_FILES] = {67, 132, 262, 522, 977, 1692, 2732, 4162, 6047};
             //, 8452, 11442, 15082, 19437, 24572, 30552  };
 rom UINT32 fileSz[NUM_FILES] = { 2129920, 2129920,  4259840, 8519680, 14909440,
-                                 23429120, 34078720, 46858240, 61767680, 2129920};
+                                 23429120, 34078720, 46858240, 61767680};
             //78807040, 97976320, 119275520, 142704640, 168263680, 195952640 };
 
 // The following 32 bytes describe the volume label of the SD Card:
@@ -58,10 +58,6 @@ rom BYTE SDConfigFile[] = {
 };
 rom BYTE SDLogFiles[] = {
     'L','O','G','0','0','0',' ',' ','H','H','G',' ',8,6,0x3B,0x8A,
-0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x45,0x00,0x00,0x80,0x01,0x00
-};
-rom BYTE SDStartFile[] = {
-    's','t','a','r','t',' ',' ',' ','n','o','w',' ',8,6,0x3B,0x8A,
 0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x45,0x00,0x00,0x80,0x01,0x00
 };
 
@@ -139,12 +135,8 @@ void write_root_table(sd_buffer_t *sd_buffer, char *id_str)
     for (file_i=0; file_i<NUM_FILES-1; file_i++) {
         for (sdbuffer_i=64+32*file_i;sdbuffer_i<(64+32*(file_i+1));sdbuffer_i++)
         {
-            if(file_i == 8)
-                sd_buffer->bytes[sdbuffer_i] = SDStartFile[sdbuffer_i%32];
-            else
+           
                 sd_buffer->bytes[sdbuffer_i] = SDLogFiles[sdbuffer_i%32];
-        }
-        if(file_i <=7) {
                 sd_buffer->bytes[32+36+(32*file_i)] = 48 + (file_i / 10);
                 sd_buffer->bytes[32+37+(32*file_i)] = 48 + (file_i % 10);
         }

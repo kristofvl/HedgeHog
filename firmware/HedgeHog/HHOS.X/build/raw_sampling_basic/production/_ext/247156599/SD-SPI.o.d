@@ -11,8 +11,8 @@ build/raw_sampling_basic/production/_ext/247156599/SD-SPI.o:  \
 	/opt/microchip/mplabc18/v3.40/h/stdarg.h  \
 	/opt/microchip/mplabc18/v3.40/h/stddef.h  \
 	/opt/microchip/microchip_solutions_v2012-02-15/Microchip/Include/GenericTypeDefs.h  \
-	/home/hany/HedgeHog/nocdc/firmware/HedgeHog/HardwareProfile.h  \
-	/home/hany/HedgeHog/nocdc/firmware/HedgeHog/HardwareProfileBasic.h  \
-	/home/hany/HedgeHog/nocdc/firmware/HedgeHog/FSconfig.h  \
+	/home/hany/HedgeHog/firmware/HedgeHog/HardwareProfile.h  \
+	/home/hany/HedgeHog/firmware/HedgeHog/HardwareProfileBasic.h  \
+	/home/hany/HedgeHog/firmware/HedgeHog/FSconfig.h  \
 	/opt/microchip/microchip_solutions_v2012-02-15/Microchip/Include/MDD\ File\ System/FSDefs.h  \
 

@@ -203,6 +203,7 @@ static void init_system(void) {
 
     user_init(); // Our other init routines come last
 
+    // updating root table to reflect ID
     read_SD(SECTOR_CF, sd_buffer.bytes);
     id_str[0] = sd_buffer.bytes[0];
     id_str[1] = sd_buffer.bytes[1];
@@ -447,9 +448,10 @@ void config_process(void) {
 
               // Initialize Sensors with Settings from SD-Buffer
                  rtc_init();
-                 acc_init(sd_buffer.conf.acc_s, &(sd_buffer.conf.acc));
+                 rle_delta = sd_buffer.conf.acc.v[0] - 48;
                  env_init();
-
+                 acc_init(sd_buffer.conf.acc_s, &(sd_buffer.conf.acc));
+                 
               // write Initial Sensor Data to SD-Buffer
                  acc_getxyz(&accval); env_on();
                  env_read(light, thermo);
@@ -459,7 +461,7 @@ void config_process(void) {
                  sd_buffer.conf.init_thermo = thermo;
 
               // write SD_buffer to SD Card
-                 memset(sd_buffer.bytes,'-',512);
+                 memset(sd_buffer.bytes,'.',512);
                  sd_buffer.conf.flag = 0;
                  write_SD(SECTOR_LF, sd_buffer.bytes);
                  break;
@@ -492,7 +494,7 @@ void config_process(void) {
                  write_SD(SECTOR_RT, sd_buffer.bytes);
 
               // Erase SD_Buffer_Struct
-                 memset(sd_buffer.bytes,'-',512);
+                 memset(sd_buffer.bytes,'.',512);
                  
               // start logging
                  sd_buffer.conf.flag = 0;

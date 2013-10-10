@@ -48,7 +48,7 @@ class start_HHG_dialog:
         self.timer = timer();   
         self.builder = Gtk.Builder()
         self.home_dir = os.environ['HOME']
-        self.builder.add_from_file(self.home_dir+"/bin/HHG/Start.ui")
+        self.builder.add_from_file(self.home_dir+"/.hhg/Start.ui")
         self.logger = self.builder.get_object("Logger")
         self.cal = self.builder.get_object("Cal")
         dic = {
@@ -60,8 +60,7 @@ class start_HHG_dialog:
 
         self.logger.show_all()
 
-        self.startpath = sys.argv[1]
-        self.confpath = sys.argv[1].replace("start.now","config.ure")
+        self.confpath = sys.argv[1]
         self.stpTime = []
         self.timer.calcStpTime(self.stpTime)
         self.cal.clear_marks()
@@ -78,8 +77,8 @@ class start_HHG_dialog:
 
     def StartLogging(self, widget):
         self.timer.setTime(self.confpath, self.stpTime) 
-        with open (self.startpath,"r+w") as starthhg:
-            starthhg.seek(511,0)  
+        with open (self.confpath,"r+w") as starthhg:
+            starthhg.seek(1023,0)  
             starthhg.write("l")
             starthhg.close()
         sys.exit(0)  

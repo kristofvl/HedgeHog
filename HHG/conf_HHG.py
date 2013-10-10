@@ -11,7 +11,6 @@ class configure:
 
 	def readSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
 		confhhg_path = sys.argv[1] 
-		#print(confhhg_path)	
 		with open (confhhg_path,"r") as confhhg:
 			confhhg.seek(0,0)
 			idChar = confhhg.read(4)
@@ -50,7 +49,7 @@ class conf_HHG_dialog:
 		self.confer = configure()
 		self.builder = Gtk.Builder()
 		self.home_dir = os.environ['HOME']
-		self.builder.add_from_file(self.home_dir+"/bin/HHG/Conf.ui")
+		self.builder.add_from_file(self.home_dir+"/.hhg/Conf.ui")
 		self.window = self.builder.get_object("HedgeHog")
 		self.window.set_title("HedgeHog Configuration")
 		self.window.show_all()
