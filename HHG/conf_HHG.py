@@ -10,7 +10,7 @@ import os
 class configure:
 
 	def readSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
-		confhhg_path = sys.argv[1] 
+		confhhg_path = config_file 
 		with open (confhhg_path,"r") as confhhg:
 			confhhg.seek(0,0)
 			idChar = confhhg.read(4)
@@ -25,7 +25,7 @@ class configure:
 			confhhg.close()
 
 	def syncSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
-		confhhg_path = sys.argv[1] 
+		confhhg_path = config_file 
 		idChar = idEntry.get_text();
 		with open (confhhg_path,"r+w") as confhhg:
 			confhhg.seek(0,0)   # Write ID
@@ -99,6 +99,11 @@ class conf_HHG_dialog:
 		self.confer.syncSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
     		    		
 
+if len(sys.argv) >= 2:
+	config_file = sys.argv[1]
+else:	
+	sys.stderr.write("Error: Execute this script with a configuration file as argument.")
+	sys.exit(1)
 
 hhg_dialog = conf_HHG_dialog()
 Gtk.main()
