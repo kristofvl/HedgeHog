@@ -1,4 +1,14 @@
+# build files in firmware/HedgeHog/HHOS.X/*/*
+
+build/
+dist/
+*.err
+*.hex
+*.cof
+*.mk
 *.o
 *.d
 *.o.d
+
+.directory
 
