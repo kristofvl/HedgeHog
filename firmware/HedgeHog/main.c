@@ -4,11 +4,11 @@
  Processor:	PIC18F46J50
  Hardware:	Porcupine HedgeHog BASIC, OLED, or TESTBED
  Compiler:  	Microchip C18
- Author:        KristofVL
+ Authors:       KristofVL, HanyA
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '7', '3',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '7', '4',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -442,9 +442,11 @@ void config_process(void) {
                  read_SD(SECTOR_CF, sd_buffer.bytes);
 
               // write Version String to SD-Buffer
-                 memcpy(sd_buffer.conf.ver, HH_VER_STR, strlen(HH_VER_STR));
+                 memcpy((void *)sd_buffer.conf.ver, (const void*) HH_VER_STR,
+                         strlen((const char*)HH_VER_STR));
               // write Name String to SD-Buffer
-                 memcpy(sd_buffer.conf.name, HH_NAME_STR, strlen(HH_NAME_STR));
+                 memcpy((void *)sd_buffer.conf.name, (const void*) HH_NAME_STR,
+                         strlen((const char*)HH_NAME_STR));
 
               // Initialize Sensors with Settings from SD-Buffer
                  rtc_init();
@@ -477,12 +479,12 @@ void config_process(void) {
                  acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
 
               // read and set System Time from SD-Buffer
-                 memcpy(tm.b, sd_buffer.conf.systime, 8*sizeof(BYTE));
+                 memcpy(tm.b, (const void*)sd_buffer.conf.systime, 8*sizeof(BYTE));
                  rtc_write(&tm);
                  rtc_writestr(&tm,date_str,time_str);
                    
               // read and set Stop Time from SD-Buffer
-                 memcpy(Tm.b, sd_buffer.conf.stptime, 8*sizeof(BYTE));
+                 memcpy(Tm.b, (const void*)sd_buffer.conf.stptime, 8*sizeof(BYTE));
                  tm_stop = rtc_2uint32(&Tm);
                  
               // Update Disk Label to reflect ID

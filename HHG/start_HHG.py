@@ -15,13 +15,13 @@ class timer:
         stpTime.insert(1,stpTime_struc.month)
         stpTime.insert(2,stpTime_struc.day)
 
-    def setTime(self, confpath, stpTime):
+    def setTime(self, conf_file, stpTime):
         sysTime = datetime.datetime.now()
 
         if (stpTime[0]<sysTime.year) or (stpTime[0]==sysTime.year and stpTime[1]<sysTime.month) or (stpTime[0]==sysTime.year and 
                         stpTime[1]==sysTime.month and stpTime[2]<sysTime.day):
             self.calcStpTime(stpTime)
-        with open (confpath, "r+w") as confhhg: 
+        with open (conf_file, "r+w") as confhhg: 
             confhhg.seek(59,0)  # Write System Time
             confhhg.write(chr(sysTime.year-2000))
             confhhg.write(chr(0))
@@ -60,7 +60,7 @@ class start_HHG_dialog:
 
         self.logger.show_all()
 
-        self.confpath = sys.argv[1]
+        self.conf_file = config_file
         self.stpTime = []
         self.timer.calcStpTime(self.stpTime)
         self.cal.clear_marks()
@@ -76,8 +76,8 @@ class start_HHG_dialog:
         self.cal.select_day(self.stpTime[2])
 
     def StartLogging(self, widget):
-        self.timer.setTime(self.confpath, self.stpTime) 
-        with open (self.confpath,"r+w") as starthhg:
+        self.timer.setTime(self.conf_file, self.stpTime) 
+        with open (self.conf_file,"r+w") as starthhg:
             starthhg.seek(1023,0)  
             starthhg.write("l")
             starthhg.close()
@@ -85,6 +85,12 @@ class start_HHG_dialog:
 
     def Quit(self, widget):
         sys.exit(0)
+
+if len(sys.argv) >= 2:
+	config_file = sys.argv[1]
+else:	
+	sys.stderr.write("Error: Execute this script with a configuration file as argument.")
+	sys.exit(1)
 
 dialog = start_HHG_dialog()
 Gtk.main()
