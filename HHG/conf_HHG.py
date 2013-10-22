@@ -66,7 +66,7 @@ class conf_HHG_dialog:
 		self.freqs =  ["0.1Hz","5Hz","10Hz","25Hz","50Hz","100Hz","0.2kHz","0.4kHz",
 			"0.8kHz","1.5kHz"]
 		self.pows = ["normal","low-power","auto-sleep","low / auto"]
-		self.mods = ["mirco-controller sampling", "on-chio FIFO, raw sampling"] 
+		self.mods = ["sampling by PIC", "sampling by sensor, raw sampling"]
 		self.deltas = ["0","1","2","3","4","5","6","7"]
 
 		dic = { "on_HedgeHog_destroy": self.Quit, "on_SyncButton_clicked": self.SyncButtonClick}
