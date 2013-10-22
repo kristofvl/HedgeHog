@@ -3,6 +3,7 @@
 
 import sys
 from gi.repository import Gtk, GObject
+from os import path, access, W_OK  # check: can we write to config file?
 import subprocess
 import time, datetime, os
 from datetime import timedelta
@@ -88,9 +89,15 @@ class start_HHG_dialog:
 
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
+	if path.isfile(PATH) and access(PATH, W_OK):
+		# great, *now* we can start:
+		dialog = start_HHG_dialog()
+		Gtk.main()
+	else:
+		sys.stderr.write("Error: Can't write to configuration file.")
+		sys.exit(1)
 else:	
-	sys.stderr.write("Error: Execute this script with a configuration file as argument.")
+	sys.stderr.write("Error: Supply configuration file as argument.")
 	sys.exit(1)
 
-dialog = start_HHG_dialog()
-Gtk.main()
+
