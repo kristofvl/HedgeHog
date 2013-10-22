@@ -89,7 +89,7 @@ class start_HHG_dialog:
 
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
-	if path.isfile(PATH) and access(PATH, W_OK):
+	if path.isfile(config_file) and access(config_file, W_OK):
 		# great, *now* we can start:
 		dialog = start_HHG_dialog()
 		Gtk.main()
