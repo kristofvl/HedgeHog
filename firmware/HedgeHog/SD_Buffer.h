@@ -17,7 +17,6 @@
 #define SD_BUF_MAX_RAW_SAMPLES_PER_PAGE 126 // 4-bytes per sample = 504/4 = 126
 #define ABSDIF(x,y) ((x)>(y))?((x)-(y)):((y)-(x))
 
-#define CONF_IN_FIFOMODE (sd_buffer.conf.acc_s.f.mode == '1')
 /******************************************************************************/
 // SD Card Buffer variables:
 

@@ -93,11 +93,12 @@ if len(sys.argv) >= 2:
 		# great, *now* we can start:
 		dialog = start_HHG_dialog()
 		Gtk.main()
+		sys.exit(0)
 	else:
 		sys.stderr.write("Error: Can't write to configuration file.")
-		sys.exit(1)
 else:	
 	sys.stderr.write("Error: Supply configuration file as argument.")
-	sys.exit(1)
+
+sys.exit(1)
 
 

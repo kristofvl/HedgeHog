@@ -83,7 +83,8 @@ char id_str[4];
 BOOL usbp_int;
 
 // config variables:
-UINT8  rle_delta = 0;
+UINT8           rle_delta = 0;
+hhg_conf_accs_t acc_confs = 0;
 
 /** CONSTANTS *****************************************************************/
 /* Standard Response to INQUIRY command stored in ROM 	*/
@@ -347,9 +348,10 @@ void log_process() {
         #endif
         sdbuf_init();
         read_SD(SECTOR_CF, sd_buffer.bytes);
-        rle_delta = sd_buffer.conf.acc.v[0] - 48;
+        rle_delta = 1; //sd_buffer.conf.acc.v[0] - 48;
         env_init();                                     //
         acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
+        acc_confs = sd_buffer.conf.acc_s;
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
@@ -380,8 +382,7 @@ void log_process() {
     }
     if (sdbuf_notfull()) { // log the main data
         #if defined(ADXL345_ENABLED)
-//        if (HHG_CONF_IN_FIFOMODE) { // in FIFO logging mode?
-          if (CONF_IN_FIFOMODE) { // in FIFO logging mode?
+          if (acc_confs.f.mode = '1') { // does AsDXL do sampling in buffer?
             while ( ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) ||
                     (ACC_INT==1) ) { // while FIFO not empty & interrupt high:
                 acc_getxyz(&accval);
@@ -397,7 +398,7 @@ void log_process() {
                     return;
             }
             set_osc_sleep_int1();   // sleep till watermark is reached
-        } else
+        } else // PIC pulls for ADXL samples
         #endif // ADXL345_ENABLED
         { // pull new accelerometer samples each 10 ms by default:
             acc_getxyz(&accval);
@@ -450,7 +451,7 @@ void config_process(void) {
 
               // Initialize Sensors with Settings from SD-Buffer
                  rtc_init();
-                 rle_delta = sd_buffer.conf.acc.v[0] - 48;
+                 rle_delta = 1; //sd_buffer.conf.acc.v[0] - 48;
                  env_init();
                  acc_init(sd_buffer.conf.acc_s, &(sd_buffer.conf.acc));
                  
@@ -474,7 +475,7 @@ void config_process(void) {
 
               // Reinitialize Sensors with NEW Settings from SD-Buffer
                  rtc_init();
-                 rle_delta = sd_buffer.conf.acc.v[0] - 48;
+                 rle_delta = 1; //sd_buffer.conf.acc.v[0] - 48;
                  env_init();
                  acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
 
@@ -486,7 +487,11 @@ void config_process(void) {
               // read and set Stop Time from SD-Buffer
                  memcpy(Tm.b, (const void*)sd_buffer.conf.stptime, 8*sizeof(BYTE));
                  tm_stop = rtc_2uint32(&Tm);
+
+              // write back feedback after init
+                 write_SD(SECTOR_CF, sd_buffer.bytes);
                  
+
               // Update Disk Label to reflect ID
                  id_str[0] = sd_buffer.bytes[0];
                  id_str[1] = sd_buffer.bytes[1];
