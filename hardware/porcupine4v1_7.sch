@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.2">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -5835,8 +5835,8 @@ PRQC16.00SR5010X000: 16Mhz ceramic resonator with 10pF capacitors</description>
 <part name="X2" library="HedgehogLib" deviceset="PROGCON" device=""/>
 <part name="X4" library="HedgehogLib" deviceset="PROGCON" device=""/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
-<part name="LDO" library="HedgehogLib" deviceset="MCP1824" device=""/>
 <part name="R7" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
+<part name="LDO" library="HedgehogLib" deviceset="MCP1824" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5991,8 +5991,8 @@ PRQC16.00SR5010X000: 16Mhz ceramic resonator with 10pF capacitors</description>
 <instance part="X4" gate="-4" x="132.08" y="149.86" rot="R180"/>
 <instance part="X4" gate="-5" x="132.08" y="152.4" rot="R180"/>
 <instance part="GND8" gate="1" x="60.96" y="81.28"/>
-<instance part="LDO" gate="LDO" x="124.46" y="93.98"/>
 <instance part="R7" gate="G$1" x="142.24" y="93.98" rot="R90"/>
+<instance part="LDO" gate="LDO" x="124.46" y="93.98"/>
 </instances>
 <busses>
 <bus name="BUS_SPI:SDI,SDO,SCLK,CS_ADX,CS_SDCARD">
@@ -6184,9 +6184,9 @@ PRQC16.00SR5010X000: 16Mhz ceramic resonator with 10pF capacitors</description>
 <pinref part="C_PWR_VREG" gate="G$1" pin="1"/>
 <wire x1="142.24" y1="99.06" x2="154.94" y2="99.06" width="0.1524" layer="91"/>
 <wire x1="154.94" y1="104.14" x2="154.94" y2="99.06" width="0.1524" layer="91"/>
-<pinref part="LDO" gate="LDO" pin="V_OUT"/>
 <pinref part="R7" gate="G$1" pin="2"/>
 <junction x="142.24" y="99.06"/>
+<pinref part="LDO" gate="LDO" pin="V_OUT"/>
 </segment>
 <segment>
 <pinref part="R6" gate="G$1" pin="2"/>
@@ -6640,12 +6640,12 @@ PRQC16.00SR5010X000: 16Mhz ceramic resonator with 10pF capacitors</description>
 </net>
 <net name="PWRGD" class="0">
 <segment>
-<pinref part="LDO" gate="LDO" pin="PWRGD"/>
 <wire x1="139.7" y1="88.9" x2="142.24" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="142.24" y1="88.9" x2="144.78" y2="88.9" width="0.1524" layer="91"/>
 <label x="144.78" y="88.9" size="1.016" layer="95" xref="yes"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 <junction x="142.24" y="88.9"/>
+<pinref part="LDO" gate="LDO" pin="PWRGD"/>
 </segment>
 <segment>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RD5"/>
@@ -6656,10 +6656,6 @@ PRQC16.00SR5010X000: 16Mhz ceramic resonator with 10pF capacitors</description>
 </nets>
 </sheet>
 </sheets>
-<errors>
-<approved hash="202,1,20.32,93.98,USB_CON,4,,,,"/>
-<approved hash="202,1,43.18,96.52,CHARGER,DC,,,,"/>
-</errors>
 </schematic>
 </drawing>
 </eagle>
