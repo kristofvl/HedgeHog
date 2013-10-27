@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configurationDescriptor version="62">
   <projectmakefile>Makefile</projectmakefile>
-  <defaultConf>0</defaultConf>
+  <defaultConf>1</defaultConf>
   <confs>
     <conf name="raw_sampling_testbed" type="2">
       <platformToolSN>:=MPLABCommUSB:=04D8:=8105:=0001:=Microchip Technology Inc.:=Microchip Starter Kit:=BUR110840856:=x:=en</platformToolSN>
