@@ -15,13 +15,13 @@ class configure:
 			confhhg.seek(0,0)
 			idChar = confhhg.read(4)
 			idEntry.set_text(idChar)
-			confhhg.seek(8,0)
-			rleCombo.set_active(int(confhhg.read(1)))
 			confhhg.seek(12,0)
 			rangeCombo.set_active(int(confhhg.read(1)))
 			freqCombo.set_active(int(confhhg.read(1)))
 			modeCombo.set_active(int(confhhg.read(1)))
-			powCombo.set_active(int(confhhg.read(1)))			       			
+			powCombo.set_active(int(confhhg.read(1)))
+			confhhg.seek(20,0)
+			rleCombo.set_active(int(confhhg.read(1)))			
 			confhhg.close()
 
 	def syncSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
@@ -33,13 +33,13 @@ class configure:
 			confhhg.write(idChar[1])
 			confhhg.write(idChar[2])
 			confhhg.write(idChar[3])
-			confhhg.seek(8,0) # Write RLE Delta
-			confhhg.write(str(rleCombo.get_active()))
 			confhhg.seek(12,0)  # Write ACC Settings
 			confhhg.write(str(rangeCombo.get_active()))
 			confhhg.write(str(freqCombo.get_active()))
 			confhhg.write(str(modeCombo.get_active()))
 			confhhg.write(str(powCombo.get_active()))
+			confhhg.seek(20,0) # Write RLE Delta
+			confhhg.write(str(rleCombo.get_active()))
 			confhhg.close()
 		sys.exit()
 

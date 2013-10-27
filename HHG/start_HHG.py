@@ -23,7 +23,7 @@ class timer:
                         stpTime[1]==sysTime.month and stpTime[2]<sysTime.day):
             self.calcStpTime(stpTime)
         with open (conf_file, "r+w") as confhhg: 
-            confhhg.seek(59,0)  # Write System Time
+            confhhg.seek(60,0)  # Write System Time
             confhhg.write(chr(sysTime.year-2000))
             confhhg.write(chr(0))
             confhhg.write(chr(sysTime.day))
@@ -32,7 +32,7 @@ class timer:
             confhhg.write(chr(0))
             confhhg.write(chr(sysTime.second))
             confhhg.write(chr(sysTime.minute))
-            confhhg.seek(70,0)  # Write Stop Time
+            confhhg.seek(71,0)  # Write Stop Time
             confhhg.write(chr(stpTime[0]-2000))
             confhhg.write(chr(0))
             confhhg.write(chr(stpTime[2]))
