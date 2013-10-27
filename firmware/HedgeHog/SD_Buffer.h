@@ -61,6 +61,7 @@ typedef union {
         UINT32_VAL acc;             // accelerometer configuration
         hhg_conf_accs_t acc_s;      // accelerometer sensitivity
         UINT32_VAL logg;            // logging & processing setup
+        UINT8 rle_delta;            // RLE Delta
         UINT8 separator_1[3];
         UINT8 name[8];
         UINT8 separator_2[3];
@@ -75,7 +76,7 @@ typedef union {
         BYTE  systime[8];
         UINT8 separator_7[3];
         BYTE  stptime[8];
-        UINT8 separator_8[433];
+        UINT8 separator_8[432];
         UINT8 flag;
     } conf;
 

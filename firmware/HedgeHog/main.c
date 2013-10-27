@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '2', '7', '4',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '0',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -348,7 +348,7 @@ void log_process() {
         #endif
         sdbuf_init();
         read_SD(SECTOR_CF, sd_buffer.bytes);
-        rle_delta = 1; //sd_buffer.conf.acc.v[0] - 48;
+        rle_delta = sd_buffer.conf.rle_delta - 48;
         env_init();                                     //
         acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
         acc_confs = sd_buffer.conf.acc_s;
@@ -438,7 +438,10 @@ void config_process(void) {
 
     switch(sd_buffer.conf.flag){
 
-        case 'w':
+        case 'f':
+
+     
+        case 'l':
 
                  read_SD(SECTOR_CF, sd_buffer.bytes);
 
@@ -449,33 +452,9 @@ void config_process(void) {
                  memcpy((void *)sd_buffer.conf.name, (const void*) HH_NAME_STR,
                          strlen((const char*)HH_NAME_STR));
 
-              // Initialize Sensors with Settings from SD-Buffer
+              // initialize Sensors with settings from SD-Buffer
                  rtc_init();
-                 rle_delta = 1; //sd_buffer.conf.acc.v[0] - 48;
-                 env_init();
-                 acc_init(sd_buffer.conf.acc_s, &(sd_buffer.conf.acc));
-                 
-              // write Initial Sensor Data to SD-Buffer
-                 acc_getxyz(&accval); env_on();
-                 env_read(light, thermo);
-                 rtc_writestr(&tm,date_str,time_str);
-                 sd_buffer.conf.init_acc = accval;
-                 sd_buffer.conf.init_light =  light;
-                 sd_buffer.conf.init_thermo = thermo;
-
-              // write SD_buffer to SD Card
-                 memset(sd_buffer.bytes,'.',512);
-                 sd_buffer.conf.flag = 0;
-                 write_SD(SECTOR_LF, sd_buffer.bytes);
-                 break;
-
-        case 'l':
-
-                 read_SD(SECTOR_CF, sd_buffer.bytes);
-
-              // Reinitialize Sensors with NEW Settings from SD-Buffer
-                 rtc_init();
-                 rle_delta = 1; //sd_buffer.conf.acc.v[0] - 48;
+                 rle_delta = sd_buffer.conf.rle_delta - 48;
                  env_init();
                  acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
 
@@ -488,10 +467,9 @@ void config_process(void) {
                  memcpy(Tm.b, (const void*)sd_buffer.conf.stptime, 8*sizeof(BYTE));
                  tm_stop = rtc_2uint32(&Tm);
 
-              // write back feedback after init
+              // write back config feedback after acc init
                  write_SD(SECTOR_CF, sd_buffer.bytes);
                  
-
               // Update Disk Label to reflect ID
                  id_str[0] = sd_buffer.bytes[0];
                  id_str[1] = sd_buffer.bytes[1];
