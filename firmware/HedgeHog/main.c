@@ -440,29 +440,38 @@ void config_process(void) {
 
     switch(sd_buffer.conf.flag){
 
-        case 'z':
-              // write 0 to sectors 0-640      
-                 memset((void*)&sd_buffer, 0, 512);
-                 for(i=0; i<=640, i++) 
-                    write_SD(i, sd_buffer.bytes);
-                 break;
-
         case 'f':
-              // write MBR to sector 1 
+            
+              // write 0 to sectors 0-640
+                 memset((void*)&sd_buffer, 0, 512);
+                 for(i=0; i<=640; i++)
+                    MDD_SDSPI_SectorWrite(i, sd_buffer.bytes, 1);
+                 
+              // write MBR to sector 
                  memset((void*)&sd_buffer, 0, 512);
                  write_MBR(&sd_buffer); 
-                 write_SD(0, sd_buffer.bytes, 1);
+                 MDD_SDSPI_SectorWrite(0, sd_buffer.bytes, 1);
 
               // write FAT      
                  memset((void*)&sd_buffer, 0, 512);
-                 for(i=0; i<=90, i++) {
+                 for(i=0; i<=90; i++) {
                     write_FAT(&sd_buffer, i);
                     write_SD(i+8, sd_buffer.bytes);
                  }
+                 
               // write root table
                  memset((void*)&sd_buffer, 0, 512);     
                  write_root_table(&sd_buffer, NULL);    
                  write_SD(SECTOR_RT, sd_buffer.bytes);
+
+              // Erase SD_Buffer_Struct
+                 memset(sd_buffer.bytes,'.',512);
+                 
+              // reset flag
+                 sd_buffer.conf.flag = 0;
+                 write_SD(SECTOR_LF, sd_buffer.bytes);
+
+                 USBSoftDetach();
                  break; 
      
         case 'l':
