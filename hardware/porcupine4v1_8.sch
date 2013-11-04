@@ -6828,12 +6828,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <label x="205.74" y="83.82" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RC7"/>
-<wire x1="208.28" y1="81.28" x2="205.74" y2="81.28" width="0.1524" layer="91"/>
-</segment>
-</net>
 </nets>
 </sheet>
 </sheets>

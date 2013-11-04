@@ -1064,7 +1064,6 @@ design rules under a new name.</description>
 <wire x1="23.4442" y1="14.3764" x2="23.1" y2="14.0322" width="0.2032" layer="16"/>
 <wire x1="23.1" y1="14.0322" x2="23.0746" y2="14.0716" width="0.2032" layer="16"/>
 <wire x1="23.4442" y1="15.9004" x2="23.4442" y2="14.3764" width="0.3302" layer="16"/>
-<wire x1="11.4694" y1="17.272" x2="11.4694" y2="16.2235" width="0.3302" layer="16"/>
 <wire x1="12.192" y1="0.3702" x2="12.192" y2="1.397" width="0.3302" layer="1"/>
 <wire x1="12.192" y1="0.3702" x2="22.3412" y2="0.3702" width="0.3302" layer="1"/>
 <wire x1="20.8026" y1="5.5508" x2="22.8346" y2="5.5508" width="0.3302" layer="16"/>
@@ -1096,8 +1095,6 @@ design rules under a new name.</description>
 <wire x1="9.3072" y1="0.3702" x2="12.192" y2="0.3702" width="0.3302" layer="1"/>
 <wire x1="23.4442" y1="15.9004" x2="22.0358" y2="17.3088" width="0.3302" layer="16"/>
 <wire x1="22.0358" y1="17.3088" x2="19.4818" y2="17.3088" width="0.3302" layer="16"/>
-<wire x1="12.7114" y1="18.6944" x2="12.4574" y2="18.26" width="0.3302" layer="16"/>
-<wire x1="12.4574" y1="18.26" x2="11.4694" y2="17.272" width="0.3302" layer="16"/>
 <wire x1="18.0962" y1="18.6944" x2="12.7114" y2="18.6944" width="0.3302" layer="16"/>
 <wire x1="12.7114" y1="18.6944" x2="12.7114" y2="20.4102" width="0.3302" layer="16"/>
 <wire x1="18.3274" y1="14.0716" x2="18.3274" y2="14.5428" width="0.3302" layer="16"/>
@@ -1133,6 +1130,8 @@ design rules under a new name.</description>
 <wire x1="6.5349" y1="10.638" x2="5.2116" y2="10.638" width="0.3302" layer="16"/>
 <wire x1="5.2116" y1="10.638" x2="5.207" y2="10.6426" width="0.3302" layer="16"/>
 <wire x1="6.5674" y1="10.6426" x2="5.207" y2="10.6426" width="0.3302" layer="1"/>
+<wire x1="12.7114" y1="18.6944" x2="12.1204" y2="18.1034" width="0.3302" layer="16"/>
+<wire x1="12.1204" y1="18.1034" x2="12.1204" y2="16.2255" width="0.3302" layer="16"/>
 </signal>
 <signal name="PROG_CLK@RB6">
 <contactref element="PIC_CONTROLLER" pad="16"/>
@@ -1437,9 +1436,9 @@ design rules under a new name.</description>
 <contactref element="PIC_CONTROLLER" pad="38"/>
 <wire x1="6.5329" y1="11.288" x2="5.7046" y2="11.288" width="0.2032" layer="16"/>
 <wire x1="5.7046" y1="11.288" x2="5.5626" y2="11.43" width="0.2032" layer="16"/>
-<wire x1="5.5626" y1="11.43" x2="4.1402" y2="11.43" width="0.2032" layer="16"/>
-<wire x1="4.1402" y1="11.43" x2="3.1388" y2="10.4286" width="0.2032" layer="16"/>
-<wire x1="3.1388" y1="10.4286" x2="2.4638" y2="10.4286" width="0.2032" layer="16"/>
+<wire x1="5.5626" y1="11.43" x2="4.064" y2="11.43" width="0.2032" layer="16"/>
+<wire x1="4.064" y1="11.43" x2="3.0626" y2="10.4286" width="0.2032" layer="16"/>
+<wire x1="3.0626" y1="10.4286" x2="2.4638" y2="10.4286" width="0.2032" layer="16"/>
 </signal>
 <signal name="EXT2">
 <contactref element="EXT" pad="2"/>
@@ -1466,9 +1465,6 @@ design rules under a new name.</description>
 <wire x1="6.5319" y1="15.188" x2="6.0227" y2="15.6972" width="0.2032" layer="16"/>
 <wire x1="6.0227" y1="15.6972" x2="2.7324" y2="15.6972" width="0.2032" layer="16"/>
 <wire x1="2.7324" y1="15.6972" x2="2.4638" y2="15.4286" width="0.2032" layer="16"/>
-</signal>
-<signal name="N$4">
-<contactref element="PIC_CONTROLLER" pad="1"/>
 </signal>
 </signals>
 <errors>
