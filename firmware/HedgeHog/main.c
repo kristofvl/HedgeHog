@@ -347,11 +347,6 @@ void log_process() {
         usbp_int = !(USBP_INT);
         #endif
         sdbuf_init();
-        read_SD(SECTOR_CF, sd_buffer.bytes);
-        rle_delta = sd_buffer.conf.rle_delta - 48;
-        env_init();                                     //
-        acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
-        acc_confs = sd_buffer.conf.acc_s;
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
@@ -441,7 +436,9 @@ void config_process(void) {
     switch(sd_buffer.conf.flag){
 
         case 'f':
-            
+              // detach HedgeHog while Formating 
+                 USBSoftDetach();
+
               // write 0 to sectors 0-640
                  memset((void*)&sd_buffer, 0, 512);
                  for(i=0; i<=640; i++)
@@ -470,8 +467,7 @@ void config_process(void) {
               // reset flag
                  sd_buffer.conf.flag = 0;
                  write_SD(SECTOR_LF, sd_buffer.bytes);
-
-                 USBSoftDetach();
+                 
                  break; 
      
         case 'l':
@@ -490,6 +486,7 @@ void config_process(void) {
                  rle_delta = sd_buffer.conf.rle_delta - 48;
                  env_init();
                  acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
+                 acc_confs = sd_buffer.conf.acc_s;
 
               // read and set System Time from SD-Buffer
                  memcpy(tm.b, (const void*)sd_buffer.conf.systime, 8*sizeof(BYTE));
