@@ -16,12 +16,22 @@ class configure:
 			idChar = confhhg.read(4)
 			idEntry.set_text(idChar)
 			confhhg.seek(12,0)
-			rangeCombo.set_active(int(confhhg.read(1)))
-			freqCombo.set_active(int(confhhg.read(1)))
-			modeCombo.set_active(int(confhhg.read(1)))
-			powCombo.set_active(int(confhhg.read(1)))
+			rangetmp = confhhg.read(1)
+			freqtmp = confhhg.read(1)
+			modetmp = confhhg.read(1)
+			powtmp = confhhg.read(1)
+			if (rangetmp.isdigit()):
+				rangeCombo.set_active(int(rangetmp))
+			if (freqtmp.isdigit()):
+				freqCombo.set_active(int(freqtmp))
+			if (modetmp.isdigit()):
+				modeCombo.set_active(int(modetmp))
+			if (powtmp.isdigit()):
+				powCombo.set_active(int(powtmp))
 			confhhg.seek(20,0)
-			rleCombo.set_active(int(confhhg.read(1)))			
+			rletmp = confhhg.read(1)
+			if (rletmp.isdigit()):
+				rleCombo.set_active(int(rletmp))
 			confhhg.close()
 
 	def syncSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
@@ -42,6 +52,15 @@ class configure:
 			confhhg.write(str(rleCombo.get_active()))
 			confhhg.close()
 		sys.exit()
+
+	def formatCard(self):
+		confhhg_path = config_file 
+		with open (confhhg_path,"r+w") as confhhg:
+			confhhg.seek(1023,0)  
+			confhhg.write("f")
+			confhhg.close()
+		sys.exit()
+
 
 class conf_HHG_dialog:
           	
@@ -69,7 +88,9 @@ class conf_HHG_dialog:
 		self.mods = ["sampling by PIC", "sampling by sensor, raw sampling"]
 		self.deltas = ["0","1","2","3","4","5","6","7"]
 
-		dic = { "on_HedgeHog_destroy": self.Quit, "on_SyncButton_clicked": self.SyncButtonClick}
+		dic = { "on_HedgeHog_destroy": self.Quit,
+				"on_SyncButton_clicked": self.SyncButtonClick,
+				"on_FormatButton_clicked": self.FormatButtonClick}
 		self.builder.connect_signals(dic)
 
 		for rang in self.ranges:
@@ -98,7 +119,9 @@ class conf_HHG_dialog:
 	def SyncButtonClick(self, widget):
 		self.confer.syncSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
     		    		
-
+	def FormatButtonClick(self, widget):
+		self.confer.formatCard()
+	
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
 else:	
