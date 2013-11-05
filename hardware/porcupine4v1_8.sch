@@ -8334,36 +8334,29 @@ Source: www.kingbright.com</description>
 <label x="200.66" y="55.88" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="EXT4" class="0">
-<segment>
-<pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RD3"/>
-<wire x1="208.28" y1="53.34" x2="200.66" y2="53.34" width="0.1524" layer="91"/>
-<label x="200.66" y="53.34" size="1.016" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="EXT5" class="0">
-<segment>
-<wire x1="111.76" y1="144.78" x2="109.22" y2="144.78" width="0.1524" layer="91"/>
-<label x="109.22" y="144.78" size="1.016" layer="95" rot="R180" xref="yes"/>
-<pinref part="EXT" gate="-4" pin="S"/>
-</segment>
-<segment>
-<pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RC6"/>
-<wire x1="208.28" y1="83.82" x2="205.74" y2="83.82" width="0.1524" layer="91"/>
-<label x="205.74" y="83.82" size="1.016" layer="95" rot="R180" xref="yes"/>
-</segment>
-<segment>
-<wire x1="147.32" y1="154.94" x2="139.7" y2="154.94" width="0.1524" layer="91"/>
-<label x="139.7" y="154.94" size="1.016" layer="95" rot="R180" xref="yes"/>
-<pinref part="R8" gate="G$1" pin="2"/>
-</segment>
-</net>
 <net name="N$4" class="0">
 <segment>
 <pinref part="LED1" gate="G$1" pin="A"/>
 <pinref part="R8" gate="G$1" pin="1"/>
 <wire x1="157.48" y1="154.94" x2="160.02" y2="154.94" width="0.1524" layer="91"/>
 <wire x1="160.02" y1="154.94" x2="160.02" y2="149.86" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="EXT4" class="0">
+<segment>
+<pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RC6"/>
+<wire x1="208.28" y1="83.82" x2="205.74" y2="83.82" width="0.1524" layer="91"/>
+<label x="205.74" y="83.82" size="1.016" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<wire x1="111.76" y1="144.78" x2="109.22" y2="144.78" width="0.1524" layer="91"/>
+<label x="109.22" y="144.78" size="1.016" layer="95" rot="R180" xref="yes"/>
+<pinref part="EXT" gate="-4" pin="S"/>
+</segment>
+<segment>
+<wire x1="147.32" y1="154.94" x2="139.7" y2="154.94" width="0.1524" layer="91"/>
+<label x="139.7" y="154.94" size="1.016" layer="95" rot="R180" xref="yes"/>
+<pinref part="R8" gate="G$1" pin="2"/>
 </segment>
 </net>
 </nets>
