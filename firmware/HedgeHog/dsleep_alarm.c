@@ -26,17 +26,18 @@ void wakeup_check(rtc_timedate *tm, int seconds)
 {
     if( WDTCONbits.DS ) { // woke up from deep sleep?
         release_deep_sleep();
-        INTCON2bits.RBPU = 1; // disable all port B pull-ups
-        ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
-        set_unused_pins_to_output();
-        SPIINLAT = 1;    // SPIINLAT = LATD6 = SDO, is pulled up in hardware
-        set_osc_31khz();
-        Delay10TCYx(1);
-        // check whether USB is there:
-        if (USBP_INT != 0) { // if USB power is not present:
-            goto_deep_sleep(tm, seconds);
-        }
-        else
-            return; // continue if USB power present
     }
+    INTCON2bits.RBPU = 1; // disable all port B pull-ups
+    ANCON0 = ANCON1 = 0xFF; // Default all pins to digital
+    set_unused_pins_to_output();
+    SPIINLAT = 1;    // SPIINLAT = LATD6 = SDO, is pulled up in hardware
+    set_osc_31khz();
+    Delay10TCYx(1);
+    // check whether USB is there:
+    if (USBP_INT != 0) { // if USB power is not present:
+        goto_deep_sleep(tm, seconds);
+    }
+    else
+        return; // continue if USB power present
+
 }
