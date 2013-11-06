@@ -7616,7 +7616,7 @@ Source: www.kingbright.com</description>
 </plain>
 <instances>
 <instance part="GND3" gate="1" x="12.7" y="139.7"/>
-<instance part="SDCARD_CON" gate="G$1" x="30.48" y="25.4" smashed="yes" rot="R90"/>
+<instance part="SDCARD_CON" gate="G$1" x="30.48" y="25.4" rot="R90"/>
 <instance part="GND16" gate="1" x="38.1" y="20.32" rot="R90"/>
 <instance part="LIGHTSENSE" gate="G$1" x="83.82" y="144.78" smashed="yes">
 <attribute name="VALUE" x="89.916" y="148.336" size="1.778" layer="96" rot="R270"/>
@@ -7696,7 +7696,9 @@ Source: www.kingbright.com</description>
 <instance part="R5" gate="G$1" x="73.66" y="149.86" rot="R90"/>
 <instance part="12MHZ_RESONATOR" gate="G$1" x="266.7" y="50.8" rot="R180"/>
 <instance part="GND1" gate="1" x="281.94" y="45.72"/>
-<instance part="32KHZ_CRYSTAL" gate="G$1" x="200.66" y="111.76" smashed="yes"/>
+<instance part="32KHZ_CRYSTAL" gate="G$1" x="200.66" y="111.76" smashed="yes">
+<attribute name="VALUE" x="196.342" y="114.808" size="1.778" layer="96"/>
+</instance>
 <instance part="GND8" gate="1" x="60.96" y="81.28"/>
 <instance part="R7" gate="G$1" x="142.24" y="93.98" rot="R90"/>
 <instance part="LDO" gate="LDO" x="124.46" y="93.98"/>

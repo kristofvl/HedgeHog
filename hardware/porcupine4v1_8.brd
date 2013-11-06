@@ -8,22 +8,22 @@
 </settings>
 <grid distance="1" unitdist="mil" unit="mil" style="dots" multiple="10" display="yes" altdistance="1" altunitdist="mil" altunit="mil"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
-<layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
 <layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
 <layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
@@ -32,16 +32,16 @@
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
 <layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
 <layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
-<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="yes"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="yes"/>
-<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="yes"/>
 <layer number="42" name="bRestrict" color="1" fill="10" visible="no" active="yes"/>
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
 <layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
 <layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
-<layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="yes"/>
 <layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
@@ -60,18 +60,18 @@
 <layer number="100" name="Muster" color="7" fill="1" visible="no" active="no"/>
 <layer number="101" name="Patch_Top" color="12" fill="4" visible="no" active="yes"/>
 <layer number="102" name="Vscore" color="7" fill="1" visible="no" active="yes"/>
-<layer number="103" name="tMap" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="103" name="tMap" color="7" fill="1" visible="no" active="yes"/>
 <layer number="104" name="Name" color="7" fill="1" visible="no" active="yes"/>
-<layer number="105" name="tPlate" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="106" name="bPlate" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="107" name="Crop" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="105" name="tPlate" color="7" fill="1" visible="no" active="yes"/>
+<layer number="106" name="bPlate" color="7" fill="1" visible="no" active="yes"/>
+<layer number="107" name="Crop" color="7" fill="1" visible="no" active="yes"/>
 <layer number="116" name="Patch_BOT" color="9" fill="4" visible="no" active="yes"/>
 <layer number="121" name="_tsilk" color="7" fill="1" visible="no" active="yes"/>
 <layer number="122" name="_bsilk" color="7" fill="1" visible="no" active="yes"/>
-<layer number="125" name="_tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="144" name="Drill_legend" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="125" name="_tNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="144" name="Drill_legend" color="7" fill="1" visible="no" active="yes"/>
 <layer number="151" name="HeatSink" color="7" fill="1" visible="no" active="yes"/>
-<layer number="199" name="Contour" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="199" name="Contour" color="7" fill="1" visible="no" active="yes"/>
 <layer number="200" name="200bmp" color="1" fill="10" visible="no" active="no"/>
 <layer number="201" name="201bmp" color="2" fill="1" visible="no" active="no"/>
 <layer number="202" name="202bmp" color="3" fill="1" visible="no" active="no"/>
@@ -81,22 +81,22 @@
 <layer number="206" name="206bmp" color="7" fill="10" visible="no" active="yes"/>
 <layer number="207" name="207bmp" color="8" fill="10" visible="no" active="yes"/>
 <layer number="208" name="208bmp" color="9" fill="10" visible="no" active="yes"/>
-<layer number="209" name="209bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="210" name="210bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="211" name="211bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="212" name="212bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="213" name="213bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="214" name="214bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="215" name="215bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="216" name="216bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="217" name="217bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="218" name="218bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="219" name="219bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="220" name="220bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="221" name="221bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="222" name="222bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="223" name="223bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="224" name="224bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="209" name="209bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="210" name="210bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="211" name="211bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="212" name="212bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="213" name="213bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="214" name="214bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="215" name="215bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="216" name="216bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="217" name="217bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="218" name="218bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="219" name="219bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="220" name="220bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="221" name="221bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="222" name="222bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="223" name="223bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="224" name="224bmp" color="7" fill="1" visible="no" active="yes"/>
 <layer number="250" name="Descript" color="3" fill="1" visible="no" active="no"/>
 <layer number="251" name="SMDround" color="12" fill="11" visible="no" active="no"/>
 <layer number="254" name="cooling" color="7" fill="1" visible="no" active="yes"/>
@@ -111,6 +111,10 @@
 <wire x1="24.384" y1="1.27" x2="23.114" y2="0" width="0.0254" layer="20" curve="-90.027075"/>
 <wire x1="23.114" y1="0" x2="1.27" y2="0" width="0.0254" layer="20"/>
 <text x="1.0922" y="26.4922" size="0.4064" layer="1" font="vector" ratio="15">GND</text>
+<text x="14.6304" y="9.6012" size="0.6096" layer="25">SDCARD_CON</text>
+<text x="8.3566" y="1.4732" size="0.4064" layer="26" rot="MR0">12MHZ_RESONATOR</text>
+<text x="5.3086" y="8.4328" size="0.4064" layer="26" rot="MR0">32KHZ_CRYSTAL</text>
+<text x="10.6426" y="0.1778" size="0.4064" layer="25">LIGHTSENSE</text>
 </plain>
 <libraries>
 <library name="maxim">
@@ -821,49 +825,134 @@ design rules under a new name.</description>
 <elements>
 <element name="SDCARD_CON" library="HedgehogLib" package="460DA40013" value="MICROSD_CONN" x="24.0792" y="3.2004" rot="R180"/>
 <element name="LIGHTSENSE" library="HedgehogLib" package="TSL" value="TSL250" x="12.192" y="1.397" rot="R180"/>
-<element name="USB_CON" library="HedgehogLib" package="248601" value="USBCON" x="18.7216" y="22.9344" rot="R270"/>
-<element name="C_PWR_VUSB" library="rcl" package="C0603K" value="1u" x="5.0232" y="17.927"/>
-<element name="C_PWR_SW" library="rcl" package="C0805K" value="10u" x="3.8862" y="24.7904" rot="MR90"/>
-<element name="CHARGER" library="maxim" package="SOT23-5L" value="MAX1551" x="3.3528" y="20.2692" rot="R90">
+<element name="USB_CON" library="HedgehogLib" package="248601" value="USBCON" x="18.7216" y="22.9344" smashed="yes" rot="R270">
+<attribute name="NAME" x="16.969" y="19.2514" size="0.6096" layer="25"/>
+<attribute name="VALUE" x="11.7366" y="27.3794" size="1.27" layer="27" rot="R270"/>
+</element>
+<element name="C_PWR_VUSB" library="rcl" package="C0603K" value="1u" x="5.0232" y="17.927" smashed="yes">
+<attribute name="NAME" x="4.8582" y="16.9768" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="4.2232" y="16.277" size="1.016" layer="27"/>
+</element>
+<element name="C_PWR_SW" library="rcl" package="C0805K" value="10u" x="3.8862" y="24.7904" smashed="yes" rot="MR90">
+<attribute name="NAME" x="3.1128" y="26.2984" size="0.4064" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="1.9862" y="23.7904" size="1.016" layer="28" rot="MR90"/>
+</element>
+<element name="CHARGER" library="maxim" package="SOT23-5L" value="MAX1551" x="3.3528" y="20.2692" smashed="yes" rot="R90">
 <attribute name="MF" value="MAXIM" x="3.3528" y="20.2692" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="MAX1551EZK-T" x="3.3528" y="20.2692" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="OC_FARNELL" value="1628221" x="3.3528" y="20.2692" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="OC_NEWARK" value="88H0599" x="3.3528" y="20.2692" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="NAME" x="5.1308" y="20.0152" size="0.6096" layer="25"/>
+<attribute name="VALUE" x="6.5278" y="18.3642" size="1.27" layer="27" rot="R90"/>
 </element>
-<element name="C_PWR_BAT" library="rcl" package="C0603K" value="1u" x="1.8542" y="17.9324"/>
-<element name="ACCELEROMETER" library="HedgehogLib" package="LGA14" value="ADXL345" x="20.32" y="11.3792" rot="MR0"/>
-<element name="C_ADX_VDD" library="rcl" package="C0603K" value="0.1u" x="19.2024" y="14.0716" rot="MR180"/>
-<element name="C_ADX_VSS" library="rcl" package="C0603K" value="1u" x="22.1996" y="14.0716" rot="MR0"/>
-<element name="R6" library="rcl" package="R0603" value="10k" x="22.8346" y="6.4008" rot="MR270"/>
-<element name="C_PWR_VREG" library="rcl" package="C0603K" value="1u" x="10.9982" y="25.6286" rot="MR90"/>
-<element name="PIC_CONTROLLER" library="HedgehogLib" package="QFN44ML8X8" value="PIC_P2V6" x="10.8204" y="11.938" rot="MR270"/>
-<element name="C2_32KHZ" library="rcl" package="C0603K" value="22p" x="5.0292" y="5.6134" rot="MR0"/>
-<element name="C1_32KHZ" library="rcl" package="C0603K" value="22p" x="2.0066" y="5.6096" rot="MR180"/>
-<element name="C_UC_P7/8" library="rcl" package="C0603K" value="0.22u" x="11.8364" y="18.6944" rot="MR0"/>
-<element name="C_UC_P28/29" library="rcl" package="C0603K" value="0.22u" x="9.9612" y="4.064" rot="MR270"/>
-<element name="C_UC_P37" library="rcl" package="C0603K" value="0.1u" x="6.5814" y="11.4554" rot="R90"/>
-<element name="R1" library="rcl" package="R0603" value="10k" x="13.843" y="4.064" rot="MR270"/>
-<element name="R2" library="rcl" package="R0603" value="10k" x="20.8026" y="6.4008" rot="MR270"/>
-<element name="R4" library="rcl" package="R0603" value="10k" x="18.7604" y="6.4008" rot="MR90"/>
-<element name="C_UC_VDDCORE" library="rcl" package="C0805K" value="10u" x="15.9512" y="2.4638" rot="MR270"/>
-<element name="X1" library="HedgehogLib" package="53047-05-OCT" value="PROGCON" x="20.2438" y="1.4986" rot="R180"/>
-<element name="R3" library="rcl" package="R0603" value="10k" x="8.4074" y="20.9042" rot="MR90"/>
-<element name="R5" library="rcl" package="R0603" value="10k" x="12.0396" y="4.064" rot="MR270"/>
-<element name="12MHZ_RESONATOR" library="jnode" package="PRQC" value="RESONATORPRQC-S" x="6.731" y="2.7178" rot="MR180">
+<element name="C_PWR_BAT" library="rcl" package="C0603K" value="1u" x="1.8542" y="17.9324" smashed="yes">
+<attribute name="NAME" x="0.2414" y="17.033" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="1.0542" y="16.2824" size="1.016" layer="27"/>
+</element>
+<element name="ACCELEROMETER" library="HedgehogLib" package="LGA14" value="ADXL345" x="20.32" y="11.3792" smashed="yes" rot="MR0">
+<attribute name="NAME" x="22.9616" y="9.271" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="22.352" y="8.9662" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="C_ADX_VDD" library="rcl" package="C0603K" value="0.1u" x="19.2024" y="14.0716" smashed="yes" rot="MR180">
+<attribute name="NAME" x="20.0532" y="14.6454" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="18.4024" y="15.7216" size="1.016" layer="28" rot="MR180"/>
+</element>
+<element name="C_ADX_VSS" library="rcl" package="C0603K" value="1u" x="22.1996" y="14.0716" smashed="yes" rot="MR0">
+<attribute name="NAME" x="24.1172" y="14.6454" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="22.9996" y="12.4216" size="1.016" layer="28" rot="MR0"/>
+</element>
+<element name="R6" library="rcl" package="R0603" value="10k" x="22.8346" y="6.4008" smashed="yes" rot="MR270">
+<attribute name="NAME" x="23.368" y="4.8514" size="0.6096" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="24.7396" y="7.0358" size="1.27" layer="28" rot="MR270"/>
+</element>
+<element name="C_PWR_VREG" library="rcl" package="C0603K" value="1u" x="10.9982" y="25.6286" smashed="yes" rot="MR90">
+<attribute name="NAME" x="12.05" y="27.1398" size="0.4064" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="9.3482" y="24.8286" size="1.016" layer="28" rot="MR90"/>
+</element>
+<element name="PIC_CONTROLLER" library="HedgehogLib" package="QFN44ML8X8" value="PIC_P2V6" x="10.8204" y="11.938" smashed="yes" rot="MR270">
+<attribute name="NAME" x="7.8348" y="7.7944" size="0.4064" layer="26" rot="MR180"/>
+<attribute name="VALUE" x="16.3454" y="15.838" size="1.27" layer="28" rot="MR270"/>
+</element>
+<element name="C2_32KHZ" library="rcl" package="C0603K" value="22p" x="5.0292" y="5.6134" smashed="yes" rot="MR0">
+<attribute name="NAME" x="4.0998" y="5.9562" size="0.4064" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="5.8292" y="3.9634" size="1.016" layer="28" rot="MR0"/>
+</element>
+<element name="C1_32KHZ" library="rcl" package="C0603K" value="22p" x="2.0066" y="5.6096" smashed="yes" rot="MR180">
+<attribute name="NAME" x="0.9464" y="5.9562" size="0.4064" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="1.2066" y="7.2596" size="1.016" layer="28" rot="MR180"/>
+</element>
+<element name="C_UC_P7/8" library="rcl" package="C0603K" value="0.22u" x="11.8364" y="18.6944" smashed="yes" rot="MR0">
+<attribute name="NAME" x="13.5254" y="17.7696" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="12.6364" y="17.0444" size="1.016" layer="28" rot="MR0"/>
+</element>
+<element name="C_UC_P28/29" library="rcl" package="C0603K" value="0.22u" x="9.9612" y="4.064" smashed="yes" rot="MR270">
+<attribute name="NAME" x="9.4382" y="5.7276" size="0.4064" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="11.6112" y="4.864" size="1.016" layer="28" rot="MR270"/>
+</element>
+<element name="C_UC_P37" library="rcl" package="C0603K" value="0.1u" x="6.5814" y="11.4554" smashed="yes" rot="R90">
+<attribute name="NAME" x="7.7856" y="9.3854" size="0.6096" layer="25" rot="R90"/>
+<attribute name="VALUE" x="8.2314" y="10.6554" size="1.016" layer="27" rot="R90"/>
+</element>
+<element name="R1" library="rcl" package="R0603" value="10k" x="13.843" y="4.064" smashed="yes" rot="MR270">
+<attribute name="NAME" x="14.3256" y="2.7178" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="15.748" y="4.699" size="1.27" layer="28" rot="MR270"/>
+</element>
+<element name="R2" library="rcl" package="R0603" value="10k" x="20.8026" y="6.4008" smashed="yes" rot="MR270">
+<attribute name="NAME" x="21.3106" y="4.8514" size="0.6096" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="22.7076" y="7.0358" size="1.27" layer="28" rot="MR270"/>
+</element>
+<element name="R4" library="rcl" package="R0603" value="10k" x="18.7604" y="6.4008" smashed="yes" rot="MR90">
+<attribute name="NAME" x="19.2786" y="4.8412" size="0.6096" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="16.8554" y="5.7658" size="1.27" layer="28" rot="MR90"/>
+</element>
+<element name="C_UC_VDDCORE" library="rcl" package="C0805K" value="10u" x="15.9512" y="2.4638" smashed="yes" rot="MR270">
+<attribute name="NAME" x="17.1844" y="4.9624" size="0.4064" layer="26" rot="MR270"/>
+<attribute name="VALUE" x="17.8512" y="3.4638" size="1.016" layer="28" rot="MR270"/>
+</element>
+<element name="X1" library="HedgehogLib" package="53047-05-OCT" value="PROGCON" x="20.2438" y="1.4986" smashed="yes" rot="R180">
+<attribute name="NAME" x="22.0888" y="1.7552" size="0.6096" layer="25" rot="R180"/>
+<attribute name="VALUE" x="23.4938" y="4.7486" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="R3" library="rcl" package="R0603" value="10k" x="8.4074" y="20.9042" smashed="yes" rot="MR90">
+<attribute name="NAME" x="8.9154" y="19.5326" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="6.5024" y="20.2692" size="1.27" layer="28" rot="MR90"/>
+</element>
+<element name="R5" library="rcl" package="R0603" value="10k" x="12.0396" y="4.064" smashed="yes" rot="MR270">
+<attribute name="NAME" x="12.5222" y="2.7178" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="13.9446" y="4.699" size="1.27" layer="28" rot="MR270"/>
+</element>
+<element name="12MHZ_RESONATOR" library="jnode" package="PRQC" value="RESONATORPRQC-S" x="6.731" y="2.7178" smashed="yes" rot="MR180">
 <attribute name="DIGIKEY" value="http://www.digikey.com/product-detail/en/PRQC12.00CR5010X000/478-6318-1-ND/2506334" x="6.731" y="2.7178" size="1.778" layer="28" rot="MR180" display="off"/>
 </element>
 <element name="32KHZ_CRYSTAL" library="HedgehogLib" package="SMD_CRYSTAL" value="SMD_CRYSTAL" x="3.2258" y="7.4676" rot="MR0"/>
-<element name="R7" library="rcl" package="R0603" value="10k" x="6.858" y="20.9042" rot="MR90"/>
-<element name="LDO" library="HedgehogLib" package="SOT-23-5" value="MCP1824" x="8.0264" y="24.7396" rot="MR90"/>
-<element name="BAT" library="con-molex" package="53048-02" value="53048-02" x="2.667" y="24.1808" rot="R270">
+<element name="R7" library="rcl" package="R0603" value="10k" x="6.858" y="20.9042" smashed="yes" rot="MR90">
+<attribute name="NAME" x="7.366" y="19.5326" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="4.953" y="20.2692" size="1.27" layer="28" rot="MR90"/>
+</element>
+<element name="LDO" library="HedgehogLib" package="SOT-23-5" value="MCP1824" x="8.0264" y="24.7396" smashed="yes" rot="MR90">
+<attribute name="NAME" x="8.6614" y="26.4414" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="4.8514" y="22.8346" size="1.27" layer="28" rot="MR90"/>
+</element>
+<element name="BAT" library="con-molex" package="53048-02" value="53048-02" x="2.667" y="24.1808" smashed="yes" rot="R270">
 <attribute name="OC_NEWARK" value="57H4718" x="2.667" y="24.1808" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="53048-0210" x="2.667" y="24.1808" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MF" value="MOLEX" x="2.667" y="24.1808" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="1012259" x="2.667" y="24.1808" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="1.6048" y="26.5906" size="0.6096" layer="25"/>
+<attribute name="VALUE" x="-1.208" y="26.1808" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="EXT" library="HedgehogLib" package="53047-05-OCT" value="PROGCON" x="2.4638" y="12.9286" rot="R270"/>
-<element name="R8" library="rcl" package="R0603" value="220" x="4.5466" y="17.8816" rot="MR180"/>
-<element name="LED1" library="led" package="SML0805" value="" x="3.4798" y="19.5326" rot="MR180"/>
+<element name="EXT" library="HedgehogLib" package="53047-05-OCT" value="PROGCON" x="2.4638" y="12.9286" smashed="yes" rot="R270">
+<attribute name="NAME" x="2.7712" y="10.2454" size="0.6096" layer="25" rot="R90"/>
+<attribute name="VALUE" x="-0.7862" y="16.1786" size="1.27" layer="27" rot="R270"/>
+</element>
+<element name="R8" library="rcl" package="R0603" value="220" x="4.5466" y="17.8816" smashed="yes" rot="MR180">
+<attribute name="NAME" x="3.5306" y="17.4498" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="3.9116" y="19.7866" size="1.27" layer="28" rot="MR180"/>
+</element>
+<element name="LED1" library="led" package="SML0805" value="" x="3.4798" y="19.5326" smashed="yes" rot="MR180">
+<attribute name="NAME" x="3.9638" y="20.2278" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="1.9798" y="21.5326" size="1.27" layer="28" rot="MR180"/>
+</element>
 </elements>
 <signals>
 <signal name="GND">
