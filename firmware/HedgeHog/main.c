@@ -67,7 +67,6 @@ sd_buffer_t sd_buffer;
 
 // time variables
 rtc_timedate tm; //  holding time info for current time
-rtc_timedate Tm; // holding time info for stop time
 char date_str[11] = "01/01/2012";
 char time_str[9] = "00:00:00";
 UINT32 tm_stop;
@@ -511,14 +510,14 @@ void config_process(void) {
                  sd_buffer.conf.name[7] = HH_NAME_STR[7];
             
               // read and set System Time from SD-Buffer
-                 rtc_init();
                  memcpy(tm.b, (const void*)sd_buffer.conf.systime, 8*sizeof(BYTE));
+                 rtc_init();
                  rtc_write(&tm);
                  rtc_writestr(&tm,date_str,time_str);
 
               // read and set Stop Time from SD-Buffer
-                 memcpy(Tm.b, (const void*)sd_buffer.conf.stptime, 8*sizeof(BYTE));
-                 tm_stop = rtc_2uint32(&Tm);
+                 memcpy(tm.b, (const void*)sd_buffer.conf.stptime, 8*sizeof(BYTE));
+                 tm_stop = rtc_2uint32(&tm);
 
               // write name and version str to SD-Card
                  write_SD(SECTOR_CF, sd_buffer.bytes);
