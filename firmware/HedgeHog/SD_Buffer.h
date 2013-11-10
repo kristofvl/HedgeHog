@@ -55,27 +55,27 @@ typedef union {
         } acc[42];
     } mvf;
 
-    struct {                       // config structure:
-        UINT32 ID;                  // identifier
-        UINT32 time;                // time stamp
-        UINT32_VAL acc;             // accelerometer configuration
-        hhg_conf_accs_t acc_s;      // accelerometer sensitivity
-        UINT32_VAL logg;            // logging & processing setup
-        UINT8 rle_delta;            // RLE Delta
+    struct {                            // config structure:
+        UINT32 ID;        //0           // identifier
+        UINT32 time;                    // time stamp
+        UINT32_VAL acc;                 // accelerometer configuration
+        hhg_conf_accs_t acc_s;          // accelerometer sensitivity
+        UINT32_VAL logg;                // logging & processing setup
+        UINT8 rle_delta;  //20          // RLE Delta
         UINT8 separator_1[3];
-        UINT8 name[8];
+        UINT8 name[8];    //24
         UINT8 separator_2[3];
-        UINT8 ver[7];
+        UINT8 ver[7];     //35
         UINT8 separator_3[3];
-        ACC_XYZ init_acc;
+        ACC_XYZ init_acc; //45
         UINT8 separator_4[3];
-        WORD_VAL init_light;
+        WORD_VAL init_light; //51
         UINT8 separator_5[3];
-        UINT8 init_thermo;
+        UINT8 init_thermo;   //56
         UINT8 separator_6[3];
-        BYTE  systime[8];
+        BYTE  systime[8];    //60
         UINT8 separator_7[3];
-        BYTE  stptime[8];
+        BYTE  stptime[8];    //71
         UINT8 separator_8[432];
         UINT8 flag;
     } conf;

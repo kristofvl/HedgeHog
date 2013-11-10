@@ -1,6 +1,0 @@
-Warning[2054] ../main.c 445 : suspicious pointer conversion
-Warning[2066] ../main.c 445 : type qualifier mismatch in assignment
-Warning[2054] ../main.c 447 : suspicious pointer conversion
-Warning[2066] ../main.c 447 : type qualifier mismatch in assignment
-Warning[2054] ../main.c 480 : suspicious pointer conversion
-Warning[2054] ../main.c 485 : suspicious pointer conversion

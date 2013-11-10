@@ -205,14 +205,16 @@ static void init_system(void) {
     user_init(); // Our other init routines come last
 
     // updating root table to reflect ID
+    memset((void*)&sd_buffer, 0, 512);
     read_SD(SECTOR_CF, sd_buffer.bytes);
     id_str[0] = sd_buffer.bytes[0];
     id_str[1] = sd_buffer.bytes[1];
     id_str[2] = sd_buffer.bytes[2];
     id_str[3] = sd_buffer.bytes[3];
+    memset((void*)&sd_buffer, 0, 512);
     write_root_table(&sd_buffer, id_str);
     write_SD(SECTOR_RT, sd_buffer.bytes);
-    
+    memset((void*)&sd_buffer, 0, 512);
 }
 
 /*******************************************************************************
@@ -347,6 +349,19 @@ void log_process() {
         usbp_int = !(USBP_INT);
         #endif
         sdbuf_init();
+
+     // initialize Sensors with settings from SD-Buffer
+        memset((void*)&sd_buffer, 0, 512);
+        read_SD(SECTOR_CF, sd_buffer.bytes);
+        rle_delta = sd_buffer.conf.rle_delta - 48;
+        env_init();
+        acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
+        acc_confs = sd_buffer.conf.acc_s;
+
+     // write acc-sensor answer after initialization
+        write_SD(SECTOR_CF, sd_buffer.bytes);
+        memset((void*)&sd_buffer, 0, 512);
+
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
@@ -430,75 +445,84 @@ void config_process(void) {
 
     int i;
 
- // read 512 Bytes from config.hhg
+ // read 512 Bytes from config.ure
     read_SD(SECTOR_LF, sd_buffer.bytes);
 
     switch(sd_buffer.conf.flag){
 
         case 'f':
-              // detach HedgeHog while Formating 
+
+              // detach HedgeHog while Formating
                  USBSoftDetach();
 
-              // write 0 to sectors 0-640
+              // write 0s to sectors 0-640
                  memset((void*)&sd_buffer, 0, 512);
                  for(i=0; i<=640; i++)
                     MDD_SDSPI_SectorWrite(i, sd_buffer.bytes, 1);
-                 
-              // write MBR to sector 
+
+              // write MBR to sector 0
                  memset((void*)&sd_buffer, 0, 512);
-                 write_MBR(&sd_buffer); 
+                 write_MBR(&sd_buffer);
                  MDD_SDSPI_SectorWrite(0, sd_buffer.bytes, 1);
 
-              // write FAT      
+              // write FAT
                  memset((void*)&sd_buffer, 0, 512);
                  for(i=0; i<=90; i++) {
                     write_FAT(&sd_buffer, i);
                     write_SD(i+8, sd_buffer.bytes);
                  }
-                 
+
               // write root table
-                 memset((void*)&sd_buffer, 0, 512);     
-                 write_root_table(&sd_buffer, NULL);    
+                 memset((void*)&sd_buffer, 0, 512);
+                 write_root_table(&sd_buffer, NULL);
                  write_SD(SECTOR_RT, sd_buffer.bytes);
 
               // Erase SD_Buffer_Struct
-                 memset(sd_buffer.bytes,'.',512);
-                 
+                 memset((void*)&sd_buffer, 0, 512);
+
               // reset flag
                  sd_buffer.conf.flag = 0;
                  write_SD(SECTOR_LF, sd_buffer.bytes);
-                 
-                 break; 
+                 memset((void*)&sd_buffer, 0, 512);
+                 break;
      
         case 'l':
 
+                 memset((void*)&sd_buffer, 0, 512);
                  read_SD(SECTOR_CF, sd_buffer.bytes);
 
               // write Version String to SD-Buffer
-                 memcpy((void *)sd_buffer.conf.ver, (const void*) HH_VER_STR,
-                         strlen((const char*)HH_VER_STR));
+                 sd_buffer.conf.ver[0] =  HH_VER_STR[0];
+                 sd_buffer.conf.ver[1] =  HH_VER_STR[1];
+                 sd_buffer.conf.ver[2] =  HH_VER_STR[2];
+                 sd_buffer.conf.ver[3] =  HH_VER_STR[3];
+                 sd_buffer.conf.ver[4] =  HH_VER_STR[4];
+                 sd_buffer.conf.ver[5] =  HH_VER_STR[5];
+                 sd_buffer.conf.ver[6] =  HH_VER_STR[6];
+                 
               // write Name String to SD-Buffer
-                 memcpy((void *)sd_buffer.conf.name, (const void*) HH_NAME_STR,
-                         strlen((const char*)HH_NAME_STR));
-
-              // initialize Sensors with settings from SD-Buffer
-                 rtc_init();
-                 rle_delta = sd_buffer.conf.rle_delta - 48;
-                 env_init();
-                 acc_init(sd_buffer.conf.acc_s,&(sd_buffer.conf.acc));
-                 acc_confs = sd_buffer.conf.acc_s;
-
+                 sd_buffer.conf.name[0] = HH_NAME_STR[0];
+                 sd_buffer.conf.name[1] = HH_NAME_STR[1];
+                 sd_buffer.conf.name[2] = HH_NAME_STR[2];
+                 sd_buffer.conf.name[3] = HH_NAME_STR[3];
+                 sd_buffer.conf.name[4] = HH_NAME_STR[4];
+                 sd_buffer.conf.name[5] = HH_NAME_STR[5];
+                 sd_buffer.conf.name[6] = HH_NAME_STR[6];
+                 sd_buffer.conf.name[7] = HH_NAME_STR[7];
+            
               // read and set System Time from SD-Buffer
+                 rtc_init();
                  memcpy(tm.b, (const void*)sd_buffer.conf.systime, 8*sizeof(BYTE));
                  rtc_write(&tm);
                  rtc_writestr(&tm,date_str,time_str);
-                   
+
               // read and set Stop Time from SD-Buffer
                  memcpy(Tm.b, (const void*)sd_buffer.conf.stptime, 8*sizeof(BYTE));
                  tm_stop = rtc_2uint32(&Tm);
 
-              // write back config feedback after acc init
+              // write name and version str to SD-Card
                  write_SD(SECTOR_CF, sd_buffer.bytes);
+                 memset((void*)&sd_buffer, 0, 512);
                  
               // Update Disk Label to reflect ID
                  id_str[0] = sd_buffer.bytes[0];
@@ -509,11 +533,12 @@ void config_process(void) {
                  write_SD(SECTOR_RT, sd_buffer.bytes);
 
               // Erase SD_Buffer_Struct
-                 memset(sd_buffer.bytes,'.',512);
+                 memset((void*)&sd_buffer, 0, 512);
                  
               // start logging
                  sd_buffer.conf.flag = 0;
                  write_SD(SECTOR_LF, sd_buffer.bytes);
+                 memset((void*)&sd_buffer, 0, 512);
                  USBSoftDetach();
                  is_logging = 1;
                  break;
