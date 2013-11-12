@@ -98,7 +98,7 @@ class Hhg_plot:
 		self.lblcombo.append_text("Breakfast")
 		self.lblcombo.append_text("Lunch")
 		self.lblcombo.append_text("Dinner")
-		self.lblcombo.append_text("Badminton")
+		self.lblcombo.append_text("Leisure")
 		self.lblcombo.set_active(0);
 		# add annotation and quit buttons to the toolbar:
 		toolbar = get_current_fig_manager().toolbar
@@ -116,20 +116,23 @@ class Hhg_plot:
 		exit_tb = gtk.ToolButton(gtk.STOCK_QUIT); exit_tb.show()
 		exit_tb.connect("clicked", gtk.main_quit)
 		try:
-			savedta_tb.set_tooltip( toolbar.tooltips,'Save data')
-			labelstr_tb.set_tooltip( toolbar.tooltips,'Select annotation')
-			label_tb.set_tooltip( toolbar.tooltips,'Annotate')
-			exit_tb.set_tooltip( toolbar.tooltips,'Close window')
+			savedta_tb.set_tooltip_text( 'Save data')
+			labelstr_tb.set_tooltip_text( 'Select annotation')
+			label_tb.set_tooltip_text( 'Annotate')
+			exit_tb.set_tooltip_text( 'Close window')
+			day_tb.set_tooltip_text( 'Mark days')
 		except:
 			print 'Tooltips not available. Hm.'
-		toolbar.insert(savedta_tb, 8)
-		toolbar.insert(sep1_tb,  	9)
-		toolbar.insert(labelstr_tb,10)
-		toolbar.insert(label_tb, 	11)
-		toolbar.insert(sep2_tb,  	12)
-		toolbar.insert(day_tb,  	13)
-		toolbar.insert(sep3_tb,  	14)
-		toolbar.insert(exit_tb,  	15)
+		toolbar.insert(sep1_tb,  	8)
+		toolbar.insert(labelstr_tb,9)
+		toolbar.insert(label_tb, 	10)
+		toolbar.insert(sep2_tb,  	11)
+		toolbar.insert(day_tb,  	12)
+		save_fig = toolbar.get_nth_item(13) # the save figure toolitem
+		save_fig.set_icon_name(gtk.STOCK_SAVE_AS) # changes the icon 
+		toolbar.insert(savedta_tb, 14)
+		toolbar.insert(sep3_tb,  	15)
+		toolbar.insert(exit_tb,  	16)
 	def show(self):
 		self.fix_margins()
 		self.fig.show(); show()
