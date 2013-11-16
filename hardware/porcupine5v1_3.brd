@@ -32,20 +32,20 @@
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
 <layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
 <layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
-<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
-<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
-<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
-<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="no" active="yes"/>
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
 <layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
 <layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
-<layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="yes"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="yes"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="yes"/>
@@ -60,18 +60,18 @@
 <layer number="100" name="Muster" color="7" fill="1" visible="no" active="no"/>
 <layer number="101" name="Patch_Top" color="12" fill="4" visible="no" active="yes"/>
 <layer number="102" name="Vscore" color="7" fill="1" visible="no" active="yes"/>
-<layer number="103" name="Stiffner" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="103" name="Stiffner" color="7" fill="1" visible="no" active="yes"/>
 <layer number="104" name="Name" color="7" fill="1" visible="no" active="yes"/>
-<layer number="105" name="Beschreib" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="106" name="BGA-Top" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="107" name="BD-Top" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="105" name="Beschreib" color="7" fill="1" visible="no" active="yes"/>
+<layer number="106" name="BGA-Top" color="7" fill="1" visible="no" active="yes"/>
+<layer number="107" name="BD-Top" color="7" fill="1" visible="no" active="yes"/>
 <layer number="116" name="Patch_BOT" color="9" fill="4" visible="no" active="yes"/>
 <layer number="121" name="_tsilk" color="7" fill="1" visible="no" active="yes"/>
 <layer number="122" name="_bsilk" color="7" fill="1" visible="no" active="yes"/>
-<layer number="125" name="_tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="144" name="Drill_legend" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="125" name="_tNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="144" name="Drill_legend" color="7" fill="1" visible="no" active="yes"/>
 <layer number="151" name="HeatSink" color="7" fill="1" visible="no" active="yes"/>
-<layer number="199" name="Contour" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="199" name="Contour" color="7" fill="1" visible="no" active="yes"/>
 <layer number="200" name="200bmp" color="1" fill="10" visible="no" active="no"/>
 <layer number="201" name="201bmp" color="2" fill="1" visible="no" active="no"/>
 <layer number="202" name="202bmp" color="3" fill="1" visible="no" active="no"/>
@@ -114,6 +114,9 @@
 <wire x1="27.432" y1="0" x2="1.27" y2="0" width="0.0254" layer="20"/>
 <circle x="41.402" y="25.9334" radius="0.0762" width="0.0254" layer="101"/>
 <rectangle x1="46.5582" y1="7.7978" x2="46.736" y2="7.9756" layer="101"/>
+<text x="0.8128" y="15.8496" size="0.4064" layer="25">LIGHTSENSE</text>
+<text x="5.4864" y="9.271" size="0.4064" layer="25">SDCARD_CON</text>
+<text x="22.1742" y="7.0612" size="0.4064" layer="25">L_OL</text>
 </plain>
 <libraries>
 <library name="maxim">
@@ -945,57 +948,170 @@ design rules under a new name.</description>
 </autorouter>
 <elements>
 <element name="SDCARD_CON" library="HedgehogLib" package="460DA40013" value="MICROSD_CONN" x="14.5482" y="14.798" rot="R270"/>
-<element name="LIGHTSENSE" library="HedgehogLib" package="TSL" value="TSL250" x="3.909" y="18.0952"/>
-<element name="USB_CON" library="HedgehogLib" package="248601" value="USBCON" x="19.128" y="25.1442" rot="R270"/>
-<element name="C_PWR_VUSB" library="rcl" package="C0603K" value="1u" x="11.7602" y="26.2128" rot="MR270"/>
-<element name="C_PWR_SW" library="rcl" package="C0805K" value="10u" x="3.2258" y="24.2824" rot="MR180"/>
-<element name="CHARGER" library="maxim" package="SOT23-5L" value="MAX1551" x="2.9718" y="21.3106" rot="R90"/>
-<element name="C_PWR_BAT" library="rcl" package="C0603K" value="1u" x="2.9464" y="23.6474"/>
-<element name="ACCERELOMETER" library="HedgehogLib" package="LGA14" value="ADXL345" x="22.9546" y="2.9742" rot="MR0"/>
-<element name="C_ADX_VDD" library="rcl" package="C0603K" value="0.1u" x="24.3144" y="3.2278" rot="R270"/>
-<element name="C_ADX_VSS" library="rcl" package="C0603K" value="1u" x="20.666" y="3.2244" rot="R270"/>
-<element name="R6" library="rcl" package="R0603" value="10k" x="26.6568" y="4.6434" rot="R90"/>
-<element name="C_PWR_VREG" library="rcl" package="C0603K" value="1u" x="9.0424" y="27.6098" rot="MR90"/>
-<element name="PIC_CONTROLLER" library="HedgehogLib" package="QFN44ML8X8" value="PIC_P2V6" x="12.1948" y="13.4394" rot="MR0"/>
-<element name="C2_32KHZ" library="rcl" package="C0603K" value="22p" x="5.7658" y="22.1488" rot="MR180"/>
-<element name="C1_32KHZ" library="rcl" package="C0603K" value="22p" x="8.9154" y="22.1488" rot="MR0"/>
-<element name="C_UC_P7/8" library="rcl" package="C0603K" value="0.22u" x="16.4976" y="11.6844" rot="R270"/>
-<element name="C_UC_P28/29" library="rcl" package="C0603K" value="0.22u" x="8.1612" y="16.037"/>
-<element name="C_UC_P37" library="rcl" package="C0603K" value="0.1u" x="12.441" y="22.4494" rot="MR180"/>
-<element name="R1" library="rcl" package="R0603" value="10k" x="5.0382" y="4.0526" rot="MR270"/>
-<element name="R2" library="rcl" package="R0603" value="10k" x="2.9848" y="4.0584" rot="MR270"/>
-<element name="R4" library="rcl" package="R0603" value="10k" x="13.4126" y="2.9706" rot="MR90"/>
-<element name="C_UC_VDDCORE" library="rcl" package="C0805K" value="10u" x="5.9442" y="9.0388" rot="MR0"/>
-<element name="CON_OLED" library="HedgehogLib" package="CON_DD-12864WE-1A" value="OLED_DENSITRON" x="23.2248" y="14.9886" rot="MR90"/>
-<element name="DIOD_OL" library="HedgehogLib" package="SOD123" value="MBR0520" x="24.7056" y="12.2424"/>
+<element name="LIGHTSENSE" library="HedgehogLib" package="TSL" value="TSL250" x="3.909" y="18.0952" smashed="yes"/>
+<element name="USB_CON" library="HedgehogLib" package="248601" value="USBCON" x="19.128" y="25.1442" smashed="yes" rot="R270">
+<attribute name="NAME" x="14.81" y="24.4366" size="0.4064" layer="25" rot="R90"/>
+<attribute name="VALUE" x="18.1882" y="24.2334" size="0.4064" layer="27"/>
+</element>
+<element name="C_PWR_VUSB" library="rcl" package="C0603K" value="1u" x="11.7602" y="26.2128" smashed="yes" rot="MR270">
+<attribute name="NAME" x="12.1792" y="24.9324" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="11.1632" y="25.5026" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="C_PWR_SW" library="rcl" package="C0805K" value="10u" x="3.2258" y="24.2824" smashed="yes" rot="MR180">
+<attribute name="NAME" x="4.2258" y="25.132" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="2.1286" y="24.6474" size="0.4064" layer="28" rot="MR270"/>
+</element>
+<element name="CHARGER" library="maxim" package="SOT23-5L" value="MAX1551" x="2.9718" y="21.3106" smashed="yes" rot="R90">
+<attribute name="NAME" x="4.7244" y="20.1422" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="5.6134" y="19.6342" size="0.4064" layer="27" rot="R90"/>
+</element>
+<element name="C_PWR_BAT" library="rcl" package="C0603K" value="1u" x="2.9464" y="23.6474" smashed="yes">
+<attribute name="NAME" x="3.9498" y="23.5862" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="2.0056" y="23.2792" size="0.4064" layer="27" rot="R90"/>
+</element>
+<element name="ACCERELOMETER" library="HedgehogLib" package="LGA14" value="ADXL345" x="22.9546" y="2.9742" smashed="yes" rot="MR0">
+<attribute name="NAME" x="25.5962" y="0.739" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="24.9866" y="1.8058" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="C_ADX_VDD" library="rcl" package="C0603K" value="0.1u" x="24.3144" y="3.2278" smashed="yes" rot="R270">
+<attribute name="NAME" x="23.0486" y="1.7996" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="23.7344" y="4.1732" size="0.4064" layer="27"/>
+</element>
+<element name="C_ADX_VSS" library="rcl" package="C0603K" value="1u" x="20.666" y="3.2244" smashed="yes" rot="R270">
+<attribute name="NAME" x="19.0388" y="1.8596" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="20.3342" y="4.1824" size="0.4064" layer="27"/>
+</element>
+<element name="R6" library="rcl" package="R0603" value="10k" x="26.6568" y="4.6434" smashed="yes" rot="R90">
+<attribute name="NAME" x="26.335" y="3.3152" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="27.622" y="4.1862" size="0.4064" layer="27" rot="R90"/>
+</element>
+<element name="C_PWR_VREG" library="rcl" package="C0603K" value="1u" x="9.0424" y="27.6098" smashed="yes" rot="MR90">
+<attribute name="NAME" x="8.09" y="28.8902" size="0.4064" layer="26" rot="MR180"/>
+<attribute name="VALUE" x="10.1726" y="27.8902" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="PIC_CONTROLLER" library="HedgehogLib" package="QFN44ML8X8" value="PIC_P2V6" x="12.1948" y="13.4394" smashed="yes" rot="MR0">
+<attribute name="NAME" x="15.9678" y="17.6338" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="13.4786" y="11.953" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="C2_32KHZ" library="rcl" package="C0603K" value="22p" x="5.7658" y="22.1488" smashed="yes" rot="MR180">
+<attribute name="NAME" x="6.5658" y="22.7226" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="4.9012" y="22.5678" size="0.4064" layer="28" rot="MR270"/>
+</element>
+<element name="C1_32KHZ" library="rcl" package="C0603K" value="22p" x="8.9154" y="22.1488" smashed="yes" rot="MR0">
+<attribute name="NAME" x="9.7154" y="22.7226" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="8.0254" y="22.5678" size="0.4064" layer="28" rot="MR270"/>
+</element>
+<element name="C_UC_P7/8" library="rcl" package="C0603K" value="0.22u" x="16.4976" y="11.6844" smashed="yes" rot="R270">
+<attribute name="NAME" x="15.8978" y="10.4772" size="0.4064" layer="25" rot="R90"/>
+<attribute name="VALUE" x="16.496" y="12.7124" size="0.4064" layer="27" rot="R90"/>
+</element>
+<element name="C_UC_P28/29" library="rcl" package="C0603K" value="0.22u" x="8.1612" y="16.037" smashed="yes">
+<attribute name="NAME" x="6.9802" y="16.6362" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="9.2154" y="16.038" size="0.4064" layer="27"/>
+</element>
+<element name="C_UC_P37" library="rcl" package="C0603K" value="0.1u" x="12.441" y="22.4494" smashed="yes" rot="MR180">
+<attribute name="NAME" x="13.2256" y="23.0062" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="11.6026" y="22.8522" size="0.4064" layer="28" rot="MR270"/>
+</element>
+<element name="R1" library="rcl" package="R0603" value="10k" x="5.0382" y="4.0526" smashed="yes" rot="MR270">
+<attribute name="NAME" x="5.3988" y="2.658" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="5.4496" y="2.0484" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="R2" library="rcl" package="R0603" value="10k" x="2.9848" y="4.0584" smashed="yes" rot="MR270">
+<attribute name="NAME" x="3.4234" y="2.6032" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="3.4234" y="1.9682" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="R4" library="rcl" package="R0603" value="10k" x="13.4126" y="2.9706" smashed="yes" rot="MR90">
+<attribute name="NAME" x="13.7934" y="1.5762" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="13.7934" y="0.9666" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="C_UC_VDDCORE" library="rcl" package="C0805K" value="10u" x="5.9442" y="9.0388" smashed="yes" rot="MR0">
+<attribute name="NAME" x="6.995" y="7.8564" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="6.995" y="7.3166" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="CON_OLED" library="HedgehogLib" package="CON_DD-12864WE-1A" value="OLED_DENSITRON" x="23.2248" y="14.9886" smashed="yes" rot="MR90"/>
+<element name="DIOD_OL" library="HedgehogLib" package="SOD123" value="MBR0520" x="24.7056" y="12.2424" smashed="yes">
+<attribute name="NAME" x="23.9612" y="13.2932" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="25.9678" y="12.7872" size="0.4064" layer="27"/>
+</element>
 <element name="L_OL" library="HedgehogLib" package="1212_FOR_INDUCTANCE" value="100uH" x="23.316" y="9.0172"/>
-<element name="C_OL_APP_VDD" library="rcl" package="A/3216-18R" value="10u low ESR" x="21.0856" y="20.0098"/>
-<element name="R12" library="rcl" package="R0603" value="930k 1%" x="26.375" y="16.2774" rot="R270"/>
-<element name="R9" library="rcl" package="R0603" value="110k 1%" x="26.518" y="18.8246" rot="R180"/>
-<element name="C_OL_VPP" library="rcl" package="A/3216-18R" value="6.8u low ESR" x="21.164" y="10.3462"/>
-<element name="C_OL_FB" library="rcl" package="C0603K" value="1n" x="20.6406" y="22.134" rot="MR90"/>
-<element name="C_OL_VBREF" library="rcl" package="C0603K" value="1u" x="19.273" y="22.1426" rot="MR90"/>
-<element name="C_OL_VDD2" library="rcl" package="C0603K" value="1u" x="19.5772" y="18.2824"/>
-<element name="C_OL_VCOMH" library="rcl" package="C0603K" value="4.7u" x="20.2216" y="12.8716"/>
-<element name="R10" library="rcl" package="R0603" value="820k" x="26.473" y="10.4196" rot="R180"/>
-<element name="X1" library="HedgehogLib" package="53047-05-OCT" value="PROGCON" x="7.5438" y="1.3716"/>
-<element name="R11" library="rcl" package="R0603" value="930k 1%" x="19.9898" y="18.7706" rot="MR180"/>
+<element name="C_OL_APP_VDD" library="rcl" package="A/3216-18R" value="10u low ESR" x="21.0856" y="20.0098" smashed="yes">
+<attribute name="NAME" x="19.0848" y="20.8066" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="19.0848" y="20.0978" size="0.4064" layer="27"/>
+</element>
+<element name="R12" library="rcl" package="R0603" value="930k 1%" x="26.375" y="16.2774" smashed="yes" rot="R270">
+<attribute name="NAME" x="25.9374" y="14.818" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="27.473" y="15.0408" size="0.4064" layer="27" rot="R90"/>
+</element>
+<element name="R9" library="rcl" package="R0603" value="110k 1%" x="26.518" y="18.8246" smashed="yes" rot="R180">
+<attribute name="NAME" x="26.7458" y="17.8784" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="28.0956" y="18.2622" size="0.4064" layer="27" rot="R90"/>
+</element>
+<element name="C_OL_VPP" library="rcl" package="A/3216-18R" value="6.8u low ESR" x="21.164" y="10.3462" smashed="yes">
+<attribute name="NAME" x="18.7822" y="11.1176" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="19.722" y="9.2912" size="0.4064" layer="27"/>
+</element>
+<element name="C_OL_FB" library="rcl" package="C0603K" value="1n" x="20.6406" y="22.134" smashed="yes" rot="MR90">
+<attribute name="NAME" x="21.2144" y="21.334" size="0.4064" layer="26" rot="MR90"/>
+<attribute name="VALUE" x="20.8808" y="23.1308" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="C_OL_VBREF" library="rcl" package="C0603K" value="1u" x="19.273" y="22.1426" smashed="yes" rot="MR90">
+<attribute name="NAME" x="18.3736" y="21.3172" size="0.4064" layer="26" rot="MR90"/>
+<attribute name="VALUE" x="19.5768" y="23.1348" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="C_OL_VDD2" library="rcl" package="C0603K" value="1u" x="19.5772" y="18.2824" smashed="yes">
+<attribute name="NAME" x="18.3962" y="17.383" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="20.9088" y="18.1168" size="0.4064" layer="27" rot="R90"/>
+</element>
+<element name="C_OL_VCOMH" library="rcl" package="C0603K" value="4.7u" x="20.2216" y="12.8716" smashed="yes">
+<attribute name="NAME" x="18.6596" y="13.42" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="21.2758" y="12.8726" size="0.4064" layer="27"/>
+</element>
+<element name="R10" library="rcl" package="R0603" value="820k" x="26.473" y="10.4196" smashed="yes" rot="R180">
+<attribute name="NAME" x="26.359" y="9.4686" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="27.8186" y="9.8236" size="0.4064" layer="27" rot="R90"/>
+</element>
+<element name="X1" library="HedgehogLib" package="53047-05-OCT" value="PROGCON" x="7.5438" y="1.3716" smashed="yes">
+<attribute name="NAME" x="9.712" y="0.607" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="4.2938" y="-1.8784" size="0.4064" layer="27"/>
+</element>
+<element name="R11" library="rcl" package="R0603" value="930k 1%" x="19.9898" y="18.7706" smashed="yes" rot="MR180">
+<attribute name="NAME" x="20.8788" y="17.8562" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="20.8788" y="17.2466" size="0.4064" layer="28" rot="MR0"/>
+</element>
 <element name="R8" library="HedgehogLib" package="0805_UPSIDEDOWN" value="0.12 1% 0.5W" x="25.6286" y="27.5082" rot="MR0"/>
-<element name="N_MOS_OL" library="HedgehogLib" package="SOT-23" value="" x="26.2128" y="21.4376"/>
-<element name="LDO" library="HedgehogLib" package="SOT-23-5" value="MCP1824" x="5.1816" y="27.3812" rot="MR90"/>
-<element name="R3" library="rcl" package="R0603" value="10k" x="2.4638" y="12.4206" rot="MR0"/>
-<element name="R5" library="rcl" package="R0603" value="10k" x="2.4638" y="10.3886" rot="MR0"/>
-<element name="U$2" library="HedgehogLib" package="SMD_CRYSTAL" value="SMD_CRYSTAL" x="7.3406" y="20.2946" rot="MR0"/>
-<element name="U$3" library="jnode" package="PRQC" value="RESONATORPRQC-S" x="3.4036" y="15.4686" rot="MR180">
+<element name="N_MOS_OL" library="HedgehogLib" package="SOT-23" value="" x="26.2128" y="21.4376" smashed="yes">
+<attribute name="VALUE" x="24.8158" y="23.2156" size="1.27" layer="27" ratio="10"/>
+<attribute name="NAME" x="28.2448" y="20.4724" size="0.4064" layer="25" ratio="10" rot="R90"/>
+</element>
+<element name="LDO" library="HedgehogLib" package="SOT-23-5" value="MCP1824" x="5.1816" y="27.3812" smashed="yes" rot="MR90">
+<attribute name="NAME" x="6.0706" y="29.1338" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="4.6228" y="29.0068" size="0.4064" layer="28" rot="MR0"/>
+</element>
+<element name="R3" library="rcl" package="R0603" value="10k" x="2.4638" y="12.4206" smashed="yes" rot="MR0">
+<attribute name="NAME" x="3.0988" y="13.0556" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="1.4732" y="12.8016" size="0.4064" layer="28" rot="MR270"/>
+</element>
+<element name="R5" library="rcl" package="R0603" value="10k" x="2.4638" y="10.3886" smashed="yes" rot="MR0">
+<attribute name="NAME" x="3.0988" y="11.0236" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="1.4478" y="10.8204" size="0.4064" layer="28" rot="MR270"/>
+</element>
+<element name="U$2" library="HedgehogLib" package="SMD_CRYSTAL" value="SMD_CRYSTAL" x="7.3406" y="20.2946" smashed="yes" rot="MR0"/>
+<element name="U$3" library="jnode" package="PRQC" value="RESONATORPRQC-S" x="3.4036" y="15.4686" smashed="yes" rot="MR180">
 <attribute name="DIGIKEY" value="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=478-5420-1-ND" x="3.4036" y="15.4686" size="1.778" layer="28" rot="MR180" display="off"/>
 </element>
-<element name="BAT" library="con-molex" package="53048-02" value="53048-02" x="2.7432" y="26.6446" rot="R270">
+<element name="BAT" library="con-molex" package="53048-02" value="53048-02" x="2.7432" y="26.6446" smashed="yes" rot="R270">
 <attribute name="OC_NEWARK" value="57H4718" x="12.2174" y="34.5694" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="53048-0210" x="12.2174" y="34.5694" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MF" value="MOLEX" x="12.2174" y="34.5694" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="1012259" x="12.2174" y="34.5694" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="1.173" y="28.9782" size="0.4064" layer="25"/>
+<attribute name="VALUE" x="2.2464" y="27.9334" size="0.4064" layer="27" rot="R270"/>
 </element>
-<element name="R7" library="rcl" package="R0603" value="10k" x="1.9812" y="20.8788" rot="MR270"/>
+<element name="R7" library="rcl" package="R0603" value="10k" x="1.8034" y="20.8788" smashed="yes" rot="MR270">
+<attribute name="NAME" x="2.2352" y="19.4818" size="0.4064" layer="26" rot="MR0"/>
+<attribute name="VALUE" x="2.2352" y="18.9738" size="0.4064" layer="28" rot="MR0"/>
+</element>
 </elements>
 <signals>
 <signal name="GND">
@@ -1070,8 +1186,8 @@ design rules under a new name.</description>
 <wire x1="28.0924" y1="10.414" x2="28.0924" y2="19.05" width="0.3302" layer="1"/>
 <wire x1="28.0868" y1="10.4196" x2="27.323" y2="10.4196" width="0.3302" layer="1"/>
 <wire x1="28.0924" y1="10.414" x2="28.0868" y2="10.4196" width="0.3302" layer="1"/>
-<wire x1="27.9654" y1="18.923" x2="27.4664" y2="18.923" width="0.3302" layer="1"/>
-<wire x1="28.0924" y1="19.05" x2="27.9654" y2="18.923" width="0.3302" layer="1"/>
+<wire x1="28.0416" y1="18.923" x2="27.4664" y2="18.923" width="0.4064" layer="1"/>
+<wire x1="28.0924" y1="19.05" x2="28.0416" y2="18.923" width="0.3302" layer="1"/>
 <wire x1="23.0124" y1="5.1816" x2="23.3172" y2="5.1816" width="0.3302" layer="16"/>
 <wire x1="23.3172" y1="5.1816" x2="23.368" y2="5.1308" width="0.3302" layer="16"/>
 <wire x1="23.368" y1="5.1308" x2="23.368" y2="4.0876" width="0.3302" layer="16"/>
@@ -1172,12 +1288,12 @@ design rules under a new name.</description>
 <wire x1="21.7546" y1="4.0742" x2="21.7546" y2="5.1816" width="0.3302" layer="16"/>
 <wire x1="21.7546" y1="5.1816" x2="23.0124" y2="5.1816" width="0.3302" layer="16"/>
 <wire x1="23.3546" y1="1.8742" x2="23.3546" y2="4.0742" width="0.3302" layer="16"/>
-<wire x1="16.6878" y1="22.9616" x2="13.8282" y2="22.9616" width="0.3302" layer="16"/>
-<wire x1="13.8282" y1="22.9616" x2="13.316" y2="22.4494" width="0.3302" layer="16"/>
+<wire x1="16.6878" y1="22.9616" x2="13.3202" y2="22.9616" width="0.3302" layer="16"/>
+<wire x1="13.3202" y1="22.9616" x2="13.316" y2="22.4494" width="0.3302" layer="16"/>
 <wire x1="10.2362" y1="25.019" x2="11.4414" y2="25.019" width="0.3302" layer="16"/>
 <wire x1="11.4414" y1="25.019" x2="11.7602" y2="25.3378" width="0.3302" layer="16"/>
-<wire x1="11.7602" y1="25.3378" x2="11.7602" y2="25.0296" width="0.3302" layer="16"/>
-<wire x1="11.7602" y1="25.0296" x2="13.8282" y2="22.9616" width="0.3302" layer="16"/>
+<wire x1="11.7602" y1="25.3378" x2="11.7602" y2="24.5216" width="0.3302" layer="16"/>
+<wire x1="11.7602" y1="24.5216" x2="13.3202" y2="22.9616" width="0.3302" layer="16"/>
 </signal>
 <signal name="USB_D+@RC5">
 <contactref element="USB_CON" pad="3"/>
@@ -1245,12 +1361,13 @@ design rules under a new name.</description>
 <wire x1="5.908" y1="17.592" x2="5.908" y2="18.0952" width="0.2032" layer="1"/>
 <via x="5.1054" y="10.8458" extent="1-16" drill="0.3048" shape="octagon"/>
 <contactref element="R7" pad="1"/>
-<wire x1="1.9812" y1="21.7288" x2="3.0988" y2="21.7424" width="0.2032" layer="16"/>
-<wire x1="3.0988" y1="21.7424" x2="3.0988" y2="19.9136" width="0.2032" layer="16"/>
-<wire x1="3.0988" y1="19.9136" x2="3.9116" y2="19.1008" width="0.2032" layer="16"/>
-<wire x1="3.9116" y1="19.1008" x2="4.6736" y2="19.1008" width="0.2032" layer="16"/>
-<wire x1="4.6736" y1="19.1008" x2="5.4356" y2="18.3388" width="0.2032" layer="16"/>
-<wire x1="5.4356" y1="18.3388" x2="5.715" y2="18.0966" width="0.2032" layer="16"/>
+<wire x1="1.8034" y1="21.7288" x2="2.413" y2="21.717" width="0.2032" layer="16"/>
+<wire x1="2.413" y1="21.717" x2="3.0988" y2="21.0312" width="0.2032" layer="16"/>
+<wire x1="3.0988" y1="21.0312" x2="3.0988" y2="19.9136" width="0.2032" layer="16"/>
+<wire x1="3.0988" y1="19.9136" x2="3.937" y2="19.0754" width="0.2032" layer="16"/>
+<wire x1="3.937" y1="19.0754" x2="4.5466" y2="19.0754" width="0.2032" layer="16"/>
+<wire x1="4.5466" y1="19.0754" x2="5.5118" y2="18.1102" width="0.2032" layer="16"/>
+<wire x1="5.5118" y1="18.1102" x2="5.715" y2="18.0966" width="0.2032" layer="16"/>
 <wire x1="5.715" y1="18.0966" x2="5.8942" y2="18.0952" width="0.2032" layer="16"/>
 <wire x1="5.8942" y1="18.0952" x2="5.908" y2="18.0952" width="0.2032" layer="16"/>
 </signal>
@@ -1300,9 +1417,9 @@ design rules under a new name.</description>
 <wire x1="23.2248" y1="18.5886" x2="23.2248" y2="17.9886" width="0.2032" layer="16"/>
 <wire x1="20.4522" y1="18.2824" x2="20.534" y2="18.3642" width="0.3302" layer="1"/>
 <wire x1="22.42" y1="20.9886" x2="23.2248" y2="20.9886" width="0.2032" layer="16"/>
-<wire x1="0.4064" y1="1.524" x2="0.4064" y2="10.3886" width="0.3302" layer="16"/>
+<wire x1="0.4064" y1="1.8034" x2="0.4064" y2="10.3886" width="0.3302" layer="16"/>
 <wire x1="0.4064" y1="10.3886" x2="0.4064" y2="19.1008" width="0.3302" layer="16"/>
-<wire x1="1.5748" y1="0.3556" x2="0.4064" y2="1.524" width="0.3302" layer="16"/>
+<wire x1="1.8542" y1="0.3556" x2="0.4064" y2="1.8034" width="0.3302" layer="16"/>
 <wire x1="24.9546" y1="4.0742" x2="24.9648" y2="4.064" width="0.3302" layer="16"/>
 <wire x1="19.05" y1="4.0894" x2="20.9394" y2="4.0894" width="0.3302" layer="16"/>
 <wire x1="20.9394" y1="4.0894" x2="20.9546" y2="4.0742" width="0.3302" layer="16"/>
@@ -1340,7 +1457,7 @@ design rules under a new name.</description>
 <wire x1="9.9314" y1="23.9268" x2="10.8966" y2="22.9616" width="0.3302" layer="16"/>
 <wire x1="10.8966" y1="22.9616" x2="10.8966" y2="22.3774" width="0.3302" layer="16"/>
 <wire x1="10.8966" y1="22.3774" x2="10.8966" y2="17.7739" width="0.3302" layer="16"/>
-<wire x1="1.5748" y1="0.3556" x2="5.0038" y2="0.3556" width="0.3302" layer="16"/>
+<wire x1="1.8542" y1="0.3556" x2="5.0038" y2="0.3556" width="0.3302" layer="16"/>
 <wire x1="5.0038" y1="0.3556" x2="13.4112" y2="0.3556" width="0.3302" layer="16"/>
 <wire x1="13.4112" y1="0.3556" x2="19.0754" y2="0.3556" width="0.3302" layer="16"/>
 <wire x1="19.0754" y1="0.3556" x2="27.2288" y2="0.3556" width="0.3302" layer="16"/>
@@ -1404,11 +1521,11 @@ design rules under a new name.</description>
 <contactref element="R7" pad="2"/>
 <wire x1="7.5184" y1="23.9268" x2="9.0424" y2="25.4508" width="0.3302" layer="16"/>
 <wire x1="9.0424" y1="25.4508" x2="9.0424" y2="26.7348" width="0.3302" layer="16"/>
-<wire x1="1.9812" y1="20.0288" x2="3.6354" y2="18.3746" width="0.3302" layer="16"/>
-<wire x1="3.6354" y1="18.3746" x2="3.909" y2="18.0952" width="0.3302" layer="16"/>
+<wire x1="1.8034" y1="20.0288" x2="1.9844" y2="20.0256" width="0.3302" layer="16"/>
+<wire x1="1.9844" y1="20.0256" x2="3.909" y2="18.0952" width="0.3302" layer="16"/>
 <wire x1="13.4112" y1="0.3556" x2="13.4112" y2="1.7918" width="0.3302" layer="16"/>
 <wire x1="13.4112" y1="1.7918" x2="13.4126" y2="2.1206" width="0.3302" layer="16"/>
-<wire x1="1.9812" y1="20.0288" x2="1.3344" y2="20.0288" width="0.3302" layer="16"/>
+<wire x1="1.8034" y1="20.0288" x2="1.3344" y2="20.0288" width="0.3302" layer="16"/>
 <wire x1="1.3344" y1="20.0288" x2="0.4064" y2="19.1008" width="0.3302" layer="16"/>
 <wire x1="5.0438" y1="1.3716" x2="5.0438" y2="0.3956" width="0.3302" layer="16"/>
 <wire x1="5.0438" y1="0.3956" x2="5.0038" y2="0.3556" width="0.3302" layer="16" curve="-90"/>
@@ -1577,8 +1694,9 @@ design rules under a new name.</description>
 <signal name="VDDCORE">
 <contactref element="PIC_CONTROLLER" pad="23"/>
 <contactref element="C_UC_VDDCORE" pad="1"/>
-<wire x1="6.9442" y1="9.0388" x2="6.9451" y2="10.1827" width="0.3302" layer="16"/>
-<wire x1="6.9451" y1="10.1827" x2="7.9103" y2="10.1894" width="0.3302" layer="16"/>
+<wire x1="7.9103" y1="10.1894" x2="7.3192" y2="10.1894" width="0.3302" layer="16"/>
+<wire x1="7.3192" y1="10.1894" x2="6.9442" y2="9.8144" width="0.3302" layer="16"/>
+<wire x1="6.9442" y1="9.8144" x2="6.9442" y2="9.0388" width="0.3302" layer="16"/>
 </signal>
 <signal name="PROG_MCLR@MCLR">
 <contactref element="PIC_CONTROLLER" pad="18"/>
@@ -1728,8 +1846,7 @@ design rules under a new name.</description>
 <contactref element="CON_OLED" pad="P13"/>
 <contactref element="PIC_CONTROLLER" pad="15"/>
 <wire x1="23.7928" y1="15.5886" x2="23.2248" y2="15.5886" width="0.2032" layer="16"/>
-<wire x1="13.2588" y1="9.4742" x2="13.2588" y2="12.7" width="0.2032" layer="1"/>
-<wire x1="14.1478" y1="8.5852" x2="13.2588" y2="9.4742" width="0.2032" layer="1"/>
+<wire x1="13.2588" y1="8.5344" x2="13.2588" y2="12.7" width="0.2032" layer="1"/>
 <wire x1="13.4874" y1="9.1455" x2="13.4948" y2="9.1529" width="0.2032" layer="16"/>
 <wire x1="13.2588" y1="12.7" x2="14.5796" y2="14.0208" width="0.2032" layer="1"/>
 <wire x1="23.8252" y1="15.621" x2="23.7928" y2="15.5886" width="0.2032" layer="16"/>
@@ -1749,7 +1866,7 @@ design rules under a new name.</description>
 <via x="14.1478" y="7.6454" extent="1-16" drill="0.3048" shape="octagon"/>
 <wire x1="13.4874" y1="9.1455" x2="13.4874" y2="8.3058" width="0.2032" layer="16"/>
 <wire x1="13.4874" y1="8.3058" x2="14.1478" y2="7.6454" width="0.2032" layer="16"/>
-<wire x1="14.1478" y1="8.5852" x2="14.1478" y2="7.6454" width="0.2032" layer="1"/>
+<wire x1="13.2588" y1="8.5344" x2="14.1478" y2="7.6454" width="0.2032" layer="1"/>
 </signal>
 <signal name="N$21">
 <contactref element="CON_OLED" pad="P16"/>
@@ -1986,11 +2103,11 @@ design rules under a new name.</description>
 <via x="1.1684" y="13.6652" extent="1-16" drill="0.3048" shape="octagon"/>
 <wire x1="1.1684" y1="13.6652" x2="0.5842" y2="14.2494" width="0.2032" layer="1"/>
 <wire x1="0.5842" y1="14.2494" x2="0.5842" y2="18.9484" width="0.2032" layer="1"/>
-<wire x1="0.5842" y1="18.9484" x2="1.143" y2="19.5072" width="0.2032" layer="1"/>
-<wire x1="1.143" y1="19.5072" x2="2.3622" y2="19.5072" width="0.2032" layer="1"/>
-<wire x1="2.3622" y1="19.5072" x2="2.6416" y2="19.7866" width="0.2032" layer="1"/>
-<wire x1="2.6416" y1="19.7866" x2="2.6416" y2="21.5138" width="0.2032" layer="1"/>
-<wire x1="2.6416" y1="21.5138" x2="3.3884" y2="22.2606" width="0.2032" layer="1"/>
+<wire x1="0.5842" y1="18.9484" x2="1.0414" y2="19.4056" width="0.2032" layer="1"/>
+<wire x1="1.0414" y1="19.4056" x2="2.2606" y2="19.4056" width="0.2032" layer="1"/>
+<wire x1="2.2606" y1="19.4056" x2="2.9464" y2="20.0914" width="0.2032" layer="1"/>
+<wire x1="2.9464" y1="20.0914" x2="2.9464" y2="21.8186" width="0.2032" layer="1"/>
+<wire x1="2.9464" y1="21.8186" x2="3.3884" y2="22.2606" width="0.2032" layer="1"/>
 <wire x1="3.3884" y1="22.2606" x2="4.2718" y2="22.2606" width="0.2032" layer="1"/>
 <wire x1="10.8948" y1="9.1519" x2="10.8948" y2="8.2024" width="0.2032" layer="16"/>
 <wire x1="10.8948" y1="8.2024" x2="10.2108" y2="7.5184" width="0.2032" layer="16"/>
@@ -2047,9 +2164,9 @@ design rules under a new name.</description>
 <wire x1="8.9448" y1="8.89" x2="8.2042" y2="8.89" width="0.2032" layer="16"/>
 <via x="8.2042" y="8.89" extent="1-16" drill="0.3048" shape="octagon"/>
 <wire x1="8.2042" y1="8.89" x2="8.2042" y2="9.4234" width="0.2032" layer="1"/>
-<wire x1="8.2042" y1="9.4234" x2="7.5184" y2="10.1092" width="0.2032" layer="1"/>
-<wire x1="7.5184" y1="10.1092" x2="3.5052" y2="10.1092" width="0.2032" layer="1"/>
-<wire x1="3.5052" y1="10.1092" x2="2.794" y2="10.8204" width="0.2032" layer="1"/>
+<wire x1="8.2042" y1="9.4234" x2="7.7978" y2="9.8298" width="0.2032" layer="1"/>
+<wire x1="7.7978" y1="9.8298" x2="3.7846" y2="9.8298" width="0.2032" layer="1"/>
+<wire x1="3.7846" y1="9.8298" x2="2.794" y2="10.8204" width="0.2032" layer="1"/>
 <wire x1="2.794" y1="10.8204" x2="2.794" y2="17.2266" width="0.2032" layer="1"/>
 <wire x1="2.794" y1="17.2266" x2="1.91" y2="18.0952" width="0.2032" layer="1"/>
 </signal>
