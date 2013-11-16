@@ -12767,8 +12767,8 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="R3" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="R5" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="+3V20" library="supply1" deviceset="+3V3" device=""/>
-<part name="U$2" library="HedgehogLib" deviceset="SMD_CRYSTAL" device=""/>
-<part name="U$3" library="jnode" deviceset="RESONATOR" device="PRQC-S"/>
+<part name="SMD_CRYSTAL" library="HedgehogLib" deviceset="SMD_CRYSTAL" device=""/>
+<part name="RESONATOR" library="jnode" deviceset="RESONATOR" device="PRQC-S"/>
 <part name="GND17" library="supply1" deviceset="GND" device=""/>
 <part name="BAT" library="con-molex" deviceset="53?-02" device="048"/>
 <part name="R7" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
@@ -12924,8 +12924,8 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="R3" gate="G$1" x="68.58" y="109.22" rot="R90"/>
 <instance part="R5" gate="G$1" x="157.48" y="93.98" rot="R90"/>
 <instance part="+3V20" gate="G$1" x="68.58" y="116.84"/>
-<instance part="U$2" gate="G$1" x="213.36" y="109.22"/>
-<instance part="U$3" gate="G$1" x="289.56" y="53.34" rot="R180"/>
+<instance part="SMD_CRYSTAL" gate="G$1" x="213.36" y="109.22"/>
+<instance part="RESONATOR" gate="G$1" x="289.56" y="53.34" rot="R180"/>
 <instance part="GND17" gate="1" x="76.2" y="81.28"/>
 <instance part="BAT" gate="-1" x="91.44" y="114.3" rot="R180"/>
 <instance part="BAT" gate="-2" x="91.44" y="116.84" rot="R180"/>
@@ -13020,7 +13020,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </segment>
 <segment>
 <pinref part="GND2" gate="1" pin="GND"/>
-<pinref part="U$3" gate="G$1" pin="GND"/>
+<pinref part="RESONATOR" gate="G$1" pin="GND"/>
 <wire x1="302.26" y1="50.8" x2="304.8" y2="50.8" width="0.1524" layer="91"/>
 <wire x1="304.8" y1="50.8" x2="304.8" y2="38.1" width="0.1524" layer="91"/>
 </segment>
@@ -13429,7 +13429,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="228.6" y1="111.76" x2="228.6" y2="96.52" width="0.1524" layer="91"/>
 <pinref part="C2_32KHZ" gate="G$1" pin="1"/>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RC0"/>
-<pinref part="U$2" gate="G$1" pin="1"/>
+<pinref part="SMD_CRYSTAL" gate="G$1" pin="1"/>
 <junction x="208.28" y="109.22"/>
 <wire x1="208.28" y1="109.22" x2="208.28" y2="106.68" width="0.1524" layer="91"/>
 </segment>
@@ -13441,7 +13441,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="226.06" y1="93.98" x2="228.6" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="C1_32KHZ" gate="G$1" pin="1"/>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RC1"/>
-<pinref part="U$2" gate="G$1" pin="2"/>
+<pinref part="SMD_CRYSTAL" gate="G$1" pin="2"/>
 <junction x="218.44" y="109.22"/>
 <wire x1="218.44" y1="109.22" x2="218.44" y2="106.68" width="0.1524" layer="91"/>
 </segment>
@@ -13778,13 +13778,13 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$OSC2"/>
 <wire x1="264.16" y1="55.88" x2="276.86" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="276.86" y1="55.88" x2="276.86" y2="58.42" width="0.1524" layer="91"/>
-<pinref part="U$3" gate="G$1" pin="1"/>
+<pinref part="RESONATOR" gate="G$1" pin="1"/>
 <wire x1="276.86" y1="58.42" x2="281.94" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
-<pinref part="U$3" gate="G$1" pin="2"/>
+<pinref part="RESONATOR" gate="G$1" pin="2"/>
 <wire x1="281.94" y1="50.8" x2="276.86" y2="50.8" width="0.1524" layer="91"/>
 <wire x1="276.86" y1="50.8" x2="276.86" y2="53.34" width="0.1524" layer="91"/>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$OSC1"/>
