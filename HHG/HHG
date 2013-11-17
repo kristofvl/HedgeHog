@@ -1,0 +1,17 @@
+#!/bin/bash
+# HHG file starter 
+
+if [[ $1 == *"start.now"* ]]
+then
+	~/bin/HHG/start_HHG.py $1 $PWD
+fi
+
+if [[ $1 == *"config.ure"* ]]
+then
+    ~/bin/HHG/conf_HHG.py $1
+fi
+
+if [[ $1 == *"log"* ]]
+then
+    ~/bin/HHG/plot_HHG.py $1
+fi

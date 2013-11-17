@@ -98,7 +98,7 @@ class Hhg_plot:
 		self.lblcombo.append_text("Breakfast")
 		self.lblcombo.append_text("Lunch")
 		self.lblcombo.append_text("Dinner")
-		self.lblcombo.append_text("Badminton")
+		self.lblcombo.append_text("Leisure")
 		self.lblcombo.set_active(0);
 		# add annotation and quit buttons to the toolbar:
 		toolbar = get_current_fig_manager().toolbar
@@ -116,20 +116,23 @@ class Hhg_plot:
 		exit_tb = gtk.ToolButton(gtk.STOCK_QUIT); exit_tb.show()
 		exit_tb.connect("clicked", gtk.main_quit)
 		try:
-			savedta_tb.set_tooltip( toolbar.tooltips,'Save data')
-			labelstr_tb.set_tooltip( toolbar.tooltips,'Select annotation')
-			label_tb.set_tooltip( toolbar.tooltips,'Annotate')
-			exit_tb.set_tooltip( toolbar.tooltips,'Close window')
+			savedta_tb.set_tooltip_text( 'Save data')
+			labelstr_tb.set_tooltip_text( 'Select annotation')
+			label_tb.set_tooltip_text( 'Annotate')
+			exit_tb.set_tooltip_text( 'Close window')
+			day_tb.set_tooltip_text( 'Mark days')
 		except:
 			print 'Tooltips not available. Hm.'
-		toolbar.insert(savedta_tb, 8)
-		toolbar.insert(sep1_tb,  	9)
-		toolbar.insert(labelstr_tb,10)
-		toolbar.insert(label_tb, 	11)
-		toolbar.insert(sep2_tb,  	12)
-		toolbar.insert(day_tb,  	13)
-		toolbar.insert(sep3_tb,  	14)
-		toolbar.insert(exit_tb,  	15)
+		toolbar.insert(sep1_tb,  	8)
+		toolbar.insert(labelstr_tb,9)
+		toolbar.insert(label_tb, 	10)
+		toolbar.insert(sep2_tb,  	11)
+		toolbar.insert(day_tb,  	12)
+		save_fig = toolbar.get_nth_item(13) # the save figure toolitem
+		save_fig.set_icon_name(gtk.STOCK_SAVE_AS) # changes the icon 
+		toolbar.insert(savedta_tb, 14)
+		toolbar.insert(sep3_tb,  	15)
+		toolbar.insert(exit_tb,  	16)
 	def show(self):
 		self.fix_margins()
 		self.fig.show(); show()
@@ -239,9 +242,13 @@ class Hhg_comp_plot(Hhg_plot):
 
 # plots raw representation of datasets
 class Hhg_raw_plot(Hhg_plot):
-	def plot(self, i, n, ts, dta, plot_label = ''):
+	def plot(self, i, n, ts, dta, plot_label = '', uid='anon0001'):
 		if i==1:
 			self.a_ax = self.fig.add_subplot(n,1,i); ax = self.a_ax
+			self.draw_top_text((('dates_span: '+str(mld.num2date(ts[0]))[:10]+
+							 ' -> '+str(mld.num2date(ts[-1]))[:10] ),
+							('entries_#: ' + str(len(ts)) ),
+							('subject_id: ' + uid) ) )
 		else:
 			ax = self.fig.add_subplot(n,1,i, sharex=self.a_ax)
 		ax.plot_date(ts, dta, '-', lw=0.5)
@@ -250,8 +257,25 @@ class Hhg_raw_plot(Hhg_plot):
 		setp(ax.get_yticklabels(), visible=False)
 		ax.grid(color='k', linestyle=':', linewidth=0.5)
 		if n==i: # last plot?
-			ax.xaxis.set_major_formatter(mld.DateFormatter('%H:%M'))
+			ax.xaxis.set_major_formatter(mld.DateFormatter('%Y-%m-%d\n %H:%M:%S'))
 			setp(ax.get_xticklabels(), visible=True, fontsize=10)
+	def draw_top_text(self, strs):
+		# evenly draw the strings at the top of the plotting window
+		total_strlength = sum([ len(i) for i in strs])
+		# draw the first string aligned to the left, last to the right:
+		t = self.fig.text( 0.02, 0.95, strs[0], ha='left')
+		setp(t, va='baseline', family='monospace', size='medium', 
+				bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
+		if len(strs)>1:	
+			t = self.fig.text( 0.98, 0.95, strs[-1], ha='right')
+			setp(t, va='baseline', family='monospace', size='medium', 
+					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
+			# the middle ones should be spread across the plot  <-------->
+			for i in range(1,len(strs)-1):
+				t =self.fig.text(.2+float((i)*(.9/(len(strs)))),.95,strs[i])
+				setp(t, ha='center', va='baseline', family='monospace',
+					size='medium', 
+					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))	
 	def equidist_plot(self, i, n, ts, dta, plot_label = ''):
 		ax = self.fig.add_subplot(n,1,i)
 		ax.plot(ts, dta, '-', lw=0.5)

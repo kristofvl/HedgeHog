@@ -1,3 +1,14 @@
-firmware/HedgeHog/HHOS.X/build/
-firmware/HedgeHog/HHOS.X/dist/
-firmware/HedgeHog/HHOS.X/nbproject/
+# build files in firmware/HedgeHog/HHOS.X/*/*
+
+build/
+dist/
+*.err
+*.hex
+*.cof
+*.mk
+*.o
+*.d
+*.o.d
+
+.directory
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python2.7
 
 ########################################################################
 #
@@ -23,7 +23,7 @@
 # 
 
 
-
+import sys
 from numpy import *
 import hhg_plot.hhg_plot as hplt
 import hhg_dialogs.hhg_fopen as hhg_fopen
@@ -36,7 +36,11 @@ import pdb
 filename, scr = hhg_fopen.load('/media/HEDGEHOG/log000.HHG')
 
 #open/parse the data:
-dta, stats = hgi.hhg_open_data(filename)
+if not sys.argv:
+    dta, stats = hgi.hhg_open_data(filename)
+if sys.argv:    
+    dta, stats = hgi.hhg_open_data(sys.argv[1])
+    
 print stats
 
 if dta == []:
@@ -66,7 +70,6 @@ else:
 	fig.plot(1, 3, dta.t, array((dta.x,dta.y,dta.z)).T,'3D acceleration')
 	fig.plot(2, 3, dta.t, array((dta.l)).T>>8, 'ambient light')
 	fig.plot(3, 3, dta.t, (array((dta.l)).T&0xFF)/2-30, 'temperature')
-	fig.draw_top_text( (('user: anonymous'),(stats )) )
 	fig.show()
 
 # if selected, write data to binary file (so it can be used later):
