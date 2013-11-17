@@ -6,21 +6,22 @@ import subprocess
 from random import randint
 
 home_dir = os.environ['HOME']
-target = sys.argv[1]
 
 rnd = randint(4,9999)
 
-print('make sure the device you chose is listed down here')
-print('if not exit at once with 0000')
+print('choose a HedgeHog device from the list')
+print('your input should be like /dev/sdd')
 
 out = subprocess.Popen(['ls', '-l', '/dev/disk/by-label/'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 devices, err = out.communicate()
 print devices
 
+target = raw_input('device name: ')
+
 print rnd
 
 print ('dd is a very dangerous command')
-print ('and it could brick you hard disk')
+print ('and could brick your MBR')
 print ('please exit if you are not sure')
 print ('to exit enter 0000')
 
