@@ -33,10 +33,10 @@ void read_HHG_conf(hhg_conf_t* conf, sd_buffer_t* sd_buffer)
 {
     UINT16 i;
     // read the configuration string from program memory:
-    ReadFlash(HHG_CONF_FLASHADDR, HHG_CONF_BYTES, (BYTE*) conf->cstr);
+    //ReadFlash(HHG_CONF_FLASHADDR, HHG_CONF_BYTES, (BYTE*) conf->cstr);
     // if that fails (the ID is zero'd), then read the configuration string
     // from the sd card / config.hhg file:
-    if ((conf->cstr[0] < 32)||(conf->cstr[0] > 126))
+    //if ((conf->cstr[0] < 32)||(conf->cstr[0] > 126))
     { // ( no character? )
         i=0;
         while (i<8) { // we have 7 retries / 8 tries, 
@@ -49,5 +49,8 @@ void read_HHG_conf(hhg_conf_t* conf, sd_buffer_t* sd_buffer)
                 conf->cstr[i] = sd_buffer->bytes[i];
         }
     }
+    // update the disk label to reflect the ID:
+    write_root_table(sd_buffer, (char*) conf->cstr);
+    write_SD(SECTOR_RT, sd_buffer->bytes);
 }
 
