@@ -18,11 +18,11 @@
 "L_OL";"100uH";"LQH3NP";"1212_FOR_INDUCTANCE";" ";" ";"1";"YES";"NO";"Farnell";"2219251";"de.farnell.com/2219251";" ";" ";" ";" ";" ";" ";
 "N_MOS_OL";" ";"MGSF1N02LT1";"SOT-23";"MOS FET";" ";"1";"YES";"NO";"DigiKey";"MGSF1N02LT1GOSTR-ND";"http://www.digikey.de/product-detail/de/MGSF1N02LT1G/MGSF1N02LT1GOSTR-ND/919442";" ";" ";" ";" ";" ";" ";
 "PIC_CONTROLLER";"PIC_P2V6";"PIC_P2V6";"QFN44ML8X8";" ";" ";"1";"YES";"NO";"Farnell";1706311;"de.farnell.com/1706311";" ";" ";" ";" ";" ";" ";
-"R1, R2, R3, R4, R5, R6, R7";"10k";"R-EU_R0603";"R0603";"RESISTOR, European symbol";"RESISTOR, 0.1W, 1%";"7";"YES";"NO";"Farnell";"1469749";"de.farnell.com/1469749";" ";" ";" ";" ";" ";" ";
+"R1, R2, R3, R4, R5, R6, R7";"10k";"R-EU_R0603";"R0603";"RESISTOR, European symbol";"RESISTOR, 0.1W, 1%";"7";"YES";"NO";"Farnell";"1469748";"de.farnell.com/1469748";" ";" ";" ";" ";" ";" ";
 "R8";"0.12 1% 0.5W";"RESISTOR_PAN_ERJB3CFR12V";"0805_UPSIDEDOWN";" ";" ";"1";"YES";"NO";"Farnell";"1750969";"de.farnell.com/1750969";" ";" ";" ";" ";" ";" ";
-"R9";"110k 1%";"R-EU_R0603";"R0603";"RESISTOR, European symbol";" ";"1";"YES";"NO";"Farnell";"2140323";"de.farnell.com/2140323";" ";" ";" ";" ";" ";" ";
+"R9";"110k 1%";"R-EU_R0603";"R0603";"RESISTOR, European symbol";"RESISTOR, 0603, 110K, 1% ";"1";"YES";"NO";"Farnell";"2140323";"de.farnell.com/2140323";" ";" ";" ";" ";" ";" ";
 "R10";"820k";"R-EU_R0603";"R0603";"RESISTOR, European symbol";"RESISTOR, 0.1W, 1%";"1";"YES";"NO";"Farnell";"2140435";"de.farnell.com/2140435";" ";" ";" ";" ";" ";" ";
-"R11, R12";"930k 1%";"R-EU_R0603";"R0603";"RESISTOR, European symbol";" ";"2";"YES";"NO";"Farnell";"2140442";"de.farnell.com/2140442";" ";" ";" ";" ";" ";" ";
+"R11, R12";"930k 1%";"R-EU_R0603";"R0603";"RESISTOR, European symbol";"RESISTOR, 0603, 931K, 1% ";"2";"YES";"NO";"Farnell";"2140442";"de.farnell.com/2140442";" ";" ";" ";" ";" ";" ";
 "RESONATOR";"RESONATORPRQC-S";"RESONATORPRQC-S";"PRQC";"Ceramic Resonator with caps";" ";"1";"YES";"NO";"DigiKey";"478-6318-1-ND";"http://www.digikey.de/product-detail/de/PRQC12.00CR5010X000/478-6318-1-ND/2506334";" ";" ";" ";" ";" ";" ";
 "SDCARD_CON";"MICROSD_CONN";"MICROSD_CONN";"460DA40013";" ";" ";"1";"YES";"NO";"Farnell";"1686452";"de.farnell.com/1686452";" ";" ";" ";" ";" ";" ";
 "SMD_CRYSTAL";"SMD_CRYSTAL";"SMD_CRYSTAL";"SMD_CRYSTAL";" ";" ";"1";"YES";"NO";"Farnell";"2101349";"de.farnell.com/2101349";" ";" ";" ";" ";" ";" ";
