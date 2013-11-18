@@ -11316,6 +11316,9 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <smd name="P27" x="-7.8" y="0" dx="1.6" dy="0.375" layer="1" rot="R90"/>
 <hole x="-8.3" y="3.025" drill="0.8"/>
 <hole x="8.3" y="3.025" drill="0.8"/>
+<text x="7.62" y="1.27" size="0.6096" layer="21">1</text>
+<text x="-8.255" y="1.27" size="0.6096" layer="21">30</text>
+<rectangle x1="8.5725" y1="-0.9525" x2="9.2075" y2="-0.3175" layer="21"/>
 </package>
 <package name="SOD123">
 <description>&lt;b&gt;Diode&lt;/b&gt;</description>
@@ -11396,7 +11399,8 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 </polygon>
 </package>
 <package name="SOT-23">
-<description>&lt;b&gt;Small Outline Transistor&lt;/b&gt;</description>
+<description>&lt;b&gt;Small Outline Transistor&lt;/b&gt;
+SOT23</description>
 <wire x1="-1.4224" y1="0.381" x2="1.4732" y2="0.381" width="0.1524" layer="21"/>
 <wire x1="1.4732" y1="0.381" x2="1.4732" y2="-0.381" width="0.1524" layer="21"/>
 <wire x1="1.4732" y1="-0.381" x2="-1.4224" y2="-0.381" width="0.1524" layer="21"/>
@@ -11909,15 +11913,15 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <pin name="S" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
 </symbol>
 <symbol name="LIGHTSENSOR">
-<wire x1="-7.62" y1="12.7" x2="-7.62" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="2.54" x2="0" y2="2.54" width="0.254" layer="94"/>
-<wire x1="0" y1="2.54" x2="0" y2="12.7" width="0.254" layer="94"/>
-<wire x1="0" y1="12.7" x2="-7.62" y2="12.7" width="0.254" layer="94"/>
-<text x="0.762" y="12.7" size="1.778" layer="95" rot="R270">&gt;NAME</text>
-<text x="1.016" y="1.524" size="1.778" layer="96" rot="R180">&gt;VALUE</text>
-<pin name="GND" x="-10.16" y="5.08" length="short" direction="pwr"/>
-<pin name="OUT" x="-10.16" y="7.62" length="short" direction="out"/>
-<pin name="VDD" x="-10.16" y="10.16" length="short" direction="pwr"/>
+<wire x1="-2.54" y1="5.08" x2="-2.54" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="-2.54" y1="-5.08" x2="5.08" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="-5.08" x2="5.08" y2="5.08" width="0.254" layer="94"/>
+<wire x1="5.08" y1="5.08" x2="-2.54" y2="5.08" width="0.254" layer="94"/>
+<text x="5.842" y="5.08" size="1.778" layer="95" rot="R270">&gt;NAME</text>
+<text x="6.096" y="-6.096" size="1.778" layer="96" rot="R180">&gt;VALUE</text>
+<pin name="GND" x="-5.08" y="-2.54" length="short" direction="pwr"/>
+<pin name="OUT" x="-5.08" y="0" length="short" direction="out"/>
+<pin name="VDD" x="-5.08" y="2.54" length="short" direction="pwr"/>
 </symbol>
 <symbol name="PIC18F46J50">
 <wire x1="-5.08" y1="40.64" x2="20.32" y2="40.64" width="0.254" layer="94"/>
@@ -12013,25 +12017,25 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <devicesets>
 <deviceset name="ADXL345" prefix="U">
 <gates>
-<gate name="G$1" symbol="ADXL345" x="0" y="0"/>
+<gate name="ACCELEROMETER" symbol="ADXL345" x="0" y="0"/>
 </gates>
 <devices>
 <device name="" package="LGA14">
 <connects>
-<connect gate="G$1" pin="CS" pad="7"/>
-<connect gate="G$1" pin="GND" pad="2"/>
-<connect gate="G$1" pin="GND1" pad="4"/>
-<connect gate="G$1" pin="GND2" pad="5"/>
-<connect gate="G$1" pin="GND3" pad="10"/>
-<connect gate="G$1" pin="INT1" pad="8"/>
-<connect gate="G$1" pin="INT2" pad="9"/>
-<connect gate="G$1" pin="N/C" pad="11"/>
-<connect gate="G$1" pin="NC" pad="3"/>
-<connect gate="G$1" pin="SCL" pad="14"/>
-<connect gate="G$1" pin="SDA" pad="13"/>
-<connect gate="G$1" pin="SDO" pad="12"/>
-<connect gate="G$1" pin="VDD" pad="1"/>
-<connect gate="G$1" pin="VSS" pad="6"/>
+<connect gate="ACCELEROMETER" pin="CS" pad="7"/>
+<connect gate="ACCELEROMETER" pin="GND" pad="2"/>
+<connect gate="ACCELEROMETER" pin="GND1" pad="4"/>
+<connect gate="ACCELEROMETER" pin="GND2" pad="5"/>
+<connect gate="ACCELEROMETER" pin="GND3" pad="10"/>
+<connect gate="ACCELEROMETER" pin="INT1" pad="8"/>
+<connect gate="ACCELEROMETER" pin="INT2" pad="9"/>
+<connect gate="ACCELEROMETER" pin="N/C" pad="11"/>
+<connect gate="ACCELEROMETER" pin="NC" pad="3"/>
+<connect gate="ACCELEROMETER" pin="SCL" pad="14"/>
+<connect gate="ACCELEROMETER" pin="SDA" pad="13"/>
+<connect gate="ACCELEROMETER" pin="SDO" pad="12"/>
+<connect gate="ACCELEROMETER" pin="VDD" pad="1"/>
+<connect gate="ACCELEROMETER" pin="VSS" pad="6"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -12193,7 +12197,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </deviceset>
 <deviceset name="TSL250">
 <gates>
-<gate name="G$1" symbol="LIGHTSENSOR" x="12.7" y="-10.16"/>
+<gate name="G$1" symbol="LIGHTSENSOR" x="0" y="0"/>
 </gates>
 <devices>
 <device name="" package="TSL">
@@ -12828,7 +12832,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="GND3" gate="1" x="12.7" y="139.7"/>
 <instance part="SDCARD_CON" gate="G$1" x="30.48" y="25.4" smashed="yes" rot="R90"/>
 <instance part="GND16" gate="1" x="40.64" y="20.32" rot="R90"/>
-<instance part="LIGHTSENSE" gate="G$1" x="91.44" y="137.16" smashed="yes">
+<instance part="LIGHTSENSE" gate="G$1" x="86.36" y="144.78" smashed="yes">
 <attribute name="NAME" x="95.758" y="137.16" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="89.916" y="138.684" size="1.778" layer="96" rot="R180"/>
 </instance>
@@ -12844,7 +12848,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="CHARGER" gate="G$1" x="55.88" y="93.98"/>
 <instance part="GND27" gate="1" x="68.58" y="81.28"/>
 <instance part="C_PWR_BAT" gate="G$1" x="76.2" y="93.98"/>
-<instance part="ACCERELOMETER" gate="G$1" x="109.22" y="22.86"/>
+<instance part="ACCERELOMETER" gate="ACCELEROMETER" x="109.22" y="22.86"/>
 <instance part="GND28" gate="1" x="93.98" y="7.62"/>
 <instance part="+3V3" gate="G$1" x="68.58" y="40.64"/>
 <instance part="C_ADX_VDD" gate="G$1" x="68.58" y="27.94"/>
@@ -12999,11 +13003,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <junction x="93.98" y="15.24"/>
 <junction x="93.98" y="12.7"/>
 <junction x="93.98" y="10.16"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="GND3"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="GND3"/>
 <pinref part="GND28" gate="1" pin="GND"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="GND1"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="GND2"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="GND"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="GND1"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="GND2"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="GND"/>
 </segment>
 <segment>
 <pinref part="C_ADX_VDD" gate="G$1" pin="2"/>
@@ -13250,14 +13254,14 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <junction x="68.58" y="33.02"/>
 <pinref part="C_ADX_VDD" gate="G$1" pin="1"/>
 <pinref part="+3V3" gate="G$1" pin="+3V3"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="VDD"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="VDD"/>
 </segment>
 <segment>
 <wire x1="86.36" y1="30.48" x2="96.52" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="86.36" y1="30.48" x2="86.36" y2="38.1" width="0.1524" layer="91"/>
 <junction x="86.36" y="30.48"/>
 <pinref part="C_ADX_VSS" gate="G$1" pin="1"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="VSS"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="VSS"/>
 <pinref part="+3V13" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
@@ -13348,7 +13352,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="137.16" y1="25.4" x2="137.16" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="137.16" y1="45.72" x2="139.7" y2="48.26" width="0.1524" layer="91"/>
 <label x="139.192" y="34.29" size="1.016" layer="95" rot="R90"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="SDA"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="SDA"/>
 </segment>
 <segment>
 <wire x1="30.48" y1="17.78" x2="45.72" y2="17.78" width="0.1524" layer="91"/>
@@ -13373,7 +13377,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="124.46" y1="33.02" x2="127" y2="33.02" width="0.1524" layer="91"/>
 <junction x="127" y="33.02"/>
 <label x="134.112" y="34.29" size="1.016" layer="95" rot="R90"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="CS"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="CS"/>
 <pinref part="R6" gate="G$1" pin="1"/>
 </segment>
 <segment>
@@ -13389,7 +13393,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="139.7" y1="22.86" x2="139.7" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="139.7" y1="45.72" x2="142.24" y2="48.26" width="0.1524" layer="91"/>
 <label x="141.732" y="34.29" size="1.016" layer="95" rot="R90"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="SCL"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="SCL"/>
 </segment>
 <segment>
 <wire x1="30.48" y1="25.4" x2="43.18" y2="25.4" width="0.1524" layer="91"/>
@@ -13715,14 +13719,14 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="134.62" y1="27.94" x2="134.62" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="45.72" x2="137.16" y2="48.26" width="0.1524" layer="91"/>
 <label x="136.906" y="34.29" size="1.016" layer="95" rot="R90"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="SDO"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="SDO"/>
 </segment>
 </net>
 <net name="INT_ACC@RB2" class="0">
 <segment>
 <wire x1="124.46" y1="17.78" x2="129.54" y2="17.78" width="0.1524" layer="91"/>
 <label x="129.54" y="17.78" size="1.016" layer="95" xref="yes"/>
-<pinref part="ACCERELOMETER" gate="G$1" pin="INT1"/>
+<pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="INT1"/>
 </segment>
 <segment>
 <wire x1="264.16" y1="91.44" x2="266.7" y2="91.44" width="0.1524" layer="91"/>
@@ -13809,10 +13813,10 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <errors>
 <approved hash="202,1,22.86,99.06,USB_CON,4,,,,"/>
 <approved hash="202,1,45.72,96.52,CHARGER,DC,,,,"/>
-<approved hash="208,1,15.24,142.24,GND,sup,,,,"/>
+<approved hash="208,1,12.7,142.24,GND,sup,,,,"/>
 <approved hash="208,1,38.1,20.32,GND,sup,,,,"/>
 <approved hash="208,1,30.48,101.6,GND,sup,,,,"/>
-<approved hash="208,1,35.56,73.66,GND,sup,,,,"/>
+<approved hash="208,1,35.56,76.2,GND,sup,,,,"/>
 <approved hash="208,1,104.14,83.82,GND,sup,,,,"/>
 <approved hash="208,1,121.92,83.82,GND,sup,,,,"/>
 <approved hash="208,1,68.58,83.82,GND,sup,,,,"/>
@@ -13829,7 +13833,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <approved hash="208,1,256.54,10.16,GND,sup,,,,"/>
 <approved hash="208,1,231.14,10.16,GND,sup,,,,"/>
 <approved hash="208,1,208.28,10.16,GND,sup,,,,"/>
-<approved hash="208,1,271.78,30.48,GND,sup,,,,"/>
+<approved hash="208,1,274.32,30.48,GND,sup,,,,"/>
 <approved hash="208,1,243.84,175.26,GND,sup,,,,"/>
 <approved hash="208,1,238.76,154.94,GND,sup,,,,"/>
 <approved hash="208,1,208.28,205.74,GND,sup,,,,"/>
