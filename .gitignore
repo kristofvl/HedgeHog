@@ -9,6 +9,7 @@ dist/
 *.o
 *.d
 *.o.d
+*.pyc
 
 .directory
 
