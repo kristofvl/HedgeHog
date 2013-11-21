@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -12752,6 +12752,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="GND17" library="supply1" deviceset="GND" device=""/>
 <part name="BAT" library="con-molex" deviceset="53?-02" device="048"/>
 <part name="R7" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
+<part name="GND18" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -12867,27 +12868,27 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="+3V2" gate="G$1" x="38.1" y="22.86" rot="R270"/>
 <instance part="CON_OLED" gate="G$1" x="292.1" y="170.18"/>
 <instance part="DIOD_OL" gate="G$1" x="233.68" y="220.98"/>
-<instance part="L_OL" gate="G$1" x="218.44" y="220.98" rot="R90"/>
+<instance part="L_OL" gate="G$1" x="215.9" y="220.98" rot="R90"/>
 <instance part="GND1" gate="1" x="228.6" y="177.8"/>
-<instance part="C_OL_APP_VDD" gate="G$1" x="208.28" y="213.36"/>
+<instance part="C_OL_APP_VDD" gate="G$1" x="205.74" y="213.36"/>
 <instance part="R12" gate="G$1" x="243.84" y="205.74" rot="R90"/>
 <instance part="R9" gate="G$1" x="243.84" y="182.88" rot="R90"/>
 <instance part="C_OL_VPP" gate="G$1" x="238.76" y="160.02"/>
 <instance part="C_OL_FB" gate="G$1" x="251.46" y="185.42"/>
 <instance part="GND8" gate="1" x="243.84" y="172.72"/>
 <instance part="GND10" gate="1" x="238.76" y="152.4"/>
-<instance part="GND12" gate="1" x="208.28" y="203.2"/>
+<instance part="GND12" gate="1" x="205.74" y="203.2"/>
 <instance part="C_OL_VBREF" gate="G$1" x="261.62" y="185.42"/>
-<instance part="C_OL_VDD2" gate="G$1" x="284.48" y="210.82" smashed="yes" rot="R180">
-<attribute name="NAME" x="286.004" y="213.741" size="1.778" layer="95"/>
-<attribute name="VALUE" x="286.004" y="208.661" size="1.778" layer="96"/>
+<instance part="C_OL_VDD2" gate="G$1" x="261.62" y="210.82" smashed="yes" rot="R180">
+<attribute name="NAME" x="263.144" y="213.741" size="1.778" layer="95"/>
+<attribute name="VALUE" x="263.144" y="208.661" size="1.778" layer="96"/>
 </instance>
-<instance part="GND14" gate="1" x="279.4" y="203.2"/>
+<instance part="GND14" gate="1" x="261.62" y="203.2"/>
 <instance part="C_OL_VCOMH" gate="G$1" x="251.46" y="170.18"/>
 <instance part="R10" gate="G$1" x="266.7" y="139.7"/>
 <instance part="GND15" gate="1" x="259.08" y="137.16"/>
-<instance part="+3V17" gate="G$1" x="208.28" y="223.52"/>
-<instance part="+3V18" gate="G$1" x="274.32" y="223.52"/>
+<instance part="+3V17" gate="G$1" x="205.74" y="223.52"/>
+<instance part="+3V18" gate="G$1" x="261.62" y="223.52"/>
 <instance part="+3V19" gate="G$1" x="281.94" y="182.88" rot="R90"/>
 <instance part="X1" gate="-1" x="38.1" y="142.24" smashed="yes">
 <attribute name="NAME" x="40.64" y="141.478" size="1.524" layer="95"/>
@@ -12899,7 +12900,10 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="X1" gate="-5" x="38.1" y="152.4"/>
 <instance part="R11" gate="G$1" x="269.24" y="180.34" rot="R90"/>
 <instance part="R8" gate="G$1" x="228.6" y="185.42" rot="R90"/>
-<instance part="N_MOS_OL" gate="A" x="228.6" y="200.66" rot="MR0"/>
+<instance part="N_MOS_OL" gate="A" x="228.6" y="200.66" smashed="yes" rot="MR0">
+<attribute name="VALUE" x="226.06" y="200.66" size="1.778" layer="96" rot="MR0"/>
+<attribute name="NAME" x="226.06" y="205.74" size="1.778" layer="95" rot="MR270"/>
+</instance>
 <instance part="LDO" gate="LDO" x="139.7" y="93.98"/>
 <instance part="R3" gate="G$1" x="68.58" y="109.22" rot="R90"/>
 <instance part="R5" gate="G$1" x="157.48" y="93.98" rot="R90"/>
@@ -12910,6 +12914,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="BAT" gate="-1" x="91.44" y="114.3" rot="R180"/>
 <instance part="BAT" gate="-2" x="91.44" y="116.84" rot="R180"/>
 <instance part="R7" gate="G$1" x="76.2" y="149.86" rot="R90"/>
+<instance part="GND18" gate="1" x="284.48" y="200.66" rot="R270"/>
 </instances>
 <busses>
 <bus name="BUS_SPI:SDI,SDO_SPI&amp;D6_OLED@RD6,SCLK,CS_ADX,CS_SDCARD">
@@ -13062,19 +13067,14 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="GND10" gate="1" pin="GND"/>
 </segment>
 <segment>
-<wire x1="208.28" y1="205.74" x2="208.28" y2="208.28" width="0.1524" layer="91"/>
 <pinref part="C_OL_APP_VDD" gate="G$1" pin="-"/>
 <pinref part="GND12" gate="1" pin="GND"/>
+<wire x1="205.74" y1="205.74" x2="205.74" y2="208.28" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="289.56" y1="200.66" x2="284.48" y2="200.66" width="0.1524" layer="91"/>
-<wire x1="284.48" y1="200.66" x2="284.48" y2="205.74" width="0.1524" layer="91"/>
-<wire x1="284.48" y1="208.28" x2="284.48" y2="205.74" width="0.1524" layer="91"/>
-<wire x1="284.48" y1="205.74" x2="279.4" y2="205.74" width="0.1524" layer="91"/>
-<junction x="284.48" y="205.74"/>
-<pinref part="CON_OLED" gate="G$1" pin="GND"/>
 <pinref part="C_OL_VDD2" gate="G$1" pin="1"/>
 <pinref part="GND14" gate="1" pin="GND"/>
+<wire x1="261.62" y1="208.28" x2="261.62" y2="205.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="261.62" y1="139.7" x2="259.08" y2="139.7" width="0.1524" layer="91"/>
@@ -13089,6 +13089,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="GND23" gate="1" pin="GND"/>
 <pinref part="BAT" gate="-2" pin="S"/>
 <wire x1="96.52" y1="116.84" x2="93.98" y2="116.84" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="CON_OLED" gate="G$1" pin="GND"/>
+<pinref part="GND18" gate="1" pin="GND"/>
+<wire x1="287.02" y1="200.66" x2="289.56" y2="200.66" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="USB_D+@RC5" class="0">
@@ -13261,19 +13266,19 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
-<wire x1="213.36" y1="220.98" x2="208.28" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="208.28" y1="220.98" x2="208.28" y2="215.9" width="0.1524" layer="91"/>
-<junction x="208.28" y="220.98"/>
+<wire x1="210.82" y1="220.98" x2="205.74" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="205.74" y1="220.98" x2="205.74" y2="215.9" width="0.1524" layer="91"/>
+<junction x="205.74" y="220.98"/>
 <pinref part="L_OL" gate="G$1" pin="1"/>
 <pinref part="C_OL_APP_VDD" gate="G$1" pin="+"/>
 <pinref part="+3V17" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
-<wire x1="289.56" y1="195.58" x2="274.32" y2="195.58" width="0.1524" layer="91"/>
-<wire x1="274.32" y1="195.58" x2="274.32" y2="215.9" width="0.1524" layer="91"/>
-<wire x1="274.32" y1="220.98" x2="274.32" y2="215.9" width="0.1524" layer="91"/>
-<wire x1="274.32" y1="215.9" x2="284.48" y2="215.9" width="0.1524" layer="91"/>
-<junction x="274.32" y="215.9"/>
+<wire x1="289.56" y1="195.58" x2="279.4" y2="195.58" width="0.1524" layer="91"/>
+<wire x1="279.4" y1="195.58" x2="279.4" y2="215.9" width="0.1524" layer="91"/>
+<wire x1="279.4" y1="215.9" x2="261.62" y2="215.9" width="0.1524" layer="91"/>
+<wire x1="261.62" y1="220.98" x2="261.62" y2="215.9" width="0.1524" layer="91"/>
+<junction x="261.62" y="215.9"/>
 <pinref part="CON_OLED" gate="G$1" pin="VDD2"/>
 <pinref part="C_OL_VDD2" gate="G$1" pin="2"/>
 <pinref part="+3V18" gate="G$1" pin="+3V3"/>
@@ -13453,21 +13458,21 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <segment>
 <wire x1="228.6" y1="205.74" x2="228.6" y2="220.98" width="0.1524" layer="91"/>
 <wire x1="228.6" y1="220.98" x2="231.14" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="228.6" y1="220.98" x2="223.52" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="220.98" x2="220.98" y2="220.98" width="0.1524" layer="91"/>
 <junction x="228.6" y="220.98"/>
 <pinref part="DIOD_OL" gate="G$1" pin="A"/>
 <pinref part="L_OL" gate="G$1" pin="2"/>
 <pinref part="N_MOS_OL" gate="A" pin="D"/>
 </segment>
 </net>
-<net name="N$11" class="0">
+<net name="OL_SW" class="0">
 <segment>
 <wire x1="289.56" y1="198.12" x2="233.68" y2="198.12" width="0.1524" layer="91"/>
 <pinref part="CON_OLED" gate="G$1" pin="SW"/>
 <pinref part="N_MOS_OL" gate="A" pin="G"/>
 </segment>
 </net>
-<net name="N$12" class="0">
+<net name="OL_VPP_12V" class="0">
 <segment>
 <wire x1="236.22" y1="220.98" x2="238.76" y2="220.98" width="0.1524" layer="91"/>
 <wire x1="238.76" y1="220.98" x2="238.76" y2="162.56" width="0.1524" layer="91"/>
@@ -13480,9 +13485,10 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="CON_OLED" gate="G$1" pin="VPP"/>
 <pinref part="R12" gate="G$1" pin="2"/>
 <pinref part="C_OL_VPP" gate="G$1" pin="+"/>
+<label x="238.76" y="167.64" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="N$13" class="0">
+<net name="OL_SENSE" class="0">
 <segment>
 <wire x1="289.56" y1="190.5" x2="228.6" y2="190.5" width="0.1524" layer="91"/>
 <wire x1="228.6" y1="190.5" x2="228.6" y2="195.58" width="0.1524" layer="91"/>
@@ -13492,7 +13498,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="N_MOS_OL" gate="A" pin="S"/>
 </segment>
 </net>
-<net name="N$15" class="0">
+<net name="OL_FB" class="0">
 <segment>
 <wire x1="289.56" y1="193.04" x2="251.46" y2="193.04" width="0.1524" layer="91"/>
 <wire x1="251.46" y1="193.04" x2="243.84" y2="193.04" width="0.1524" layer="91"/>
@@ -13507,7 +13513,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="C_OL_FB" gate="G$1" pin="1"/>
 </segment>
 </net>
-<net name="N$18" class="0">
+<net name="OL_VBREF" class="0">
 <segment>
 <wire x1="289.56" y1="187.96" x2="261.62" y2="187.96" width="0.1524" layer="91"/>
 <pinref part="CON_OLED" gate="G$1" pin="VBREF"/>
@@ -13529,7 +13535,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <net name="RES_OLED" class="0">
 <segment>
 <wire x1="289.56" y1="175.26" x2="269.24" y2="175.26" width="0.1524" layer="91"/>
-<label x="284.48" y="175.26" size="1.016" layer="95" rot="R180" xref="yes"/>
 <pinref part="CON_OLED" gate="G$1" pin="RES"/>
 <pinref part="R11" gate="G$1" pin="1"/>
 </segment>
@@ -13546,7 +13551,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RB5"/>
 </segment>
 </net>
-<net name="N$21" class="0">
+<net name="OL_VCOMH" class="0">
 <segment>
 <wire x1="251.46" y1="165.1" x2="289.56" y2="165.1" width="0.1524" layer="91"/>
 <pinref part="CON_OLED" gate="G$1" pin="VCOMH"/>
@@ -13661,7 +13666,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RD7"/>
 </segment>
 </net>
-<net name="N$30" class="0">
+<net name="OL_IREF" class="0">
 <segment>
 <wire x1="289.56" y1="139.7" x2="271.78" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="CON_OLED" gate="G$1" pin="IREF"/>

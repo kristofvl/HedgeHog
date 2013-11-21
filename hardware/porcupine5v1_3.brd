@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -1124,7 +1124,6 @@ design rules under a new name.</description>
 <contactref element="R9" pad="1"/>
 <contactref element="C_OL_VPP" pad="-"/>
 <contactref element="C_OL_APP_VDD" pad="-"/>
-<contactref element="CON_OLED" pad="P2"/>
 <contactref element="C_OL_VDD2" pad="1"/>
 <contactref element="C_OL_VCOMH" pad="1"/>
 <contactref element="R10" pad="1"/>
@@ -1267,11 +1266,12 @@ design rules under a new name.</description>
 <wire x1="11.7602" y1="24.5216" x2="13.3202" y2="22.9616" width="0.3302" layer="16"/>
 <wire x1="3.7338" y1="8.7376" x2="5.3982" y2="7.0732" width="0.3302" layer="1"/>
 <wire x1="5.3982" y1="7.0732" x2="5.3982" y2="5.448" width="0.3302" layer="1"/>
-<wire x1="23.2248" y1="22.1886" x2="24.2206" y2="22.1886" width="0.3302" layer="16"/>
 <wire x1="24.2206" y1="22.1886" x2="24.8412" y2="22.8092" width="0.3302" layer="16"/>
 <wire x1="24.8412" y1="22.8092" x2="24.8412" y2="24.0284" width="0.3302" layer="16"/>
 <wire x1="23.4696" y1="24.892" x2="22.5236" y2="24.892" width="0.3302" layer="16"/>
 <wire x1="23.4696" y1="29.0576" x2="23.4696" y2="24.892" width="0.3302" layer="16"/>
+<contactref element="CON_OLED" pad="P2"/>
+<wire x1="24.2206" y1="22.1886" x2="23.2248" y2="22.1886" width="0" layer="19" extent="16-16"/>
 </signal>
 <signal name="USB_D+@RC5">
 <contactref element="USB_CON" pad="3"/>
@@ -1705,7 +1705,7 @@ design rules under a new name.</description>
 <via x="27.3304" y="14.097" extent="1-16" drill="0.3048" shape="octagon"/>
 <via x="27.3304" y="20.4216" extent="1-16" drill="0.3048" shape="octagon"/>
 </signal>
-<signal name="N$11">
+<signal name="OL_SW">
 <contactref element="CON_OLED" pad="P3"/>
 <contactref element="N_MOS_OL" pad="3"/>
 <wire x1="23.2248" y1="21.5886" x2="23.2262" y2="21.59" width="0.2032" layer="16"/>
@@ -1719,7 +1719,7 @@ design rules under a new name.</description>
 <wire x1="27.2034" y1="21.844" x2="27.2034" y2="22.4536" width="0.2032" layer="1"/>
 <via x="24.9174" y="21.336" extent="1-16" drill="0.3048" shape="octagon"/>
 </signal>
-<signal name="N$12">
+<signal name="OL_VPP_12V">
 <contactref element="DIOD_OL" pad="C"/>
 <contactref element="CON_OLED" pad="P17"/>
 <contactref element="R12" pad="2"/>
@@ -1738,7 +1738,7 @@ design rules under a new name.</description>
 <wire x1="26.1972" y1="13.9796" x2="26.1972" y2="15.3766" width="0.2032" layer="1"/>
 <wire x1="26.1972" y1="15.3766" x2="26.5782" y2="15.3766" width="0.2032" layer="1"/>
 </signal>
-<signal name="N$13">
+<signal name="OL_SENSE">
 <contactref element="CON_OLED" pad="P6"/>
 <contactref element="R8" pad="P$3"/>
 <contactref element="N_MOS_OL" pad="2"/>
@@ -1757,7 +1757,7 @@ design rules under a new name.</description>
 <wire x1="26.416" y1="24.9936" x2="25.6286" y2="24.9936" width="0.2032" layer="16"/>
 <via x="25.6286" y="24.9936" extent="1-16" drill="0.3048" shape="octagon"/>
 </signal>
-<signal name="N$15">
+<signal name="OL_FB">
 <contactref element="CON_OLED" pad="P5"/>
 <contactref element="R9" pad="2"/>
 <contactref element="R12" pad="1"/>
@@ -1782,7 +1782,7 @@ design rules under a new name.</description>
 <wire x1="25.8826" y1="17.7722" x2="26.5782" y2="17.0766" width="0.2032" layer="1"/>
 <via x="24.892" y="20.4978" extent="1-16" drill="0.3048" shape="octagon"/>
 </signal>
-<signal name="N$18">
+<signal name="OL_VBREF">
 <contactref element="CON_OLED" pad="P7"/>
 <contactref element="C_OL_VBREF" pad="1"/>
 <wire x1="23.211" y1="19.2024" x2="23.2248" y2="19.1886" width="0.2032" layer="16"/>
@@ -1839,7 +1839,7 @@ design rules under a new name.</description>
 <wire x1="13.4948" y1="9.1529" x2="13.4948" y2="8.2984" width="0.2032" layer="16"/>
 <wire x1="13.4948" y1="8.2984" x2="14.1478" y2="7.6454" width="0.2032" layer="16"/>
 </signal>
-<signal name="N$21">
+<signal name="OL_VCOMH">
 <contactref element="CON_OLED" pad="P16"/>
 <contactref element="C_OL_VCOMH" pad="2"/>
 <wire x1="21.7378" y1="13.5128" x2="24.5872" y2="13.5128" width="0.2032" layer="1"/>
@@ -1970,7 +1970,7 @@ design rules under a new name.</description>
 <wire x1="19.2024" y1="9.017" x2="19.2024" y2="12.7508" width="0.2032" layer="16"/>
 <wire x1="19.2024" y1="12.7508" x2="17.8638" y2="14.0894" width="0.2032" layer="16"/>
 </signal>
-<signal name="N$30">
+<signal name="OL_IREF">
 <contactref element="CON_OLED" pad="P26"/>
 <contactref element="R10" pad="2"/>
 <wire x1="25.592" y1="10.3886" x2="25.623" y2="10.4196" width="0.2032" layer="1"/>
