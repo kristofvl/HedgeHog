@@ -44,8 +44,8 @@
 <layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="yes"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="yes"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="yes"/>
@@ -317,14 +317,6 @@ Metric Code Size 2012</description>
 <vertex x="0.7" y="-3.3"/>
 <vertex x="0" y="-3.3"/>
 </polygon>
-<polygon width="0" layer="31">
-<vertex x="0" y="0"/>
-<vertex x="0.7" y="0"/>
-<vertex x="1.15" y="-0.75"/>
-<vertex x="1.15" y="-2.55"/>
-<vertex x="0.7" y="-3.3"/>
-<vertex x="0" y="-3.3"/>
-</polygon>
 <polygon width="0" layer="1">
 <vertex x="-1" y="-3.3"/>
 <vertex x="-1.7" y="-3.3"/>
@@ -333,37 +325,21 @@ Metric Code Size 2012</description>
 <vertex x="-1.7" y="0"/>
 <vertex x="-1" y="0"/>
 </polygon>
-<polygon width="0" layer="31">
-<vertex x="-1" y="-3.3"/>
-<vertex x="-1.7" y="-3.3"/>
-<vertex x="-2.15" y="-2.55"/>
-<vertex x="-2.15" y="-0.75"/>
-<vertex x="-1.7" y="0"/>
-<vertex x="-1" y="0"/>
+<polygon width="0.0254" layer="51">
+<vertex x="-1.9812" y="-0.7112"/>
+<vertex x="-1.6764" y="-0.1778"/>
+<vertex x="-1.0922" y="-0.1778"/>
+<vertex x="-1.0922" y="-3.1242"/>
+<vertex x="-1.6764" y="-3.1242"/>
+<vertex x="-1.9812" y="-2.5908"/>
 </polygon>
-<polygon width="0" layer="31">
-<vertex x="-1" y="-3.3"/>
-<vertex x="-1.7" y="-3.3"/>
-<vertex x="-2.15" y="-2.55"/>
-<vertex x="-2.15" y="-0.75"/>
-<vertex x="-1.7" y="0"/>
-<vertex x="-1" y="0"/>
-</polygon>
-<polygon width="0" layer="29">
-<vertex x="-0.915" y="-3.38"/>
-<vertex x="-1.74" y="-3.38"/>
-<vertex x="-2.23" y="-2.55"/>
-<vertex x="-2.23" y="-0.75"/>
-<vertex x="-1.74" y="0.08"/>
-<vertex x="-0.915" y="0.08"/>
-</polygon>
-<polygon width="0" layer="29">
-<vertex x="-0.08" y="0.08"/>
-<vertex x="0.745" y="0.08"/>
-<vertex x="1.235" y="-0.75"/>
-<vertex x="1.235" y="-2.55"/>
-<vertex x="0.745" y="-3.38"/>
-<vertex x="-0.08" y="-3.38"/>
+<polygon width="0.0254" layer="51">
+<vertex x="0.9906" y="-2.5908"/>
+<vertex x="0.6858" y="-3.1242"/>
+<vertex x="0.1016" y="-3.1242"/>
+<vertex x="0.1016" y="-0.1778"/>
+<vertex x="0.6858" y="-0.1778"/>
+<vertex x="0.9906" y="-0.7112"/>
 </polygon>
 </package>
 <package name="SOT-23">
@@ -1041,8 +1017,8 @@ design rules under a new name.</description>
 <attribute name="NAME" x="23.9612" y="13.2932" size="0.4064" layer="25"/>
 <attribute name="VALUE" x="25.9678" y="12.7872" size="0.4064" layer="27"/>
 </element>
-<element name="L_OL" library="HedgehogLib" package="1212_FOR_INDUCTANCE" value="100uH" x="23.316" y="9.0172"/>
-<element name="C_OL_APP_VDD" library="rcl" package="A/3216-18R" value="10u low ESR" x="21.0856" y="20.0098" smashed="yes">
+<element name="L_OL" library="HedgehogLib" package="1212_FOR_INDUCTANCE" value="10µH" x="23.316" y="9.0172"/>
+<element name="C_OL_APP_VDD" library="rcl" package="A/3216-18R" value="10µF/6.3V low ESR" x="21.0856" y="20.0098" smashed="yes">
 <attribute name="NAME" x="19.0848" y="20.8066" size="0.4064" layer="25"/>
 <attribute name="VALUE" x="19.0848" y="20.0978" size="0.4064" layer="27"/>
 </element>
@@ -1054,7 +1030,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="26.7458" y="17.8784" size="0.4064" layer="25"/>
 <attribute name="VALUE" x="28.0956" y="18.2622" size="0.4064" layer="27" rot="R90"/>
 </element>
-<element name="C_OL_VPP" library="rcl" package="A/3216-18R" value="6.8u low ESR" x="21.164" y="10.3462" smashed="yes">
+<element name="C_OL_VPP" library="rcl" package="A/3216-18R" value="6.8µF/16V low ESR" x="21.164" y="10.3462" smashed="yes">
 <attribute name="NAME" x="18.7822" y="11.1176" size="0.4064" layer="25"/>
 <attribute name="VALUE" x="19.722" y="9.2912" size="0.4064" layer="27"/>
 </element>
@@ -1066,7 +1042,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="18.3736" y="21.3172" size="0.4064" layer="26" rot="MR90"/>
 <attribute name="VALUE" x="19.5768" y="23.1348" size="0.4064" layer="28" rot="MR0"/>
 </element>
-<element name="C_OL_VDD2" library="rcl" package="C0603K" value="1u" x="19.5772" y="18.2824" smashed="yes">
+<element name="C_OL_VDD2" library="rcl" package="C0603K" value="1µF/16V" x="19.5772" y="18.2824" smashed="yes">
 <attribute name="NAME" x="18.3962" y="17.383" size="0.4064" layer="25"/>
 <attribute name="VALUE" x="20.9088" y="18.1168" size="0.4064" layer="27" rot="R90"/>
 </element>
@@ -2169,39 +2145,6 @@ design rules under a new name.</description>
 <wire x1="6.8326" y1="10.0076" x2="8.2042" y2="8.636" width="0.2032" layer="1"/>
 </signal>
 </signals>
-<errors>
-<approved hash="3,1,60fa62f862f860fa"/>
-<approved hash="3,1,80fb82f982f980fb"/>
-<approved hash="2,20,97e7425f4c219999"/>
-<approved hash="2,20,7328c510cb6e7d56"/>
-<approved hash="2,20,85294c5142288b50"/>
-<approved hash="4,1,9767861f88619919"/>
-<approved hash="4,1,a28270b3e934a890"/>
-<approved hash="4,1,7328c510cb6e7d56"/>
-<approved hash="4,1,3f59682fc0f8478c"/>
-<approved hash="4,1,259f3203df71d500"/>
-<approved hash="4,1,88d857775a2b6d97"/>
-<approved hash="4,1,84e9461148688a90"/>
-<approved hash="4,1,f60e58025014ac06"/>
-<approved hash="6,1,21549f64b761f5bb"/>
-<approved hash="6,1,60b00402bed09405"/>
-<approved hash="6,1,630b105d62bf1069"/>
-<approved hash="6,1,2bb43692b98f1abb"/>
-<approved hash="6,1,cf760b4a3801c115"/>
-<approved hash="6,1,0fd6777c712309e3"/>
-<approved hash="6,1,875d3cb687675b4d"/>
-<approved hash="6,1,f5bd2ad1bf79f7e8"/>
-<approved hash="6,1,307cfdd568702799"/>
-<approved hash="6,1,f0aa181dc6aab6cd"/>
-<approved hash="5,1,845f353f8bb50d1f"/>
-<approved hash="5,1,235d25e7b46c851c"/>
-<approved hash="4,16,9767861f88619919"/>
-<approved hash="4,16,6ddef8f001f898ce"/>
-<approved hash="4,16,7328c510cb6e7d56"/>
-<approved hash="4,16,abaf36619f090ac1"/>
-<approved hash="4,16,84e9461148688a90"/>
-<approved hash="4,16,b1b7423e4f392853"/>
-</errors>
 </board>
 </drawing>
 </eagle>

@@ -11349,14 +11349,6 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <vertex x="0.7" y="-3.3"/>
 <vertex x="0" y="-3.3"/>
 </polygon>
-<polygon width="0" layer="31">
-<vertex x="0" y="0"/>
-<vertex x="0.7" y="0"/>
-<vertex x="1.15" y="-0.75"/>
-<vertex x="1.15" y="-2.55"/>
-<vertex x="0.7" y="-3.3"/>
-<vertex x="0" y="-3.3"/>
-</polygon>
 <polygon width="0" layer="1">
 <vertex x="-1" y="-3.3"/>
 <vertex x="-1.7" y="-3.3"/>
@@ -11365,37 +11357,21 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <vertex x="-1.7" y="0"/>
 <vertex x="-1" y="0"/>
 </polygon>
-<polygon width="0" layer="31">
-<vertex x="-1" y="-3.3"/>
-<vertex x="-1.7" y="-3.3"/>
-<vertex x="-2.15" y="-2.55"/>
-<vertex x="-2.15" y="-0.75"/>
-<vertex x="-1.7" y="0"/>
-<vertex x="-1" y="0"/>
+<polygon width="0.0254" layer="51">
+<vertex x="-1.9812" y="-0.7112"/>
+<vertex x="-1.6764" y="-0.1778"/>
+<vertex x="-1.0922" y="-0.1778"/>
+<vertex x="-1.0922" y="-3.1242"/>
+<vertex x="-1.6764" y="-3.1242"/>
+<vertex x="-1.9812" y="-2.5908"/>
 </polygon>
-<polygon width="0" layer="31">
-<vertex x="-1" y="-3.3"/>
-<vertex x="-1.7" y="-3.3"/>
-<vertex x="-2.15" y="-2.55"/>
-<vertex x="-2.15" y="-0.75"/>
-<vertex x="-1.7" y="0"/>
-<vertex x="-1" y="0"/>
-</polygon>
-<polygon width="0" layer="29">
-<vertex x="-0.915" y="-3.38"/>
-<vertex x="-1.74" y="-3.38"/>
-<vertex x="-2.23" y="-2.55"/>
-<vertex x="-2.23" y="-0.75"/>
-<vertex x="-1.74" y="0.08"/>
-<vertex x="-0.915" y="0.08"/>
-</polygon>
-<polygon width="0" layer="29">
-<vertex x="-0.08" y="0.08"/>
-<vertex x="0.745" y="0.08"/>
-<vertex x="1.235" y="-0.75"/>
-<vertex x="1.235" y="-2.55"/>
-<vertex x="0.745" y="-3.38"/>
-<vertex x="-0.08" y="-3.38"/>
+<polygon width="0.0254" layer="51">
+<vertex x="0.9906" y="-2.5908"/>
+<vertex x="0.6858" y="-3.1242"/>
+<vertex x="0.1016" y="-3.1242"/>
+<vertex x="0.1016" y="-0.1778"/>
+<vertex x="0.6858" y="-0.1778"/>
+<vertex x="0.9906" y="-0.7112"/>
 </polygon>
 </package>
 <package name="SOT-23">
@@ -12744,18 +12720,18 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="+3V2" library="supply1" deviceset="+3V3" device=""/>
 <part name="CON_OLED" library="HedgehogLib" deviceset="OLED_DENSITRON" device=""/>
 <part name="DIOD_OL" library="HedgehogLib" deviceset="MBR0520" device=""/>
-<part name="L_OL" library="HedgehogLib" deviceset="LQH3NP" device="" value="100uH"/>
+<part name="L_OL" library="HedgehogLib" deviceset="LQH3NP" device="" value="10µH"/>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
-<part name="C_OL_APP_VDD" library="rcl" deviceset="CPOL-EU" device="A/3216-18R" value="10u low ESR"/>
+<part name="C_OL_APP_VDD" library="rcl" deviceset="CPOL-EU" device="A/3216-18R" value="10µF/6.3V low ESR"/>
 <part name="R12" library="rcl" deviceset="R-EU_" device="R0603" value="930k 1%"/>
 <part name="R9" library="rcl" deviceset="R-EU_" device="R0603" value="110k 1%"/>
-<part name="C_OL_VPP" library="rcl" deviceset="CPOL-EU" device="A/3216-18R" value="6.8u low ESR"/>
+<part name="C_OL_VPP" library="rcl" deviceset="CPOL-EU" device="A/3216-18R" value="6.8µF/16V low ESR"/>
 <part name="C_OL_FB" library="rcl" deviceset="C-EU" device="C0603K" value="1n"/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
 <part name="GND12" library="supply1" deviceset="GND" device=""/>
 <part name="C_OL_VBREF" library="rcl" deviceset="C-EU" device="C0603K" value="1u"/>
-<part name="C_OL_VDD2" library="rcl" deviceset="C-EU" device="C0603K" value="1u"/>
+<part name="C_OL_VDD2" library="rcl" deviceset="C-EU" device="C0603K" value="1µF/16V"/>
 <part name="GND14" library="supply1" deviceset="GND" device=""/>
 <part name="C_OL_VCOMH" library="rcl" deviceset="C-EU" device="C0603K" value="4.7u"/>
 <part name="R10" library="rcl" deviceset="R-EU_" device="R0603" value="820k"/>
@@ -12904,7 +12880,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="C_OL_VBREF" gate="G$1" x="261.62" y="185.42"/>
 <instance part="C_OL_VDD2" gate="G$1" x="284.48" y="210.82" smashed="yes" rot="R180">
 <attribute name="NAME" x="286.004" y="213.741" size="1.778" layer="95"/>
-<attribute name="VALUE" x="288.036" y="210.439" size="1.778" layer="96" rot="R180"/>
+<attribute name="VALUE" x="286.004" y="208.661" size="1.778" layer="96"/>
 </instance>
 <instance part="GND14" gate="1" x="279.4" y="203.2"/>
 <instance part="C_OL_VCOMH" gate="G$1" x="251.46" y="170.18"/>
