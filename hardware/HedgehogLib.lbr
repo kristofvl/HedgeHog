@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.001" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -30,25 +30,25 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="yes" active="yes"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="yes" active="yes"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="yes" active="yes"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
-<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
-<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
-<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
-<layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
-<layer number="44" name="Drills" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="45" name="Holes" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="yes"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="54" name="bGND_GNDA" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="no" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="1" visible="no" active="yes"/>
+<layer number="54" name="bGND_GNDA" color="7" fill="1" visible="no" active="yes"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/>
@@ -68,6 +68,8 @@
 <layer number="116" name="Patch_BOT" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="121" name="_tsilk" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="122" name="_bsilk" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="125" name="_tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="144" name="Drill_legend" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="151" name="HeatSink" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="199" name="Contour" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="200" name="200bmp" color="7" fill="1" visible="yes" active="yes"/>
@@ -79,6 +81,22 @@
 <layer number="206" name="206bmp" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="207" name="207bmp" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="208" name="208bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="209" name="209bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="210" name="210bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="211" name="211bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="212" name="212bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="213" name="213bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="214" name="214bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="215" name="215bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="216" name="216bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="217" name="217bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="218" name="218bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="219" name="219bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="220" name="220bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="221" name="221bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="222" name="222bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="223" name="223bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="224" name="224bmp" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="250" name="Descript" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="251" name="SMDround" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="254" name="cooling" color="7" fill="1" visible="yes" active="yes"/>
@@ -713,6 +731,30 @@ chip</description>
 <text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
 <text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
 </package>
+<package name="PBRC-H">
+<description>MHz Band Ceramic Chip Resonators: PBRC-H package</description>
+<smd name="1" x="-2.5" y="0" dx="1.7" dy="4" layer="1" rot="R180"/>
+<smd name="3" x="2.5" y="0" dx="1.7" dy="4" layer="1" rot="R180"/>
+<smd name="2_GND" x="0" y="0" dx="1.5" dy="4" layer="1" rot="R180"/>
+<wire x1="-3.9" y1="-1.2" x2="-3.9" y2="1.2" width="0.127" layer="21"/>
+<wire x1="-3.9" y1="1.2" x2="3.9" y2="1.2" width="0.127" layer="21"/>
+<wire x1="3.9" y1="1.2" x2="3.9" y2="-1.2" width="0.127" layer="21"/>
+<wire x1="3.9" y1="-1.2" x2="-3.9" y2="-1.2" width="0.127" layer="21"/>
+<wire x1="2.74" y1="-0.2" x2="2.34" y2="-0.2" width="0.05" layer="21"/>
+<wire x1="2.34" y1="-0.2" x2="2.34" y2="0.2" width="0.05" layer="21"/>
+<wire x1="2.34" y1="0.2" x2="2.74" y2="0.2" width="0.05" layer="21"/>
+<wire x1="2.74" y1="0.2" x2="2.74" y2="-0.2" width="0.05" layer="21"/>
+</package>
+<package name="PRQC-C">
+<description>MHz Band Ceramic Chip Resonators: PRQC-C package</description>
+<wire x1="-1.6" y1="-0.65" x2="1.6" y2="-0.65" width="0.127" layer="21"/>
+<wire x1="1.6" y1="-0.65" x2="1.6" y2="0.65" width="0.127" layer="21"/>
+<wire x1="1.6" y1="0.65" x2="-1.6" y2="0.65" width="0.127" layer="21"/>
+<wire x1="-1.6" y1="0.65" x2="-1.6" y2="-0.65" width="0.127" layer="21"/>
+<smd name="2_GND" x="0" y="0" dx="0.4" dy="1.6" layer="1"/>
+<smd name="1" x="-1.2" y="0" dx="0.4" dy="1.6" layer="1"/>
+<smd name="3" x="1.2" y="0" dx="0.4" dy="1.6" layer="1"/>
+</package>
 </packages>
 <symbols>
 <symbol name="CRYSTAL">
@@ -1058,6 +1100,30 @@ chip</description>
 <pin name="V_OUT" x="15.24" y="5.08" length="middle" rot="R180"/>
 <text x="-10.16" y="8.382" size="1.778" layer="95">&gt;NAME</text>
 <text x="-10.16" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
+</symbol>
+<symbol name="RESONATOR">
+<wire x1="1.524" y1="0.508" x2="-1.524" y2="0.508" width="0.254" layer="94"/>
+<wire x1="-1.524" y1="0.508" x2="-1.524" y2="-0.508" width="0.254" layer="94"/>
+<wire x1="-1.524" y1="-0.508" x2="1.524" y2="-0.508" width="0.254" layer="94"/>
+<wire x1="1.524" y1="-0.508" x2="1.524" y2="0.508" width="0.254" layer="94"/>
+<wire x1="1.524" y1="1.016" x2="0" y2="1.016" width="0.254" layer="94"/>
+<wire x1="0" y1="1.016" x2="-1.524" y2="1.016" width="0.254" layer="94"/>
+<wire x1="1.524" y1="-1.016" x2="0" y2="-1.016" width="0.254" layer="94"/>
+<wire x1="0" y1="-1.016" x2="-1.524" y2="-1.016" width="0.254" layer="94"/>
+<wire x1="0" y1="2.54" x2="-2.286" y2="2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="1.016" x2="0" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="2.54" x2="-3.048" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="-2.54" x2="-3.048" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="2.54" x2="-5.08" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="-1.016" x2="0" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="-2.54" x2="-2.286" y2="-2.54" width="0.254" layer="94"/>
+<pin name="GND" x="-7.62" y="2.54" visible="off" length="short"/>
+<pin name="2" x="2.54" y="2.54" visible="off" length="short" swaplevel="1" rot="R180"/>
+<pin name="1" x="2.54" y="-2.54" visible="off" length="short" swaplevel="1" rot="R180"/>
+<rectangle x1="-3.048" y1="1.778" x2="-2.794" y2="3.302" layer="94"/>
+<rectangle x1="-2.54" y1="1.778" x2="-2.286" y2="3.302" layer="94"/>
+<rectangle x1="-3.048" y1="-3.302" x2="-2.794" y2="-1.778" layer="94"/>
+<rectangle x1="-2.54" y1="-3.302" x2="-2.286" y2="-1.778" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -1474,6 +1540,33 @@ http://de.farnell.com/1578387</description>
 <connect gate="LDO" pin="SHDN" pad="3"/>
 <connect gate="LDO" pin="V_IN" pad="1"/>
 <connect gate="LDO" pin="V_OUT" pad="5"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="RESONATOR">
+<gates>
+<gate name="RESONATOR" symbol="RESONATOR" x="0" y="0"/>
+</gates>
+<devices>
+<device name="PRQC-C" package="PRQC-C">
+<connects>
+<connect gate="RESONATOR" pin="1" pad="1"/>
+<connect gate="RESONATOR" pin="2" pad="3"/>
+<connect gate="RESONATOR" pin="GND" pad="2_GND"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="PBRC-H" package="PBRC-H">
+<connects>
+<connect gate="RESONATOR" pin="1" pad="1"/>
+<connect gate="RESONATOR" pin="2" pad="3"/>
+<connect gate="RESONATOR" pin="GND" pad="2_GND"/>
 </connects>
 <technologies>
 <technology name=""/>
