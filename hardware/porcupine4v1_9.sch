@@ -5202,6 +5202,8 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <smd name="P$9B" x="3.65" y="0" dx="1.4" dy="2" layer="1" rot="R90"/>
 <smd name="P$10A" x="11.95" y="-13.7" dx="1.4" dy="2" layer="1" rot="R90"/>
 <smd name="P$10B" x="3.65" y="-13.7" dx="1.4" dy="2" layer="1" rot="R90"/>
+<text x="1.27" y="-11.43" size="1.016" layer="27">&gt;Value</text>
+<text x="1.27" y="-3.81" size="1.016" layer="25">&gt;Name</text>
 </package>
 <package name="SMD_CRYSTAL">
 <smd name="P$1" x="1.794" y="0" dx="1.905" dy="1.0922" layer="1" rot="R90"/>
@@ -5397,18 +5399,18 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <pin name="P$VUSB" x="25.4" y="-10.16" length="middle" rot="R180"/>
 </symbol>
 <symbol name="460DA40013">
-<wire x1="-12.7" y1="5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="5.08" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="20.32" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="5.08" x2="-12.7" y2="20.32" width="0.254" layer="94"/>
-<text x="-10.16" y="15.24" size="1.778" layer="94">MultiComp</text>
-<text x="-10.16" y="17.78" size="1.778" layer="94">Hinged uSD</text>
-<pin name="!CS" x="-10.16" y="0" length="middle" rot="R90"/>
-<pin name="SCLK" x="0" y="0" length="middle" rot="R90"/>
-<pin name="SDI" x="-7.62" y="0" length="middle" rot="R90"/>
-<pin name="SDO" x="5.08" y="0" length="middle" rot="R90"/>
-<pin name="VDD" x="-2.54" y="0" length="middle" rot="R90"/>
-<pin name="VSS1" x="-5.08" y="0" length="middle" rot="R90"/>
+<wire x1="-10.16" y1="-7.62" x2="10.16" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-7.62" x2="-10.16" y2="7.62" width="0.254" layer="94"/>
+<text x="-7.62" y="2.54" size="1.778" layer="94">MultiComp</text>
+<text x="-7.62" y="5.08" size="1.778" layer="94">Hinged uSD</text>
+<pin name="!CS" x="-7.62" y="-12.7" length="middle" rot="R90"/>
+<pin name="SCLK" x="2.54" y="-12.7" length="middle" rot="R90"/>
+<pin name="SDI" x="-5.08" y="-12.7" length="middle" rot="R90"/>
+<pin name="SDO" x="7.62" y="-12.7" length="middle" rot="R90"/>
+<pin name="VDD" x="0" y="-12.7" length="middle" rot="R90"/>
+<pin name="VSS1" x="-2.54" y="-12.7" length="middle" rot="R90"/>
 </symbol>
 <symbol name="CRYSTAL">
 <wire x1="-1.524" y1="-2.54" x2="-1.524" y2="2.54" width="0.4064" layer="94"/>
@@ -5459,6 +5461,8 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <rectangle x1="-2.54" y1="1.778" x2="-2.286" y2="3.302" layer="94"/>
 <rectangle x1="-3.048" y1="-3.302" x2="-2.794" y2="-1.778" layer="94"/>
 <rectangle x1="-2.54" y1="-3.302" x2="-2.286" y2="-1.778" layer="94"/>
+<text x="-7.62" y="5.08" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -7605,7 +7609,7 @@ Source: www.kingbright.com</description>
 </plain>
 <instances>
 <instance part="GND3" gate="1" x="12.7" y="139.7"/>
-<instance part="SDCARD_CON" gate="G$1" x="30.48" y="25.4" rot="R90"/>
+<instance part="SDCARD_CON" gate="G$1" x="17.78" y="22.86" rot="R90"/>
 <instance part="GND16" gate="1" x="38.1" y="20.32" rot="R90"/>
 <instance part="LIGHTSENSE" gate="G$1" x="83.82" y="144.78" smashed="yes">
 <attribute name="VALUE" x="89.916" y="148.336" size="1.778" layer="96" rot="R270"/>
@@ -7685,7 +7689,7 @@ Source: www.kingbright.com</description>
 <instance part="R5" gate="G$1" x="73.66" y="149.86" rot="R90"/>
 <instance part="GND1" gate="1" x="274.32" y="48.26"/>
 <instance part="32KHZ_CRYSTAL" gate="G$1" x="200.66" y="111.76" smashed="yes">
-<attribute name="VALUE" x="196.342" y="114.808" size="1.778" layer="96"/>
+<attribute name="VALUE" x="196.342" y="114.808" size="1.4224" layer="96"/>
 <attribute name="FARNELL" x="200.66" y="111.76" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="GND8" gate="1" x="60.96" y="81.28"/>
@@ -7704,8 +7708,9 @@ Source: www.kingbright.com</description>
 <instance part="GND2" gate="1" x="160.02" y="137.16"/>
 <instance part="LED1" gate="G$1" x="160.02" y="147.32"/>
 <instance part="GND10" gate="1" x="109.22" y="137.16"/>
-<instance part="12MHZ_RESONATOR" gate="RESONATOR" x="264.16" y="53.34" rot="R180">
+<instance part="12MHZ_RESONATOR" gate="RESONATOR" x="264.16" y="53.34" smashed="yes" rot="R180">
 <attribute name="DIGIKEY" x="264.16" y="53.34" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="NAME" x="264.16" y="58.42" size="1.4224" layer="95"/>
 </instance>
 </instances>
 <busses>

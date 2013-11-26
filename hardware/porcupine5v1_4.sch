@@ -11319,6 +11319,8 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <text x="7.62" y="1.27" size="0.6096" layer="21">1</text>
 <text x="-8.255" y="1.27" size="0.6096" layer="21">30</text>
 <rectangle x1="8.5725" y1="-0.9525" x2="9.2075" y2="-0.3175" layer="21"/>
+<text x="-8.89" y="-2.54" size="1.016" layer="25">&gt;Name</text>
+<text x="3.81" y="-2.54" size="1.016" layer="27">&gt;Value</text>
 </package>
 <package name="SOD123">
 <description>&lt;b&gt;Diode&lt;/b&gt;</description>
@@ -11687,6 +11689,8 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <smd name="P$9B" x="3.65" y="0" dx="1.4" dy="2" layer="1" rot="R90"/>
 <smd name="P$10A" x="11.95" y="-13.7" dx="1.4" dy="2" layer="1" rot="R90"/>
 <smd name="P$10B" x="3.65" y="-13.7" dx="1.4" dy="2" layer="1" rot="R90"/>
+<text x="1.27" y="-11.43" size="1.016" layer="27">&gt;Value</text>
+<text x="1.27" y="-3.81" size="1.016" layer="25">&gt;Name</text>
 </package>
 <package name="SOT-23-5">
 <description>SOT23-5L</description>
@@ -11974,18 +11978,18 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <pin name="P$VUSB" x="25.4" y="-10.16" length="middle" rot="R180"/>
 </symbol>
 <symbol name="460DA40013">
-<wire x1="-12.7" y1="5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="5.08" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="20.32" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="5.08" x2="-12.7" y2="20.32" width="0.254" layer="94"/>
-<text x="-10.16" y="15.24" size="1.778" layer="94">MultiComp</text>
-<text x="-10.16" y="17.78" size="1.778" layer="94">Hinged uSD</text>
-<pin name="!CS" x="-10.16" y="0" length="middle" rot="R90"/>
-<pin name="SCLK" x="0" y="0" length="middle" rot="R90"/>
-<pin name="SDI" x="-7.62" y="0" length="middle" rot="R90"/>
-<pin name="SDO" x="5.08" y="0" length="middle" rot="R90"/>
-<pin name="VDD" x="-2.54" y="0" length="middle" rot="R90"/>
-<pin name="VSS1" x="-5.08" y="0" length="middle" rot="R90"/>
+<wire x1="-10.16" y1="-7.62" x2="10.16" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-7.62" x2="-10.16" y2="7.62" width="0.254" layer="94"/>
+<text x="-7.62" y="2.54" size="1.778" layer="94">MultiComp</text>
+<text x="-7.62" y="5.08" size="1.778" layer="94">Hinged uSD</text>
+<pin name="!CS" x="-7.62" y="-12.7" length="middle" rot="R90"/>
+<pin name="SCLK" x="2.54" y="-12.7" length="middle" rot="R90"/>
+<pin name="SDI" x="-5.08" y="-12.7" length="middle" rot="R90"/>
+<pin name="SDO" x="7.62" y="-12.7" length="middle" rot="R90"/>
+<pin name="VDD" x="0" y="-12.7" length="middle" rot="R90"/>
+<pin name="VSS1" x="-2.54" y="-12.7" length="middle" rot="R90"/>
 </symbol>
 <symbol name="MCP1824">
 <wire x1="-10.16" y1="7.62" x2="-10.16" y2="-7.62" width="0.254" layer="94"/>
@@ -12036,6 +12040,8 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <rectangle x1="-2.54" y1="1.778" x2="-2.286" y2="3.302" layer="94"/>
 <rectangle x1="-3.048" y1="-3.302" x2="-2.794" y2="-1.778" layer="94"/>
 <rectangle x1="-2.54" y1="-3.302" x2="-2.286" y2="-1.778" layer="94"/>
+<text x="-7.62" y="5.08" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -12739,7 +12745,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="BAT" library="con-molex" deviceset="53?-02" device="048"/>
 <part name="R7" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="GND18" library="supply1" deviceset="GND" device=""/>
-<part name="U$1" library="HedgehogLib" deviceset="RESONATOR" device="PRQC-C"/>
+<part name="12MHZ_RESONATOR" library="HedgehogLib" deviceset="RESONATOR" device="PRQC-C"/>
 </parts>
 <sheets>
 <sheet>
@@ -12794,7 +12800,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </plain>
 <instances>
 <instance part="GND3" gate="1" x="12.7" y="139.7"/>
-<instance part="SDCARD_CON" gate="G$1" x="30.48" y="25.4" smashed="yes" rot="R90"/>
+<instance part="SDCARD_CON" gate="G$1" x="17.78" y="22.86" smashed="yes" rot="R90"/>
 <instance part="GND16" gate="1" x="40.64" y="20.32" rot="R90"/>
 <instance part="LIGHTSENSE" gate="G$1" x="86.36" y="144.78" smashed="yes">
 <attribute name="NAME" x="95.758" y="137.16" size="1.778" layer="95" rot="R90"/>
@@ -12901,7 +12907,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="BAT" gate="-2" x="91.44" y="116.84" rot="R180"/>
 <instance part="R7" gate="G$1" x="76.2" y="149.86" rot="R90"/>
 <instance part="GND18" gate="1" x="284.48" y="200.66" rot="R270"/>
-<instance part="U$1" gate="RESONATOR" x="284.48" y="53.34" rot="R180"/>
+<instance part="12MHZ_RESONATOR" gate="RESONATOR" x="284.48" y="53.34" smashed="yes" rot="R180">
+<attribute name="NAME" x="294.64" y="58.42" size="1.27" layer="95" rot="R180"/>
+</instance>
 </instances>
 <busses>
 <bus name="BUS_SPI:SDI,SDO_SPI&amp;D6_OLED@RD6,SCLK,CS_ADX,CS_SDCARD">
@@ -12994,7 +13002,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="GND2" gate="1" pin="GND"/>
 <wire x1="292.1" y1="50.8" x2="294.64" y2="50.8" width="0.1524" layer="91"/>
 <wire x1="294.64" y1="50.8" x2="294.64" y2="48.26" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="RESONATOR" pin="GND"/>
+<pinref part="12MHZ_RESONATOR" gate="RESONATOR" pin="GND"/>
 </segment>
 <segment>
 <pinref part="C2_32KHZ" gate="G$1" pin="2"/>
@@ -13396,9 +13404,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </net>
 <net name="N$3" class="0">
 <segment>
-<wire x1="208.28" y1="109.22" x2="208.28" y2="111.76" width="0.1524" layer="91"/>
-<wire x1="208.28" y1="111.76" x2="228.6" y2="111.76" width="0.1524" layer="91"/>
-<wire x1="228.6" y1="111.76" x2="228.6" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="208.28" y1="109.22" x2="208.28" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="208.28" y1="114.3" x2="228.6" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="114.3" x2="228.6" y2="96.52" width="0.1524" layer="91"/>
 <pinref part="C2_32KHZ" gate="G$1" pin="1"/>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$RC0"/>
 <pinref part="SMD_CRYSTAL" gate="G$1" pin="1"/>
@@ -13749,7 +13757,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <segment>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$OSC2"/>
 <wire x1="264.16" y1="55.88" x2="281.94" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="RESONATOR" pin="1"/>
+<pinref part="12MHZ_RESONATOR" gate="RESONATOR" pin="1"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -13758,7 +13766,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="279.4" y1="50.8" x2="279.4" y2="53.34" width="0.1524" layer="91"/>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$OSC1"/>
 <wire x1="279.4" y1="53.34" x2="264.16" y2="53.34" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="RESONATOR" pin="2"/>
+<pinref part="12MHZ_RESONATOR" gate="RESONATOR" pin="2"/>
 </segment>
 </net>
 <net name="L_GND@RA3" class="0">
