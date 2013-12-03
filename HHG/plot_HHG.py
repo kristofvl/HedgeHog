@@ -47,7 +47,7 @@ if dta == []:
 	exit()
 
 #do night detection and prepare long-term plot, if enough data:
-if len(dta)>5000:
+if len(dta)>100000:
 	tme_ngt,acc_ngt,lgt_ngt,min_ngt,res_ngt, stats = hhg_nght_stats(dta)
 	print stats
 
