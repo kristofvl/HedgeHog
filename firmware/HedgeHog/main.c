@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '1',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '2',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -416,8 +416,8 @@ void log_process() {
                 sdbuf_goto_next_accslot();
         }
         #if defined(USBP_INT)
-        if (USBP_INT==0)    // while (5 page writes) to plug usb back in
-            goto_deep_sleep(&tm, 0); // go for a second in deep sleep
+        if (USBP_INT==0)    // if user plugged usb back in
+            goto_deep_sleep(&tm, 1); // go for a second in deep sleep
         #endif
     }
     if (sdbuf_full()) { // write log to page
