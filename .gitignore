@@ -10,6 +10,8 @@ dist/
 *.d
 *.o.d
 *.pyc
+hardware/*.b#*
+hardware/*.s#*
 
 .directory
 

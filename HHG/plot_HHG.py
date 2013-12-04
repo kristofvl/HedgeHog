@@ -36,10 +36,13 @@ import pdb
 filename, scr = hhg_fopen.load('/media/HEDGEHOG/log000.HHG')
 
 #open/parse the data:
-if not sys.argv:
-    dta, stats = hgi.hhg_open_data(filename)
-if sys.argv:    
-    dta, stats = hgi.hhg_open_data(sys.argv[1])
+stats = []
+dta = []
+
+if len(sys.argv) == 1:
+	dta, stats = hgi.hhg_open_data(filename)
+if len(sys.argv) == 2: 
+	dta, stats = hgi.hhg_open_data(sys.argv[1])
     
 print stats
 
@@ -47,7 +50,7 @@ if dta == []:
 	exit()
 
 #do night detection and prepare long-term plot, if enough data:
-if len(dta)>5000:
+if len(dta)>100000:
 	tme_ngt,acc_ngt,lgt_ngt,min_ngt,res_ngt, stats = hhg_nght_stats(dta)
 	print stats
 
