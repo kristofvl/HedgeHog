@@ -212,6 +212,7 @@ void adxl345_SPI_init(void)
     #if defined(oledSC)
     oledCS = 1;
     #endif
+    ACC_INT = 0; // pull down interrupt pin
 
     // configure SPI:
     SPISTAT = 0x0000; // power on state
