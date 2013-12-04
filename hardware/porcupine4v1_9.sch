@@ -5258,6 +5258,25 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <smd name="2_GND" x="0" y="0" dx="0.4" dy="1.6" layer="1"/>
 <smd name="1" x="-1.2" y="0" dx="0.4" dy="1.6" layer="1"/>
 <smd name="3" x="1.2" y="0" dx="0.4" dy="1.6" layer="1"/>
+<rectangle x1="0.6" y1="-0.1" x2="0.8" y2="0.1" layer="21"/>
+<wire x1="-1.4" y1="0.8" x2="-1.4" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-1.4" y1="-0.8" x2="-1" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-1" y1="-0.8" x2="-1" y2="0.8" width="0.05" layer="21"/>
+<wire x1="-1" y1="0.8" x2="-1.4" y2="0.8" width="0.05" layer="21"/>
+<rectangle x1="-1.4" y1="-0.8" x2="-1" y2="-0.7" layer="21"/>
+<rectangle x1="-1.4" y1="0.7" x2="-1" y2="0.8" layer="21"/>
+<rectangle x1="-0.2" y1="0.7" x2="0.2" y2="0.8" layer="21"/>
+<rectangle x1="1" y1="0.7" x2="1.4" y2="0.8" layer="21"/>
+<rectangle x1="-0.2" y1="-0.8" x2="0.2" y2="-0.7" layer="21"/>
+<rectangle x1="1" y1="-0.8" x2="1.4" y2="-0.7" layer="21"/>
+<wire x1="-0.2" y1="0.8" x2="-0.2" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-0.2" y1="-0.8" x2="0.2" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="0.2" y1="-0.8" x2="0.2" y2="0.8" width="0.05" layer="21"/>
+<wire x1="0.2" y1="0.8" x2="-0.2" y2="0.8" width="0.05" layer="21"/>
+<wire x1="1" y1="0.8" x2="1.4" y2="0.8" width="0.05" layer="21"/>
+<wire x1="1.4" y1="0.8" x2="1.4" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="1.4" y1="-0.8" x2="1" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="1" y1="-0.8" x2="1" y2="0.8" width="0.05" layer="21"/>
 </package>
 <package name="PBRC-H">
 <description>MHz Band Ceramic Chip Resonators: PBRC-H package</description>

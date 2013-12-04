@@ -11360,20 +11360,26 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <vertex x="-1" y="0"/>
 </polygon>
 <polygon width="0.0254" layer="51">
-<vertex x="-1.9812" y="-0.7112"/>
-<vertex x="-1.6764" y="-0.1778"/>
-<vertex x="-1.0922" y="-0.1778"/>
-<vertex x="-1.0922" y="-3.1242"/>
-<vertex x="-1.6764" y="-3.1242"/>
-<vertex x="-1.9812" y="-2.5908"/>
+<vertex x="-1.8812" y="-0.7112"/>
+<vertex x="-1.5764" y="-0.1778"/>
+<vertex x="-1.1922" y="-0.1778"/>
+<vertex x="-1.1922" y="-3.1242"/>
+<vertex x="-1.5764" y="-3.1242"/>
+<vertex x="-1.8812" y="-2.5908"/>
 </polygon>
 <polygon width="0.0254" layer="51">
-<vertex x="0.9906" y="-2.5908"/>
-<vertex x="0.6858" y="-3.1242"/>
-<vertex x="0.1016" y="-3.1242"/>
-<vertex x="0.1016" y="-0.1778"/>
-<vertex x="0.6858" y="-0.1778"/>
-<vertex x="0.9906" y="-0.7112"/>
+<vertex x="0.8906" y="-2.5908"/>
+<vertex x="0.5858" y="-3.1242"/>
+<vertex x="0.2016" y="-3.1242"/>
+<vertex x="0.2016" y="-0.1778"/>
+<vertex x="0.5858" y="-0.1778"/>
+<vertex x="0.8906" y="-0.7112"/>
+</polygon>
+<polygon width="0.01" layer="21">
+<vertex x="-1" y="-1.5"/>
+<vertex x="-1" y="-1.7"/>
+<vertex x="-0.7" y="-1.9"/>
+<vertex x="-0.7" y="-1.3"/>
 </polygon>
 </package>
 <package name="SOT-23">
@@ -11745,6 +11751,25 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <smd name="2_GND" x="0" y="0" dx="0.4" dy="1.6" layer="1"/>
 <smd name="1" x="-1.2" y="0" dx="0.4" dy="1.6" layer="1"/>
 <smd name="3" x="1.2" y="0" dx="0.4" dy="1.6" layer="1"/>
+<rectangle x1="0.6" y1="-0.1" x2="0.8" y2="0.1" layer="21"/>
+<wire x1="-1.4" y1="0.8" x2="-1.4" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-1.4" y1="-0.8" x2="-1" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-1" y1="-0.8" x2="-1" y2="0.8" width="0.05" layer="21"/>
+<wire x1="-1" y1="0.8" x2="-1.4" y2="0.8" width="0.05" layer="21"/>
+<rectangle x1="-1.4" y1="-0.8" x2="-1" y2="-0.7" layer="21"/>
+<rectangle x1="-1.4" y1="0.7" x2="-1" y2="0.8" layer="21"/>
+<rectangle x1="-0.2" y1="0.7" x2="0.2" y2="0.8" layer="21"/>
+<rectangle x1="1" y1="0.7" x2="1.4" y2="0.8" layer="21"/>
+<rectangle x1="-0.2" y1="-0.8" x2="0.2" y2="-0.7" layer="21"/>
+<rectangle x1="1" y1="-0.8" x2="1.4" y2="-0.7" layer="21"/>
+<wire x1="-0.2" y1="0.8" x2="-0.2" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-0.2" y1="-0.8" x2="0.2" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="0.2" y1="-0.8" x2="0.2" y2="0.8" width="0.05" layer="21"/>
+<wire x1="0.2" y1="0.8" x2="-0.2" y2="0.8" width="0.05" layer="21"/>
+<wire x1="1" y1="0.8" x2="1.4" y2="0.8" width="0.05" layer="21"/>
+<wire x1="1.4" y1="0.8" x2="1.4" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="1.4" y1="-0.8" x2="1" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="1" y1="-0.8" x2="1" y2="0.8" width="0.05" layer="21"/>
 </package>
 <package name="PBRC-H">
 <description>MHz Band Ceramic Chip Resonators: PBRC-H package</description>
