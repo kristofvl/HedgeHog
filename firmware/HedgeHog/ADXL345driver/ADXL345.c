@@ -167,7 +167,7 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
         case '1': mode = ADXL345_FIFOMODE_FIFO | ADXL345_FIFOSAMPLES_32; break;
         case '2': mode = ADXL345_FIFOMODE_STREAM| ADXL345_FIFOSAMPLES_32; break;
         case '3': mode = ADXL345_FIFOMODE_TRIGGER| ADXL345_FIFOSAMPLES_32;break;
-        default: mode = ADXL345_FIFOMODE_BYPASS; break;
+        default: mode = ADXL345_FIFOMODE_FIFO | ADXL345_FIFOSAMPLES_32; break;
     }
     switch (cnf.f.power) {
         case '0': pwr_low = pwr_autosleep = 0;  break; // no low power settings

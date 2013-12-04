@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python2.7
 
 ########################################################################
 #
@@ -23,7 +23,7 @@
 # 
 
 
-
+import sys
 from numpy import *
 import hhg_plot.hhg_plot as hplt
 import hhg_dialogs.hhg_fopen as hhg_fopen
@@ -36,14 +36,21 @@ import pdb
 filename, scr = hhg_fopen.load('/media/HEDGEHOG/log000.HHG')
 
 #open/parse the data:
-dta, stats = hgi.hhg_open_data(filename)
+stats = []
+dta = []
+
+if len(sys.argv) == 1:
+	dta, stats = hgi.hhg_open_data(filename)
+if len(sys.argv) == 2: 
+	dta, stats = hgi.hhg_open_data(sys.argv[1])
+    
 print stats
 
 if dta == []:
 	exit()
 
 #do night detection and prepare long-term plot, if enough data:
-if len(dta)>5000:
+if len(dta)>100000:
 	tme_ngt,acc_ngt,lgt_ngt,min_ngt,res_ngt, stats = hhg_nght_stats(dta)
 	print stats
 
@@ -66,7 +73,6 @@ else:
 	fig.plot(1, 3, dta.t, array((dta.x,dta.y,dta.z)).T,'3D acceleration')
 	fig.plot(2, 3, dta.t, array((dta.l)).T>>8, 'ambient light')
 	fig.plot(3, 3, dta.t, (array((dta.l)).T&0xFF)/2-30, 'temperature')
-	fig.draw_top_text( (('user: anonymous'),(stats )) )
 	fig.show()
 
 # if selected, write data to binary file (so it can be used later):
