@@ -68,7 +68,10 @@ class conf_HHG_dialog:
 		self.confer = configure()
 		self.builder = Gtk.Builder()
 		self.home_dir = os.environ['HOME']
-		self.builder.add_from_file(self.home_dir+"/.hhg/Conf.ui")
+		try:
+				self.builder.add_from_file(self.home_dir+"/.hhg/Conf.ui")
+		except:
+				self.builder.add_from_file("Conf.ui")
 		self.window = self.builder.get_object("HedgeHog")
 		self.window.set_title("HedgeHog Configuration")
 		self.window.show_all()

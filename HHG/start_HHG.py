@@ -49,7 +49,10 @@ class start_HHG_dialog:
         self.timer = timer();   
         self.builder = Gtk.Builder()
         self.home_dir = os.environ['HOME']
-        self.builder.add_from_file(self.home_dir+"/.hhg/Start.ui")
+        try:
+            self.builder.add_from_file(self.home_dir+"/.hhg/Start.ui")
+        except:
+            self.builder.add_from_file("Start.ui")
         self.logger = self.builder.get_object("Logger")
         self.cal = self.builder.get_object("Cal")
         dic = {
