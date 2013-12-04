@@ -362,9 +362,8 @@ void log_process() {
         adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
         #endif
         #if defined(USBP_INT)
-        startup = 1;
-        while ((USBP_INT==0)&&(startup<250)) { // wait till usb disconnect
-            set_osc_sleep_t1(90); // +-25ms timeout
+        while ((USBP_INT==0)&&(startup<254)) { // wait till usb disconnect
+            set_osc_sleep_t1(255); // +-70ms timeout
             startup++;
         }
         #endif
