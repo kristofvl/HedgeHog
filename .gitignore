@@ -12,6 +12,7 @@ dist/
 *.pyc
 hardware/*.b#*
 hardware/*.s#*
+hardware/*.l#*
 
 .directory
 

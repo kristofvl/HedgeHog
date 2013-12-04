@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.4">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -11319,6 +11319,8 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <text x="7.62" y="1.27" size="0.6096" layer="21">1</text>
 <text x="-8.255" y="1.27" size="0.6096" layer="21">30</text>
 <rectangle x1="8.5725" y1="-0.9525" x2="9.2075" y2="-0.3175" layer="21"/>
+<text x="-8.89" y="-2.54" size="1.016" layer="25">&gt;Name</text>
+<text x="3.81" y="-2.54" size="1.016" layer="27">&gt;Value</text>
 </package>
 <package name="SOD123">
 <description>&lt;b&gt;Diode&lt;/b&gt;</description>
@@ -11358,20 +11360,26 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <vertex x="-1" y="0"/>
 </polygon>
 <polygon width="0.0254" layer="51">
-<vertex x="-1.9812" y="-0.7112"/>
-<vertex x="-1.6764" y="-0.1778"/>
-<vertex x="-1.0922" y="-0.1778"/>
-<vertex x="-1.0922" y="-3.1242"/>
-<vertex x="-1.6764" y="-3.1242"/>
-<vertex x="-1.9812" y="-2.5908"/>
+<vertex x="-1.8812" y="-0.7112"/>
+<vertex x="-1.5764" y="-0.1778"/>
+<vertex x="-1.1922" y="-0.1778"/>
+<vertex x="-1.1922" y="-3.1242"/>
+<vertex x="-1.5764" y="-3.1242"/>
+<vertex x="-1.8812" y="-2.5908"/>
 </polygon>
 <polygon width="0.0254" layer="51">
-<vertex x="0.9906" y="-2.5908"/>
-<vertex x="0.6858" y="-3.1242"/>
-<vertex x="0.1016" y="-3.1242"/>
-<vertex x="0.1016" y="-0.1778"/>
-<vertex x="0.6858" y="-0.1778"/>
-<vertex x="0.9906" y="-0.7112"/>
+<vertex x="0.8906" y="-2.5908"/>
+<vertex x="0.5858" y="-3.1242"/>
+<vertex x="0.2016" y="-3.1242"/>
+<vertex x="0.2016" y="-0.1778"/>
+<vertex x="0.5858" y="-0.1778"/>
+<vertex x="0.8906" y="-0.7112"/>
+</polygon>
+<polygon width="0.01" layer="21">
+<vertex x="-1" y="-1.5"/>
+<vertex x="-1" y="-1.7"/>
+<vertex x="-0.7" y="-1.9"/>
+<vertex x="-0.7" y="-1.3"/>
 </polygon>
 </package>
 <package name="SOT-23">
@@ -11687,6 +11695,8 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <smd name="P$9B" x="3.65" y="0" dx="1.4" dy="2" layer="1" rot="R90"/>
 <smd name="P$10A" x="11.95" y="-13.7" dx="1.4" dy="2" layer="1" rot="R90"/>
 <smd name="P$10B" x="3.65" y="-13.7" dx="1.4" dy="2" layer="1" rot="R90"/>
+<text x="1.27" y="-11.43" size="1.016" layer="27">&gt;Value</text>
+<text x="1.27" y="-3.81" size="1.016" layer="25">&gt;Name</text>
 </package>
 <package name="SOT-23-5">
 <description>SOT23-5L</description>
@@ -11950,18 +11960,18 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <pin name="P$VUSB" x="25.4" y="-10.16" length="middle" rot="R180"/>
 </symbol>
 <symbol name="460DA40013">
-<wire x1="-12.7" y1="5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="5.08" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="20.32" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="5.08" x2="-12.7" y2="20.32" width="0.254" layer="94"/>
-<text x="-10.16" y="15.24" size="1.778" layer="94">MultiComp</text>
-<text x="-10.16" y="17.78" size="1.778" layer="94">Hinged uSD</text>
-<pin name="!CS" x="-10.16" y="0" length="middle" rot="R90"/>
-<pin name="SCLK" x="0" y="0" length="middle" rot="R90"/>
-<pin name="SDI" x="-7.62" y="0" length="middle" rot="R90"/>
-<pin name="SDO" x="5.08" y="0" length="middle" rot="R90"/>
-<pin name="VDD" x="-2.54" y="0" length="middle" rot="R90"/>
-<pin name="VSS1" x="-5.08" y="0" length="middle" rot="R90"/>
+<wire x1="-10.16" y1="-7.62" x2="10.16" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-7.62" x2="-10.16" y2="7.62" width="0.254" layer="94"/>
+<text x="-7.62" y="2.54" size="1.778" layer="94">MultiComp</text>
+<text x="-7.62" y="5.08" size="1.778" layer="94">Hinged uSD</text>
+<pin name="!CS" x="-7.62" y="-12.7" length="middle" rot="R90"/>
+<pin name="SCLK" x="2.54" y="-12.7" length="middle" rot="R90"/>
+<pin name="SDI" x="-5.08" y="-12.7" length="middle" rot="R90"/>
+<pin name="SDO" x="7.62" y="-12.7" length="middle" rot="R90"/>
+<pin name="VDD" x="0" y="-12.7" length="middle" rot="R90"/>
+<pin name="VSS1" x="-2.54" y="-12.7" length="middle" rot="R90"/>
 </symbol>
 <symbol name="MCP1824">
 <wire x1="-10.16" y1="7.62" x2="-10.16" y2="-7.62" width="0.254" layer="94"/>
@@ -12938,7 +12948,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="X1" gate="-3" pin="S"/>
 </segment>
 <segment>
-<wire x1="30.48" y1="20.32" x2="38.1" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="22.86" x2="38.1" y2="20.32" width="0.1524" layer="91"/>
 <pinref part="SDCARD_CON" gate="G$1" pin="VSS1"/>
 <pinref part="GND16" gate="1" pin="GND"/>
 </segment>
@@ -13261,7 +13271,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="+3V10" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
-<wire x1="35.56" y1="22.86" x2="30.48" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="22.86" x2="43.18" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="SDCARD_CON" gate="G$1" pin="VDD"/>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
 </segment>
@@ -13336,7 +13346,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="SDA"/>
 </segment>
 <segment>
-<wire x1="30.48" y1="17.78" x2="45.72" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="20.32" x2="45.72" y2="17.78" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="17.78" x2="45.72" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="45.72" x2="48.26" y2="48.26" width="0.1524" layer="91"/>
 <label x="45.974" y="35.052" size="1.016" layer="95" rot="R270"/>
@@ -13377,8 +13387,8 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="ACCERELOMETER" gate="ACCELEROMETER" pin="SCL"/>
 </segment>
 <segment>
-<wire x1="30.48" y1="25.4" x2="43.18" y2="25.4" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="25.4" x2="43.18" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="27.94" x2="43.18" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="27.94" x2="43.18" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="43.18" y1="45.72" x2="45.72" y2="48.26" width="0.1524" layer="91"/>
 <label x="43.434" y="36.322" size="1.016" layer="95" rot="R270"/>
 <pinref part="SDCARD_CON" gate="G$1" pin="SCLK"/>
@@ -13392,7 +13402,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </net>
 <net name="CS_SDCARD" class="0">
 <segment>
-<wire x1="30.48" y1="15.24" x2="48.26" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="17.78" x2="48.26" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="48.26" y1="15.24" x2="48.26" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="48.26" y1="45.72" x2="50.8" y2="48.26" width="0.1524" layer="91"/>
 <junction x="48.26" y="15.24"/>
@@ -13688,7 +13698,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <segment>
 <wire x1="40.64" y1="30.48" x2="40.64" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="45.72" x2="43.18" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="30.48" x2="33.02" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="33.02" x2="33.02" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="30.48" x2="40.64" y2="30.48" width="0.1524" layer="91"/>
 <junction x="33.02" y="30.48"/>
 <label x="40.894" y="45.974" size="1.016" layer="95" rot="R270"/>
