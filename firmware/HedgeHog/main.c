@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '0',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '2',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -79,7 +79,6 @@ char acc_str[12];
 char lt_str[4];
 char tmp_str[4];
 char id_str[4];
-BOOL usbp_int;
 
 // config variables:
 UINT8           rle_delta = 0;
@@ -335,20 +334,15 @@ void update_display(void) {
  *                  are header, the other 504 are data increments
  ******************************************************************************/
 void log_process() {
-    static BOOL startup = 0; // startup after a while
+    static UINT8 startup = 0; // startup after a while
     if (startup == 0) { // to init light sensors, accelerometer & SD card
         Delay10KTCYx(250);
         set_osc_8Mhz();
-        startup = TRUE;
         set_unused_pins_to_output();
-        usbp_int = 0;
-        #if defined(ADXL345_ENABLED)
-        ACC_INT = 0; // pull down B2
-        USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin
-        usbp_int = !(USBP_INT);
+        #if defined(USBP_INT)
+        USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin 
         #endif
         sdbuf_init();
-
      // initialize Sensors with settings from SD-Buffer
         memset((void*)&sd_buffer, 0, 512);
         read_SD(SECTOR_CF, sd_buffer.bytes);
@@ -367,17 +361,15 @@ void log_process() {
         #if defined(HEDGEHOG_OLED)
         adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
         #endif
+        #if defined(USBP_INT)
+        while ((USBP_INT==0)&&(startup<254)) { // wait till usb disconnect
+            set_osc_sleep_t1(255); // +-70ms timeout
+            startup++;
+        }
+        #endif
         return;
     }
     if (sdbuf_is_onhold()) { // log time stamp and env data in first 8 bytes
-        if (usbp_int) {
-            if (sdbuf_page()>5) {   // we assume here that the user needs a
-                #if defined(USBP_INT)
-                if (USBP_INT==0)    // while (5 page writes) to plug usb back in
-                    goto_deep_sleep(&tm, 1); // go for a second in deep sleep
-                #endif
-            }
-        }
         env_on(); // pull down power pin for light, do something else:
         rtc_read(&tm);
         sd_buffer.f.timestmp = rtc_2uint32(&tm);
@@ -393,7 +385,7 @@ void log_process() {
         #if defined(ADXL345_ENABLED)
           if (acc_confs.f.mode = '1') { // does AsDXL do sampling in buffer?
             while ( ((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111)>0) ||
-                    (ACC_INT==1) ) { // while FIFO not empty & interrupt high:
+                    (ACC_INT==1) ) { // while FIFO not empty or interrupt high:
                 acc_getxyz(&accval);
                 if (!sdbuf_is_new_accslot()) {         // if not in fresh slot,
                     if (sdbuf_check_rle(&accval, rle_delta)) // and different 
@@ -422,6 +414,10 @@ void log_process() {
             if (sdbuf_deltaT_full())
                 sdbuf_goto_next_accslot();
         }
+        #if defined(USBP_INT)
+        if (USBP_INT==0)    // if user plugged usb back in
+            goto_deep_sleep(&tm, 1); // go for a second in deep sleep
+        #endif
     }
     if (sdbuf_full()) { // write log to page
         #if defined(DISPLAY_ENABLED)
