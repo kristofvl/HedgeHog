@@ -34,7 +34,7 @@ class configure:
 				rleCombo.set_active(int(rletmp))
 			confhhg.close()
 
-	def syncSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
+	def writeSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
 		confhhg_path = config_file 
 		idChar = idEntry.get_text();
 		with open (confhhg_path,"r+w") as confhhg:
@@ -67,9 +67,9 @@ class conf_HHG_dialog:
 	def __init__( self ):
 		self.confer = configure()
 		self.builder = Gtk.Builder()
-		self.home_dir = os.environ['HOME']
+		self.homeDir = os.environ['HOME']
 		try:
-				self.builder.add_from_file(self.home_dir+"/.hhg/Conf.ui")
+				self.builder.add_from_file(self.homeDir+"/.hhg/Conf.ui")
 		except:
 				self.builder.add_from_file("Conf.ui")
 		self.window = self.builder.get_object("HedgeHog")
@@ -115,12 +115,9 @@ class conf_HHG_dialog:
 
 	def Quit(self, widget):
 		sys.exit(0)
-
-	def HHGReadSettings(self, widget):
-		self.confer.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
 	
 	def SyncButtonClick(self, widget):
-		self.confer.syncSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
+		self.confer.writeSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
     		    		
 	def FormatButtonClick(self, widget):
 		self.confer.formatCard()

@@ -22,6 +22,7 @@ class timer:
         if (stpTime[0]<sysTime.year) or (stpTime[0]==sysTime.year and stpTime[1]<sysTime.month) or (stpTime[0]==sysTime.year and 
                         stpTime[1]==sysTime.month and stpTime[2]<sysTime.day):
             self.calcStpTime(stpTime)
+        
         with open (conf_file, "r+w") as confhhg: 
             confhhg.seek(60,0)  # Write System Time
             confhhg.write(chr(sysTime.year-2000))
@@ -48,9 +49,9 @@ class start_HHG_dialog:
     def __init__( self ):
         self.timer = timer();   
         self.builder = Gtk.Builder()
-        self.home_dir = os.environ['HOME']
+        self.homeDir = os.environ['HOME']
         try:
-            self.builder.add_from_file(self.home_dir+"/.hhg/Start.ui")
+            self.builder.add_from_file(self.homeDir+"/.hhg/Start.ui")
         except:
             self.builder.add_from_file("Start.ui")
         self.logger = self.builder.get_object("Logger")
