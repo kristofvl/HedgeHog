@@ -1,14 +1,14 @@
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 import sys 
 import os
 import subprocess
 
-home_dir = os.environ['HOME']
-curr_dir = os.getcwd()
+homeDir = os.environ['HOME']
+currDir = os.getcwd()
 
-subprocess.call(["mkdir", "-p", home_dir+"/.hhg"])
+subprocess.call(["mkdir", "-p", homeDir+"/.hhg"])
 
-subprocess.call(["cp", "conf_HHG.py", "Conf.ui", "start_HHG.py", "Start.ui", "plot_HHG.py","dd_HHG.py", home_dir+"/.hhg"])
+subprocess.call(["ln", "-rs", "conf_HHG.py", "Conf.ui", "start_HHG.py", "Start.ui", "plot_HHG.py","dd_HHG.py", homeDir+"/.hhg"])
 
-subprocess.call(["cp", "-r", "hhg_dialogs", "hhg_io", "hhg_features", "hhg_plot", "dd_img", home_dir+"/.hhg"])
+subprocess.call(["ln", "-rs", "hhg_dialogs", "hhg_io", "hhg_features", "hhg_plot", "dd_img", homeDir+"/.hhg"])
