@@ -1,11 +1,11 @@
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 
 import sys
 import os
 import subprocess
 from random import randint
 
-home_dir = os.environ['HOME']
+homeDir = os.environ['HOME']
 
 rnd = randint(4,9999)
 
@@ -29,6 +29,6 @@ code = raw_input('to continue enter the passcode above: ')
 
 if int(code) == rnd:
 	print('code accepted')
-	subprocess.call(["sudo", "dd", "if=%s/.hhg/dd_img/dd.img" % home_dir, "of=%s" %target])
+	subprocess.call(["sudo", "dd", "if=%s/.hhg/dd_img/dd.img" % homeDir, "of=%s" %target])
 else: 	
 	sys.exit()
