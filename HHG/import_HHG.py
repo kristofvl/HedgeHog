@@ -2,7 +2,7 @@
 
 ########################################################################
 #
-# Filename: plot_HHG.py   								Author: Kristof VL
+# Filename: import_HHG.py   							Author: Kristof VL
 #
 # Descript: Import a HedgeHog dataset and convert to npy
 #
@@ -27,12 +27,14 @@ import sys, time
 from numpy import *
 import hhg_dialogs.hhg_fopen as hhg_fopen
 import hhg_io.hhg_import as hgi
+import matplotlib.dates  as mld
+import pygtk, gtk
 
 import pdb
 
 
 # buffer size:
-bufsize = 500
+bufsize = 170
 
 #open/parse the data:
 if len(sys.argv) == 2:
@@ -42,18 +44,36 @@ if len(sys.argv) == 2:
 	if len(filename)>3:
 		if filename[-3:]=='HHG':
 			i = 0;
+			# opening progress bar:
+			pgrsdlg = gtk.Dialog("Importing...", None, 0, None)
+			pbar = gtk.ProgressBar()
+			infotxt = gtk.Label()
+			infotxt.set_text('reading file...')
+			pgrsdlg.vbox.add(pbar)
+			pgrsdlg.vbox.add(infotxt)
+			pgrsdlg.set_size_request(250, 70)
+			pbar.show()
+			infotxt.show()
+			pgrsdlg.vbox.show()
+			pgrsdlg.show()
 			while True:
 				tic = time.clock()
 				dta = hgi.hhg_import_n(filename, i, i+bufsize)
 				toc = time.clock()
 				if len(dta)>0:
-					stats =  ('imported '+ str(sum(dta.d)) + ' samples or ' 
+					stats =  ( str(mld.num2date(dta.t[0]))
+							+ ' -- imported '+ str(sum(dta.d)) + ' samples or ' 
 							+ str(len(dta))
-							+ ' rle entries, in ' +str(toc-tic) + 'seconds')
+							+ ' rle entries, in ' +str(toc-tic) + ' seconds')
 				else:
 					stats = 'Invalid data'
-					break
 				print stats
+				# update progress bar:
+				pbar.set_fraction(float(i%7000)/7000)
+				infotxt.set_text(str(mld.num2date(dta.t[0])))
+				while gtk.events_pending(): gtk.main_iteration()				
+				if len(dta)<126*bufsize-1:
+					break;
 				i+=bufsize
 else:
 	print 'please use an HHG file as argument'
