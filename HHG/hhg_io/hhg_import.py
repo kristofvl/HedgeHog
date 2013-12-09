@@ -37,9 +37,15 @@ import pdb
 # maximum file buffer
 FBUFSIZE = 15000000
 
+SDRLESIZE = 126 #  sd buffer size in RLE samples:
+SDBUFSIZE = 512 #  sd buffer size in bytes
+
 #ID that is found at the start of an mv_sampling page:
 MV_IDBLOCK = (175,170,170,250,175,170,170,170)
 
+#data descriptor for the hedgehog default data:
+desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
+					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 #data descriptor for the raw data:
 desc_raw = {	'names':   ('t',  'd',  'x',  'y',  'z',  'l'), 
 					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2') }
@@ -61,7 +67,59 @@ def hhg_convtime(b1,b2,b3,b4):
 	except ValueError:
 		return False
 
+## read the binary HHG file and convert it (datenum d x y z e1 e2)
+## from page 'strt' till (and not including) page 'stop' 
+def hhg_import_n(filen, strt, stop):
+	pg_i = 0
+	ii = 0
+	rle_samples = abs(stop-strt)*SDRLESIZE
+	# check if file exists, if not exit now:
+	if not os.path.isfile(filen):	return []
+	# start parsing file:
+	with open(filen, "rb") as f:
+		f.seek(abs(strt)*SDBUFSIZE) # offset to 'strt'
+		bs = f.read(8)	# read first 8 bytes 
+		bs = unpack('%sB'%len(bs),bs)
+		dta = np.recarray((rle_samples,),dtype=desc_hhg)
+		if len(bs) == 8: # parse for time and light/temp data
+			tme = hhg_convtime(bs[0],bs[1],bs[2],bs[3])
+			env1 = bs[5]*256+bs[4]
+			env2 = bs[7]*256+bs[6]
+			bs = f.read(512)
+			bs = unpack('%sB'%len(bs),bs)
+		invalid_data = False
+		while (len(bs)==512) and ii<rle_samples and not invalid_data:
+			tme_next = hhg_convtime(bs[504],bs[505],bs[506],bs[507])
+			if ( (tme_next-tme) >= 0):  # time is okay:
+				num_samples = sum(bs[0:504:4])
+				if num_samples <= 0:
+					invalid_data = True
+					break
+				for j in range(0,126):
+					dta[ii] = np.array((tme, bs[j*4], bs[1+(j*4)], 
+											bs[2+(j*4)], bs[3+(j*4)], env1, env2), 
+											dtype=desc_hhg)
+					ii += 1
+				pg_i += 1
+				tme = tme_next
+				bs = f.read(512)
+				if len(bs) == 512:
+					bs = unpack('%sB'%512,bs)
+					env1 = bs[509]*256+bs[508]
+					env2 = bs[511]*256+bs[510]
+			else: # if time doesn't look okay:
+				invalid_data = True
+				break
+	# close file and return the read values:	
+	f.close()
+	if ii:
+		return dta[:ii-1]
+	else:
+		return []
+		
+	
 
+## to be scrapped:
 ## read the binary HHG file and convert it into raw data (datenum x y z)
 def hhg_import(filen):
 	pg_i = 0
@@ -196,7 +254,7 @@ def hhg_open_data(filename):
 		return [], 'no data'
 	if len(filename)>3:
 		if filename[-3:]=='HHG':
-			dta, fta = hhg_import(filename)
+			dta = hhg_import(filename)
 		elif filename[-3:]=='npy':
 			try:
 				# import from an already-converted npy dataset:
@@ -217,3 +275,5 @@ def hhg_open_data(filename):
 				 + ' entries, format=' + dtstr+ ', time(s): ' +str(toc-tic))
 	else:   stats = 'no / invalid data!'
 	return dta, stats
+	
+
