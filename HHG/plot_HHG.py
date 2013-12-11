@@ -49,6 +49,15 @@ print stats
 if dta == []:
 	exit()
 
+#shortcut to read the new npy files (have 7 cols):
+if len(dta[0])==7:
+	fig = hplt.Hhg_raw_plot(scr.get_width()/80,8,80)
+	fig.plot(1, 3, dta.t, array((dta.x,dta.y,dta.z)).T,'3D acceleration')
+	fig.plot(2, 3, dta.t, array((dta.e1)).T>>8, 'ambient light')
+	fig.plot(3, 3, dta.t, (array((dta.e1)).T&0xFF)/2-30, 'temperature')
+	fig.show()
+	exit(0)
+
 #do night detection and prepare long-term plot, if enough data:
 if len(dta)>100000:
 	tme_ngt,acc_ngt,lgt_ngt,min_ngt,res_ngt, stats = hhg_nght_stats(dta)
