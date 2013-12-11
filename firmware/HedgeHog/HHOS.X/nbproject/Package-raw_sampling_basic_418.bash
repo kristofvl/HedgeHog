@@ -6,7 +6,7 @@
 
 # Macros
 TOP=`pwd`
-CND_CONF=mv_sampling_oled
+CND_CONF=raw_sampling_basic_418
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
