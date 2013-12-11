@@ -232,8 +232,8 @@ def hhg_import(filen):
 				else: # if time doesn't look okay:
 					invalid_data = True
 					break
-	# close file and return the read values:		
-	f.close()	
+	# close file and return the read values:
+	f.close()
 	pgrsdlg.hide()
 	pgrsdlg.destroy()
 	while gtk.events_pending(): gtk.main_iteration()
@@ -292,4 +292,3 @@ def hhg_open_data(filename):
 	else:   stats = 'no / invalid data!'
 	return dta, stats
 	
-

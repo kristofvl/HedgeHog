@@ -4,7 +4,7 @@
 #
 # Filename: import_HHG.py   							Author: Kristof VL
 #
-# Descript: Import a HedgeHog dataset and convert to npy
+# Descript: Import a HedgeHog dataset and import to a db or npy
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@
 
 import sys, time
 from numpy import *
-import hhg_plot.hhg_plot as hplt
-import hhg_dialogs.hhg_fopen as hhg_fopen
+from matplotlib.dates import num2date
 import hhg_io.hhg_import as hgi
-import matplotlib.dates  as mld
 import pygtk, gtk
+import sqlite3
+
 
 import pdb
 
@@ -37,18 +37,39 @@ import pdb
 desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
 					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
-#check where to load from (default is the 1st HedgeHog's data):
-filename, scr = hhg_fopen.load('/media/HEDGEHG0123/log000.HHG')
-
 # buffer size: how many blocks (of 512 bytes each) do we read at once?
-bufsize = 370	# is about 0.1 seconds on a laptop
+bufsize = 370	# is about 0.4 seconds on a laptop
 
 #open/parse the data:
-if len(sys.argv) == 3:
+if len(sys.argv) < 3:
+	print 'usage: import_HHG.py <input.HHG> <output.npy|output.db>'
+	exit(1)
+else:
 	filename = sys.argv[1]
-	#read the data file
-	dta = zeros(10000000,dtype=desc_hhg)
-	dta = dta.view(recarray)
+	outfile  = sys.argv[2]
+	## output to a numpy file or db?
+	if len(outfile)>3:
+		ext = outfile[-3:]
+		ext = ext.lower()
+		if   ext=='.db':
+			conn = sqlite3.connect(outfile)
+			cur = conn.cursor()
+			# if not there yet: create new db table
+			cur.execute("""SELECT name FROM sqlite_master 
+								WHERE type='table' AND name='hhg'""")
+			res = cur.fetchone()
+			if res==None:
+				cur.execute("""CREATE TABLE hhg (time real, time_d integer,
+									acc_x integer, acc_y integer, acc_z integer, 
+									env1 integer, env2 integer)""")
+		elif ext=='npy':
+			dta = zeros(10000000,dtype=desc_hhg)
+			dta = dta.view(recarray)
+		else:
+			exit(1)
+	else:
+		exit(1)
+	## read the HHG data file(s)
 	if len(filename)>3:
 		if filename[-3:]=='HHG':
 			i = 0;
@@ -60,17 +81,21 @@ if len(sys.argv) == 3:
 			pgrsdlg.vbox.add(pbar)
 			pgrsdlg.vbox.add(infotxt)
 			pgrsdlg.set_size_request(250, 70)
-			pbar.show()
-			infotxt.show()
-			pgrsdlg.vbox.show()
-			pgrsdlg.show()
+			pgrsdlg.show_all()
 			while True:
 				tic = time.clock()
 				bdta = hgi.hhg_import_n(filename, i, i+bufsize)
-				dta[i*126:i*126+len(bdta)] = bdta
+				## update output:
+				if   ext=='.db': # insert multiple records in db:
+					cur.executemany("INSERT INTO hhg VALUES (?,?,?,?,?,?,?)", 
+											bdta.tolist())
+					conn.commit()
+				elif ext=='npy': # update npy output recarray: 
+					dta[i*126:i*126+len(bdta)] = bdta
 				toc = time.clock()
-				if len(dta)>0:
-					stats =  ( str(mld.num2date(bdta.t[0]))
+				## report:
+				if len(bdta)>0:
+					stats =  ( str(num2date(bdta.t[0]))
 							+ ' -- imported '+ str(sum(bdta.d)) 
 							+ ' samples or ' + str(len(bdta))
 							+ ' rle entries, in ' +str(toc-tic) + ' seconds, ' 
@@ -78,21 +103,20 @@ if len(sys.argv) == 3:
 				else:
 					stats = 'Invalid data'
 				print stats
-				# update progress bar:
+				## update progress bar:
 				pbar.set_fraction(float(i%7000)/7000)
-				infotxt.set_text(str(mld.num2date(bdta.t[0])))
+				infotxt.set_text(str(num2date(bdta.t[0])))
+				while gtk.events_pending(): gtk.main_iteration()
+				## stop if we didn't fill the full buffer:
 				if len(bdta)<126*bufsize-1:
 					break;
 				i+=bufsize-1
-				while gtk.events_pending(): gtk.main_iteration()
-			dta = dta[0:126*i+len(bdta)]
-			pgrsdlg.hide()
+			## get rid of the progress dialog:
 			pgrsdlg.destroy()
-			save(sys.argv[2], dta)
-			
-else:
-	print 'usage: import_HHG.py <input.HHG> <output.npy>'
-	exit()
-
-
-
+			## finalize output:
+			if   ext=='npy':
+				dta = dta[0:126*i+len(bdta)]
+				save(sys.argv[2], dta)
+			elif ext=='.db':
+				conn.commit()
+				cur.close()
