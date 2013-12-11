@@ -34,25 +34,13 @@ import pygtk, gtk
 import pdb
 
 
-# maximum file buffer
-FBUFSIZE = 15000000
 
 SDRLESIZE = 126 #  sd buffer size in RLE samples:
 SDBUFSIZE = 512 #  sd buffer size in bytes
 
-#ID that is found at the start of an mv_sampling page:
-MV_IDBLOCK = (175,170,170,250,175,170,170,170)
-
 #data descriptor for the hedgehog default data:
 desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
-					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
-#data descriptor for the raw data:
-desc_raw = {	'names':   ('t',  'd',  'x',  'y',  'z',  'l'), 
-					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2') }
-#data descriptor for mean-variance data:
-desc_mv  = {	'names': (  't', 'xm','xv','ym','yv','zm','zv','l'), 
-					'formats': ('f8','B1','B1','B1','B1','B1','B1','u2') }
-		
+					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }	
 		
 ## converts 4 bytes into a matplotlib timestamp
 def hhg_convtime(b1,b2,b3,b4):
@@ -72,13 +60,14 @@ def hhg_convtime(b1,b2,b3,b4):
 def hhg_import_n(filen, strt, stop):
 	pg_i = 0
 	ii = 0
+	tme_delta=0
 	rle_samples = abs(stop-strt)*SDRLESIZE
 	# check if file exists, if not exit now:
 	if not os.path.isfile(filen):	return []
 	# start parsing file:
 	with open(filen, "rb") as f:
 		f.seek(abs(strt)*SDBUFSIZE) # offset to 'strt'
-		bs = f.read(8)	# read first 8 bytes 
+		bs = f.read(8)	# read first 8 bytes
 		bs = unpack('%sB'%len(bs),bs)
 		dta = np.recarray((rle_samples,),dtype=desc_hhg)
 		if len(bs) == 8: # parse for time and light/temp data
@@ -92,15 +81,17 @@ def hhg_import_n(filen, strt, stop):
 			tme_next = hhg_convtime(bs[504],bs[505],bs[506],bs[507])
 			if ( (tme_next-tme) >= 0):  # time is okay:
 				num_samples = sum(bs[0:504:4])
-				if num_samples <= 0:
+				if num_samples > 0:
+					tme_delta = (tme_next - tme) / num_samples
+				else:
 					invalid_data = True
 					break
 				for j in range(0,126):
 					dta[ii] = np.array((tme, bs[j*4], bs[1+(j*4)], 
 											bs[2+(j*4)], bs[3+(j*4)], env1, env2), 
 											dtype=desc_hhg)
+					tme += bs[j*4]*tme_delta
 					ii += 1
-				pg_i += 1
 				tme = tme_next
 				bs = f.read(512)
 				if len(bs) == 512:
@@ -108,6 +99,13 @@ def hhg_import_n(filen, strt, stop):
 					env1 = bs[509]*256+bs[508]
 					env2 = bs[511]*256+bs[510]
 			else: # if time doesn't look okay:
+				if tme_delta>0: # we can read one more page (the last one):
+					for j in range(0,126):
+						dta[ii] = np.array((tme, bs[j*4], bs[1+(j*4)], 
+												bs[2+(j*4)], bs[3+(j*4)], 
+												env1, env2), dtype=desc_hhg)
+						tme += bs[j*4]*tme_delta
+						ii += 1
 				invalid_data = True
 				break
 	# close file and return the read values:	
@@ -117,6 +115,21 @@ def hhg_import_n(filen, strt, stop):
 	else:
 		return []
 		
+	
+#### Everything below will be abandoned soon -- avoid using it!
+
+# maximum file buffer
+FBUFSIZE = 15000000
+
+#ID that is found at the start of an mv_sampling page:
+MV_IDBLOCK = (175,170,170,250,175,170,170,170)
+
+#data descriptor for the raw data:
+desc_raw = {	'names':   ('t',  'd',  'x',  'y',  'z',  'l'), 
+					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2') }
+#data descriptor for mean-variance data:
+desc_mv  = {	'names': (  't', 'xm','xv','ym','yv','zm','zv','l'), 
+					'formats': ('f8','B1','B1','B1','B1','B1','B1','u2') }
 	
 
 ## to be scrapped:
@@ -219,13 +232,13 @@ def hhg_import(filen):
 				else: # if time doesn't look okay:
 					invalid_data = True
 					break
-	# close file and return the read values:		
-	f.close()	
+	# close file and return the read values:
+	f.close()
 	pgrsdlg.hide()
 	pgrsdlg.destroy()
 	while gtk.events_pending(): gtk.main_iteration()
 	if ii:
-		return dta[:ii-1], fta[:mm-1]
+		return dta[:ii-1]#, fta[:mm-1]
 	else:
 		return []
 
@@ -261,6 +274,8 @@ def hhg_open_data(filename):
 				dta = np.load(filename)
 				if len(dta[0])==6: 	# raw data files have 6 columns
 					dta = dta.view(desc_raw, np.recarray)
+				elif len(dta[0])==7: 	# hhg data files have 7 columns
+					dta = dta.view(desc_hhg, np.recarray)
 				elif len(dta[0])==8:
 					dta = dta.view(desc_mv, np.recarray)
 			except:
@@ -271,9 +286,9 @@ def hhg_open_data(filename):
 		nums = str(0); dtstr = 'unknown'; 
 		if   dta.dtype==desc_raw: dtstr = 'raw'; nums = str(sum(dta.d))
 		elif dta.dtype==desc_mv:  dtstr = 'mean-var'; nums = str(len(dta))
+		elif dta.dtype==desc_hhg:  dtstr = 'hhg'; nums = str(len(dta))
 		stats =  ('import: '+ nums + ' samples, ' + str(len(dta))
 				 + ' entries, format=' + dtstr+ ', time(s): ' +str(toc-tic))
 	else:   stats = 'no / invalid data!'
 	return dta, stats
 	
-
