@@ -38,41 +38,46 @@ desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'),
 					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
 # buffer size: how many blocks (of 512 bytes each) do we read at once?
-bufsize = 370	# is about 0.4 seconds on a laptop
+bufsize = 370	# takes about 0.5 seconds on a laptop
 
 #open/parse the data:
 if len(sys.argv) < 3:
-	print 'usage: import_HHG.py <input.HHG> <output.npy|output.db>'
+	print 'usage: import_HHG.py <out.[npy|db]> <in0.HHG> [<in1.HHG> ..]'
 	exit(1)
-else:
-	filename = sys.argv[1]
-	outfile  = sys.argv[2]
-	## output to a numpy file or db?
-	if len(outfile)>3:
-		ext = outfile[-3:]
-		ext = ext.lower()
-		if   ext=='.db':
-			conn = sqlite3.connect(outfile)
-			cur = conn.cursor()
-			# if not there yet: create new db table
-			cur.execute("""SELECT name FROM sqlite_master 
-								WHERE type='table' AND name='hhg'""")
-			res = cur.fetchone()
-			if res==None:
-				cur.execute("""CREATE TABLE hhg (time real, time_d integer,
-									acc_x integer, acc_y integer, acc_z integer, 
-									env1 integer, env2 integer)""")
-		elif ext=='npy':
-			dta = zeros(10000000,dtype=desc_hhg)
-			dta = dta.view(recarray)
-		else:
-			exit(1)
+outfile  = sys.argv[1]
+
+## output to a numpy file or db? prepare the output structure:
+if len(outfile)>3:
+	ext = outfile[-3:]
+	ext = ext.lower()
+	if   ext=='.db':
+		conn = sqlite3.connect(outfile)
+		cur = conn.cursor()
+		# if not there yet: create new db table
+		cur.execute("""SELECT name FROM sqlite_master 
+							WHERE type='table' AND name='hhg'""")
+		res = cur.fetchone()
+		if res==None:
+			cur.execute("""CREATE TABLE hhg (time real, time_d integer,
+								acc_x integer, acc_y integer, acc_z integer, 
+								env1 integer, env2 integer)""")
+	elif ext=='npy':
+		dta = zeros(10000000,dtype=desc_hhg)
+		dta = dta.view(recarray)
 	else:
 		exit(1)
-	## read the HHG data file(s)
+else:
+	exit(1)
+	
+## read the HHG data file(s)
+dta_i = 0;
+file_iter = 1
+while len(sys.argv) > file_iter+1:
+	file_iter+=1
+	filename = sys.argv[file_iter]
+	i = 0;
 	if len(filename)>3:
 		if filename[-3:]=='HHG':
-			i = 0;
 			# opening progress bar:
 			pgrsdlg = gtk.Dialog("Importing...", None, 0, None)
 			pbar = gtk.ProgressBar()
@@ -91,32 +96,36 @@ else:
 											bdta.tolist())
 					conn.commit()
 				elif ext=='npy': # update npy output recarray: 
-					dta[i*126:i*126+len(bdta)] = bdta
+					dta[dta_i:dta_i+len(bdta)] = bdta
 				toc = time.clock()
 				## report:
 				if len(bdta)>0:
 					stats =  ( str(num2date(bdta.t[0]))
-							+ ' -- imported '+ str(sum(bdta.d)) 
+							+ ' -- imported '+ str(sum(bdta.d))
 							+ ' samples or ' + str(len(bdta))
 							+ ' rle entries, in ' +str(toc-tic) + ' seconds, ' 
-							+ str(126*i) + '-' + str(126*i+len(bdta)))
+							+ str(dta_i) + '-' + str(dta_i+len(bdta)))
 				else:
-					stats = 'Invalid data'
+					stats = ''
 				print stats
 				## update progress bar:
 				pbar.set_fraction(float(i%7000)/7000)
 				infotxt.set_text(str(num2date(bdta.t[0])))
 				while gtk.events_pending(): gtk.main_iteration()
-				## stop if we didn't fill the full buffer:
+				## stop for current file if we didn't fill the full buffer:
 				if len(bdta)<126*bufsize-1:
+					dta_i = dta_i + len(bdta)
 					break;
-				i+=bufsize-1
-			## get rid of the progress dialog:
+				else:
+					i+=bufsize-1
+					dta_i+=len(bdta)
+			## get rid of the progress dialog and finish:
 			pgrsdlg.destroy()
-			## finalize output:
-			if   ext=='npy':
-				dta = dta[0:126*i+len(bdta)]
-				save(sys.argv[2], dta)
-			elif ext=='.db':
-				conn.commit()
-				cur.close()
+		
+## finalize output:
+if   ext=='npy':
+	dta = dta[0:dta_i]
+	save(outfile, dta)
+elif ext=='.db':
+	conn.commit()
+	cur.close()

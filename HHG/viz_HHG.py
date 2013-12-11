@@ -49,7 +49,7 @@ if len(sys.argv) == 2:
 		dta = load(filename)
 	elif ext=='.db':
 		## to retrieve the db data in an array:
-		conn = sqlite3.connect(filename) 
+		conn = sqlite3.connect(filename)
 		cursor = conn.cursor()
 		test = cursor.execute('SELECT * FROM hhg')
 		dta = test.fetchall()
@@ -67,6 +67,3 @@ if len(sys.argv) == 2:
 else:
 	print 'usage: viz_HHG.py <data.npy|data.db>'
 	exit()
-
-
-

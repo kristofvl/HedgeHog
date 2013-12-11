@@ -34,7 +34,6 @@ import pygtk, gtk
 import pdb
 
 
-
 SDRLESIZE = 126 #  sd buffer size in RLE samples:
 SDBUFSIZE = 512 #  sd buffer size in bytes
 
