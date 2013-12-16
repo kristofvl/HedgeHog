@@ -106,3 +106,4 @@ extern char is_logging;
 #define set_unused_pins_to_output() {TRISA=0;TRISB=0xb00000100;TRISD=0xb01110000;}
 
 #endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_418_H
+ 
