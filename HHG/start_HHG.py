@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 
 import sys
@@ -7,6 +7,7 @@ from os import path, access, W_OK  # check: can we write to config file?
 import subprocess
 import time, datetime, os
 from datetime import timedelta
+import re
 
 class timer:
     
@@ -86,6 +87,9 @@ class start_HHG_dialog:
             starthhg.seek(1023,0)  
             starthhg.write("l")
             starthhg.close()
+        #hhgdir = re.sub("config.ure","",self.conf_file,count=1)
+        #subprocess.call(["sync"])    
+        #subprocess.call(["sudo". "umount", hhgdir])    
         sys.exit(0)  
 
     def Quit(self, widget):

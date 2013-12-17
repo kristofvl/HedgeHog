@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 ########################################################################
 #
@@ -29,8 +29,6 @@ from matplotlib.dates import num2date
 import hhg_io.hhg_import as hgi
 import pygtk, gtk
 import sqlite3
-
-
 import pdb
 
 #data descriptor for the hedgehog default data:
