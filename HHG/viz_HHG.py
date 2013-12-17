@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 ########################################################################
 #
@@ -29,12 +29,11 @@ import hhg_plot.hhg_plot as hplt
 import matplotlib.dates  as mld
 import pygtk, gtk
 import sqlite3
-
 import pdb
 
 #data descriptor for the hedgehog default data:
-desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
-					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
+desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2','c'), 
+					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2','B1') }
 
 
 if len(sys.argv) == 2:
