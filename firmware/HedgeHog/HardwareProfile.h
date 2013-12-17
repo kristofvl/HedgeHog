@@ -14,10 +14,12 @@
 #include "HardwareProfileTestbed.h"
 #elif defined(HEDGEHOG_OLED)
 #include "HardwareProfileOLED.h"
+#elif defined(HEDGEHOG_OLED_513)
+#include "HardwareProfileOLED513.h"
 #elif defined(HEDGEHOG_BASIC)
 #include "HardwareProfileBasic.h"
-#elif defined(HEDGEHOG_BASIC_NEW)
-#include "HardwareProfileBasicNew.h"
+#elif defined(HEDGEHOG_BASIC_417)
+#include "HardwareProfileBasic417.h"
 #elif defined(HEDGEHOG_BASIC_418)
 #include "HardwareProfileBasic418.h"
 #else

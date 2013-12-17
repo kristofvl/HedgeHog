@@ -11317,7 +11317,7 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <hole x="-8.3" y="3.025" drill="0.8"/>
 <hole x="8.3" y="3.025" drill="0.8"/>
 <text x="7.62" y="1.27" size="0.6096" layer="21">1</text>
-<text x="-8.255" y="1.27" size="0.6096" layer="21">30</text>
+<text x="-8.255" y="1.27" size="0.6096" layer="21">27</text>
 <rectangle x1="8.5725" y1="-0.9525" x2="9.2075" y2="-0.3175" layer="21"/>
 <text x="-8.89" y="-2.54" size="1.016" layer="25">&gt;Name</text>
 <text x="3.81" y="-2.54" size="1.016" layer="27">&gt;Value</text>

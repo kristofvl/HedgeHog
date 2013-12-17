@@ -7,8 +7,8 @@
  Author:        EBerlin
  ********************************************************************/
 
-#ifndef HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H
-#define HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H
+#ifndef HARDWARE_PROFILE_HEDGEHOG_BASIC_417_H
+#define HARDWARE_PROFILE_HEDGEHOG_BASIC_417_H
 
 /*******************************************************************/
 /******** Board-specific definitions *******************************/
@@ -105,4 +105,4 @@ extern char is_logging;
 // set pins to input: B2 (acc INT) | D4 (POK) | D5 (PWRGD) | D6 (SPIIN)
 #define set_unused_pins_to_output() {TRISA=0;TRISB=0xb00000100;TRISD=0xb01110000;}
 
-#endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_NEW_H
+#endif  //HARDWARE_PROFILE_HEDGEHOG_BASIC_417_H

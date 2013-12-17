@@ -24,7 +24,7 @@
 
 
 import sys, time
-from numpy import *
+import numpy as np
 from matplotlib.dates import num2date
 import hhg_io.hhg_import as hgi
 import pygtk, gtk
@@ -50,7 +50,7 @@ if len(outfile)>3:
 	ext = ext.lower()
 	if   ext=='.db':
 		conn = sqlite3.connect(outfile)
-		cur = conn.cursor()
+		cur  = conn.cursor()
 		# if not there yet: create new db table
 		cur.execute("""SELECT name FROM sqlite_master 
 							WHERE type='table' AND name='hhg'""")
@@ -60,8 +60,8 @@ if len(outfile)>3:
 								acc_x integer, acc_y integer, acc_z integer, 
 								env1 integer, env2 integer)""")
 	elif ext=='npy':
-		dta = zeros(10000000,dtype=desc_hhg)
-		dta = dta.view(recarray)
+		dta = np.zeros(10000000,dtype=desc_hhg)
+		dta = dta.view(np.recarray)
 	else:
 		exit(1)
 else:
@@ -78,7 +78,7 @@ while len(sys.argv) > file_iter+1:
 		if filename[-3:]=='HHG':
 			# opening progress bar:
 			pgrsdlg = gtk.Dialog("Importing...", None, 0, None)
-			pbar = gtk.ProgressBar()
+			pbar    = gtk.ProgressBar()
 			infotxt = gtk.Label()
 			infotxt.set_text('reading data...')
 			pgrsdlg.vbox.add(pbar)
@@ -123,7 +123,7 @@ while len(sys.argv) > file_iter+1:
 ## finalize output:
 if   ext=='npy':
 	dta = dta[0:dta_i]
-	save(outfile, dta)
+	np.save(outfile, dta)
 elif ext=='.db':
 	conn.commit()
 	cur.close()
