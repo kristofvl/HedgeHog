@@ -1,9 +1,9 @@
 /********************************************************************
- FileName:     	SD_FAT.c,     the HedgeHog's FAT routines source code
+ FileName:      SD_FAT.c,     the HedgeHog's FAT routines source code
  Dependencies:
- Processor:	PIC18F46J50
- Hardware:	Porcupine HedgeHog BASIC, OLED, or TESTBED
- Compiler:  	Microchip C18
+ Processor: PIC18F46J50
+ Hardware:  Porcupine HedgeHog BASIC, OLED, or TESTBED
+ Compiler:      Microchip C18
  Author:        KristofVL
  ********************************************************************/
 
@@ -37,12 +37,12 @@
 
 #define NUM_FILES            9
 
-rom UINT16 startC[NUM_FILES] = {3, 68, 133, 263, 523,  978, 1693, 2733, 4163};
+rom UINT16 startC[NUM_FILES] = { 3, 68, 133, 263, 523,  978, 1693, 2733, 4163 };
             //, 6048, 8453, 11443, 15083, 19438, 24573 };
-rom UINT16 endC[NUM_FILES] = {67, 132, 262, 522, 977, 1692, 2732, 4162, 6047};
+rom UINT16 endC[NUM_FILES] = { 67, 132, 262, 522, 977, 1692, 2732, 4162, 6047};
             //, 8452, 11442, 15082, 19437, 24572, 30552  };
-rom UINT32 fileSz[NUM_FILES] = { 2129920, 2129920,  4259840, 8519680, 14909440,
-                                 23429120, 34078720, 46858240, 61767680};
+rom UINT32 fileSz[NUM_FILES] = { 2129920,  2129920,  4259840, 8519680, 14909440,
+                                 23429120, 34078720, 46858240, 61767680 };
             //78807040, 97976320, 119275520, 142704640, 168263680, 195952640 };
 
 // The following 32 bytes describe the volume label of the SD Card:
@@ -52,40 +52,40 @@ rom BYTE SDVolLabel[] = {
 0x00,0x00,0x00,0x00,0x00,0x00,0x66,0x86,0xA7,0x3C,0x00,0x00,0,0,0x00,0x00
                                     // ... [2:start cluster] [4:file size]
 };
-rom BYTE SDConfigFile[] = {
-    'c','o','n','f','i','g',' ',' ','u','r','e',' ',8,6,0x3B,0x8A,
-0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0x00,0x80,0x20,0x00
-};
 rom BYTE SDLogFiles[] = {
     'L','O','G','0','0','0',' ',' ','H','H','G',' ',8,6,0x3B,0x8A,
 0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x45,0x00,0x00,0x80,0x01,0x00
 };
+rom BYTE SDConfigFile[] = {
+    'c','o','n','f','i','g',' ',' ','u','r','e',' ',8,6,0x3B,0x8A,
+0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0x00,0x80,0x20,0x00
+};
 
-const BYTE SDMasterBootRecord[] = {	// based on MSDOS MBR, without boot code
-	0xEB, 0x3C, 0x90, 		// x86 machine code jump
-	0x4D, 0x53, 0x44, 0x4F, 0x53, 0x35, 0x2E, 0x30, // OEM name
-	0x00, 0x02, 			// 512 bytes per sector
-	0x40, 				// 64 sectors per cluster
-	0x08, 0x00, 			// 8-1 reserved sectors
-	0x01, 				// 1 FATs
-	0x00, 0x02, 			// max. 512 entries in root
-	0x00, 0x00,
-	0xF8, 				// media descriptor: HD
-	0xEC, 0x00, 			// sectors per FAT
-	0x3F, 0x00, 			// sectors per track
-	0xFF, 0x00, 			// number of pages / heads
-	0x87, 0x00, 0x00, 0x00, 	// number of hidden sectors
-	0x39, 0xE0, 0x3A, 0x00, 	// total number of sectors
+const BYTE SDMasterBootRecord[] = { // based on MSDOS MBR, without boot code
+    0xEB, 0x3C, 0x90,       // x86 machine code jump
+    0x4D, 0x53, 0x44, 0x4F, 0x53, 0x35, 0x2E, 0x30, // OEM name
+    0x00, 0x02,             // 512 bytes per sector
+    0x40,               // 64 sectors per cluster
+    0x08, 0x00,             // 8-1 reserved sectors
+    0x01,               // 1 FATs
+    0x00, 0x02,             // max. 512 entries in root
+    0x00, 0x00,
+    0xF8,               // media descriptor: HD
+    0xEC, 0x00,             // sectors per FAT
+    0x3F, 0x00,             // sectors per track
+    0xFF, 0x00,             // number of pages / heads
+    0x87, 0x00, 0x00, 0x00,     // number of hidden sectors
+    0x00, 0xD0, 0x1D, 0x00,     // total number of sectors
         //0xC6, 0xC0, 0x1E, 0x00,
-	0x00, 				// physical BIOS number
-	0x00, 				// reserved
-	0x29, 				// ext. boot signature
-	0x0A, 0x38, 0x86, 0xC8, 	// data system id
+    0x00,               // physical BIOS number
+    0x00,               // reserved
+    0x29,               // ext. boot signature
+    0x0A, 0x38, 0x86, 0xC8,     // data system id
         //name of data system: 'NO NAME    '
-	0x4E, 0x4F, 0x20, 0x4E, 0x41, 0x4D, 0x45, 0x20, 0x20, 0x20, 0x20,
-	0x46, 0x41, 0x54, 0x31, 0x36, 0x20, 0x20, 0x20,  // 'FAT16   ' string
-	// normally 448 more bytes here for the boot code (not used)
-	0x55, 0xAA			// final two bytes of bootrecord
+    0x4E, 0x4F, 0x20, 0x4E, 0x41, 0x4D, 0x45, 0x20, 0x20, 0x20, 0x20,
+    0x46, 0x41, 0x54, 0x31, 0x36, 0x20, 0x20, 0x20,  // 'FAT16   ' string
+    // normally 448 more bytes here for the boot code (not used)
+    0x55, 0xAA          // final two bytes of bootrecord
 };
 
 void write_MBR(sd_buffer_t *sd_buffer)
@@ -130,16 +130,14 @@ void write_root_table(sd_buffer_t *sd_buffer, char *id_str)
     sd_buffer->bytes[32+OFFSET_FLS+2] = fileSz[0]>>16;
     sd_buffer->bytes[32+OFFSET_FLS+3] = fileSz[0]>>24;
 
-
     // Write log files
     for (file_i=0; file_i<NUM_FILES-1; file_i++) {
         for (sdbuffer_i=64+32*file_i;sdbuffer_i<(64+32*(file_i+1));sdbuffer_i++)
         {
-           
-                sd_buffer->bytes[sdbuffer_i] = SDLogFiles[sdbuffer_i%32];
-                sd_buffer->bytes[32+36+(32*file_i)] = 48 + (file_i / 10);
-                sd_buffer->bytes[32+37+(32*file_i)] = 48 + (file_i % 10);
+            sd_buffer->bytes[sdbuffer_i] = SDLogFiles[sdbuffer_i%32];
         }
+        sd_buffer->bytes[32+36+(32*file_i)] = 48 + (file_i / 10);
+        sd_buffer->bytes[32+37+(32*file_i)] = 48 + (file_i % 10);
         // Write Start Cluster:
         sd_buffer->bytes[32+32+(32*(file_i+1))-5] = startC[file_i+1]>>8;
         sd_buffer->bytes[32+32+(32*(file_i+1))-6] = startC[file_i+1];
@@ -149,7 +147,6 @@ void write_root_table(sd_buffer_t *sd_buffer, char *id_str)
         sd_buffer->bytes[32+(32*(file_i+1))+OFFSET_FLS+2] =fileSz[file_i+1]>>16;
         sd_buffer->bytes[32+(32*(file_i+1))+OFFSET_FLS+3] =fileSz[file_i+1]>>24;
     }
-
 }
 
 void write_FAT(sd_buffer_t *sd_buffer, UINT16 i)
