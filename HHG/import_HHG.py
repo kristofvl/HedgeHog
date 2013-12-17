@@ -27,6 +27,8 @@ import sys, time
 import numpy as np
 from matplotlib.dates import num2date
 import hhg_io.hhg_import as hgi
+import hhg_plot.hhg_plot as hplt
+import matplotlib.dates  as mld
 import pygtk, gtk
 import sqlite3
 import pdb
@@ -36,7 +38,7 @@ desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'),
 					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
 # buffer size: how many blocks (of 512 bytes each) do we read at once?
-bufsize = 370	# takes about 0.5 seconds on a laptop
+bufsize = 170	# takes about 0.5 seconds on a laptop
 
 #open/parse the data:
 if len(sys.argv) < 3:
@@ -69,6 +71,7 @@ else:
 	
 ## read the HHG data file(s)
 dta_i = 0;
+firstplot=0;
 file_iter = 1
 while len(sys.argv) > file_iter+1:
 	file_iter+=1
@@ -77,14 +80,16 @@ while len(sys.argv) > file_iter+1:
 	if len(filename)>3:
 		if filename[-3:]=='HHG':
 			# opening progress bar:
-			pgrsdlg = gtk.Dialog("Importing...", None, 0, None)
-			pbar    = gtk.ProgressBar()
-			infotxt = gtk.Label()
-			infotxt.set_text('reading data...')
-			pgrsdlg.vbox.add(pbar)
-			pgrsdlg.vbox.add(infotxt)
-			pgrsdlg.set_size_request(250, 70)
-			pgrsdlg.show_all()
+			#pgrsdlg = gtk.Dialog("Importing...", None, 0, None)
+			#pbar    = gtk.ProgressBar()
+			#infotxt = gtk.Label()
+			#infotxt.set_text('reading data...')
+			#pgrsdlg.vbox.add(pbar)
+			#pgrsdlg.vbox.add(infotxt)
+			#pgrsdlg.set_size_request(250, 70)
+			#pgrsdlg.show_all()
+			## plotting init:
+			fig = hplt.Hhg_main_plot(10,8,80)
 			while True:
 				tic = time.clock()
 				bdta = hgi.hhg_import_n(filename, i, i+bufsize)
@@ -107,9 +112,15 @@ while len(sys.argv) > file_iter+1:
 					stats = ''
 				print stats
 				## update progress bar:
-				pbar.set_fraction(float(i%7000)/7000)
-				infotxt.set_text(str(num2date(bdta.t[0])))
-				while gtk.events_pending(): gtk.main_iteration()
+				#pbar.set_fraction(float(i%7000)/7000)
+				#infotxt.set_text(str(num2date(bdta.t[0])))
+				#while gtk.events_pending(): gtk.main_iteration()
+				## update plot:
+				if firstplot:
+					fig.update_plot(bdta.t[::50], bdta.x[::50], bdta.y[::50], bdta.z[::50], [], [])
+				else:
+					fig.plot(bdta.t[::50], bdta.x[::50], bdta.y[::50], bdta.z[::50], [], [], 'loading from '+filename)
+					firstplot = 1
 				## stop for current file if we didn't fill the full buffer:
 				if len(bdta)<126*bufsize-1:
 					dta_i = dta_i + len(bdta)
@@ -118,7 +129,7 @@ while len(sys.argv) > file_iter+1:
 					i+=bufsize-1
 					dta_i+=len(bdta)
 			## get rid of the progress dialog and finish:
-			pgrsdlg.destroy()
+			#pgrsdlg.destroy()
 		
 ## finalize output:
 if   ext=='npy':
