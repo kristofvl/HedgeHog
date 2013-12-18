@@ -71,16 +71,16 @@ extern char is_logging;
 /*******************************************************************/
 #define USE_PIC18			// used by FSConfig.h
 #define USE_SD_INTERFACE_WITH_SPI
-#define TRIS_CARD_DETECT	TRISBbits.TRISB4    // Input
-#define CARD_DETECT			PORTBbits.RB4
-#define TRIS_WRITE_DETECT	TRISAbits.TRISA3    // Input
+#define TRIS_CARD_DETECT	TRISBbits.TRISB0    // Input
+#define CARD_DETECT			PORTBbits.RB0
 #define SD_CS				PORTCbits.RC6	// Chip Select
 #define SD_CS_TRIS			TRISCbits.TRISC6
 #define SD_CD				0 //PORTBbits.RB4	// Card detect
 #define SD_CD_TRIS			TRISBbits.TRISB4
-#define WRITE_DETECT		PORTAbits.RA3	// Write protect
-#define SD_WE				PORTAbits.RA3
-#define SD_WE_TRIS			TRISAbits.TRISA3
+#define TRIS_WRITE_DETECT	TRISAbits.TRISA2    // Input
+#define WRITE_DETECT		PORTAbits.RA2	// Write protect
+#define SD_WE				PORTAbits.RA2
+#define SD_WE_TRIS			TRISAbits.TRISA2
 #define SPI_INTERRUPT_FLAG_ASM PIR3, 7
 
 /*******************************************************************/
@@ -110,17 +110,19 @@ extern char is_logging;
 
 
 /*******************************************************************/
-/******** USB Power Sense pin definitions and options **************/
+/******** Power Circuit sense pins definitions and options *********/
 /*******************************************************************/
-#define USBP_INT_TRIS	TRISBbits.TRISB7
-#define USBP_INT		PORTBbits.RB7
+#define USBP_INT_TRIS		TRISAbits.TRISA0   // POK_INT_TRIS = charger "POK"
+#define USBP_INT			PORTAbits.RA0      // POK_INT
+#define PWRGD_INT_TRIS		TRISAbits.TRISA1   // Voltage converter "power good"
+#define PWRGD_INT			PORTAbits.RA1      // PWRGD_INT
 
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
-#define LIGHTCHANNEL	4
-#define LIGHT_PWR		PORTBbits.RB0
+#define LIGHTCHANNEL	4						// RA5 == AN4 == CHANNEL#4
+#define LIGHT_PWR		LATAbits.LATA3			// RA3 (PIN22)
 
 /*******************************************************************/
 /******** remap pins ***********************************************/
@@ -130,7 +132,9 @@ extern char is_logging;
 //  RP6  as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P),
 #define remap_pins() {ul_reg(); RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5; l_reg();}
 
-// make sure all pins are output, except for B7 (USB power) and B5 (acc INT)
-#define set_unused_pins_to_output() {TRISD=0; TRISB=0xb00000101; }
+// make sure all pins are output, except for
+//  A0 (POK)     - A1 (PWRGD)  - A5 (L_OUT)
+//	B2 (ACC INT) - B5 (A0_OLED)
+#define set_unused_pins_to_output() {TRISA=0x00100011;TRISB=0xb10100100;TRISD=0;}
 
 #endif  //HARDWARE_PROFILE_HEDGEHOG_OLED_513_H
