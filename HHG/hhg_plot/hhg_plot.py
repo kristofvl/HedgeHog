@@ -323,7 +323,7 @@ class Hhg_main_plot:
 		self.ax.axes.set_ylim(0, 256)
 		self.fig.show(); 
 		show()
-	def plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, filename='', conf=[]):
+	def plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, filename='', conf=''):
 		self.ax = self.fig.add_subplot(2,1,1, axisbg='#FFFFFF')
 		self.linesx, = self.ax.plot_date(dta_t, dta_x, '-r', lw=0.5)
 		self.linesy, = self.ax.plot_date(dta_t, dta_y, '-g', lw=0.5)

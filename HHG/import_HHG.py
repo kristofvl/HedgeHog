@@ -38,7 +38,7 @@ desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'),
 					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
 # buffer size: how many blocks (of 512 bytes each) do we read at once?
-bufsize = 170	# takes about 0.5 seconds on a laptop
+bufsize = 192	# takes about 0.5 seconds on a laptop
 
 #open/parse the data:
 if len(sys.argv) < 3:
@@ -68,7 +68,7 @@ if len(outfile)>3:
 		dta = np.zeros(10000000,dtype=desc_hhg)
 		dta = dta.view(np.recarray)
 		# configuration string (convertable to struct)
-		conf = []
+		conf = ''
 	else:
 		exit(1)
 else:
@@ -118,7 +118,7 @@ while len(sys.argv) > file_iter+1:
 					stats = ''
 				print stats
 				## update plot:
-				itr = 50
+				itr = 50 # TODO: make this dependent on configuration
 				if firstplot:
 					fig.update_plot(bdta.t[::itr], 
 									bdta.x[::itr], bdta.y[::itr], bdta.z[::itr], 
