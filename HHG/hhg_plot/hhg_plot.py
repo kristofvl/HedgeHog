@@ -313,16 +313,13 @@ class Hhg_main_plot:
 	def show(self):
 		self.fix_margins()
 		self.ax.grid(color='k', linestyle=':', linewidth=0.5)
-		setp(self.ax.get_xticklabels(), visible=True)
-		setp(self.ax.get_yticklabels(), visible=False)
-		self.axe.grid(color='w', linestyle=':', linewidth=0.5)
-		setp(self.axe.get_xticklabels(), visible=False)
-		setp(self.axe.get_yticklabels(), visible=False)
-		self.ax.xaxis.set_major_formatter(mld.DateFormatter('%H:%M'))
+		self.ax.xaxis.set_major_formatter(mld.DateFormatter('%H'))
 		setp(self.ax.get_xticklabels(), visible=True, fontsize=8)
-		self.ax.fmt_xdata = mld.DateFormatter('%Y-%m-%d, %H:%M:%S')
-		self.ax.fmt_ydata = lambda y: '%03.03f'%y
+		setp(self.ax.get_yticklabels(), visible=False)
 		self.ax.axes.set_ylim(0, 256)
+		self.axe.grid(color='w', linestyle=':', linewidth=0.5)
+		setp(self.axe.get_xticklabels(), visible=False, fontsize=8)
+		setp(self.axe.get_yticklabels(), visible=False)
 		self.axe.axes.set_ylim(0, 128)
 		self.fig.show()
 		show()
@@ -333,10 +330,36 @@ class Hhg_main_plot:
 		self.linesy, = self.ax.plot_date(dta_t, dta_y, '-g', lw=0.5)
 		self.linesz, = self.ax.plot_date(dta_t, dta_z, '-b', lw=0.5)
 		self.axe = self.fig.add_subplot(4,1,2, axisbg='#777777')
-		self.axe.fill_between(dta_t, dta_e1, facecolor='yellow', lw=0, alpha=.6)
+		self.axe.fill_between(dta_t, dta_e1, facecolor='yellow', lw=0.1, alpha=.6)
 		# plot infos:
-		self.t = self.fig.text( 0.5, 0.95, str(mld.num2date(dta_t[0])), ha='center')
-		setp(self.t, va='baseline', family='monospace', fontsize=11, 
+		if conf == '':  # dummy if conf is empty (no configuration)
+			conf = '000?________1311____1___HedgeHog___v.1.30?___' 
+		self.t_id = self.fig.text( 0.04, 0.96, 
+							'HedgeHog_ID:' + conf[0:4] + ', firmware:'
+							+ conf[35:42], ha='left')
+		setp(self.t_id, va='top', family='monospace', fontsize=11,
+					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
+		# display accelerometer conf:
+		g_range = pow(2,1+ord(conf[12])-48)
+		bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
+		md_lookup = ['controller', 'sensor']			
+		pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
+		self.t_acc = self.fig.text( 0.42, 0.96, 
+				       'accelerometer:', 
+					ha='left', va='top', family='monospace',fontsize=11)			
+		self.t_acc = self.fig.text( 0.42, 0.92, 
+				       'acc. range : '+ u"\u00B1" + str(g_range) +'g'
+					+ '\nsampled at : ' + str(bw_lookup[ord(conf[13])-48])+'Hz'
+					+ '\nsampled by : ' + str(md_lookup[ord(conf[14])-48]) 
+					+ '\npower mode : ' + str(pw_lookup[ord(conf[15])-48]), 
+					ha='left', va='top', family='monospace',fontsize=11,
+					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
+		# 
+		self.t_start = self.fig.text( 0.04, 0.90, str(mld.num2date(dta_t[0])), ha='left')
+		setp(self.t_start, va='top', family='monospace', fontsize=11, 
+					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
+		self.t_stop = self.fig.text( 0.04, 0.85, str(mld.num2date(dta_t[0])), ha='left')
+		setp(self.t_stop, va='top', family='monospace', fontsize=11, 
 					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		self.b = self.fig.text( 0.02, 0.03, filename, ha='left')
 		setp(self.b, va='baseline', family='monospace', fontsize=10)
@@ -356,7 +379,8 @@ class Hhg_main_plot:
 		self.axe.fill_between(dta_t, dta_e1, facecolor='yellow', lw=0, alpha=.6)
 		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
 		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
-		self.t.set_text(str(mld.num2date(dta_t[-1])))
+		self.t_start.set_text('log started at:  ' + str(mld.num2date(dta_t[0]))[0:19])
+		self.t_stop.set_text('log stopped at:  ' + str(mld.num2date(dta_t[-1]))[0:19])
 		self.b.set_text(s)
 		draw()
 		self.show()
