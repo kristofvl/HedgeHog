@@ -323,19 +323,24 @@ class Hhg_main_plot:
 		self.ax.axes.set_ylim(0, 256)
 		self.fig.show(); 
 		show()
-	def plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, title='loading'):
+	def plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, filename='', conf=[]):
 		self.ax = self.fig.add_subplot(2,1,1, axisbg='#FFFFFF')
 		self.linesx, = self.ax.plot_date(dta_t, dta_x, '-r', lw=0.5)
 		self.linesy, = self.ax.plot_date(dta_t, dta_y, '-g', lw=0.5)
 		self.linesz, = self.ax.plot_date(dta_t, dta_z, '-b', lw=0.5)
+		# plot infos:
 		self.t = self.fig.text( 0.5, 0.95, str(mld.num2date(dta_t[0])), ha='center')
 		setp(self.t, va='baseline', family='monospace', size='medium', 
 					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
-		self.fig.canvas.set_window_title(title);
+		self.b = self.fig.text( 0.02, 0.03, filename, ha='left')
+		setp(self.b, va='baseline', family='monospace', fontsize=9)
+		# window title:
+		self.fig.canvas.set_window_title('loading from '+filename
+												+' on HHG#'+conf[0:4]);
 		ion()
 		draw()
 		self.show()
-	def update_plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2):
+	def update_plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, s=''):
 		commonxdata = np.append(self.linesx.get_xdata(), dta_t)
 		self.linesx.set_xdata(commonxdata)
 		self.linesy.set_xdata(commonxdata)
@@ -345,6 +350,7 @@ class Hhg_main_plot:
 		self.linesz.set_ydata(np.append(self.linesz.get_ydata(), dta_z))
 		self.linesx.axes.set_xlim(int(dta_t[0]), int(dta_t[0])+1)
 		self.t.set_text(str(mld.num2date(dta_t[0])))
+		self.b.set_text(s)
 		draw()
 		self.show()
 		ion()
