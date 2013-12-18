@@ -10,6 +10,10 @@ void light_init(void)
     TRISEbits.TRISE1 = 1;       // light sensor data input (INPUT  = 1)
     TRISEbits.TRISE0 = 0;       // light sensor power pin  (OUTPUT = 0)
     LIGHT_PWR        = 1;       // pull power pin up
+#elif defined(HEDGEHOG_OLED_513)
+    TRISAbits.TRISA5 = 1;       // light sensor data input (INPUT  = 1)
+    TRISAbits.TRISA3 = 0;       // light sensor power pin  (OUTPUT = 0)
+    LIGHT_PWR        = 1;       // pull power pin up
 #else
     TRISAbits.TRISA5 = 1;
     #if defined(LIGHT_PWR)
