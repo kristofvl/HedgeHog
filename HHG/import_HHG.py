@@ -78,6 +78,7 @@ else:
 dta_i = 0
 firstplot=0
 file_iter = 1
+dta_t = dta_x = dta_y = dta_z = dta_e1 = dta_e2 = []
 while len(sys.argv) > file_iter+1:
 	file_iter+=1
 	filename = sys.argv[file_iter]
@@ -119,14 +120,18 @@ while len(sys.argv) > file_iter+1:
 				print stats
 				## update plot:
 				itr = 50 # TODO: make this dependent on configuration
+				dta_t = np.append(dta_t, bdta.t[::itr]); 
+				dta_x = np.append(dta_x, bdta.x[::itr]); 
+				dta_y = np.append(dta_y, bdta.y[::itr]); 
+				dta_z = np.append(dta_z, bdta.z[::itr]); 
+				dta_e1 = np.append(dta_e1, bdta.e1[::itr]>>8); 
+				dta_e2 = np.append(dta_e2, bdta.e2[::itr]);
 				if firstplot:
-					fig.update_plot(bdta.t[::itr], 
-									bdta.x[::itr], bdta.y[::itr], bdta.z[::itr], 
-									[], [], stats)
+					fig.update_plot(dta_t, dta_x, dta_y, dta_z, 
+										dta_e1, dta_e2, stats)
 				else:
-					fig.plot(bdta.t[::itr], 
-								bdta.x[::itr], bdta.y[::itr], bdta.z[::itr], 
-								[], [], filename, conf)
+					fig.plot(dta_t, dta_x, dta_y, dta_z, 
+								dta_e1, dta_e2, filename, conf)
 					firstplot = 1
 				## stop for current file if we didn't fill the full buffer:
 				if len(bdta)<126*bufsize-1:

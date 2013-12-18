@@ -292,64 +292,71 @@ class Hhg_raw_plot(Hhg_plot):
 		
 		
 		
-		
 # main plotting routine for reading from HHG
 class Hhg_main_plot:
 	def __init__(self, fig_x=10, fig_y=6, fdpi=80):
 		self.fig = 0
 		self.ax = None
 		try:
+			# disable toolbar:
+			rcParams['toolbar'] = 'None';		
 			self.fig = figure(	num=None, figsize=(fig_x, fig_y), 
 										dpi=fdpi, facecolor='w', edgecolor='k' )
 		except ValueError:
 			return 0
 	def fix_margins(self):
 			subplots_adjust(	left  = 0.02, right = 0.98, # left, right, 
-									bottom = 0.05,top = 0.9, # bottom and top
+									bottom = 0.1,top = 1, # bottom and top
 									wspace = 0.2, # width space betw. subplots
 									hspace = 0.1  # height space btw. subplots
 								)
 	def show(self):
 		self.fix_margins()
-		for ax in self.fig.axes:
-			ax.grid(color='k', linestyle=':', linewidth=0.5)
-			setp(ax.get_xticklabels(), visible=False)
-			setp(ax.get_yticklabels(), visible=False)
-			ax.xaxis.set_major_formatter(mld.DateFormatter('%H:%M'))
-			setp(ax.get_xticklabels(), visible=True, fontsize=8)
-			ax.fmt_xdata = mld.DateFormatter('%Y-%m-%d, %H:%M:%S')
-			ax.fmt_ydata = lambda y: '%03.03f'%y
-			setp(self.ax.get_xticklabels(), visible=True)
+		self.ax.grid(color='k', linestyle=':', linewidth=0.5)
+		setp(self.ax.get_xticklabels(), visible=True)
+		setp(self.ax.get_yticklabels(), visible=False)
+		self.axe.grid(color='w', linestyle=':', linewidth=0.5)
+		setp(self.axe.get_xticklabels(), visible=False)
+		setp(self.axe.get_yticklabels(), visible=False)
+		self.ax.xaxis.set_major_formatter(mld.DateFormatter('%H:%M'))
+		setp(self.ax.get_xticklabels(), visible=True, fontsize=8)
+		self.ax.fmt_xdata = mld.DateFormatter('%Y-%m-%d, %H:%M:%S')
+		self.ax.fmt_ydata = lambda y: '%03.03f'%y
 		self.ax.axes.set_ylim(0, 256)
-		self.fig.show(); 
+		self.axe.axes.set_ylim(0, 128)
+		self.fig.show()
 		show()
 	def plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, filename='', conf=''):
-		self.ax = self.fig.add_subplot(2,1,1, axisbg='#FFFFFF')
+		# plot:
+		self.ax = self.fig.add_subplot(2,1,2, axisbg='#FFFFFF')
 		self.linesx, = self.ax.plot_date(dta_t, dta_x, '-r', lw=0.5)
 		self.linesy, = self.ax.plot_date(dta_t, dta_y, '-g', lw=0.5)
 		self.linesz, = self.ax.plot_date(dta_t, dta_z, '-b', lw=0.5)
+		self.axe = self.fig.add_subplot(4,1,2, axisbg='#777777')
+		self.axe.fill_between(dta_t, dta_e1, facecolor='yellow', lw=0, alpha=.6)
 		# plot infos:
 		self.t = self.fig.text( 0.5, 0.95, str(mld.num2date(dta_t[0])), ha='center')
-		setp(self.t, va='baseline', family='monospace', size='medium', 
+		setp(self.t, va='baseline', family='monospace', fontsize=11, 
 					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		self.b = self.fig.text( 0.02, 0.03, filename, ha='left')
-		setp(self.b, va='baseline', family='monospace', fontsize=9)
+		setp(self.b, va='baseline', family='monospace', fontsize=10)
 		# window title:
 		self.fig.canvas.set_window_title('loading from '+filename
-												+' on HHG#'+conf[0:4]);
+												+' on HHG#'+conf[0:4])
 		ion()
 		draw()
 		self.show()
 	def update_plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, s=''):
-		commonxdata = np.append(self.linesx.get_xdata(), dta_t)
-		self.linesx.set_xdata(commonxdata)
-		self.linesy.set_xdata(commonxdata)
-		self.linesz.set_xdata(commonxdata)
-		self.linesx.set_ydata(np.append(self.linesx.get_ydata(), dta_x))
-		self.linesy.set_ydata(np.append(self.linesy.get_ydata(), dta_y))
-		self.linesz.set_ydata(np.append(self.linesz.get_ydata(), dta_z))
-		self.linesx.axes.set_xlim(int(dta_t[0]), int(dta_t[0])+1)
-		self.t.set_text(str(mld.num2date(dta_t[0])))
+		self.linesx.set_xdata(dta_t)
+		self.linesy.set_xdata(dta_t)
+		self.linesz.set_xdata(dta_t)
+		self.linesx.set_ydata(dta_x)
+		self.linesy.set_ydata(dta_y)
+		self.linesz.set_ydata(dta_z)
+		self.axe.fill_between(dta_t, dta_e1, facecolor='yellow', lw=0, alpha=.6)
+		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		self.t.set_text(str(mld.num2date(dta_t[-1])))
 		self.b.set_text(s)
 		draw()
 		self.show()
