@@ -79,6 +79,9 @@ dta_i = 0
 firstplot=0
 file_iter = 1
 dta_t = dta_x = dta_y = dta_z = dta_e1 = dta_e2 = []
+## plotting init:
+fig = hplt.Hhg_main_plot(10,8,80)
+## loop over input files:
 while len(sys.argv) > file_iter+1:
 	file_iter+=1
 	filename = sys.argv[file_iter]
@@ -94,9 +97,6 @@ while len(sys.argv) > file_iter+1:
 						# read config as a string:
 						with open(filen, "rb") as f:
 							conf = f.read(512)	# read first 512 bytes
-							print conf
-			## plotting init:
-			fig = hplt.Hhg_main_plot(10,8,80)
 			while True:
 				tic = time.clock()
 				bdta = hgi.hhg_import_n(filename, i, i+bufsize)
@@ -120,12 +120,12 @@ while len(sys.argv) > file_iter+1:
 				print stats
 				## update plot:
 				itr = 50 # TODO: make this dependent on configuration
-				dta_t = np.append(dta_t, bdta.t[::itr]); 
-				dta_x = np.append(dta_x, bdta.x[::itr]); 
-				dta_y = np.append(dta_y, bdta.y[::itr]); 
-				dta_z = np.append(dta_z, bdta.z[::itr]); 
-				dta_e1 = np.append(dta_e1, bdta.e1[::itr]>>8); 
-				dta_e2 = np.append(dta_e2, bdta.e2[::itr]);
+				dta_t = np.append(dta_t, bdta.t[::itr])
+				dta_x = np.append(dta_x, bdta.x[::itr])
+				dta_y = np.append(dta_y, bdta.y[::itr])
+				dta_z = np.append(dta_z, bdta.z[::itr])
+				dta_e1 = np.append(dta_e1, bdta.e1[::itr]>>8)
+				dta_e2 = np.append(dta_e2, bdta.e2[::itr])
 				if firstplot:
 					fig.update_plot(dta_t, dta_x, dta_y, dta_z, 
 										dta_e1, dta_e2, stats)
