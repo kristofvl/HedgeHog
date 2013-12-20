@@ -44,11 +44,14 @@ bufsize = 192	# takes about 0.5 seconds on a laptop
 if len(sys.argv) < 3:
 	print 'usage: import_HHG.py <out.[npy|db]> <in0.HHG> [<in1.HHG> ..]'
 	exit(1)
-outfile  = sys.argv[1]
 
 ## output to a numpy file or db? prepare the output structure:
-if len(outfile)>3:
+outfile  = sys.argv[1]
+try:
 	ext = outfile[-3:]
+except:
+	exit(1)
+else:
 	ext = ext.lower()
 	if   ext=='.db':
 		conn = sqlite3.connect(outfile)
@@ -71,8 +74,6 @@ if len(outfile)>3:
 		conf = ''
 	else:
 		exit(1)
-else:
-	exit(1)
 	
 ## read the HHG data file(s)
 dta_i = 0
@@ -80,7 +81,7 @@ firstplot=0
 file_iter = 1
 dta_t = dta_x = dta_y = dta_z = dta_e1 = dta_e2 = []
 ## plotting init:
-fig = hplt.Hhg_main_plot(10,8,80)
+fig = hplt.Hhg_load_plot(10,8,80)
 ## loop over input files:
 while len(sys.argv) > file_iter+1:
 	file_iter+=1
@@ -132,6 +133,7 @@ while len(sys.argv) > file_iter+1:
 				else:
 					fig.plot(dta_t, dta_x, dta_y, dta_z, 
 								dta_e1, dta_e2, filename, conf)
+					fig.show()
 					firstplot = 1
 				## stop for current file if we didn't fill the full buffer:
 				if len(bdta)<126*bufsize-1:

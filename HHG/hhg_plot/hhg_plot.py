@@ -31,6 +31,125 @@ from matplotlib.pylab import *
 import matplotlib.dates as mld
 import hhg_dialogs.hhg_fsave as fsave_dlg
 
+
+
+
+## plotting routine for vizualizing stuff while loading data from HHG:
+class Hhg_load_plot:
+	def __init__(self, fig_x=10, fig_y=6, fdpi=80):
+		self.fig = 0
+		self.ax = None
+		try: # disable toolbar:
+			rcParams['toolbar'] = 'None';		
+			self.fig = figure(	num=None, figsize=(fig_x, fig_y), 
+										dpi=fdpi, facecolor='w', edgecolor='k' )
+			self.fig.show()
+		except ValueError:
+			return 0
+	def fix_margins(self):
+			subplots_adjust(	left  = 0.02, right = 0.98, # left, right, 
+									bottom = 0.1,top = 1, # bottom and top
+									wspace = 0.2, # width space betw. subplots
+									hspace = 0.1  # height space btw. subplots
+								)
+	def show(self):
+		self.fig.show()
+		show()
+	def plot(self, dta_t,dta_x,dta_y,dta_z, dta_e1,dta_e2, fn='',cnf=''):
+		## plot data and clean up the axes:
+		self.fix_margins()
+		self.ax = self.fig.add_subplot(2,1,2, axisbg='#FFFFFF')
+		self.linesx, = self.ax.plot_date(dta_t, dta_x, '-r', lw=0.5)
+		self.linesy, = self.ax.plot_date(dta_t, dta_y, '-g', lw=0.5)
+		self.linesz, = self.ax.plot_date(dta_t, dta_z, '-b', lw=0.5)
+		self.axe = self.fig.add_subplot(4,1,2, axisbg='#777777')
+		self.axe.fill_between(dta_t, dta_e1, 
+			facecolor='yellow', lw=0.1, alpha=.6)
+		self.ax.grid(color='k', linestyle=':', linewidth=0.5)
+		self.ax.xaxis.set_major_formatter(mld.DateFormatter('%H'))
+		setp(self.ax.get_xticklabels(), visible=True, fontsize=8)
+		setp(self.ax.get_yticklabels(), visible=False)
+		self.ax.axes.set_ylim(0, 256)
+		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		self.axe.grid(color='w', linestyle=':', linewidth=0.5)
+		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		setp(self.axe.get_xticklabels(), visible=False, fontsize=8)
+		setp(self.axe.get_yticklabels(), visible=False)
+		self.axe.axes.set_ylim(0, 128)
+		## plot infos:
+		if cnf == '':  # dummy incase conf is empty (no configuration)
+			cnf = '000?________1311____1___HedgeHog___v.1.30?___' 
+		self.fig.text( 0.04, 0.96, 'Sensor unit settings', 
+			ha='left', va='top', family='monospace',fontsize=11,
+			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))			
+		self.fig.text( 0.04, 0.927,
+			'HedgeHog_ID: ' + cnf[0:4] + '\nfirmware:    ' + cnf[35:42],
+			ha='left', va='top', family='monospace', fontsize=11,
+			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
+		## display accelerometer settings:
+		g_range = pow(2,1+ord(cnf[12])-48)
+		bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
+		md_lookup = ['controller', 'sensor']			
+		pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
+		self.fig.text( 0.32, 0.96, 'accelerometer settings', 
+			ha='left', va='top', family='monospace',fontsize=11,
+			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))
+		self.fig.text( 0.32, 0.927, 
+			'acc. range : '+ u"\u00B1" + str(g_range) +'g'
+			+ '\nsampled at : ' + str(bw_lookup[ord(cnf[13])-48])
+			+ 'Hz\nsampled by : ' + str(md_lookup[ord(cnf[14])-48])
+			+ '\npower mode : ' + str(pw_lookup[ord(cnf[15])-48]),
+			ha='left', va='top', family='monospace',fontsize=11,
+			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
+		## display log file settings:
+		self.fig.text( 0.64, 0.96, 'Log information', 
+			ha='left', va='top', family='monospace',fontsize=11,
+			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))
+		self.t_tme = self.fig.text( 0.64, 0.927, 
+			str(mld.num2date(dta_t[0]))+'\n'+str(mld.num2date(dta_t[0])), 
+			ha='left', va='top', family='monospace', fontsize=11, 
+			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
+		self.b = self.fig.text( 0.02, 0.03, 'statistics loading...', 
+			ha='left',va='top',family='monospace',fontsize=10)
+		## set window title:
+		self.fig.canvas.set_window_title(
+			'loading from '+fn+' on HHG#'+cnf[0:4])
+		ion()
+		draw()
+	def update_plot(self, dta_t,dta_x,dta_y,dta_z, dta_e1, dta_e2, s=''):
+		self.linesx.set_xdata(dta_t)
+		self.linesy.set_xdata(dta_t)
+		self.linesz.set_xdata(dta_t)
+		self.linesx.set_ydata(dta_x)
+		self.linesy.set_ydata(dta_y)
+		self.linesz.set_ydata(dta_z)
+		self.axe.fill_between(dta_t, dta_e1, 
+			facecolor='yellow', lw=0, alpha=.6)
+		## make sure to update x axes to current day:
+		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		## update the log info
+		self.t_tme.set_text('log started at:  ' 
+			+ str(mld.num2date(dta_t[0]))[0:19] + '\n'
+			+ 'log stopped at:  ' + str(mld.num2date(dta_t[-1]))[0:19])
+		## update the stats info
+		self.b.set_text(s)
+		ion()
+		draw()
+
+
+
+
+
+
+
+		
+		
+### Beyond this point, we're just listing old stuff that you *really*
+### shouldn't use. Just stop scrolling. Really.
+
+
+
 # main plotting routine for generic purposes
 class Hhg_plot:
 	def __init__(self, fig_x=10, fig_y=6, fdpi=80):
@@ -291,98 +410,4 @@ class Hhg_raw_plot(Hhg_plot):
 		self.fig.show(); show()
 		
 		
-		
-# main plotting routine for reading from HHG
-class Hhg_main_plot:
-	def __init__(self, fig_x=10, fig_y=6, fdpi=80):
-		self.fig = 0
-		self.ax = None
-		try:
-			# disable toolbar:
-			rcParams['toolbar'] = 'None';		
-			self.fig = figure(	num=None, figsize=(fig_x, fig_y), 
-										dpi=fdpi, facecolor='w', edgecolor='k' )
-		except ValueError:
-			return 0
-	def fix_margins(self):
-			subplots_adjust(	left  = 0.02, right = 0.98, # left, right, 
-									bottom = 0.1,top = 1, # bottom and top
-									wspace = 0.2, # width space betw. subplots
-									hspace = 0.1  # height space btw. subplots
-								)
-	def show(self):
-		self.fix_margins()
-		self.ax.grid(color='k', linestyle=':', linewidth=0.5)
-		self.ax.xaxis.set_major_formatter(mld.DateFormatter('%H'))
-		setp(self.ax.get_xticklabels(), visible=True, fontsize=8)
-		setp(self.ax.get_yticklabels(), visible=False)
-		self.ax.axes.set_ylim(0, 256)
-		self.axe.grid(color='w', linestyle=':', linewidth=0.5)
-		setp(self.axe.get_xticklabels(), visible=False, fontsize=8)
-		setp(self.axe.get_yticklabels(), visible=False)
-		self.axe.axes.set_ylim(0, 128)
-		self.fig.show()
-		show()
-	def plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, filename='', conf=''):
-		# plot:
-		self.ax = self.fig.add_subplot(2,1,2, axisbg='#FFFFFF')
-		self.linesx, = self.ax.plot_date(dta_t, dta_x, '-r', lw=0.5)
-		self.linesy, = self.ax.plot_date(dta_t, dta_y, '-g', lw=0.5)
-		self.linesz, = self.ax.plot_date(dta_t, dta_z, '-b', lw=0.5)
-		self.axe = self.fig.add_subplot(4,1,2, axisbg='#777777')
-		self.axe.fill_between(dta_t, dta_e1, facecolor='yellow', lw=0.1, alpha=.6)
-		# plot infos:
-		if conf == '':  # dummy if conf is empty (no configuration)
-			conf = '000?________1311____1___HedgeHog___v.1.30?___' 
-		self.t_id = self.fig.text( 0.04, 0.96, 
-							'HedgeHog_ID:' + conf[0:4] + ', firmware:'
-							+ conf[35:42], ha='left')
-		setp(self.t_id, va='top', family='monospace', fontsize=11,
-					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
-		# display accelerometer conf:
-		g_range = pow(2,1+ord(conf[12])-48)
-		bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
-		md_lookup = ['controller', 'sensor']			
-		pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
-		self.t_acc = self.fig.text( 0.42, 0.96, 
-				       'accelerometer:', 
-					ha='left', va='top', family='monospace',fontsize=11)			
-		self.t_acc = self.fig.text( 0.42, 0.92, 
-				       'acc. range : '+ u"\u00B1" + str(g_range) +'g'
-					+ '\nsampled at : ' + str(bw_lookup[ord(conf[13])-48])+'Hz'
-					+ '\nsampled by : ' + str(md_lookup[ord(conf[14])-48]) 
-					+ '\npower mode : ' + str(pw_lookup[ord(conf[15])-48]), 
-					ha='left', va='top', family='monospace',fontsize=11,
-					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
-		# 
-		self.t_start = self.fig.text( 0.04, 0.90, str(mld.num2date(dta_t[0])), ha='left')
-		setp(self.t_start, va='top', family='monospace', fontsize=11, 
-					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
-		self.t_stop = self.fig.text( 0.04, 0.85, str(mld.num2date(dta_t[0])), ha='left')
-		setp(self.t_stop, va='top', family='monospace', fontsize=11, 
-					bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
-		self.b = self.fig.text( 0.02, 0.03, filename, ha='left')
-		setp(self.b, va='baseline', family='monospace', fontsize=10)
-		# window title:
-		self.fig.canvas.set_window_title('loading from '+filename
-												+' on HHG#'+conf[0:4])
-		ion()
-		draw()
-		self.show()
-	def update_plot(self, dta_t, dta_x, dta_y, dta_z, dta_e1, dta_e2, s=''):
-		self.linesx.set_xdata(dta_t)
-		self.linesy.set_xdata(dta_t)
-		self.linesz.set_xdata(dta_t)
-		self.linesx.set_ydata(dta_x)
-		self.linesy.set_ydata(dta_y)
-		self.linesz.set_ydata(dta_z)
-		self.axe.fill_between(dta_t, dta_e1, facecolor='yellow', lw=0, alpha=.6)
-		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
-		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
-		self.t_start.set_text('log started at:  ' + str(mld.num2date(dta_t[0]))[0:19])
-		self.t_stop.set_text('log stopped at:  ' + str(mld.num2date(dta_t[-1]))[0:19])
-		self.b.set_text(s)
-		draw()
-		self.show()
-		ion()
-		
+
