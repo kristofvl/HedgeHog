@@ -38,32 +38,40 @@ desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'),
 
 if len(sys.argv) == 2:
 	filename = sys.argv[1]
-	## read the data file
-	if len(filename)>3:
-		ext = filename[-3:]
-		ext = ext.lower()
-	else:
-		exit(1)
-	if ext=='npy': # simple loading of numpy file:
-		dta = load(filename)
-	elif ext=='.db':
-		## to retrieve the db data in an array:
-		conn = sqlite3.connect(filename)
-		cursor = conn.cursor()
-		test = cursor.execute('SELECT * FROM hhg')
-		dta = test.fetchall()
-		dta = array(dta,dtype=desc_hhg)
-	else:
-		print 'file has wrong extension'
-		exit(1)
-	dta = dta.view(desc_hhg, recarray)
-	## which dates?
-	while int(dta.t[i]) == int(dta.t[0]): 
-			
-	## actual plotting here:
-	fig = hplt.Hhg_main_plot(10,8,80)
-	fig.plot(1, dta.t[::10], array((dta.x,dta.y,dta.z)).T[::10], dta.e1[::10], dta.e2[::10])
-	fig.show()
 else:
 	print 'usage: viz_HHG.py <data.npy|data.db>'
 	exit()
+	
+## read the data file
+if len(filename)>3:
+	ext = filename[-3:]
+	ext = ext.lower()
+else:
+	exit(1)
+if ext=='npy': # simple loading of numpy file:
+	dta = load(filename)
+elif ext=='npz':
+	out = load(filename)
+	dta = out['dta']
+	cnf = out['conf']
+elif ext=='.db':
+	## to retrieve the db data in an array:
+	conn = sqlite3.connect(filename)
+	cursor = conn.cursor()
+	test = cursor.execute('SELECT * FROM hhg')
+	dta = test.fetchall()
+	dta = array(dta,dtype=desc_hhg)
+else:
+	print 'file has wrong extension'
+	exit(1)
+	
+dta = dta.view(desc_hhg, recarray)
+		
+## actual plotting here:
+fig = hplt.Hhg_raw_plot(10,8,80)
+fig.plot(1, 3, dta.t, array((dta.x,dta.y,dta.z)).T,'3D acceleration')
+fig.plot(2, 3, dta.t, array((dta.e1)).T>>8, 'ambient light')
+fig.plot(3, 3, dta.t, (array((dta.e1)).T&0xFF)/2-30, 'temperature')
+fig.show()
+
+
