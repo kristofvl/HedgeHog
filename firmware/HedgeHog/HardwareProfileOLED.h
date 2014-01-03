@@ -93,12 +93,12 @@ extern char is_logging;
 #define	oledCS			LATEbits.LATE2
 #define	oledCS_TRIS		TRISEbits.TRISE2
 #define	oledRESET		LATDbits.LATD1
-#define	oledRESET_TRIS          TRISDbits.TRISD1
+#define	oledRESET_TRIS	TRISDbits.TRISD1
 #define	oledD_C			LATBbits.LATB5
-#define	oledD_C_TRIS            TRISBbits.TRISB5
+#define	oledD_C_TRIS	TRISBbits.TRISB5
 // Definitions for reset pin (from oled.h)
-#define RST_TRIS_BIT            TRISDbits.TRISD2
-#define RST_LAT_BIT             LATDbits.LATD2
+#define RST_TRIS_BIT	TRISDbits.TRISD2
+#define RST_LAT_BIT		LATDbits.LATD2
 
 /*******************************************************************/
 /******** Accelerometer definitions and options ********************/

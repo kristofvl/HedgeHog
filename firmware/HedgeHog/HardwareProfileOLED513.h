@@ -112,17 +112,19 @@ extern char is_logging;
 /*******************************************************************/
 /******** Power Circuit sense pins definitions and options *********/
 /*******************************************************************/
-#define USBP_INT_TRIS		TRISAbits.TRISA0   // POK_INT_TRIS = charger "POK"
-#define USBP_INT			PORTAbits.RA0      // POK_INT
-#define PWRGD_INT_TRIS		TRISAbits.TRISA1   // Voltage converter "power good"
-#define PWRGD_INT			PORTAbits.RA1      // PWRGD_INT
+//#define USBP_INT_TRIS    TRISBbits.TRISB7
+//#define USBP_INT         PORTBbits.RB7
+#define USBP_INT_TRIS	TRISAbits.TRISA0   // POK_INT_TRIS = charger "POK"
+#define USBP_INT		PORTAbits.RA0      // POK_INT
+#define PWRGD_INT_TRIS	TRISAbits.TRISA1   // Voltage converter "power good"
+#define PWRGD_INT		PORTAbits.RA1      // PWRGD_INT
 
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
 #define LIGHTCHANNEL	4						// RA5 == AN4 == CHANNEL#4
-#define LIGHT_PWR		LATAbits.LATA3			// RA3 (PIN22)
+#define LIGHT_PWR		PORTAbits.RA3			// RA3 (PIN22)
 
 /*******************************************************************/
 /******** remap pins ***********************************************/
