@@ -16,3 +16,5 @@ hardware/*.l#*
 
 .directory
 
+/firmware/HedgeHog/HHOS.X/nbproject/Makefile-genesis.properties
+
