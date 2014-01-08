@@ -225,9 +225,6 @@ void user_init(void) {
     // By default, start in configuration mode
     is_logging = 0;
         
-    // read HedgeHog configuration structure
-    //   read_SD(SECTOR_CF, sd_buffer.bytes);
-
     // wait 5,000,000 ticks till system is powered
     Delay10KTCYx(250); Delay10KTCYx(250);
     
@@ -262,8 +259,10 @@ void process_IO(void) {
     else {
         #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
-            if (!rtc_alrm())
+            if (!rtc_alrm()){
+                config_process();   // configuration tasks
                 goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
+            }
             else
                 return;
         #else
@@ -271,7 +270,6 @@ void process_IO(void) {
             return;
         #endif
         MSDTasks();         // mass storage device tasks
-        config_process();   // CDC configuration tasks
     }
 }
 
@@ -447,9 +445,6 @@ void config_process(void) {
 
         case 'f':
 
-              // detach HedgeHog while Formating
-                 USBSoftDetach();
-
               // write 0s to sectors 0-640
                  memset((void*)&sd_buffer, 0, 512);
                  for(i=0; i<=640; i++)
@@ -534,7 +529,6 @@ void config_process(void) {
                  sd_buffer.conf.flag = 0;
                  write_SD(SECTOR_LF, sd_buffer.bytes);
                  memset((void*)&sd_buffer, 0, 512);
-                 USBSoftDetach();
                  is_logging = 1;
                  break;
      }

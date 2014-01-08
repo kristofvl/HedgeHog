@@ -87,9 +87,10 @@ class start_HHG_dialog:
             starthhg.seek(1023,0)  
             starthhg.write("l")
             starthhg.close()
-        #hhgdir = re.sub("config.ure","",self.conf_file,count=1)
-        #subprocess.call(["sync"])    
-        #subprocess.call(["sudo". "umount", hhgdir])    
+        hhgdir = re.sub("config.ure","",self.conf_file,count=1)
+        subprocess.call(["sync"])    
+        subprocess.call(["flush"])    
+        subprocess.call(["umount", hhgdir])    
         sys.exit(0)  
 
     def Quit(self, widget):
