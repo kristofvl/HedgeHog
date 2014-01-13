@@ -260,7 +260,6 @@ void process_IO(void) {
         #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
         if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
             if (!rtc_alrm()){
-                config_process();   // configuration tasks
                 goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
             }
             else
@@ -270,6 +269,7 @@ void process_IO(void) {
             return;
         #endif
         MSDTasks();         // mass storage device tasks
+        config_process();   // configuration tasks
     }
 }
 
