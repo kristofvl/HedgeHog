@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '2',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '3',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -256,20 +256,19 @@ void process_IO(void) {
 
     if (is_logging)
         log_process();      // go to the logging process
-    else {
-        #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
-        if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
-            if (!rtc_alrm()){
-                goto_deep_sleep(&tm, 3); // sleep for a while (3 seconds)
-            }
-            else
-                return;
-        #else
-        if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1))
+    else
+    {
+       if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1)) {
+            #if defined(USBP_INT)
+             if ((USBP_INT==1)&&(!rtc_alrm())) {
+                 goto_deep_sleep(&tm, 3);
+             }
+            #endif
             return;
-        #endif
+        }
         MSDTasks();         // mass storage device tasks
-        config_process();   // configuration tasks
+        if (MSD_State==MSD_WAIT) // update configuration when we're not busy
+            config_process();
     }
 }
 
