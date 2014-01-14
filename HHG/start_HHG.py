@@ -23,7 +23,6 @@ class timer:
         if (stpTime[0]<sysTime.year) or (stpTime[0]==sysTime.year and stpTime[1]<sysTime.month) or (stpTime[0]==sysTime.year and 
                         stpTime[1]==sysTime.month and stpTime[2]<sysTime.day):
             self.calcStpTime(stpTime)
-        
         with open (conf_file, "r+w") as confhhg: 
             confhhg.seek(60,0)  # Write System Time
             confhhg.write(chr(sysTime.year-2000))
@@ -63,23 +62,21 @@ class start_HHG_dialog:
             "on_Cal_day_selected": self.CalDayClick,
         }
         self.builder.connect_signals(dic)
-
         self.logger.show_all()
-
         self.conf_file = config_file
         self.stpTime = []
         self.timer.calcStpTime(self.stpTime)
         self.cal.clear_marks()
         self.cal.select_month(self.stpTime[1]-1, self.stpTime[0])
         self.cal.mark_day(self.stpTime[2])
-        self.cal.select_day(self.stpTime[2])
-
+        #self.cal.select_day(self.stpTime[2])
+        
     def CalDayClick(self, widget): 
         self.cal.clear_marks()
         self.stpTime = list(self.cal.get_date())
         self.stpTime[1] = self.stpTime[1]+1 
         self.cal.mark_day(self.stpTime[2])
-        self.cal.select_day(self.stpTime[2])
+        #self.cal.select_day(self.stpTime[2])
 
     def StartLogging(self, widget):
         self.timer.setTime(self.conf_file, self.stpTime) 
@@ -88,8 +85,10 @@ class start_HHG_dialog:
             starthhg.write("l")
             starthhg.close()
         hhgdir = re.sub("config.ure","",self.conf_file,count=1)
-        subprocess.call(["sync"])    
-        subprocess.call(["umount", hhgdir])    
+        subprocess.call(["sync"])
+        # ideally wait a bit here
+        print "Hedgog should be started now"    
+        subprocess.call(["umount", hhgdir])
         sys.exit(0)  
 
     def Quit(self, widget):

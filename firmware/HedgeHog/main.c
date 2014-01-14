@@ -260,7 +260,7 @@ void process_IO(void) {
     {
        if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1)) {
             #if defined(USBP_INT)
-             if ((USBP_INT==1)&&(!rtc_alrm())) {
+             if (!rtc_alrm()) {
                  goto_deep_sleep(&tm, 3);
              }
             #endif
