@@ -8,5 +8,17 @@ homeDir = os.environ['HOME']
 currDir = os.getcwd()
 
 subprocess.call(["mkdir", "-p", homeDir+"/.hhg"])
-subprocess.call(["ln", "-s", "conf_HHG.py", "Conf.ui", "start_HHG.py", "Start.ui", "import_HHG.py", "viz_HHG.py", "plot_HHG.py","dd_HHG.py", homeDir+"/.hhg"])
-subprocess.call(["ln", "-s", "hhg_dialogs", "hhg_io", "hhg_features", "hhg_plot", "dd_img", homeDir+"/.hhg"])
+subprocess.call(["ln", "-sf", "conf_HHG.py",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", "start_HHG.py",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", "import_HHG.py",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", "plot_HHG.py",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", "viz_HHG.py",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", "dd_HHG.py",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", "Conf.ui",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", "Start.ui",homeDir+"/.hhg"]);
+
+subprocess.call(["ln", "-sf", currDir+"/hhg_dialogs",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", currDir+"/hhg_features",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", currDir+"/hhg_plot",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", currDir+"/hhg_io",homeDir+"/.hhg"]);
+subprocess.call(["ln", "-sf", currDir+"/dd_img",homeDir+"/.hhg"]);
