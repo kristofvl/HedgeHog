@@ -25,6 +25,7 @@ def compareStatus(currentLogStatus):
 				subprocess.call(["notify-send", "Device mounted"])
 				loop = False
 		subprocess.call(["./download_HHG.py"])
+		subprocess.call(["./viz_HHG.py HEDGHG.npy"])
 	return currentLogStatus
 
 def main():

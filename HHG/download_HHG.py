@@ -49,7 +49,7 @@ import pdb
 #looking for the home directory of the system 
 homedir=os.path.expanduser("~")
 
-src = glob.glob('/media/HEDG*')[0]
+src = glob.glob('/media/essuser/HEDG*')[0]
 print 'HedgeHog Device found at ' + src
 
 outpath = os.path.join(homedir,'Logs')
@@ -125,11 +125,11 @@ loglst = flst[0:len(rlvlst)]
 #------------------------------------------------------------------------------#
 
 outext = 'npy'
-outname = 'joint'
+outname = 'HEDHG'
 
 #data descriptor for the hedgehog default data:
-desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2','c'), 
-					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2', 'B1') }
+desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
+					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
 # buffer size: how many blocks (of 512 bytes each) do we read at once?
 bufsize = 370	# takes about 0.5 seconds on a laptop
