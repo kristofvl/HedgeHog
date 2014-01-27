@@ -23,7 +23,7 @@
 # 
 
 
-import sys, time, os
+import sys, time, os, math
 import numpy as np
 from matplotlib.dates import num2date
 import hhg_io.hhg_import as hgi
@@ -42,7 +42,7 @@ bufsize = 192	# takes about 0.5 seconds on a laptop
 
 #open/parse the data:
 if len(sys.argv) < 3:
-	print 'usage: import_HHG.py <out.[npy|db]> <in0.HHG> [<in1.HHG> ..]'
+	print 'use: import_HHG.py [out.<npy|npz|db>] [in0.HHG] <in1.HHG ..>'
 	exit(1)
 
 ## output to a numpy file or db? prepare the output structure:
@@ -129,7 +129,14 @@ while len(sys.argv) > file_iter+1:
 				dta_e2 = np.append(dta_e2, bdta.e2[::itr])
 				if firstplot:
 					fig.update_plot(dta_t, dta_x, dta_y, dta_z, 
-										dta_e1, dta_e2, stats)
+						dta_e1, dta_e2, stats)
+					if math.floor(bdta.t[0])!=math.floor(bdta.t[-1]):
+						dta_t = bdta.t[::itr]
+						dta_x = bdta.x[::itr]
+						dta_y = bdta.y[::itr]
+						dta_z = bdta.z[::itr]
+						dta_e1 = bdta.e1[::itr]>>8
+						dta_e2 = bdta.e2[::itr]
 				else:
 					fig.plot(dta_t, dta_x, dta_y, dta_z, 
 								dta_e1, dta_e2, filename, conf)
