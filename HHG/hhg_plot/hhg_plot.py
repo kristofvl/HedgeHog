@@ -64,7 +64,7 @@ class Hhg_load_plot:
 		self.linesy, = self.ax.plot_date(dta_t, dta_y, '-g', lw=0.5)
 		self.linesz, = self.ax.plot_date(dta_t, dta_z, '-b', lw=0.5)
 		self.axe = self.fig.add_subplot(4,1,2, axisbg='#777777')
-		self.axe.fill_between(dta_t, dta_e1, 
+		self.ambfill = self.axe.fill_between(dta_t, dta_e1, 
 			facecolor='yellow', lw=0.1, alpha=.6, label='ambient light')
 		self.ax.grid(color='k', linestyle=':', linewidth=0.5)
 		self.ax.xaxis.set_major_formatter(mld.DateFormatter('%H'))
@@ -77,10 +77,12 @@ class Hhg_load_plot:
 		setp(self.axe.get_xticklabels(), visible=False)
 		self.axe.axes.set_ylim(0, 128)
 		setp(self.axe.get_yticklabels(), visible=False)
-		#self.axe.xaxis.axis_date()
+		self.axe.xaxis.axis_date()
 		self.ax.legend([self.linesx, self.linesy, self.linesz],
 			["x acceleration", "y acceleration", "z acceleration"], 
 			loc=2, prop={'size':10})
+		self.rect = Rectangle((0,1),1,1,fc='y')
+		self.axe.legend([self.rect], ['ambient light'] , loc=2, prop={'size':10})
 		## plot infos: ###################################################
 		if cnf == '':  # dummy incase conf is empty (no configuration)
 			cnf = '000?________1311____1___HedgeHog___v.1.30?___' 
@@ -89,7 +91,7 @@ class Hhg_load_plot:
 			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))			
 		self.fig.text( 0.04, 0.927,
 			'HedgeHog_ID: ' + cnf[0:4] + '\nfirmware:    ' + cnf[35:42]
-			+'\nlogging end: ' +str(ord(cnf[71])) +'-'+str(1+ord(cnf[72])) 
+			+' \nlogging end: ' +str(ord(cnf[71])) +'-'+str(1+ord(cnf[72])) 
 			+'-'+ str(ord(cnf[73])),
 			ha='left', va='top', family='monospace', fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
@@ -131,12 +133,14 @@ class Hhg_load_plot:
 		self.linesx.set_ydata(dta_x)
 		self.linesy.set_ydata(dta_y)
 		self.linesz.set_ydata(dta_z)
-		self.axe.fill_between(dta_t, dta_e1, 
+		## clear and replot ambient data: ################################
+		self.ambfill.remove()
+		self.ambfill = self.axe.fill_between(dta_t, dta_e1, 
 			facecolor='yellow', lw=0, alpha=.6)
-		## make sure to update x axes to current day:
+		## make sure to update x axes to current day: ####################
 		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
 		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
-		## update the log info
+		## update the log info ###########################################
 		self.t_tme.set_text('log started at:  ' 
 			+ str(mld.num2date(dta_t[0]))[0:19] + '\n'
 			+ 'log stopped at:  ' + str(mld.num2date(dta_t[-1]))[0:19])
