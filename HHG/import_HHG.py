@@ -107,12 +107,13 @@ while len(sys.argv) > file_iter+1:
 				############################################################
 				tic = time.clock()
 				bdta = hgi.hhg_import_n(filename, i, i+bufsize)
-				## update output: ##########################################
+				## update output: #########################################
 				if   ext=='.db': # insert multiple records in db:
-					cur.executemany("INSERT INTO hhg VALUES (?,?,?,?,?,?,?)", 
-											bdta.tolist())
+					cur.executemany(
+						"INSERT INTO hhg VALUES (?,?,?,?,?,?,?)",
+						bdta.tolist())
 					conn.commit()
-				elif ext=='npy' or ext=='npz': # update npy output recarray: 
+				elif ext=='npy' or ext=='npz': # update npy output: 
 					dta[dta_i:dta_i+len(bdta)] = bdta
 				toc = time.clock()
 				## report:
@@ -120,31 +121,32 @@ while len(sys.argv) > file_iter+1:
 					stats =  ( str(num2date(bdta.t[0]))
 							+ ' -- imported '+ str(sum(bdta.d))
 							+ ' samples or ' + str(len(bdta))
-							+ ' rle entries, in ' +str(toc-tic) + ' seconds, ' 
+							+ ' rle entries, in ' +str(toc-tic)+' seconds, ' 
 							+ str(dta_i) + '-' + str(dta_i+len(bdta)))
 				else:
 					stats = ''
 				print stats
-				## update plot: ############################################
+				## update plot: ###########################################
 				itr = 50 # TODO: make this dependent on configuration
 				bdta_ = bdta[::itr]
 				bdta_.e1 >>= 8 # ambient light
 				new_day = int(bdta_.t[-1])
 				if old_day!=new_day:
 					old_day = new_day
-					## first plot the remains of the last day: ##############
+					## first plot the remains of the last day: ############
 					bdta_tt = [x for x in bdta_.t if x<int(bdta_.t[-1])]
 					tt = len(bdta_tt)
 					dta_ = np.append(dta_, 
-										  bdta_[:tt]).view(desc_hhg, np.recarray)
+										 bdta_[:tt]).view(desc_hhg, np.recarray)
 					if tt>0:
 						fig.update_plot(dta_, stats)
-						fig.save_plot('temp_'+str(int(dta_.t[0]))+'.png')
+						fig.save_plot('./temp_'+str(int(dta_.t[0]))+'.png')
 					dta_  = bdta_[tt:]
 				else:
-					dta_ = np.append(dta_, bdta_).view(desc_hhg, np.recarray)
+					dta_ = np.append(dta_, 
+											bdta_).view(desc_hhg, np.recarray)
 				fig.update_plot(dta_, stats)
-				## stop for current file if we didn't fill the full buffer #
+				## stop for current file if buffer not filled ############
 				if len(bdta)<126*bufsize-1:
 					dta_i = dta_i + len(bdta)
 					break; ## done, get out this infinite loop

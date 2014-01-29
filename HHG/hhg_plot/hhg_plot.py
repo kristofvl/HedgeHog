@@ -93,8 +93,8 @@ class Hhg_load_plot:
 			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))			
 		self.fig.text( 0.04, 0.927,
 			'HedgeHog_ID: ' + cnf[:4] + '\nfirmware:    ' + cnf[35:42]
-			+' \nlogging end: ' +str(ord(cnf[71])) +'-'+str(1+ord(cnf[72])) 
-			+'-'+ str(ord(cnf[73])),
+			+' \nlogging end: 20' +str(ord(cnf[71])) +'-'
+			+str(1+ord(cnf[72])).zfill(2) +'-'+ str(ord(cnf[73])).zfill(2),
 			ha='left', va='top', family='monospace', fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		## display accelerometer settings: ###############################
@@ -144,12 +144,12 @@ class Hhg_load_plot:
 		## update the log info ###########################################
 		self.t_tme.set_text( self.t_tme.get_text()[:54]  
 			+ str(mld.num2date(dta_.t[-1]))[:19])
-		## update the stats info
+		## update the stats info #########################################
 		self.b.set_text(s)
-		ion()
 		draw()
+		##################################################################
 	def save_plot(self, fn):
-		self.fig.savefig(fn, format='png', dpi=50)
+		self.fig.savefig(fn, format='png', dpi=50, bbox_inches='tight')
 
 
 
