@@ -43,6 +43,7 @@ class Hhg_load_plot:
 		self.md_lookup = ['controller', 'sensor']			
 		self.pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
 		self.ax = None
+		self.first_plot = 1
 		try: # disable toolbar:
 			rcParams['toolbar'] = 'None';		
 			self.fig = figure(	num=None, figsize=(fig_x, fig_y), 
@@ -56,9 +57,6 @@ class Hhg_load_plot:
 									wspace = 0.1, # width space betw. subplots
 									hspace = 0.1  # height space btw. subplots
 								)
-	def show(self):
-		self.fig.show()
-		show()
 	def plot(self, dta_t,dta_x,dta_y,dta_z, dta_e1,dta_e2, fn='',cnf=''):
 		## plot data and clean up the axes: ##############################
 		self.fix_margins()
@@ -127,27 +125,31 @@ class Hhg_load_plot:
 			'loading from '+fn+' on HHG#'+cnf[:4])
 		ion()
 		draw()
-	def update_plot(self, dta_t,dta_x,dta_y,dta_z, dta_e1, dta_e2, s=''):
-		self.linesx.set_xdata(dta_t)
-		self.linesy.set_xdata(dta_t)
-		self.linesz.set_xdata(dta_t)
-		self.linesx.set_ydata(dta_x)
-		self.linesy.set_ydata(dta_y)
-		self.linesz.set_ydata(dta_z)
+		self.fig.show()
+	def update_plot(self, dta_, s=''):
+		## update the timeseries plots: ##################################
+		self.linesx.set_xdata(dta_.t)
+		self.linesy.set_xdata(dta_.t)
+		self.linesz.set_xdata(dta_.t)
+		self.linesx.set_ydata(dta_.x)
+		self.linesy.set_ydata(dta_.y)
+		self.linesz.set_ydata(dta_.z)
 		## clear and replot ambient data: ################################
 		self.ambfill.remove()
-		self.ambfill = self.axe.fill_between(dta_t, dta_e1, 
+		self.ambfill = self.axe.fill_between(dta_.t, dta_.e1, 
 			facecolor='yellow', lw=0, alpha=.6)
 		## make sure to update x axes to current day: ####################
-		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
-		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		self.ax.axes.set_xlim(int(dta_.t[-1]), int(dta_.t[-1])+1)
+		self.axe.axes.set_xlim(int(dta_.t[-1]), int(dta_.t[-1])+1)
 		## update the log info ###########################################
 		self.t_tme.set_text( self.t_tme.get_text()[:54]  
-			+ str(mld.num2date(dta_t[-1]))[:19])
+			+ str(mld.num2date(dta_.t[-1]))[:19])
 		## update the stats info
 		self.b.set_text(s)
 		ion()
 		draw()
+	def save_plot(self, fn):
+		self.fig.savefig(fn, format='png', dpi=50)
 
 
 
