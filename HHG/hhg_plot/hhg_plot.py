@@ -39,6 +39,9 @@ import hhg_dialogs.hhg_fsave as fsave_dlg
 class Hhg_load_plot:
 	def __init__(self, fig_x=10, fig_y=6, fdpi=80):
 		self.fig = 0
+		self.bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
+		self.md_lookup = ['controller', 'sensor']			
+		self.pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
 		self.ax = None
 		try: # disable toolbar:
 			rcParams['toolbar'] = 'None';		
@@ -50,7 +53,7 @@ class Hhg_load_plot:
 	def fix_margins(self):
 			subplots_adjust(	left  = 0.03, right = 0.98, # left, right, 
 									bottom = 0.1,top = 1, # bottom and top
-									wspace = 0.2, # width space betw. subplots
+									wspace = 0.1, # width space betw. subplots
 									hspace = 0.1  # height space btw. subplots
 								)
 	def show(self):
@@ -82,7 +85,8 @@ class Hhg_load_plot:
 			["x acceleration", "y acceleration", "z acceleration"], 
 			loc=2, prop={'size':10})
 		self.rect = Rectangle((0,1),1,1,fc='y')
-		self.axe.legend([self.rect], ['ambient light'] , loc=2, prop={'size':10})
+		self.axe.legend([self.rect], ['ambient light'],
+			loc=2, prop={'size':10})
 		## plot infos: ###################################################
 		if cnf == '':  # dummy incase conf is empty (no configuration)
 			cnf = '000?________1311____1___HedgeHog___v.1.30?___' 
@@ -90,24 +94,21 @@ class Hhg_load_plot:
 			ha='left', va='top', family='monospace',fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))			
 		self.fig.text( 0.04, 0.927,
-			'HedgeHog_ID: ' + cnf[0:4] + '\nfirmware:    ' + cnf[35:42]
+			'HedgeHog_ID: ' + cnf[:4] + '\nfirmware:    ' + cnf[35:42]
 			+' \nlogging end: ' +str(ord(cnf[71])) +'-'+str(1+ord(cnf[72])) 
 			+'-'+ str(ord(cnf[73])),
 			ha='left', va='top', family='monospace', fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		## display accelerometer settings: ###############################
 		g_range = pow(2,1+ord(cnf[12])-48)
-		bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
-		md_lookup = ['controller', 'sensor']			
-		pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
 		self.fig.text( 0.32, 0.96, 'accelerometer settings', 
 			ha='left', va='top', family='monospace',fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))
 		self.fig.text( 0.32, 0.927, 
 			'acc. range : '+ u"\u00B1" + str(g_range) +'g'
-			+ '\nsampled at : ' + str(bw_lookup[ord(cnf[13])-48])
-			+ 'Hz (' + str(md_lookup[ord(cnf[14])-48])
-			+ ')\npower mode : ' + str(pw_lookup[ord(cnf[15])-48])
+			+ '\nsampled at : ' + str(self.bw_lookup[ord(cnf[13])-48])
+			+ 'Hz (' + str(self.md_lookup[ord(cnf[14])-48])
+			+ ')\npower mode : ' + str(self.pw_lookup[ord(cnf[15])-48])
 			+ '\nRLE delta  : ' + str(cnf[20]),
 			ha='left', va='top', family='monospace',fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
@@ -115,15 +116,15 @@ class Hhg_load_plot:
 		self.fig.text( 0.64, 0.96, 'Log information', 
 			ha='left', va='top', family='monospace',fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))
-		self.t_tme = self.fig.text( 0.64, 0.927, 
-			str(mld.num2date(dta_t[0]))+'\n'+str(mld.num2date(dta_t[0])), 
+		self.t_tme = self.fig.text( 0.64, 0.927, 'log started at:  ' 
+			+ str(mld.num2date(dta_t[0]))[:19]  + '\nlog stopped at:  ', 
 			ha='left', va='top', family='monospace', fontsize=11, 
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		self.b = self.fig.text( 0.02, 0.03, 'statistics loading...', 
 			ha='left',va='top',family='monospace',fontsize=10)
 		## set window title: #############################################
 		self.fig.canvas.set_window_title(
-			'loading from '+fn+' on HHG#'+cnf[0:4])
+			'loading from '+fn+' on HHG#'+cnf[:4])
 		ion()
 		draw()
 	def update_plot(self, dta_t,dta_x,dta_y,dta_z, dta_e1, dta_e2, s=''):
@@ -141,9 +142,8 @@ class Hhg_load_plot:
 		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
 		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
 		## update the log info ###########################################
-		self.t_tme.set_text('log started at:  ' 
-			+ str(mld.num2date(dta_t[0]))[0:19] + '\n'
-			+ 'log stopped at:  ' + str(mld.num2date(dta_t[-1]))[0:19])
+		self.t_tme.set_text( self.t_tme.get_text()[:54]  
+			+ str(mld.num2date(dta_t[-1]))[:19])
 		## update the stats info
 		self.b.set_text(s)
 		ion()
