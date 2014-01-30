@@ -46,7 +46,8 @@ class configure:
 			confhhg.seek(12,0)  # Write ACC Settings
 			confhhg.write(str(rangeCombo.get_active()))
 			confhhg.write(str(freqCombo.get_active()))
-			confhhg.write(str(modeCombo.get_active()))
+			#confhhg.write(str(modeCombo.get_active()))
+			confhhg.write(str(1))
 			confhhg.write(str(powCombo.get_active()))
 			confhhg.seek(20,0) # Write RLE Delta
 			confhhg.write(str(rleCombo.get_active()))
