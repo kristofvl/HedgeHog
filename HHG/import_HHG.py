@@ -88,6 +88,7 @@ while len(sys.argv) > file_iter+1:
 	file_iter+=1
 	filename = sys.argv[file_iter]
 	i = 0; # buffer counter
+	dta_s = 0
 	if len(filename)>3:
 		if filename[-3:]=='HHG':
 			# read configuration if we're reading from a hedgehog:
@@ -101,8 +102,7 @@ while len(sys.argv) > file_iter+1:
 							conf = f.read(512)	# read first 512 bytes
 			if file_iter==2:
 				bdta = hgi.hhg_import_n(filename, 0, 1)
-				fig.plot(bdta.t, bdta.x, bdta.y, bdta.z, bdta.e1, bdta.e2, 
-						filename, conf)
+				fig.plot(bdta, filename, conf)
 			while True:
 				############################################################
 				tic = time.clock()
@@ -117,12 +117,16 @@ while len(sys.argv) > file_iter+1:
 					dta[dta_i:dta_i+len(bdta)] = bdta
 				toc = time.clock()
 				## report:
+				bdta_l = len(bdta)
+				bdta_s = sum(bdta.d)
+				dta_s += bdta_s
 				if len(bdta)>0:
-					stats =  ( str(num2date(bdta.t[0]))
-							+ ' -- imported '+ str(sum(bdta.d))
-							+ ' samples or ' + str(len(bdta))
+					stats =  ( str(num2date(bdta.t[0]))[0:22]
+							+ ': read '+ str(bdta_s).zfill(7) 
+							+ ' samples in ' + str(bdta_l).zfill(7)
 							+ ' rle entries, in ' +str(toc-tic)+' seconds, ' 
-							+ str(dta_i) + '-' + str(dta_i+len(bdta)))
+							+ str(dta_i+bdta_l).zfill(10) + ' ' 
+							+ str(dta_s).zfill(10) )
 				else:
 					stats = ''
 				print stats
@@ -140,7 +144,7 @@ while len(sys.argv) > file_iter+1:
 										 bdta_[:tt]).view(desc_hhg, np.recarray)
 					if tt>0:
 						fig.update_plot(dta_, stats)
-						fig.save_plot('./temp_'+str(int(dta_.t[0]))+'.png')
+						fig.save_plot('./'+str(num2date(dta_.t[0]))[0:10]) 
 					dta_  = bdta_[tt:]
 				else:
 					dta_ = np.append(dta_, 
@@ -154,7 +158,10 @@ while len(sys.argv) > file_iter+1:
 					i+=bufsize-1
 					dta_i+=len(bdta)
 				############################################################
-		
+				
+## plot remains fo the day
+fig.save_plot('./'+str(num2date(dta_.t[0]))[0:10])
+
 ## finalize output:
 if   ext=='npy':
 	dta = dta[0:dta_i]

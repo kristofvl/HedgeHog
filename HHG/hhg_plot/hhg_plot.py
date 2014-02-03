@@ -57,24 +57,24 @@ class Hhg_load_plot:
 									wspace = 0.1, # width space betw. subplots
 									hspace = 0.1  # height space btw. subplots
 								)
-	def plot(self, dta_t,dta_x,dta_y,dta_z, dta_e1,dta_e2, fn='',cnf=''):
+	def plot(self, dta, fn='',cnf=''):
 		## plot data and clean up the axes: ##############################
 		self.fix_margins()
 		self.ax = self.fig.add_subplot(2,1,2, axisbg='#FFFFFF')
-		self.linesx, = self.ax.plot_date(dta_t, dta_x, '-r', lw=0.5)
-		self.linesy, = self.ax.plot_date(dta_t, dta_y, '-g', lw=0.5)
-		self.linesz, = self.ax.plot_date(dta_t, dta_z, '-b', lw=0.5)
+		self.linesx, = self.ax.plot_date(dta.t, dta.x, '-r', lw=0.5)
+		self.linesy, = self.ax.plot_date(dta.t, dta.y, '-g', lw=0.5)
+		self.linesz, = self.ax.plot_date(dta.t, dta.z, '-b', lw=0.5)
 		self.axe = self.fig.add_subplot(4,1,2, axisbg='#777777')
-		self.ambfill = self.axe.fill_between(dta_t, dta_e1, 
+		self.ambfill = self.axe.fill_between(dta.t, dta.e1, 
 			facecolor='yellow', lw=0.1, alpha=.6, label='ambient light')
 		self.ax.grid(color='k', linestyle=':', linewidth=0.5)
 		self.ax.xaxis.set_major_formatter(mld.DateFormatter('%H'))
 		setp(self.ax.get_xticklabels(), visible=True, fontsize=10)
 		setp(self.ax.get_yticklabels(), visible=False)
 		self.ax.axes.set_ylim(0, 256)
-		self.ax.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		self.ax.axes.set_xlim(int(dta.t[-1]), int(dta.t[-1])+1)
 		self.axe.grid(color='w', linestyle=':', linewidth=0.5)
-		self.axe.axes.set_xlim(int(dta_t[-1]), int(dta_t[-1])+1)
+		self.axe.axes.set_xlim(int(dta.t[-1]), int(dta.t[-1])+1)
 		setp(self.axe.get_xticklabels(), visible=False)
 		self.axe.axes.set_ylim(0, 128)
 		setp(self.axe.get_yticklabels(), visible=False)
@@ -87,7 +87,7 @@ class Hhg_load_plot:
 			loc=2, prop={'size':10})
 		## plot infos: ###################################################
 		if cnf == '':  # dummy incase conf is empty (no configuration)
-			cnf = '000?________1311____1___HedgeHog___v.1.30?___' 
+			cnf = '000?________1311____1___HedgeHog___v.1.30?____________'
 		self.fig.text( 0.04, 0.96, 'Sensor unit settings', 
 			ha='left', va='top', family='monospace',fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))			
@@ -99,23 +99,23 @@ class Hhg_load_plot:
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		## display accelerometer settings: ###############################
 		g_range = pow(2,1+ord(cnf[12])-48)
-		self.fig.text( 0.32, 0.96, 'accelerometer settings', 
+		self.fig.text( 0.34, 0.96, 'Accelerometer settings', 
 			ha='left', va='top', family='monospace',fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))
-		self.fig.text( 0.32, 0.927, 
-			'acc. range : '+ u"\u00B1" + str(g_range) +'g'
-			+ '\nsampled at : ' + str(self.bw_lookup[ord(cnf[13])-48])
+		self.fig.text( 0.34, 0.927, 
+			'acc. range: '+ u"\u00B1" + str(g_range) +'g'
+			+ '\nsampled at: ' + str(self.bw_lookup[ord(cnf[13])-48])
 			+ 'Hz (' + str(self.md_lookup[ord(cnf[14])-48])
-			+ ')\npower mode : ' + str(self.pw_lookup[ord(cnf[15])-48])
-			+ '\nRLE delta  : ' + str(cnf[20]),
-			ha='left', va='top', family='monospace',fontsize=11,
+			+ ')\npower mode: ' + str(self.pw_lookup[ord(cnf[15])-48])
+			+ '\nRLE delta : ' + str(cnf[20]),
+			ha='left', va='top', family='monospace',fontsize=11, linespacing=1.25,
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		## display log file settings: ####################################
 		self.fig.text( 0.64, 0.96, 'Log information', 
 			ha='left', va='top', family='monospace',fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='grey',alpha=.4))
 		self.t_tme = self.fig.text( 0.64, 0.927, 'log started at:  ' 
-			+ str(mld.num2date(dta_t[0]))[:19]  + '\nlog stopped at:  ', 
+			+ str(mld.num2date(dta.t[0]))[:19]  + '\nlog stopped at:  ', 
 			ha='left', va='top', family='monospace', fontsize=11, 
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		self.b = self.fig.text( 0.02, 0.03, 'statistics loading...', 
@@ -126,30 +126,34 @@ class Hhg_load_plot:
 		ion()
 		draw()
 		self.fig.show()
-	def update_plot(self, dta_, s=''):
+	def update_plot(self, dta, s=''):
 		## update the timeseries plots: ##################################
-		self.linesx.set_xdata(dta_.t)
-		self.linesy.set_xdata(dta_.t)
-		self.linesz.set_xdata(dta_.t)
-		self.linesx.set_ydata(dta_.x)
-		self.linesy.set_ydata(dta_.y)
-		self.linesz.set_ydata(dta_.z)
+		self.linesx.set_xdata(dta.t)
+		self.linesy.set_xdata(dta.t)
+		self.linesz.set_xdata(dta.t)
+		self.linesx.set_ydata(dta.x)
+		self.linesy.set_ydata(dta.y)
+		self.linesz.set_ydata(dta.z)
 		## clear and replot ambient data: ################################
 		self.ambfill.remove()
-		self.ambfill = self.axe.fill_between(dta_.t, dta_.e1, 
+		self.ambfill = self.axe.fill_between(dta.t, dta.e1, 
 			facecolor='yellow', lw=0, alpha=.6)
 		## make sure to update x axes to current day: ####################
-		self.ax.axes.set_xlim(int(dta_.t[-1]), int(dta_.t[-1])+1)
-		self.axe.axes.set_xlim(int(dta_.t[-1]), int(dta_.t[-1])+1)
+		self.ax.axes.set_xlim(int(dta.t[-1]), int(dta.t[-1])+1)
+		self.axe.axes.set_xlim(int(dta.t[-1]), int(dta.t[-1])+1)
 		## update the log info ###########################################
 		self.t_tme.set_text( self.t_tme.get_text()[:54]  
-			+ str(mld.num2date(dta_.t[-1]))[:19])
+			+ str(mld.num2date(dta.t[-1]))[:19] + '\nraw 3D samples:  ' 
+			+ str(s[-10:]) + '\nRunLEn samples: ' + str(s[-22:-11]))
 		## update the stats info #########################################
 		self.b.set_text(s)
 		draw()
 		##################################################################
 	def save_plot(self, fn):
-		self.fig.savefig(fn, format='png', dpi=50, bbox_inches='tight')
+		self.fig.savefig(fn+'.pdf', format='pdf', dpi=100, 
+			bbox_inches='tight')
+		self.fig.savefig(fn+'.png', format='png', dpi=30, 
+			bbox_inches='tight')
 
 
 
