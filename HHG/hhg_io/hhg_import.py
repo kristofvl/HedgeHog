@@ -115,12 +115,15 @@ def hhg_import_n(filen, strt, stop):
 		return []
 		
 		
-		
-		
-		
-		
-		
-		
+def hhg_store(path, daystamp, dta, conf):
+	try:
+		outpath = os.path.join(path,str(daystamp))
+		if not os.path.exists(outpath):
+			os.makedirs(outpath)
+		np.savez(os.path.join(outpath,'d.npz'), dta=dta, conf=conf)		
+		return outpath
+	except:
+		return ''
 		
 		
 		
@@ -133,6 +136,11 @@ def hhg_import_n(filen, strt, stop):
 		
 	
 #### Everything below will be abandoned soon -- avoid using it!
+
+
+
+
+
 
 # maximum file buffer
 FBUFSIZE = 15000000

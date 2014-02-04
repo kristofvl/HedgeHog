@@ -159,7 +159,7 @@ while len(sys.argv) > file_iter+1:
 					dta_i+=len(bdta)
 				############################################################
 				
-## plot remains fo the day
+## plot remains of the day
 fig.save_plot('./'+str(num2date(dta_.t[0]))[0:10])
 
 ## finalize output:
