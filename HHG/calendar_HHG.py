@@ -39,7 +39,6 @@ dlpath = sys.argv[1]
 if not os.path.exists(dlpath):
 	exit(1)	
 
-
 ## update calendar view:
 f=open(os.path.join(dlpath,'index.html'),"w")
 f.write('<!DOCTYPE html><html lang=en><meta charset=utf-8>')
@@ -47,7 +46,12 @@ f.write('<link rel=stylesheet href=st.css>')
 f.write('<meta name=author content="KristofVL">')
 f.write('<meta property=og:title content="HTML5 HedgeHog Calendar">')
 f.write('<body><section id=calendar>')
-wd = num2date(int(sorted(os.walk(dlpath).next()[1])[0])).weekday()
+# fill empty days before day of week: 
+first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
+for wd in range(num2date(first_day_id).weekday()):
+	f.write('<time datetime=""><a href=#">' 
+					+ str(num2date(first_day_id-wd-1).day) )
+	f.write( '<div class="crop"></div></a></time>\n')
 
 #f.write('<h1>'+calendar.month_name[(num2date(day_id).month)]+' '
 #				 +str(num2date(day_id).year)+'</h1>')
