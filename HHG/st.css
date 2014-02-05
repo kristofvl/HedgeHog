@@ -31,6 +31,7 @@ time {
 }
 
 time.notmonth { background: #777; }
+time.weekend { background: #eee; }
 
 section#calendar 
 { 

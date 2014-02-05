@@ -27,42 +27,56 @@
 ########################################################################
 
 import sys, time, calendar
-import os
+import os, subprocess
 from matplotlib.dates import num2date
 
-#open/parse the data:
+def hhg_cal_entry(day_id, month_view):
+	daystr = str(num2date(day_id).year)+' '+str(num2date(day_id).month)  
+	daystr += '-' + str(num2date(day_id).day)
+	f.write('<time datetime="'+ daystr + '"')
+	if month_view != num2date(day_id).month:
+		f.write('class="notmonth"')
+	elif num2date(day_id).weekday()>4:
+		f.write('class="weekend"')
+	f.write('><a href="./'+ str(day_id) +'/p.pdf">' 
+				+ str(num2date(day_id).day) )
+	f.write( '<div class="crop"><img src="./' + str(day_id) + '/p.png' +
+				'"></div></a></time>\n')
+
+
 if len(sys.argv) < 2:
 	print 'use: calendar_HHG.py [download_folder]'
 	exit(1)
 
 dlpath = sys.argv[1]
 if not os.path.exists(dlpath):
-	exit(1)	
+	exit(1)
 
-## update calendar view:
+home = os.environ['HOME']
+subprocess.call(["cp", "%s/HedgeHog/HHG/st.css"%home, dlpath])
+first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
+last_day_id = int(sorted(os.walk(dlpath).next()[1])[-1])+1
+ # assume that we're interested in first month:
+month_vw = num2date(first_day_id).month
+
 f=open(os.path.join(dlpath,'index.html'),"w")
 f.write('<!DOCTYPE html><html lang=en><meta charset=utf-8>')
 f.write('<link rel=stylesheet href=st.css>')
 f.write('<meta name=author content="KristofVL">')
 f.write('<meta property=og:title content="HTML5 HedgeHog Calendar">')
 f.write('<body><section id=calendar>')
-# fill empty days before day of week: 
-first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
-for wd in range(num2date(first_day_id).weekday()):
-	f.write('<time datetime=""><a href=#">' 
-					+ str(num2date(first_day_id-wd-1).day) )
-	f.write( '<div class="crop"></div></a></time>\n')
 
-#f.write('<h1>'+calendar.month_name[(num2date(day_id).month)]+' '
-#				 +str(num2date(day_id).year)+'</h1>')
-for day_id_str in sorted(os.walk(dlpath).next()[1]):	
-	day_id = int(day_id_str)
-	daystr = str(num2date(day_id).year) + ' '  
-	daystr += str(num2date(day_id).month) + '-' 
-	daystr += str(num2date(day_id).day)
-	f.write('<time datetime="'+ daystr + '"><a href="./' + 
-				day_id_str + '/p.pdf">' + str(num2date(day_id).day) )
-	f.write( '<div class="crop"><img src="./' + day_id_str + '/p.png' +
-				'"></div></a></time>\n')
+f.write('<h1>'+calendar.month_name[month_vw]+' '
+				 +str(num2date(first_day_id).year)+'</h1>')
+# fill empty days before day of week:
+for wd in range(num2date(first_day_id).weekday()):
+	f.write('<time datetime=""><a href=#">.')
+	f.write( '<div class="crop"></div></a></time>\n')
+# fill in days with data:
+for day_id in range(first_day_id, last_day_id):
+	hhg_cal_entry(day_id, month_vw)
+	
 f.write('</section></body>')
 f.close()
+
+subprocess.call(["firefox", "%s/index.html"%dlpath])

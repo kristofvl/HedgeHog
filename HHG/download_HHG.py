@@ -52,8 +52,12 @@ bufsize = 192	# takes about 0.5 seconds on a laptop
 ## look for the home directory of the system 
 homedir=os.path.expanduser("~")
 
-## look for an attached HedgeHog:
-srcdir = glob.glob('/media/essuser/HEDG*')[0]
+
+if len(sys.argv) < 2:
+	## look for an attached HedgeHog:
+	srcdir = glob.glob('/media/essuser/HEDG*')[0]
+else:
+	srcdir = sys.argv[1]
 print 'HedgeHog Device found at ' + srcdir
 
 ## prepare the output structures:
@@ -162,7 +166,6 @@ while len(loglst) > file_iter:
 			i+=bufsize-1
 		############################################################
 	file_iter+=1
-	
 
 ## finalize output:
 daypath = hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
