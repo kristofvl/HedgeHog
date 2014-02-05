@@ -144,7 +144,6 @@ while len(sys.argv) > file_iter+1:
 										 bdta_[:tt]).view(desc_hhg, np.recarray)
 					if tt>0:
 						fig.update_plot(dta_, stats)
-						fig.save_plot('./'+str(num2date(dta_.t[0]))[0:10]) 
 					dta_  = bdta_[tt:]
 				else:
 					dta_ = np.append(dta_, 
@@ -158,9 +157,7 @@ while len(sys.argv) > file_iter+1:
 					i+=bufsize-1
 					dta_i+=len(bdta)
 				############################################################
-				
-## plot remains of the day
-fig.save_plot('./'+str(num2date(dta_.t[0]))[0:10])
+
 
 ## finalize output:
 if   ext=='npy':

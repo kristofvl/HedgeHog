@@ -1,0 +1,54 @@
+html, body { font-family: Helvetica Nueu, Helvetica, Arial, sans-serif; }
+
+section#calendar time a 
+{ 
+	display: block; 
+	width: 162px; 
+	height: 159px;
+	margin: 0px 0px 0 0; 
+	padding: 0px 0px 0 0; 
+	color: #f55b2c; 
+	text-decoration: none;
+}
+
+section#calendar time a:hover
+{ 
+	color: #000; 
+	-webkit-filter: brightness(90%);
+}
+
+time { 
+	display: inline-block; 
+	width: 164px; 
+	height: 160px; 
+	margin: 0px;
+	text-align: right; 
+	font-size: x-large; 
+	font-weight: 900; 
+	border: 2px solid #c3c7c7; 
+	border-radius: 5px; 
+	background: #fff;
+}
+
+time.notmonth { background: #777; }
+
+section#calendar 
+{ 
+	width: 1200px; 
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.crop {
+	width: 166px;
+	height: 120px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
+.crop img {
+	width: 167px;	
+	height: 170px;
+	margin: -37px 0px 0 0;
+}

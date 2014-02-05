@@ -170,28 +170,6 @@ fig.update_plot(dta[::itr], stats)
 fig.save_plot(daypath+'/p')
 
 
-## update calendar view:
-f=open(os.path.join(dlpath,'index.html'),"w")
-f.write('<!DOCTYPE html><html lang=en><meta charset=utf-8>')
-f.write('<link rel=stylesheet href=st.css>')
-f.write('<meta name=author content="KristofVL">')
-f.write('<meta property=og:title content="HTML5 HedgeHog Calendar">')
-f.write('<body><section id=calendar>')
-#f.write('<h1>'+calendar.month_name[(num2date(day_id).month)]+' '
-#				 +str(num2date(day_id).year)+'</h1>')
-for day_id_str in sorted(os.walk(dlpath).next()[1]):	
-	day_id = int(day_id_str)
-	daystr = str(num2date(day_id).year) + ' '  
-	daystr += str(num2date(day_id).month) + '-' 
-	daystr += str(num2date(day_id).day)
-	f.write('<time datetime="'+ daystr + '"><a href="./' + 
-				day_id_str + '/p.pdf">' + str(num2date(day_id).day) )
-	f.write( '<div class="crop"><img src="./' + day_id_str + '/p.png' +
-				'"></div>\n')
-
-f.write('</section></body>')
-f.close()
-
 
 
 
