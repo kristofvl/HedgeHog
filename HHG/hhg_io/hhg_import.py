@@ -61,7 +61,7 @@ def hhg_parsedmesg():
 		datestr = datestr[:4] + datestr[5:]
 		logtime = datetime.strptime(datestr, "%b %d %H:%M:%S %Y")
 		td = datetime.now() - logtime
-		if (td.seconds < 3):
+		if (td.seconds < 5):
 			return True
 		else:
 			return False

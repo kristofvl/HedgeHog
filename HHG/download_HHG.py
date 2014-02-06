@@ -56,8 +56,9 @@ homedir=os.path.expanduser("~")
 ## look for an attached HedgeHog:
 if len(sys.argv) < 2:
 	dlg = hgd.Hhg_scan_dlg()
-	dms = False
-	while not dms:   dms = dlg.scan_dmesg()
+	if not hgi.hhg_findmount():
+		dms = False
+		while not dms:   dms = dlg.scan_dmesg()
 	srcdir = ''
 	while srcdir == '': srcdir = dlg.scan_mount()
 	fileck = False

@@ -6,7 +6,7 @@ h1
 }
 
 section#calendar 
-{ 
+{
 	width: 1195px; 
 	margin-left:auto;
 	margin-right:auto;
@@ -57,7 +57,7 @@ section#calendar time a:hover
 	color: #000;
 	border-radius: 7px;
 	background-color: yellow;
-	-webkit-filter: brightness(70%);
+	-webkit-filter: brightness(90%);
 }
 
 time.notmonth { background: #777; }

@@ -152,7 +152,7 @@ class Hhg_load_plot:
 	def save_plot(self, fn):
 		self.fig.savefig(fn+'.pdf', format='pdf', dpi=100, 
 			bbox_inches='tight')
-		self.fig.savefig(fn+'.png', format='png', dpi=30, 
+		self.fig.savefig(fn+'.png', format='png', dpi=17, 
 			bbox_inches='tight')
 
 
