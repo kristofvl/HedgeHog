@@ -53,6 +53,21 @@ def hhg_findmount():
 	except:
 		return ''
 		
+## checks dmesg output for recent occurences of a hedgehog popping up
+def hhg_parsedmesg():
+	log = os.popen("dmesg -T | tail -n 30 | grep HedgeHog").read()
+	if log:
+		datestr = log[4:24]
+		datestr = datestr[:4] + datestr[5:]
+		logtime = datetime.strptime(datestr, "%b %d %H:%M:%S %Y")
+		td = datetime.now() - logtime
+		if (td.seconds < 3):
+			return True
+		else:
+			return False
+	else:
+		return False
+		
 ## converts 4 bytes into a matplotlib timestamp
 def hhg_convtime(b1,b2,b3,b4):
 	try:
