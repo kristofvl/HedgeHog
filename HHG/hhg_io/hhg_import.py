@@ -37,9 +37,21 @@ import pdb
 SDRLESIZE = 126 #  sd buffer size in RLE samples:
 SDBUFSIZE = 512 #  sd buffer size in bytes
 
-#data descriptor for the hedgehog default data:
+## data descriptor for the hedgehog default data:
 desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
 					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }	
+
+
+## finds the first path where a hedgehog has been spotted
+def hhg_findmount():
+	try:
+		lsblk = os.popen("lsblk -n -o MOUNTPOINT | grep HEDGE").read()
+		if lsblk != '':
+			return lsblk[0:-1]
+		else:
+			return ''
+	except:
+		return ''
 		
 ## converts 4 bytes into a matplotlib timestamp
 def hhg_convtime(b1,b2,b3,b4):
