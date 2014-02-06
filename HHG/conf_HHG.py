@@ -9,7 +9,7 @@ import os
 
 class configure:
 
-	def readSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
+	def readSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo, version, window):
 		confhhg_path = config_file 
 		with open (confhhg_path,"r") as confhhg:
 			confhhg.seek(0,0)
@@ -32,6 +32,9 @@ class configure:
 			rletmp = confhhg.read(1)
 			if (rletmp.isdigit()):
 				rleCombo.set_active(int(rletmp))
+			confhhg.seek(35,0)
+			version = confhhg.read(7)
+			window.set_title("HedgeHog Configuration " + version)
 			confhhg.close()
 
 	def writeSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
@@ -66,6 +69,7 @@ class configure:
 class conf_HHG_dialog:
           	
 	def __init__( self ):
+		self.version = ""
 		self.confer = configure()
 		self.builder = Gtk.Builder()
 		self.homeDir = os.environ['HOME']
@@ -74,7 +78,7 @@ class conf_HHG_dialog:
 		except:
 				self.builder.add_from_file("Conf.ui")
 		self.window = self.builder.get_object("HedgeHog")
-		self.window.set_title("HedgeHog Configuration")
+		self.window.set_title("HedgeHog Configuration" + self.version)
 		self.window.show_all()
 	
 		self.idEntry = self.builder.get_object("IDEntry")
@@ -112,7 +116,7 @@ class conf_HHG_dialog:
 		for mod in self.mods:
 			self.modeCombo.append_text(mod)
 
-		self.confer.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)					   		
+		self.confer.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo, self.version, self.window)					   		
 
 	def Quit(self, widget):
 		sys.exit(0)
