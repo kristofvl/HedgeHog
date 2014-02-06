@@ -52,13 +52,34 @@ bufsize = 192	# takes about 0.5 seconds on a laptop
 ## look for the home directory of the system 
 homedir=os.path.expanduser("~")
 
-
+## look for an attached HedgeHog:
 if len(sys.argv) < 2:
-	## look for an attached HedgeHog:
-	srcdir = glob.glob('/media/essuser/HEDG*')[0]
+	srcdir = []
+	pgrsdlg = gtk.Dialog("Scanning for HHGs", None, 0, None)
+	pbar = gtk.ProgressBar()
+	infotxt = gtk.Label()
+	infotxt.set_text('Scanning...')
+	pgrsdlg.vbox.add(pbar)
+	pgrsdlg.vbox.add(infotxt)
+	pgrsdlg.set_size_request(250, 70)
+	pbar.show();infotxt.show();pgrsdlg.vbox.show();pgrsdlg.show()
+	i = 0
+	while srcdir == []:
+		i += 1
+		pbar.set_fraction(float(i%7000)/7000)
+		while gtk.events_pending(): gtk.main_iteration()
+		try:
+			srcdir = glob.glob('/media/essuser/HEDG*')[0]
+		except:
+			srcdir = []
+	infotxt.set_text('HedgeHog Device found: ' + srcdir)
+	while gtk.events_pending(): gtk.main_iteration()
+	while not os.path.isfile(srcdir+'/config.ure'):
+		infotxt.set_text('Waiting for disk to become available')
+		while gtk.events_pending(): gtk.main_iteration()
+	pgrsdlg.destroy()
 else:
 	srcdir = sys.argv[1]
-print 'HedgeHog Device found at ' + srcdir
 
 ## prepare the output structures:
 dta = np.recarray(0, dtype=desc_hhg)
