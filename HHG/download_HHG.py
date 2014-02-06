@@ -69,11 +69,14 @@ if len(sys.argv) < 2:
 		pbar.set_fraction(float(i%7000)/7000)
 		while gtk.events_pending(): gtk.main_iteration()
 		try:
-			srcdir = glob.glob('/media/essuser/HEDG*')[0]
+			lsblk = os.popen("lsblk -n -o MOUNTPOINT | grep HEDGE").read()
+			if lsblk != '':
+				srcdir = lsblk
 		except:
 			srcdir = []
 	infotxt.set_text('HedgeHog Device found: ' + srcdir)
 	while gtk.events_pending(): gtk.main_iteration()
+	srcdir = srcdir[0:-1] ## remove newline character
 	while not os.path.isfile(srcdir+'/config.ure'):
 		infotxt.set_text('Waiting for disk to become available')
 		while gtk.events_pending(): gtk.main_iteration()
