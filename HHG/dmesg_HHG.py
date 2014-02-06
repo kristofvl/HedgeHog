@@ -2,37 +2,28 @@
 
 import os
 import time
+import datetime
 import subprocess
 
 
 def getDMESG():
-	usbLog = os.popen("dmesg | tail -n 20").read()
+	usbLog = os.popen("dmesg -T | tail -n 30 | grep HedgeHog").read()
 	return usbLog
-
-def getMount():
-	mountLog = os.popen("mount -l").read()
-	return mountLog
 
 def compareStatus(currentLogStatus):
 	logStatus = getDMESG()
-	loop = True
-	if 'ESS TUD' in logStatus and logStatus != currentLogStatus:
-		currentLogStatus = logStatus
-		subprocess.call(["notify-send", "HedgeHog Device Found"])
-		while loop:
-			mountStatus = getMount()
-			if 'HEDGEHG' in mountStatus:
-				subprocess.call(["notify-send", "Device mounted"])
-				loop = False
-		subprocess.call(["./download_HHG.py"])
-		subprocess.call(["./viz_HHG.py HEDGHG.npy"])
-	return currentLogStatus
+	if logStatus:
+		dateString = logStatus[4:24]
+		dateString = dateString[:4] + dateString[5:]
+		#print dateString
+		dateStruct = datetime.datetime.strptime(dateString, "%b %d %H:%M:%S %Y")
+		#print dateStruct
+		timeDelta = datetime.datetime.now() - dateStruct
+		#print timeDelta.seconds 
+		if (timeDelta.seconds < 1): 
+			return 1
+		else:
+			return 0
+	else:
+		return 0
 
-def main():
-	currentLogStatus = getDMESG()
-	while (1):
-		currentLogStatus = compareStatus(currentLogStatus)
-		time.sleep(1)
-        
-if __name__ == "__main__":
-	main()
