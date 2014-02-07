@@ -15,24 +15,24 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 
 /** INCLUDES ******************************************************************/
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
-#include "HardwareProfile.h"			// Hardware design wrapper
+#include "HardwareProfile.h"		// Hardware design wrapper
 #if defined(USBP_INT)
 #include "dsleep_alarm.h"
 #endif
 #include "sensor_wrapper.h"			// all sensors 
-#include "USB/usb_function_msd.h"		// Mass storage over USB
+#include "USB/usb_function_msd.h"	// Mass storage over USB
 #include "SD_Buffer.h"
-#include "SD_FAT.h"				// SD card FAT tables
+#include "SD_FAT.h"					// SD card FAT tables
 #include "RTC/rtc.h"				// RTC functions
 #include "osc.h"
 #include "delays.h"
 #include "HHG_conf.h"
 
 #if defined(SOFTSTART_ENABLED)
-#include "./Soft Start/soft_start.h"            // controls soft start
+#include "./Soft Start/soft_start.h"	// controls soft start
 #endif
 #if defined(DISPLAY_ENABLED)
-#include "display_config.h"			// OLED display defines
+#include "display_config.h"				// OLED display defines
 #endif
 
 /** CONFIGURATION *************************************************************/
@@ -66,15 +66,15 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 sd_buffer_t sd_buffer;
 
 // time variables
-rtc_timedate tm; //  holding time info for current time
+rtc_timedate tm;		//  holding time info for current time
 char date_str[11] = "01/01/2012";
-char time_str[9] = "00:00:00";
+char time_str[9]  = "00:00:00";
 UINT32 tm_stop;
 
 // sensor variables:
 WORD_VAL light;
 UINT8 thermo = 21;
-ACC_XYZ accval; // variable for current acceleration readings
+ACC_XYZ accval;			// variable for current acceleration readings
 char acc_str[12];
 char lt_str[4];
 char tmp_str[4];
@@ -91,7 +91,7 @@ const ROM InquiryResponse inq_resp = {
     0x80, // removable
     0x04, // version = 04 => SPC-2
     0x02, // response is in format specified by SPC-2
-    0x20, // n-4 = 36-4=32= 0x20
+    0x20, // n-4 = 36-4 = 32 = 0x20
     0x00, // sccs etc.
     0x00, // other device -> using 00
     0x00, // 00 obsolete, 0x80 for basic task queueing
@@ -102,8 +102,7 @@ const ROM InquiryResponse inq_resp = {
 
 /** PRIVATE PROTOTYPES ********************************************************/
 #include "USBCallbacks.c"
-//#include "HardwareProfileBasic.h"         // USB bus comms implementations
-void high_priority_ISR(void);               // interrupt service routines
+void high_priority_ISR(void);		// interrupt service routines
 void low_priority_ISR(void);
 static void init_system(void);
 void process_IO(void);
@@ -238,7 +237,7 @@ void user_init(void) {
     #endif
 
     #if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
-        rtc_set_timeout_s(&tm, 5);  // set alarm after 5 seconds (to check USB)
+    rtc_set_timeout_s(&tm, 5);  // set alarm after 5 seconds (to check USB)
     #endif
 }
 
@@ -355,7 +354,7 @@ void log_process() {
         #if defined(DISPLAY_ENABLED)
         disp_start_log();
         #endif
-        #if defined(HEDGEHOG_OLED)
+	#if defined(HEDGEHOG_OLED) || defined(HEDGEHOG_OLED_513)
         adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
         #endif
         #if defined(USBP_INT)

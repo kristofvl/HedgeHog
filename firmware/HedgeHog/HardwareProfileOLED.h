@@ -69,7 +69,7 @@ extern char is_logging;
 /*******************************************************************/
 /******** MDD File System selection options ************************/
 /*******************************************************************/
-#define USE_PIC18				// used by FSConfig.h
+#define USE_PIC18			// used by FSConfig.h
 #define USE_SD_INTERFACE_WITH_SPI
 #define TRIS_CARD_DETECT    TRISBbits.TRISB4    // Input
 #define CARD_DETECT         PORTBbits.RB4 
@@ -131,6 +131,6 @@ extern char is_logging;
 #define remap_pins() {ul_reg(); RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5; l_reg();}
 
 // make sure all pins are output, except for B7 (USB power) and B5 (acc INT)
-#define set_unused_pins_to_output() {TRISD=0; TRISB=0xb00000101; }
+#define set_unused_pins_to_output() {TRISD=0; TRISB=0b00000101; }
 
-#endif  //HARDWARE_PROFILE_HEDGEHOG_TESTBED_H
+#endif  //HARDWARE_PROFILE_HEDGEHOG_OLED_H
