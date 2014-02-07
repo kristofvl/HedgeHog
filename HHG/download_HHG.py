@@ -2,8 +2,8 @@
 
 ########################################################################
 #
-# Filename: download_HHG.py 							Author: Enzo Torella 
-#
+# Filename: download_HHG.py 							Authors: Enzo Torella, 
+#																	   HanyA, KristofVL
 #
 # Descript: Download from the Hedgehog, convert the log files, split 
 # 			the data into days and save them as a numpy file in the 
@@ -25,13 +25,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 # 
-#######################################################################
+########################################################################
 
-import sys, time
+import sys, time, calendar
 import os
-import hhg_io.hhg_import as hgi
-import hhg_io.hhg_split as hhg_split
-import hhg_dialogs.hhg_fopen as hhg_fopen
 import numpy as np
 import pygtk, gtk
 import re
@@ -39,197 +36,151 @@ from struct import unpack
 import glob
 import subprocess 
 import shutil
-from numpy import *
 from matplotlib.dates import num2date
-import sqlite3
-import pdb
+import hhg_plot.hhg_plot as hplt
+import hhg_io.hhg_import as hgi
+import hhg_dialogs.hhg_scan as hgd
 
-#------------------------------------------------------------------------------#
 
-#looking for the home directory of the system 
+
+## data descriptor for the hedgehog default data:
+desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
+					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
+
+## buffer size: how many blocks (of 512 bytes each) do we read at once?
+bufsize = 192	# takes about 0.5 seconds on a laptop
+
+## look for the home directory of the system 
 homedir=os.path.expanduser("~")
 
-src = glob.glob('/media/essuser/HEDG*')[0]
-print 'HedgeHog Device found at ' + src
+## look for an attached HedgeHog:
+if len(sys.argv) < 2:
+	dlg = hgd.Hhg_scan_dlg()
+	if not hgi.hhg_findmount():
+		dms = False
+		while not dms:   dms = dlg.scan_dmesg()
+	srcdir = ''
+	while srcdir == '': srcdir = dlg.scan_mount()
+	fileck = False
+	while not fileck:   fileck = dlg.scan_files(srcdir)
+	dlg.close()
+else:
+	srcdir = sys.argv[1]
 
-outpath = os.path.join(homedir,'Logs')
+## prepare the output structures:
+dta = np.recarray(0, dtype=desc_hhg)
+dlpath = os.path.join(homedir,'hhg_logs')
+if not os.path.exists(dlpath):
+	os.makedirs(dlpath)
+	
+## read configuration file:
+filen = srcdir+'/config.ure'
+# check if the conf file exists:
+if os.path.isfile(filen):	
+	# read config as a string:
+	with open(filen, "rb") as f:
+		conf = f.read(512)	# read first 512 bytes
+else:
+	exit(1)
+dlpath = os.path.join(dlpath,conf[:4])
+if not os.path.exists(dlpath):
+	os.makedirs(dlpath)
+itr = 50 # TODO: make this dependent on configuration
 
-if not os.path.exists(outpath):
-	os.makedirs(outpath)
-
-extension = ".HHG"
-
-flst = sorted(glob.glob(src + '/log*.HHG'))
-#print flst
-
-#find relevant files to be copied
+## find relevant files to be copied
+flst = sorted(glob.glob(srcdir + '/log*.HHG'))
 rlvlst = []
 rlvlst.insert(0,0)
 i=0
-
-# opening progress bar:
-pgrsdlg = gtk.Dialog("Scanning...", None, 0, None)
-pbar = gtk.ProgressBar()
-infotxt = gtk.Label()
-infotxt.set_text('scanning data...')
-pgrsdlg.vbox.add(pbar)
-pgrsdlg.vbox.add(infotxt)
-pgrsdlg.set_size_request(250, 70)
-pgrsdlg.show_all()
-while gtk.events_pending(): gtk.main_iteration()
-
 while i<len(flst):
-
 	f=open(flst[i],"rb")
 	bs=f.read(4)
 	f.close()
 	bs=unpack("%sB"%len(bs),bs)
 	tme1 = hgi.hhg_convtime(bs[0],bs[1],bs[2],bs[3])
-	
 	if i+1 >= len(flst):
 		break 
-
 	else:
 		g=open(flst[i+1],"rb")
 		bl=g.read(4)
 		g.close()
-
 		if len(bl)==0:
 			break
-
 		bl=unpack("%sB"%len(bl),bl)
 		tme2=hgi.hhg_convtime(bl[0],bl[1],bl[2],bl[3])
-		
 		if tme1<tme2:
 			rlvlst.insert(i+1,i+1)
 			i+=1
 		else:
 			break
-	## update progress bar:
-	time.sleep(1)
-	pbar.set_fraction(float(i%len(flst))/len(flst))
-	while gtk.events_pending(): gtk.main_iteration()
-
-pbar.set_fraction(1)
-while gtk.events_pending(): gtk.main_iteration()
-
-time.sleep(2)
-
 print 'Relevant Log files ' + str(flst[0:len(rlvlst)])
-pgrsdlg.hide()
-pgrsdlg.destroy()
-
 loglst = flst[0:len(rlvlst)]
-# print loglst
 
-#------------------------------------------------------------------------------#
 
-outext = 'npy'
-outname = 'HEDHG'
-
-#data descriptor for the hedgehog default data:
-desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
-					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
-
-# buffer size: how many blocks (of 512 bytes each) do we read at once?
-bufsize = 370	# takes about 0.5 seconds on a laptop
-
-## output to a numpy file or db? prepare the output structure:
-if outext=='.db':
-	conn = sqlite3.connect(outname+outext)
-	cur = conn.cursor()
-	# if not there yet: create new db table
-	cur.execute("""SELECT name FROM sqlite_master 
-						WHERE type='table' AND name='hhg'""")
-	res = cur.fetchone()
-	if res==None:
-		cur.execute("""CREATE TABLE hhg (time real, time_d integer,
-							acc_x integer, acc_y integer, acc_z integer, 
-							env1 integer, env2 integer)""")
-if outext=='npy':
-	dta = zeros(10000000,dtype=desc_hhg)
-	dta = dta.view(recarray)
-	
-# opening progress bar:
-pgrsdlg = gtk.Dialog("Importing...", None, 0, None)
-pbar1 = gtk.ProgressBar()
-pbar2 = gtk.ProgressBar()
-infotxt1 = gtk.Label()
-infotxt1.set_text('file progress...')
-infotxt2 = gtk.Label()
-infotxt2.set_text('reading data...')
-pgrsdlg.vbox.add(pbar1)
-pgrsdlg.vbox.add(infotxt1)
-pgrsdlg.vbox.add(pbar2)
-pgrsdlg.vbox.add(infotxt2)
-pgrsdlg.set_size_request(250, 140)
-pgrsdlg.show_all()
-while gtk.events_pending(): gtk.main_iteration()
-
-time.sleep(2)
-
-## read the HHG data file(s)
-dta_i = 0;
+## read the HHG data file(s) and show progress plot to inform user
 file_iter = 0
-
-while len(loglst) >= file_iter+1:
-
-	pbar1.set_fraction(float(file_iter%len(loglst))/len(loglst))
-	while gtk.events_pending(): gtk.main_iteration()
-
+old_day = 0
+## plotting init:
+fig = hplt.Hhg_load_plot(10,8,80)
+## loop over input files:
+while len(loglst) > file_iter:
 	filename = loglst[file_iter]
+	i = 0; # buffer counter
+	dta_s = 0
+	if file_iter==0:
+		# init plot with first buffer:
+		bdta = hgi.hhg_import_n(filename, 0, 1)
+		fig.plot(bdta, filename, conf)
+	while True:
+		############################################################
+		tic = time.clock()
+		bdta = hgi.hhg_import_n(filename, i, i+bufsize)
+		toc = time.clock()
+		## report:
+		bdta_l = len(bdta)
+		bdta_s = sum(bdta.d)
+		dta_s += bdta_s
+		if len(bdta)>0:
+			stats =  ( str(num2date(bdta.t[0]))[0:22]
+					+ ': read '+ str(bdta_s).zfill(7) 
+					+ ' samples in ' + str(bdta_l).zfill(7)
+					+ ' rle entries, in ' +str(toc-tic)+' seconds, ' 
+					+ str(len(dta)).zfill(10) + ' ' 
+					+ str(dta_s).zfill(10) )
+		else:
+			stats = ''
+		print stats
+		## update plot: ###########################################
+		new_day = int(bdta.t[-1])
+		if old_day!=new_day:
+			old_day = new_day
+			## first plot the remains of the last day and save: ###
+			tt = len([x for x in bdta.t if x<int(bdta.t[-1])])
+			dta  =  np.append(dta, bdta[:tt]).view(desc_hhg, np.recarray)
+			if tt>0:
+				daypath = hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
+				fig.update_plot(dta[::itr], stats)
+				fig.save_plot(os.path.join(daypath,'p'))			
+			dta  = bdta[tt:].view(desc_hhg, np.recarray)
+		else:
+			dta  = np.append(dta, bdta).view(desc_hhg, np.recarray)
+		
+		fig.update_plot(dta[::itr], stats)
+		## stop for current file if buffer not filled ############
+		if len(bdta)<126*bufsize-1:
+			break; ## done, get out this infinite loop
+		else:
+			i+=bufsize-1
+		############################################################
 	file_iter+=1
-	print filename
-	i = 0;
-	if len(filename)>3:
-		if filename[-3:]=='HHG':
-			while True:
-				tic = time.clock()
-				bdta = hgi.hhg_import_n(filename, i, i+bufsize)
-				## update output:
-				if   outext=='.db': # insert multiple records in db:
-					cur.executemany("INSERT INTO hhg VALUES (?,?,?,?,?,?,?)", 
-											bdta.tolist())
-					conn.commit()
-				elif outext=='npy': # update npy output recarray: 
-					dta[dta_i:dta_i+len(bdta)] = bdta
-				toc = time.clock()
-				## report:
-				if len(bdta)>0:
-					stats =  ( str(num2date(bdta.t[0]))
-							+ ' -- imported '+ str(sum(bdta.d))
-							+ ' samples or ' + str(len(bdta))
-							+ ' rle entries, in ' +str(toc-tic) + ' seconds, ' 
-							+ str(dta_i) + '-' + str(dta_i+len(bdta)))
-				else:
-					stats = ''
-				print stats
-				## update progress bar:
-				pbar2.set_fraction(float(i%7000)/7000)
-				infotxt2.set_text(str(num2date(bdta.t[0])))
-				while gtk.events_pending(): gtk.main_iteration()
-				## stop for current file if we didn't fill the full buffer:
-				if len(bdta)<126*bufsize-1:
-					dta_i = dta_i + len(bdta)
-					pbar2.set_fraction(1)
-					while gtk.events_pending(): gtk.main_iteration()
-					break;
-				else:
-					i+=bufsize-1
-					dta_i+=len(bdta)
-
-pbar1.set_fraction(1)
-while gtk.events_pending(): gtk.main_iteration()
-time.sleep(2)
-## get rid of the progress dialog and finish:
-pgrsdlg.destroy()
 
 ## finalize output:
-if   outext=='npy':
-	dta = dta[0:dta_i]
-	save(outname, dta)
-elif outext=='.db':
-	conn.commit()
-	cur.close()
+daypath = hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
+fig.update_plot(dta[::itr], stats)
+fig.save_plot(daypath+'/p')
 
-#------------------------------------------------------------------------------#
+
+
+
+
+

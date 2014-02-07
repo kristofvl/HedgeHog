@@ -23,7 +23,7 @@
 # 
 
 
-import sys, time, os
+import sys, time, os, math
 import numpy as np
 from matplotlib.dates import num2date
 import hhg_io.hhg_import as hgi
@@ -42,7 +42,7 @@ bufsize = 192	# takes about 0.5 seconds on a laptop
 
 #open/parse the data:
 if len(sys.argv) < 3:
-	print 'usage: import_HHG.py <out.[npy|db]> <in0.HHG> [<in1.HHG> ..]'
+	print 'use: import_HHG.py [out.<npy|npz|db>] [in0.HHG] <in1.HHG ..>'
 	exit(1)
 
 ## output to a numpy file or db? prepare the output structure:
@@ -79,14 +79,16 @@ else:
 dta_i = 0
 firstplot=0
 file_iter = 1
-dta_t = dta_x = dta_y = dta_z = dta_e1 = dta_e2 = []
+dta_ = np.recarray(0, dtype=desc_hhg)
+old_day = 0
 ## plotting init:
 fig = hplt.Hhg_load_plot(10,8,80)
 ## loop over input files:
 while len(sys.argv) > file_iter+1:
 	file_iter+=1
 	filename = sys.argv[file_iter]
-	i = 0;
+	i = 0; # buffer counter
+	dta_s = 0
 	if len(filename)>3:
 		if filename[-3:]=='HHG':
 			# read configuration if we're reading from a hedgehog:
@@ -98,51 +100,65 @@ while len(sys.argv) > file_iter+1:
 						# read config as a string:
 						with open(filen, "rb") as f:
 							conf = f.read(512)	# read first 512 bytes
+			if file_iter==2:
+				bdta = hgi.hhg_import_n(filename, 0, 1)
+				fig.plot(bdta, filename, conf)
 			while True:
+				############################################################
 				tic = time.clock()
 				bdta = hgi.hhg_import_n(filename, i, i+bufsize)
-				## update output:
+				## update output: #########################################
 				if   ext=='.db': # insert multiple records in db:
-					cur.executemany("INSERT INTO hhg VALUES (?,?,?,?,?,?,?)", 
-											bdta.tolist())
+					cur.executemany(
+						"INSERT INTO hhg VALUES (?,?,?,?,?,?,?)",
+						bdta.tolist())
 					conn.commit()
-				elif ext=='npy' or ext=='npz': # update npy output recarray: 
+				elif ext=='npy' or ext=='npz': # update npy output: 
 					dta[dta_i:dta_i+len(bdta)] = bdta
 				toc = time.clock()
 				## report:
+				bdta_l = len(bdta)
+				bdta_s = sum(bdta.d)
+				dta_s += bdta_s
 				if len(bdta)>0:
-					stats =  ( str(num2date(bdta.t[0]))
-							+ ' -- imported '+ str(sum(bdta.d))
-							+ ' samples or ' + str(len(bdta))
-							+ ' rle entries, in ' +str(toc-tic) + ' seconds, ' 
-							+ str(dta_i) + '-' + str(dta_i+len(bdta)))
+					stats =  ( str(num2date(bdta.t[0]))[0:22]
+							+ ': read '+ str(bdta_s).zfill(7) 
+							+ ' samples in ' + str(bdta_l).zfill(7)
+							+ ' rle entries, in ' +str(toc-tic)+' seconds, ' 
+							+ str(dta_i+bdta_l).zfill(10) + ' ' 
+							+ str(dta_s).zfill(10) )
 				else:
 					stats = ''
 				print stats
-				## update plot:
+				## update plot: ###########################################
 				itr = 50 # TODO: make this dependent on configuration
-				dta_t = np.append(dta_t, bdta.t[::itr])
-				dta_x = np.append(dta_x, bdta.x[::itr])
-				dta_y = np.append(dta_y, bdta.y[::itr])
-				dta_z = np.append(dta_z, bdta.z[::itr])
-				dta_e1 = np.append(dta_e1, bdta.e1[::itr]>>8)
-				dta_e2 = np.append(dta_e2, bdta.e2[::itr])
-				if firstplot:
-					fig.update_plot(dta_t, dta_x, dta_y, dta_z, 
-										dta_e1, dta_e2, stats)
+				bdta_ = bdta[::itr]
+				bdta_.e1 >>= 8 # ambient light
+				new_day = int(bdta_.t[-1])
+				if old_day!=new_day:
+					old_day = new_day
+					## first plot the remains of the last day: ############
+					bdta_tt = [x for x in bdta_.t if x<int(bdta_.t[-1])]
+					tt = len(bdta_tt)
+					dta_ = np.append(dta_, 
+										 bdta_[:tt]).view(desc_hhg, np.recarray)
+					if tt>0:
+						fig.update_plot(dta_, stats)
+					dta_  = bdta_[tt:]
 				else:
-					fig.plot(dta_t, dta_x, dta_y, dta_z, 
-								dta_e1, dta_e2, filename, conf)
-					fig.show()
-					firstplot = 1
-				## stop for current file if we didn't fill the full buffer:
+					dta_ = np.append(dta_, 
+											bdta_).view(desc_hhg, np.recarray)
+				fig.update_plot(dta_, stats)
+				## stop for current file if buffer not filled ############
 				if len(bdta)<126*bufsize-1:
 					dta_i = dta_i + len(bdta)
-					break;
+					break; ## done, get out this infinite loop
 				else:
 					i+=bufsize-1
 					dta_i+=len(bdta)
-		
+				############################################################
+
+
 ## finalize output:
 if   ext=='npy':
 	dta = dta[0:dta_i]

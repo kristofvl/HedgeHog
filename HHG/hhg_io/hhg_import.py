@@ -37,9 +37,36 @@ import pdb
 SDRLESIZE = 126 #  sd buffer size in RLE samples:
 SDBUFSIZE = 512 #  sd buffer size in bytes
 
-#data descriptor for the hedgehog default data:
+## data descriptor for the hedgehog default data:
 desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
 					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }	
+
+
+## finds the first path where a hedgehog has been spotted
+def hhg_findmount():
+	try:
+		lsblk = os.popen("lsblk -n -o MOUNTPOINT | grep HEDGE").read()
+		if lsblk != '':
+			return lsblk[0:-1]
+		else:
+			return ''
+	except:
+		return ''
+		
+## checks dmesg output for recent occurences of a hedgehog popping up
+def hhg_parsedmesg():
+	log = os.popen("dmesg -T | tail -n 30 | grep HedgeHog").read()
+	if log:
+		datestr = log[4:24]
+		datestr = datestr[:4] + datestr[5:]
+		logtime = datetime.strptime(datestr, "%b %d %H:%M:%S %Y")
+		td = datetime.now() - logtime
+		if (td.seconds < 5):
+			return True
+		else:
+			return False
+	else:
+		return False
 		
 ## converts 4 bytes into a matplotlib timestamp
 def hhg_convtime(b1,b2,b3,b4):
@@ -115,12 +142,15 @@ def hhg_import_n(filen, strt, stop):
 		return []
 		
 		
-		
-		
-		
-		
-		
-		
+def hhg_store(path, daystamp, dta, conf):
+	try:
+		outpath = os.path.join(path,str(daystamp))
+		if not os.path.exists(outpath):
+			os.makedirs(outpath)
+		np.savez(os.path.join(outpath,'d.npz'), dta=dta, conf=conf)		
+		return outpath
+	except:
+		return ''
 		
 		
 		
@@ -133,6 +163,11 @@ def hhg_import_n(filen, strt, stop):
 		
 	
 #### Everything below will be abandoned soon -- avoid using it!
+
+
+
+
+
 
 # maximum file buffer
 FBUFSIZE = 15000000
