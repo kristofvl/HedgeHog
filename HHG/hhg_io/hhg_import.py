@@ -57,22 +57,10 @@ def hhg_findmount():
 ## checks dmesg output for recent occurences of a hedgehog popping up
 def hhg_parsedmesg():
 	usbList = subprocess.check_output("lsusb", shell=True)
-	if 'HedgeHog' in usbList: 
+	if 'fff0' in usbList: # fff0 is the device ID of HedgeHogs 
 		return True
 	else:
 		return False
-#	log = os.popen("dmesg -T | tail -n 30 | grep HedgeHog").read()
-#	if log:
-#		datestr = log[4:24]
-#		datestr = datestr[:4] + datestr[5:]
-#		logtime = datetime.strptime(datestr, "%b %d %H:%M:%S %Y")
-#		td = datetime.now() - logtime
-#		if (td.seconds < 5):
-#			return True
-#		else:
-#			return False
-#	else:
-#		return False
 		
 ## converts 4 bytes into a matplotlib timestamp
 def hhg_convtime(b1,b2,b3,b4):
