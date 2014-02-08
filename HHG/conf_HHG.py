@@ -2,7 +2,7 @@
 
 
 import sys
-from gi.repository import Gtk, GObject
+import gtk, gobject
 import glob
 import subprocess
 import os
@@ -70,22 +70,22 @@ class conf_HHG_dialog:
           	
 	def __init__( self ):
 		self.version = ""
-		self.confer = configure()
-		self.builder = Gtk.Builder()
+		self.conf = configure()
+		self.builder = gtk.Builder()
 		self.homeDir = os.environ['HOME']
 		try:
-				self.builder.add_from_file(self.homeDir+"/.hhg/Conf.ui")
+				self.builder.add_from_file(self.homeDir+"/.hgg/conf.ui")
 		except:
-				self.builder.add_from_file("Conf.ui")
+				self.builder.add_from_file("conf.ui")
 		self.window = self.builder.get_object("HedgeHog")
 		self.window.set_title("HedgeHog Configuration" + self.version)
 		self.window.show_all()
 	
 		self.idEntry = self.builder.get_object("IDEntry")
 		self.rangeCombo = self.builder.get_object("RangeCombo")
-		self.powCombo = self.builder.get_object("PowCombo")
+		self.powCombo = self.builder.get_object("PowerCombo")
 		self.freqCombo = self.builder.get_object("FreqCombo")
-		self.rleCombo = self.builder.get_object("RLECombo")
+		self.rleCombo = self.builder.get_object("DeltaCombo")
 		self.modeCombo = self.builder.get_object("ModeCombo")
 
 		self.stpTime = []
@@ -93,39 +93,67 @@ class conf_HHG_dialog:
 		self.freqs =  ["0.1Hz","5Hz","10Hz","25Hz","50Hz","100Hz","0.2kHz","0.4kHz",
 			"0.8kHz","1.5kHz"]
 		self.pows = ["normal","low-power","auto-sleep","low / auto"]
-		self.mods = ["sampling by PIC", "sampling by sensor, raw sampling"]
+		self.modes = ["sampling by PIC", "sampling by sensor, raw sampling"]
 		self.deltas = ["0","1","2","3","4","5","6","7"]
+
+		self.rangeStore = gtk.ListStore(gobject.TYPE_STRING)
+		for rang in self.ranges:
+			self.rangeStore.append([rang])
+		self.rangeCombo.set_model(self.rangeStore)
+		cell = gtk.CellRendererText()
+		self.rangeCombo.pack_start(cell, True)
+		self.rangeCombo.add_attribute(cell,"text",0)
+		self.rangeCombo.set_active(1)
+
+		self.powStore = gtk.ListStore(gobject.TYPE_STRING)
+		for power in self.pows:
+			self.powStore.append([power])
+		self.powCombo.set_model(self.powStore)
+		self.powCombo.pack_start(cell, True)
+		self.powCombo.add_attribute(cell,"text",0)
+		self.powCombo.set_active(3)
+
+		self.freqStore = gtk.ListStore(gobject.TYPE_STRING)
+		for freq in self.freqs:
+			self.freqStore.append([freq])
+		self.freqCombo.set_model(self.freqStore)
+		self.freqCombo.pack_start(cell, True)
+		self.freqCombo.add_attribute(cell,"text",0)
+		self.freqCombo.set_active(3)
+
+		self.deltaStore = gtk.ListStore(gobject.TYPE_STRING)
+		for delta in self.deltas:
+			self.deltaStore.append([delta])
+		self.rleCombo.set_model(self.deltaStore)
+		self.rleCombo.pack_start(cell, True)
+		self.rleCombo.add_attribute(cell,"text",0)
+		self.rleCombo.set_active(1)
+
+		self.modeStore = gtk.ListStore(gobject.TYPE_STRING)
+		for mode in self.modes:
+			self.modeStore.append([mode])
+		cell = gtk.CellRendererText()
+		self.modeCombo.set_model(self.modeStore)
+		self.modeCombo.pack_start(cell, True)
+		self.modeCombo.add_attribute(cell,"text",0)
+		self.modeCombo.set_active(1)
 
 		dic = { "on_HedgeHog_destroy": self.Quit,
 				"on_SyncButton_clicked": self.SyncButtonClick,
 				"on_FormatButton_clicked": self.FormatButtonClick}
 		self.builder.connect_signals(dic)
 
-		for rang in self.ranges:
-			self.rangeCombo.append_text(rang)
 
-		for freq in self.freqs:
-			self.freqCombo.append_text(freq)	
-		
-		for power in self.pows:
-			self.powCombo.append_text(power)		
-				
-		for delta in self.deltas:
-			self.rleCombo.append_text(delta)
-			
-		for mod in self.mods:
-			self.modeCombo.append_text(mod)
-
-		self.confer.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo, self.version, self.window)					   		
+		self.conf.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo, self.version, self.window)					   		
 
 	def Quit(self, widget):
 		sys.exit(0)
 	
 	def SyncButtonClick(self, widget):
-		self.confer.writeSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
+		self.conf.writeSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo)
     		    		
 	def FormatButtonClick(self, widget):
-		self.confer.formatCard()
+		self.conf.formatCard()
 	
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
@@ -134,6 +162,6 @@ else:
 	sys.exit(1)
 
 hhg_dialog = conf_HHG_dialog()
-Gtk.main()
+gtk.main()
 
 

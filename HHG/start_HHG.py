@@ -2,7 +2,7 @@
 
 
 import sys
-from gi.repository import Gtk, GObject
+import gtk, gobject
 from os import path, access, W_OK  # check: can we write to config file?
 import subprocess
 import time, datetime, os
@@ -48,17 +48,17 @@ class start_HHG_dialog:
 
     def __init__( self ):
         self.timer = timer();   
-        self.builder = Gtk.Builder()
+        self.builder = gtk.Builder()
         self.homeDir = os.environ['HOME']
         try:
-            self.builder.add_from_file(self.homeDir+"/.hhg/Start.ui")
+            self.builder.add_from_file(self.homeDir+"/.hgg/start.ui")
         except:
-            self.builder.add_from_file("Start.ui")
+            self.builder.add_from_file("start.ui")
         self.logger = self.builder.get_object("Logger")
         self.cal = self.builder.get_object("Cal")
         dic = {
             "on_Logger_destroy" : self.Quit,
-            "on_ConfirmButton_clicked": self.StartLogging,
+            "on_StartButton_clicked": self.StartLogging,
             "on_Cal_day_selected": self.CalDayClick,
         }
         self.builder.connect_signals(dic)
@@ -68,15 +68,11 @@ class start_HHG_dialog:
         self.timer.calcStpTime(self.stpTime)
         self.cal.clear_marks()
         self.cal.select_month(self.stpTime[1]-1, self.stpTime[0])
-        self.cal.mark_day(self.stpTime[2])
-        #self.cal.select_day(self.stpTime[2])
         
     def CalDayClick(self, widget): 
         self.cal.clear_marks()
         self.stpTime = list(self.cal.get_date())
         self.stpTime[1] = self.stpTime[1]+1 
-        self.cal.mark_day(self.stpTime[2])
-        #self.cal.select_day(self.stpTime[2])
 
     def StartLogging(self, widget):
         self.timer.setTime(self.conf_file, self.stpTime) 
@@ -84,11 +80,10 @@ class start_HHG_dialog:
             starthhg.seek(1023,0)  
             starthhg.write("l")
             starthhg.close()
-        hhgdir = re.sub("config.ure","",self.conf_file,count=1)
+        hhgDir = re.sub("config.ure","",self.conf_file,count=1)
         subprocess.call(["sync"])
-        # ideally wait a bit here
         print "Hedgog should be started now"    
-        subprocess.call(["umount", hhgdir])
+        subprocess.call(["umount", hhgDir])
         sys.exit(0)  
 
     def Quit(self, widget):
@@ -97,9 +92,8 @@ class start_HHG_dialog:
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
 	if path.isfile(config_file) and access(config_file, W_OK):
-		# great, *now* we can start:
 		dialog = start_HHG_dialog()
-		Gtk.main()
+		gtk.main()
 		sys.exit(0)
 	else:
 		sys.stderr.write("Error: Can't write to configuration file.")
