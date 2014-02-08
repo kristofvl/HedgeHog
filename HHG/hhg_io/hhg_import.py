@@ -30,6 +30,7 @@ from matplotlib.dates import date2num, num2date
 from datetime import datetime
 from struct import unpack
 import pygtk, gtk
+import subprocess
 
 import pdb
 
@@ -55,16 +56,9 @@ def hhg_findmount():
 		
 ## checks dmesg output for recent occurences of a hedgehog popping up
 def hhg_parsedmesg():
-	log = os.popen("dmesg -T | tail -n 30 | grep HedgeHog").read()
-	if log:
-		datestr = log[4:24]
-		datestr = datestr[:4] + datestr[5:]
-		logtime = datetime.strptime(datestr, "%b %d %H:%M:%S %Y")
-		td = datetime.now() - logtime
-		if (td.seconds < 5):
-			return True
-		else:
-			return False
+	usbList = subprocess.check_output("lsusb", shell=True)
+	if 'HedgeHog' in usbList: 
+		return True
 	else:
 		return False
 		
