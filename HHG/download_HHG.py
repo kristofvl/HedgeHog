@@ -90,6 +90,9 @@ while i<len(flst):
 	f.close()
 	bs=unpack("%sB"%len(bs),bs)
 	tme1 = hgi.hhg_convtime(bs[0],bs[1],bs[2],bs[3])
+	if not tme1:
+		print ('No data found on HedgeHog')
+		sys.exit() 
 	if i+1 >= len(flst):
 		break 
 	else:
