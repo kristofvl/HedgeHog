@@ -71,6 +71,8 @@ class start_HHG_dialog:
         self.timer.calcStpTime(self.stpTime)
         self.cal.clear_marks()
         self.cal.select_month(self.stpTime[1]-1, self.stpTime[0])
+        self.cal.select_day(self.stpTime[2])
+        self.cal.mark_day(self.stpTime[2])
         
     def CalDayClick(self, widget): 
         self.cal.clear_marks()
@@ -78,16 +80,17 @@ class start_HHG_dialog:
         self.stpTime[1] = self.stpTime[1]+1 
 
     def StartLogging(self, widget):
-        self.timer.setTime(self.conf_file, self.stpTime)
-        with open (self.conf_file,"r+w") as starthhg:
-            starthhg.seek(1023,0)  
-            starthhg.write("l")
-            starthhg.close()
-        hhgDir = re.sub("config.ure","",self.conf_file,count=1)
-        subprocess.call(["sync"])
-        print "Hedgog has started and will stop on " + str(self.stpTime)
-        subprocess.call(["umount", hhgDir])
-        sys.exit(0)  
+		#print self.stpTime
+		self.timer.setTime(self.conf_file, self.stpTime)
+		with open (self.conf_file,"r+w") as starthhg:
+			starthhg.seek(1023,0)  
+			starthhg.write("l")
+			starthhg.close()
+		hhgDir = re.sub("config.ure","",self.conf_file,count=1)
+		subprocess.call(["sync"])
+		print "HedgeHog has started and will stop on " + str(self.stpTime)
+		subprocess.call(["umount", hhgDir])
+		sys.exit(0)  
 
     def Quit(self, widget):
         sys.exit(0)
