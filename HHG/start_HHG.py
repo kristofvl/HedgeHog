@@ -8,6 +8,7 @@ import subprocess
 import time, datetime, os
 from datetime import timedelta
 import re
+import hhg_dialogs.hhg_scan as hgd
 
 class timer:
     
@@ -20,8 +21,10 @@ class timer:
     def setTime(self, conf_file, stpTime):
         sysTime = datetime.datetime.now()
 
-        if (stpTime[0]<sysTime.year) or (stpTime[0]==sysTime.year and stpTime[1]<sysTime.month) or (stpTime[0]==sysTime.year and 
-                        stpTime[1]==sysTime.month and stpTime[2]<sysTime.day):
+        if (stpTime[0]<sysTime.year) or \
+			(stpTime[0]==sysTime.year and stpTime[1]<sysTime.month) or \
+			(stpTime[0]==sysTime.year and stpTime[1]==sysTime.month and \
+			stpTime[2]<sysTime.day):
             self.calcStpTime(stpTime)
         with open (conf_file, "r+w") as confhhg: 
             confhhg.seek(60,0)  # Write System Time
@@ -75,14 +78,14 @@ class start_HHG_dialog:
         self.stpTime[1] = self.stpTime[1]+1 
 
     def StartLogging(self, widget):
-        self.timer.setTime(self.conf_file, self.stpTime) 
+        self.timer.setTime(self.conf_file, self.stpTime)
         with open (self.conf_file,"r+w") as starthhg:
             starthhg.seek(1023,0)  
             starthhg.write("l")
             starthhg.close()
         hhgDir = re.sub("config.ure","",self.conf_file,count=1)
         subprocess.call(["sync"])
-        print "Hedgog should be started now"    
+        print "Hedgog has started and will stop on " + str(self.stpTime)
         subprocess.call(["umount", hhgDir])
         sys.exit(0)  
 
@@ -91,14 +94,16 @@ class start_HHG_dialog:
 
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
-	if path.isfile(config_file) and access(config_file, W_OK):
-		dialog = start_HHG_dialog()
-		gtk.main()
-		sys.exit(0)
-	else:
-		sys.stderr.write("Error: Can't write to configuration file.")
 else:	
-	sys.stderr.write("Error: Supply configuration file as argument.")
+	config_file = hgd.Hhg_scan_dlg().run() + '/config.ure'
+		
+if path.isfile(config_file) and access(config_file, W_OK):
+	dialog = start_HHG_dialog()
+	gtk.main()
+	sys.exit(0)
+else:
+	sys.stderr.write("Error: Can't write to configuration file.")
+
 
 sys.exit(1)
 

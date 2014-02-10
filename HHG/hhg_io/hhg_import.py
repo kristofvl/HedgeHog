@@ -50,7 +50,7 @@ def hhg_findmount():
 		if lsblk != '':
 			return lsblk[0:-1]
 		else:
-			return ''
+			return lsblk
 	except:
 		return ''
 		
