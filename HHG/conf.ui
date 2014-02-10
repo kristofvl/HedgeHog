@@ -331,7 +331,7 @@
             <child>
               <object class="GtkButton" id="FormatButton">
                 <property name="label" translatable="yes">Format</property>
-                <property name="width_request">75</property>
+                <property name="width_request">73</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
