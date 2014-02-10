@@ -35,12 +35,14 @@ class Hhg_scan_dlg:
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 		self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
+		self.dlg.connect("response",self.close)
 		self.pbar = gtk.ProgressBar()
 		self.infotxt = gtk.Label()
 		self.infotxt.set_text('Scanning for HedgeHog...')
 		self.dlg.vbox.add(self.pbar)
 		self.dlg.vbox.add(self.infotxt)
 		self.dlg.set_size_request(size_x, size_y)
+		self.quitnow = False
 		self.dlg.show_all()
 	def on_cancel(self):
 		gtk.main_quit()
@@ -51,14 +53,14 @@ class Hhg_scan_dlg:
 	def scan_dmesg(self):
 		self.infotxt.set_text('Scanning for HedgeHog...')
 		ret = hgi.hhg_parsedmesg()
-		while ret==False:
+		while not ret and not self.quitnow:
 			self.update_prgs()
 			ret = hgi.hhg_parsedmesg()
 			time.sleep(0.1)
 	def scan_mount(self):
 		self.infotxt.set_text('HedgeHog connected. Mounting...')
 		ret = hgi.hhg_findmount()
-		while ret=='':
+		while ret=='' and not self.quitnow:
 			self.update_prgs()
 			ret = hgi.hhg_findmount()
 			time.sleep(0.1)
@@ -66,11 +68,12 @@ class Hhg_scan_dlg:
 	def scan_files(self, srcdir):
 		self.infotxt.set_text('Mounted. Parsing directory...')
 		ret = os.path.isfile(srcdir+'/config.ure')
-		while ret==False:
+		while not ret and not self.quitnow:
 			self.update_prgs()
 			ret = os.path.isfile(srcdir+'/config.ure')
 			time.sleep(0.1)
-	def close(self):
+	def close(self, dta=[], msg=[]):
+		self.quitnow = True;
 		self.dlg.destroy()
 	def run(self):
 		self.priter = 0
