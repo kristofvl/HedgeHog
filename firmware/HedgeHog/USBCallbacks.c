@@ -35,7 +35,7 @@ void USBCBSuspend(void)
 	//DisableAllInterruptEnableBits();
 	//should enable at least USBActivityIF as a wake source:
 	//EnableOnlyTheInterruptsWhichWillBeUsedToWakeTheMicro();	
-	Sleep();
+	//Sleep();
 	//Preferrably, these should be done in the USBCBWakeFromSuspend() function:
 	//RestoreStateOfAllPreviouslySavedInterruptEnableBits();	
 	//RestoreIOPinsToNormal();									
@@ -308,7 +308,7 @@ void USBCBInitEP(void)
  *******************************************************************/
 void USBCBSendResume(void)
 {
-    static WORD delay_count;
+   /* static WORD delay_count;
     
     USBResumeControl = 1;       // Start RESUME signaling
     
@@ -318,6 +318,7 @@ void USBCBSendResume(void)
         delay_count--;
     }while(delay_count);
     USBResumeControl = 0;
+    */
 }
 
 /*******************************************************************
