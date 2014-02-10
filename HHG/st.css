@@ -7,7 +7,7 @@ h1
 
 section#calendar 
 {
-	width: 1195px; 
+	width: 1196px; 
 	margin-left:auto;
 	margin-right:auto;
 }
@@ -25,6 +25,23 @@ section#calendar .header
 	font-size: medium;
 }
 
+#days
+{
+	width: 1196px; 
+	height: 710px;
+	overflow: hidden;
+	border: 0;
+}
+
+#scrollview
+{
+	width: 1210px; 
+	height: 710px;
+	overflow-y: scroll;
+	border: 0;
+}
+
+
 section#calendar time a
 {
 	display: block; 
@@ -41,7 +58,7 @@ time
 {
 	display: inline-block;
 	width: 164px; 
-	height: 160px; 
+	height: 137px; 
 	margin: 0 0px 2px 0px;
 	padding: 0 0 0 0;
 	text-align: right;
@@ -60,12 +77,12 @@ section#calendar time a:hover
 	-webkit-filter: brightness(90%);
 }
 
-time.notmonth { background: #777; }
+time.notmonth { }
 time.weekend  { background: #eee; }
 
 .crop {
 	width: 164px;
-	height: 120px;
+	height: 102px;
 	background-position: center center;
 	background-repeat: no-repeat;
 	overflow: hidden;
@@ -73,6 +90,6 @@ time.weekend  { background: #eee; }
 
 .crop img {
 	width: 164px;	
-	height: 170px;
-	margin: -37px 0 0 0;
+	height: 156px;
+	margin: -40px 0 0 0;
 }

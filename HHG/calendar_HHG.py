@@ -44,10 +44,10 @@ def hhg_cal_entry(day_id, month_view, dlpath):
 	daystr += str(num2date(day_id).month).zfill(2)
 	daystr += '-' + str(num2date(day_id).day).zfill(2)
 	f.write('<time datetime="'+ daystr + '"')
-	if month_view != num2date(day_id).month:
-		f.write(' class="notmonth"')
-	elif num2date(day_id).weekday()>4:
+	if num2date(day_id).weekday()>4:
 		f.write('class="weekend"')
+	elif month_view != num2date(day_id).month:
+		f.write(' class="notmonth"')
 	f.write('><a href="./'+ str(day_id) +'/index.html">' 
 				+ str(num2date(day_id).day) )
 	f.write( '<div class="crop"><img src="./' + str(day_id) + '/p.png' +
@@ -88,7 +88,8 @@ f.write('<h1>'+calendar.month_name[month_vw]+' '
 				 +str(num2date(first_day_id).year)+'</h1>')
 for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
 	f.write('<div class="header">'+dayname+'</div>')
-		
+f.write('<div id="days"><div id="scrollview">')
+
 # fill empty days before day of week:
 wkday =  num2date(first_day_id).weekday()
 for wd in range(wkday):
@@ -102,7 +103,7 @@ for day_id in range(first_day_id, last_day_id):
 for rd in range( 7-(last_day_id-first_day_id+wkday)%7 ):
 	hhg_cal_entry(last_day_id+rd, month_vw, dlpath)
 	
-f.write('</section></body>')
+f.write('</div></div></section></body>')
 f.close()
 
 subprocess.call(["firefox", "%s/index.html"%dlpath])
