@@ -80,7 +80,6 @@ class start_HHG_dialog:
         self.stpTime[1] = self.stpTime[1]+1 
 
     def StartLogging(self, widget):
-		#print self.stpTime
 		self.timer.setTime(self.conf_file, self.stpTime)
 		with open (self.conf_file,"r+w") as starthhg:
 			starthhg.seek(1023,0)  

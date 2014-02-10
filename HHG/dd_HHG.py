@@ -8,8 +8,13 @@ from random import randint
 homeDir = os.environ['HOME']
 deviceList = [];
 
-deviceStr = os.popen("ls /dev/disk/by-label/ | grep HEDGE").read()
-
+if os.path.exists("/dev/disk/by-label"):
+	deviceStr = os.popen("ls /dev/disk/by-label/ | grep HEDGE").read()
+else: 
+	print ('No HdegeHog device found')
+	print ('Script aborted')
+	sys.exit()
+	
 if not deviceStr:
 	print ('No HedgeHog device found')
 	print ('Script aborted')
