@@ -4,34 +4,34 @@ import sys
 import os
 import subprocess
 from random import randint
-from termcolor import colored
 
 homeDir = os.environ['HOME']
-rnd = randint(4,9999)
+deviceList = [];
 
-print('Your input should be like /dev/DEVICE')
-print('Choose a HedgeHog device from the list:')
+if os.path.exists("/dev/disk/by-label"):
+	deviceStr = os.popen("ls /dev/disk/by-label/ | grep HEDGE").read()
+else: 
+	print ('No HedgeHog device found')
+	print ('Script aborted')
+	sys.exit()
+	
+if not deviceStr:
+	print ('No HedgeHog device found')
+	print ('Script aborted')
+	sys.exit()	 
+else: 
+	indexNL = [i for i, ltr in enumerate(deviceStr) if ltr == '\n']
+	i = 0
+	for ind in indexNL:
+		deviceList.insert(i,deviceStr[ind-11:ind])
+		print (str(i)+ ').' + deviceStr[ind-11:ind])
+		i = i+1
 
-out = subprocess.Popen(['ls', '-l', '/dev/disk/by-label/'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-devices, err = out.communicate()
-devices = devices[:-1]
-devices = devices[8:]
-print colored(devices,'green')
+target = raw_input('Choose the number of a HedgeHog device from the list above:')
 
-target = raw_input('Enter your device path:')
-
-print colored('Your passcode is: ' + str(rnd), 'red')
-
-print ('dd is a very dangerous tool and could brick your MBR')
-print ('Please exit if you are not sure')
-print ('Press Enter to exit')
-
-code = raw_input('To continue enter the passcode above: ')
-
-if code.isdigit():
-	if int(code) == rnd:
-		print('Code accepted')
-		subprocess.call(["sudo", "dd", "if=%s/.hhg/dd_img/dd.img" % homeDir, "of=%s" %target])
+if int(target) < len(deviceList):
+		subprocess.call(["sudo", "dd", "if=%s/.hhg/dd_img/dd.img" % homeDir, "of=/dev/disk/by-label/%s" %str(deviceList[int(target)])])
 else: 	
+	print('Chosen device does not exist')
 	print('Script aborted')
 	sys.exit()

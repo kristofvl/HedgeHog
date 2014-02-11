@@ -6,6 +6,7 @@ import gtk, gobject
 import glob
 import subprocess
 import os
+import hhg_dialogs.hhg_scan as hgd
 
 class configure:
 
@@ -157,9 +158,8 @@ class conf_HHG_dialog:
 	
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
-else:	
-	sys.stderr.write("Error: Execute this script with a configuration file as argument.")
-	sys.exit(1)
+else: ## look for an attached HedgeHog:
+	config_file = hgd.Hhg_scan_dlg().run()+'/config.ure'
 
 hhg_dialog = conf_HHG_dialog()
 gtk.main()
