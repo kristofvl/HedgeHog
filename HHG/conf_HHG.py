@@ -7,6 +7,7 @@ import glob
 import subprocess
 import os
 import hhg_dialogs.hhg_scan as hgd
+import string
 
 class configure:
 
@@ -15,7 +16,8 @@ class configure:
 		with open (confhhg_path,"r") as confhhg:
 			confhhg.seek(0,0)
 			idChar = confhhg.read(4)
-			idEntry.set_text(idChar)
+			if all(ch in string.printable for ch in idChar):
+				idEntry.set_text(idChar)
 			confhhg.seek(12,0)
 			rangetmp = confhhg.read(1)
 			freqtmp = confhhg.read(1)
@@ -35,7 +37,8 @@ class configure:
 				rleCombo.set_active(int(rletmp))
 			confhhg.seek(35,0)
 			version = confhhg.read(7)
-			window.set_title("HedgeHog Configuration " + version)
+		        if all(ch in string.printable for ch in version):
+				window.set_title("HedgeHog Configuration " + version)
 			confhhg.close()
 
 	def writeSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
