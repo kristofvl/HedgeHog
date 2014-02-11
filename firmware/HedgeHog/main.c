@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '3',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '4',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -201,17 +201,19 @@ static void init_system(void) {
 
     user_init(); // Our other init routines come last
 
-    // updating root table to reflect ID
-    memset((void*)&sd_buffer, 0, 512);
-    read_SD(SECTOR_CF, sd_buffer.bytes);
-    id_str[0] = sd_buffer.bytes[0];
-    id_str[1] = sd_buffer.bytes[1];
-    id_str[2] = sd_buffer.bytes[2];
-    id_str[3] = sd_buffer.bytes[3];
-    memset((void*)&sd_buffer, 0, 512);
-    write_root_table(&sd_buffer, id_str);
-    write_SD(SECTOR_RT, sd_buffer.bytes);
-    memset((void*)&sd_buffer, 0, 512);
+    #if !defined(DISPLAY_ENABLED)
+        // updating root table to reflect ID
+        memset((void*)&sd_buffer, 0, 512);
+        read_SD(SECTOR_CF, sd_buffer.bytes);
+        id_str[0] = sd_buffer.bytes[0];
+        id_str[1] = sd_buffer.bytes[1];
+        id_str[2] = sd_buffer.bytes[2];
+        id_str[3] = sd_buffer.bytes[3];
+        memset((void*)&sd_buffer, 0, 512);
+        write_root_table(&sd_buffer, id_str);
+        write_SD(SECTOR_RT, sd_buffer.bytes);
+        memset((void*)&sd_buffer, 0, 512);
+    #endif
 }
 
 /*******************************************************************************
