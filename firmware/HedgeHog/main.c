@@ -443,7 +443,7 @@ void config_process(void) {
 
         case 'f':
 
-		 USBSoftDetatch();
+		 USBSoftDetach();
               // write 0s to sectors 0-640
                  memset((void*)&sd_buffer, 0, 512);
                  for(i=0; i<=640; i++)
