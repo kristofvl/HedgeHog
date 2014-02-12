@@ -66,25 +66,25 @@ def hhg_cal_entry(day_id, month_view, dlpath):
 		df.write('</canvas></br>')
 		df.write('<canvas id="day_view_acc3d" width="622" height="200">')
 		df.write('</canvas>\n\n')
-		lbl = [' ']*144
-		lbl[0]='00';lbl[36]='06';lbl[72]='12';lbl[108]='18';lbl[143]='00'
-		df.write('<script>\n\tvar data_light = {labels:'+str(lbl))
+		lbl = [' ']*144; lbl[0]='00';lbl[36]='06';lbl[72]='12';
+		lbl[108]='18';lbl[143]='00';  lbl = str(lbl);  lbl.replace(" ","")
+		df.write('<script>\n\tvar data_light = {labels:'+lbl)
 		df.write(',datasets:[{fillColor : "rgba(220,220,0,7)",')
 		df.write('strokeColor : "rgba(220,220,220,1)", \ndata:')
 		dta_s = str([ord(x) for x in np.random.bytes(144)])
-		df.write(' '+dta_s+' ')
-		lbl = [' ']*1440
-		lbl[0]='00';lbl[360]='06';lbl[720]='12';lbl[1080]='18';lbl[1439]='00'
-		df.write('}]}\n\tvar data_acc3d = {labels: '+str(lbl)+',')
+		df.write(' '+dta_s.replace(" ","")+' ')
+		lbl = [' ']*1440; lbl[0]='00';lbl[360]='06';lbl[720]='12';
+		lbl[1080]='18';lbl[1439]='00';lbl = str(lbl); lbl.replace(" ","")
+		df.write('}]}\n\tvar data_acc3d = {labels: '+lbl+',')
 		df.write('datasets:[{strokeColor : "rgba(220,0,0,1)",\n\tdata: ')
 		dta_s = str([ord(x) for x in np.random.bytes(1440)])
-		df.write(dta_s+'},')
+		df.write(dta_s.replace(" ","")+'},')
 		df.write('{strokeColor : "rgba(0,170,0,1)",\n\tdata: ')
 		dta_s = str([ord(x) for x in np.random.bytes(1440)])
-		df.write(dta_s+'},')
+		df.write(dta_s.replace(" ","")+'},')
 		df.write('{strokeColor : "rgba(0,0,220,1)",\n\tdata: ')
 		dta_s = str([ord(x) for x in np.random.bytes(1440)])
-		df.write(dta_s+'}]}')
+		df.write(dta_s.replace(" ","")+'}]}')
 		df.write('\n\tvar light = new Chart(document.getElementById(')
 		df.write('"day_view_light").getContext("2d")).Bar(data_light,')
 		df.write('{barShowStroke:false,barStrokeWidth:0, ')
@@ -111,6 +111,7 @@ if not os.path.exists(dlpath):
 
 home = os.environ['HOME']
 subprocess.call(["cp", "%s/HedgeHog/HHG/st.css"%home, dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/Chart.js"%home, dlpath])
 first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
 last_day_id = int(sorted(os.walk(dlpath).next()[1])[-1])+1
  # assume that we're interested in first month:
