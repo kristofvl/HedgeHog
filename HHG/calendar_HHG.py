@@ -27,16 +27,18 @@
 ########################################################################
 
 import sys, time, calendar
+import numpy as np
 import os, subprocess
 from matplotlib.dates import num2date
-
 
 
 ## write html header
 def hhg_cal_indexheader(f):
 	f.write('<!DOCTYPE html><html lang=en><meta charset=utf-8>')
 	f.write('<link rel=stylesheet href=st.css>')
-	f.write('<meta property=og:title content="HTML5 HedgeHog Calendar">')
+	f.write('<head><title>HedgeHog Day View</title>')
+	f.write('<script src="../Chart.js"></script>')
+	f.write('</head>')
 	
 ## write a calendar entry
 def hhg_cal_entry(day_id, month_view, dlpath):
@@ -57,12 +59,42 @@ def hhg_cal_entry(day_id, month_view, dlpath):
 		hhg_cal_indexheader(df)
 		df.write('<body><h1>'+daystr+'</h1>')
 		df.write('<p><a href="d.npz">Download the raw data</a>')
-		df.write(' in npz format (numerical python)</p> <center>')
-		df.write('<iframe src="p.pdf" width="1000px" height="700px">')
-		df.write('</iframe></center></body>')
+		df.write(' in npz format (numerical python)</p>')
+		#df.write('<iframe src="p.pdf" width="1000px" height="700px">')
+		#df.write('</iframe>')
+		df.write('<canvas id="day_view_light" width="622" height="120">')
+		df.write('</canvas></br>')
+		df.write('<canvas id="day_view_acc3d" width="622" height="200">')
+		df.write('</canvas>\n\n')
+		lbl = [' ']*144
+		lbl[0]='00';lbl[36]='06';lbl[72]='12';lbl[108]='18';lbl[143]='00'
+		df.write('<script>\n\tvar data_light = {labels:'+str(lbl))
+		df.write(',datasets:[{fillColor : "rgba(220,220,0,7)",')
+		df.write('strokeColor : "rgba(220,220,220,1)", \ndata:')
+		dta_s = str([ord(x) for x in np.random.bytes(144)])
+		df.write(' '+dta_s+' ')
+		df.write('}]}\n\tvar data_acc3d = {labels: '+str(lbl)+',')
+		df.write('datasets:[{strokeColor : "rgba(220,0,0,1)",\n\tdata: ')
+		dta_s = str([ord(x) for x in np.random.bytes(144)])
+		df.write(dta_s+'},')
+		df.write('{strokeColor : "rgba(0,170,0,1)",\n\tdata: ')
+		dta_s = str([ord(x) for x in np.random.bytes(144)])
+		df.write(dta_s+'},')
+		df.write('{strokeColor : "rgba(0,0,220,1)",\n\tdata: ')
+		dta_s = str([ord(x) for x in np.random.bytes(144)])
+		df.write(dta_s+'}]}')
+		df.write('\n\tvar light = new Chart(document.getElementById(')
+		df.write('"day_view_light").getContext("2d")).Bar(data_light,')
+		df.write('{barShowStroke:false,barStrokeWidth:0, ')
+		df.write('barValueSpacing:0,barDatasetSpacing:0});')
+		df.write('\n\tvar acc3d = new Chart(document.getElementById(')
+		df.write('"day_view_acc3d").getContext("2d")).Line(data_acc3d,')
+		df.write('{pointDot:false,datasetFill:false,animation:false});')
+		df.write('</script></body></html>')
 		df.close()
 	except:
 		print "Date not found"
+	
 	
 
 
