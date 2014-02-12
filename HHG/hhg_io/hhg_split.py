@@ -68,6 +68,9 @@ def splithhg(joindta, joinfta):
 	
 	posi1 = find_pos(joindta)
 	posi2 = find_pos(joinfta)
+
+	if len(posi2) < len(posi1):
+		posi2.append(len(joinfta))
 	
 	splitting(joindta,posi1,nday, posi2, joinfta)
 	pgrsdlg.hide()

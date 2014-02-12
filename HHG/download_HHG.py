@@ -94,6 +94,7 @@ while i<len(flst):
 		print ('No data found on HedgeHog')
 		sys.exit() 
 	if i+1 >= len(flst):
+		shutil.copyfile(flst[i], os.path.join(opath,lst[i]))
 		break 
 	else:
 		g=open(flst[i+1],"rb")
