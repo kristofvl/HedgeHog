@@ -32,6 +32,10 @@ import os, subprocess
 from matplotlib.dates import num2date
 
 
+#data descriptor for the hedgehog default data:
+desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
+				'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
+
 ## write html header
 def hhg_cal_indexheader(f):
 	f.write('<!DOCTYPE html><html lang=en><meta charset=utf-8>')
@@ -41,7 +45,23 @@ def hhg_cal_indexheader(f):
 	f.write('</head>')
 	
 ## write a calendar entry
-def hhg_cal_entry(day_id, month_view, dlpath):
+def hhg_cal_entry(day_id, month_view, dlpath, f):
+	## open the data and configuration for the day:
+	try:
+		out = np.load(os.path.join(dlpath,str(day_id),'d.npz'))
+	except:
+		print "Data not found"
+		return
+	dta = out['dta']
+	cnf = out['conf']
+	## get the day offset from first time stamp:
+	dayint = int(dta[0][0])
+	day_bin = np.zeros(1440,dtype=desc_hhg)
+	day_bin = day_bin.view(np.recarray)
+	## bin the data in minutes/day:
+	for x in dta:
+		day_bin[int((x[0]-dayint)*1440)] = x
+	## construct the html page for the calendar:
 	daystr = str(num2date(day_id).year)+'-'
 	daystr += str(num2date(day_id).month).zfill(2)
 	daystr += '-' + str(num2date(day_id).day).zfill(2)
@@ -54,6 +74,7 @@ def hhg_cal_entry(day_id, month_view, dlpath):
 				+ str(num2date(day_id).day) )
 	f.write( '<div class="crop"><img src="./' + str(day_id) + '/p.png' +
 				'"></div></a></time>\n')
+	## construct the html page for the day-view:
 	try:
 		df=open(os.path.join(dlpath,str(day_id),'index.html'),"w")
 		hhg_cal_indexheader(df)
@@ -72,7 +93,9 @@ def hhg_cal_entry(day_id, month_view, dlpath):
 		df.write(',datasets:[{fillColor : "rgba(220,220,0,7)",')
 		df.write('strokeColor : "rgba(220,220,220,1)", \ndata:')
 		dta_s = str([ord(x) for x in np.random.bytes(144)])
-		df.write(' '+dta_s.replace(" ","")+' ')
+		dta_s = str((day_bin.e1[::10]>>8).tolist()).replace(" ","")
+		print dta_s
+		df.write(' '+dta_s+' ')
 		lbl = [' ']*1440; lbl[0]='00';lbl[360]='06';lbl[720]='12';
 		lbl[1080]='18';lbl[1439]='00';lbl = str(lbl); lbl.replace(" ","")
 		df.write('}]}\n\tvar data_acc3d = {labels: '+lbl+',')
@@ -96,7 +119,7 @@ def hhg_cal_entry(day_id, month_view, dlpath):
 		df.write('</script></body></html>')
 		df.close()
 	except:
-		print "Date not found"
+		print "Day directory file not found"
 	
 	
 
@@ -129,15 +152,15 @@ f.write('<div id="days"><div id="scrollview">')
 # fill empty days before day of week:
 wkday =  num2date(first_day_id).weekday()
 for wd in range(wkday):
-	hhg_cal_entry(first_day_id-wkday+wd, month_vw, dlpath)
+	hhg_cal_entry(first_day_id-wkday+wd, month_vw, dlpath, f)
 	
 # fill in days with data:
 for day_id in range(first_day_id, last_day_id):
-	hhg_cal_entry(day_id, month_vw, dlpath)
+	hhg_cal_entry(day_id, month_vw, dlpath, f)
 	
 # add remaining days in row:
 for rd in range( 7-(last_day_id-first_day_id+wkday)%7 ):
-	hhg_cal_entry(last_day_id+rd, month_vw, dlpath)
+	hhg_cal_entry(last_day_id+rd, month_vw, dlpath, f)
 	
 f.write('</div></div></section></body>')
 f.close()
