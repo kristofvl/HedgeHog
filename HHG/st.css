@@ -7,7 +7,8 @@ h1
 
 section#calendar 
 {
-	width: 1196px; 
+	position: relative; 
+	width: 1186px; 
 	margin-left:auto;
 	margin-right:auto;
 }
@@ -18,49 +19,52 @@ section#calendar .header
 	border-width: 0 0 2px 0;
 	border-style: solid;
 	border-color: #067A6A;
-	margin: 0 4px 10px 1px;
-	width: 165px;
-	height: 20px;
+	margin: 0 1px 7px 1px;
+	width: 164px;
+	height: 17px;
 	text-align: right;
 	font-size: medium;
 }
 
 #days
 {
-	width: 1196px; 
-	height: 710px;
+	width: 1186px; 
+	height: 510px;
 	overflow: hidden;
 	border: 0;
 }
 
 #scrollview
 {
-	width: 1210px; 
-	height: 710px;
+	width: 1200px; 
+	height: 510px;
 	overflow-y: scroll;
 	border: 0;
 }
 
-
-section#calendar time a
+#inf
 {
-	display: block; 
-	width: 162px; 
-	height: 27px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	color: #f55b2c; 
-	text-decoration: none;
+	position: absolute;
+	display: block;
+	unicode-bidi: embed;
+	font-family: monospace;
+	white-space: pre;
+	width: 210px; 
+	height: 120px;
+	border: 1px solid #067A6A;
+	border-radius: 7px;
+	background: #efe;
+	padding: 7px;
 }
 
 time
 {
+	position: relative; 
 	display: inline-block;
-	width: 164px; 
-	height: 137px; 
-	margin: 0 0px 2px 0px;
-	padding: 0 0 0 0;
+	width: 162px; 
+	height: 104px;
+	margin: 0;
+	padding: 1px 1px 1px 1px;
 	text-align: right;
 	font-size: x-large;
 	font-weight: 900; 
@@ -69,27 +73,33 @@ time
 	background: #fff;
 }
 
+section#calendar time a
+{
+	position: absolute; 
+	z-index:1;
+	display: block;
+	width: 160px; 
+	height: 102px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #fff;
+	border-radius: 7px;
+	color: #f55b2c; 
+	text-decoration: none;
+}
+
 section#calendar time a:hover
 {
 	color: #000;
-	border-radius: 7px;
-	background-color: yellow;
+	border: 1px solid #067A6A;
 	-webkit-filter: brightness(90%);
+}
+
+.canvas {
+	position:absolute;
+	left:0px;
 }
 
 time.notmonth { }
 time.weekend  { background: #eee; }
 
-.crop {
-	width: 164px;
-	height: 102px;
-	background-position: center center;
-	background-repeat: no-repeat;
-	overflow: hidden;
-}
-
-.crop img {
-	width: 164px;	
-	height: 156px;
-	margin: -40px 0 0 0;
-}

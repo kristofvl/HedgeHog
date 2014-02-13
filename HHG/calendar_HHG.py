@@ -37,30 +37,41 @@ desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'),
 				'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
 ## write html header
-def hhg_cal_indexheader(f):
-	f.write('<!DOCTYPE html><html lang=en><meta charset=utf-8>')
-	f.write('<link rel=stylesheet href=st.css>')
-	f.write('<head><title>HedgeHog Day View</title>')
-	f.write('<script src="../Chart.js"></script>')
-	f.write('</head>')
+def hhg_day_indexheader():
+	return ('<!DOCTYPE html><html lang=en><meta charset=utf-8>'+
+		'<link rel=stylesheet href="../st.css">'+
+		'<head><title>HedgeHog Day View</title>'+
+		'<script src="../Chart.js"></script></head>')
+def hhg_cal_indexheader():
+	return ('<!DOCTYPE html><html lang=en><meta charset=utf-8>'+
+		'<link rel=stylesheet href="st.css">'+
+		'<head><title>HedgeHog Day View</title>'+
+		'<script src="Chart.js"></script></head>')
 	
+def hhg_conf_html(cnf,smps,rle):
+	g_range = pow(2,1+ord(cnf[12])-48)
+	bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
+	md_lookup = ['controller', 'sensor']			
+	pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
+	htstr = ('<div id="inf" style="left:650px;top:90px;height:70px;">'+
+		'<b>HedgeHog Configuration</b>\n'+ 
+		'HedgeHog_ID: '+str(cnf[0:4])+'\nfirmware:    ' + cnf[35:42] +
+		'\nlogging end: 20' +str(ord(cnf[71])) + '-' +
+		str(1+ord(cnf[72])).zfill(2) +'-'+ str(ord(cnf[73])).zfill(2) +
+		'</div><div id="inf" style="left:650px;top:190px;height:84px;">'+
+		'<b>Accelerometer Settings</b>\n' +
+		'acc. range: +/- ' + str(g_range) +'g\nsampled at: ' + 
+		str(bw_lookup[ord(cnf[13])-48]) + 'Hz (' + 
+		str(md_lookup[ord(cnf[14])-48]) + ')\npower mode: ' + 
+		str(pw_lookup[ord(cnf[15])-48]) + '\nRLE delta : ' + str(cnf[20])+
+		'</div><div id="inf" style="left:650px;top:310px;height:50px;">'+
+		'<b>logged 3d samples : '+str(smps).zfill(9)+
+		'\nlogged RLE samples: '+str(rle).zfill(9)+
+		'</b></div>')
+	return htstr
+
 ## write a calendar entry
 def hhg_cal_entry(day_id, month_view, dlpath, f):
-	## open the data and configuration for the day:
-	try:
-		out = np.load(os.path.join(dlpath,str(day_id),'d.npz'))
-	except:
-		print "Data not found"
-		return
-	dta = out['dta']
-	cnf = out['conf']
-	## get the day offset from first time stamp:
-	dayint = int(dta[0][0])
-	day_bin = np.zeros(1440,dtype=desc_hhg)
-	day_bin = day_bin.view(np.recarray)
-	## bin the data in minutes/day:
-	for x in dta:
-		day_bin[int((x[0]-dayint)*1440)] = x
 	## construct the html page for the calendar:
 	daystr = str(num2date(day_id).year)+'-'
 	daystr += str(num2date(day_id).month).zfill(2)
@@ -72,56 +83,93 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 		f.write(' class="notmonth"')
 	f.write('><a href="./'+ str(day_id) +'/index.html">' 
 				+ str(num2date(day_id).day) )
-	f.write( '<div class="crop"><img src="./' + str(day_id) + '/p.png' +
-				'"></div></a></time>\n')
+	## open the data and configuration for the day:
+	try:
+		out = np.load(os.path.join(dlpath,str(day_id),'d.npz'))
+	except:
+		f.write('</a></time>')
+		print "Data not found"
+		return
+	## open the data and configuration for the day:
+	bins = 14400
+	bdiv = 50
+	dta = out['dta']
+	cnf = str(out['conf'])
+	day_bin = np.zeros(bins,dtype=desc_hhg).view(np.recarray)
+	for x in dta:
+		idx= int((x[0]-int(dta[0][0]))*bins)
+		day_bin[idx] = x
+	for i in range(1,bins):
+		if day_bin[i][0]==0:
+			day_bin[i] = day_bin[i-1]
+	## construct the html for the calendar view:
+	f.write('</a><canvas style="top:0px;"'+
+		'id="dv_l'+str(day_id)+'" width="160" height="27">'+
+		'</canvas><canvas style="top:25px;"'+
+		'id="dv_a'+str(day_id)+'" width="160" height="70"></canvas>')
+	f.write('\n<script>')
+	f.write('var dl_'+str(day_id)+'={labels:'+
+		str(['']*(bins/bdiv)).replace(" ","") +
+		',datasets:[{fillColor:"rgba(220,220,0,7)",' + 
+		'strokeColor : "rgba(220,220,220,1)",data:' + 
+		str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")+'}]};')
+	f.write('var da_'+str(day_id)+'={labels: ' +
+		str(['']*(bins/bdiv)).replace(" ","")+
+		',datasets:[{strokeColor:"rgba(220,0,0,1)",data:'+
+		str((day_bin.x[::bdiv]).tolist()).replace(" ","")+
+		'},{strokeColor:"rgba(0,170,0,1)",data:'+
+		str((day_bin.y[::bdiv]).tolist()).replace(" ","")+
+		'},{strokeColor:"rgba(0,0,220,1)",data:'+
+		str((day_bin.z[::bdiv]).tolist()).replace(" ","")+'}]};')
+	f.write('var l_'+str(day_id)+'=new Chart(document.getElementById('+
+		'"dv_l'+str(day_id)+'").getContext("2d")).Bar(dl_'+str(day_id)+
+		',{scaleShowLabels:false,scaleShowGridLines:false,'+
+		'scaleFontSize:0,scaleStepWidth:32});')
+	f.write('var a_'+str(day_id)+'=new Chart(document.getElementById('+
+		'"dv_a'+str(day_id)+'").getContext("2d")).Line(da_'+str(day_id)+
+		',{scaleShowLabels:false,scaleFontSize:0,'+
+		'scaleLineWidth:0,datasetStrokeWidth:0.5,scaleStepWidth:64});')
+	f.write('</script></time>')
+		
 	## construct the html page for the day-view:
 	try:
 		df=open(os.path.join(dlpath,str(day_id),'index.html'),"w")
-		hhg_cal_indexheader(df)
-		df.write('<body><h1>'+daystr+'</h1>')
-		df.write('<p><a href="d.npz">Download the raw data</a>')
-		df.write(' in npz format (numerical python)</p>')
-		#df.write('<iframe src="p.pdf" width="1000px" height="700px">')
-		#df.write('</iframe>')
-		df.write('<canvas id="day_view_light" width="622" height="120">')
-		df.write('</canvas></br>')
-		df.write('<canvas id="day_view_acc3d" width="622" height="200">')
-		df.write('</canvas>\n\n')
-		lbl = [' ']*144; lbl[0]='00';lbl[36]='06';lbl[72]='12';
-		lbl[108]='18';lbl[143]='00';  lbl = str(lbl);  lbl.replace(" ","")
-		df.write('<script>\n\tvar data_light = {labels:'+lbl)
-		df.write(',datasets:[{fillColor : "rgba(220,220,0,7)",')
-		df.write('strokeColor : "rgba(220,220,220,1)", \ndata:')
-		dta_s = str([ord(x) for x in np.random.bytes(144)])
-		dta_s = str((day_bin.e1[::10]>>8).tolist()).replace(" ","")
-		print dta_s
-		df.write(' '+dta_s+' ')
-		lbl = [' ']*1440; lbl[0]='00';lbl[360]='06';lbl[720]='12';
-		lbl[1080]='18';lbl[1439]='00';lbl = str(lbl); lbl.replace(" ","")
-		df.write('}]}\n\tvar data_acc3d = {labels: '+lbl+',')
-		df.write('datasets:[{strokeColor : "rgba(220,0,0,1)",\n\tdata: ')
-		dta_s = str([ord(x) for x in np.random.bytes(1440)])
-		df.write(dta_s.replace(" ","")+'},')
-		df.write('{strokeColor : "rgba(0,170,0,1)",\n\tdata: ')
-		dta_s = str([ord(x) for x in np.random.bytes(1440)])
-		df.write(dta_s.replace(" ","")+'},')
-		df.write('{strokeColor : "rgba(0,0,220,1)",\n\tdata: ')
-		dta_s = str([ord(x) for x in np.random.bytes(1440)])
-		df.write(dta_s.replace(" ","")+'}]}')
-		df.write('\n\tvar light = new Chart(document.getElementById(')
-		df.write('"day_view_light").getContext("2d")).Bar(data_light,')
-		df.write('{barShowStroke:false,barStrokeWidth:0, ')
-		df.write('barValueSpacing:0,barDatasetSpacing:0});')
-		df.write('\n\tvar acc3d = new Chart(document.getElementById(')
-		df.write('"day_view_acc3d").getContext("2d")).Line(data_acc3d,')
-		df.write('{pointDot:false,datasetFill:false,animation:false,')
-		df.write(' datasetStrokeWidth:1, bezierCurve:false});')
-		df.write('</script></body></html>')
-		df.close()
 	except:
 		print "Day directory file not found"
-	
-	
+		return
+	df.write(hhg_day_indexheader())
+	df.write('<body><section id="calendar"><h1>'+daystr+'</h1>')
+	df.write('<p>Detailed 24h view for '+daystr+' with HedgeHog'+
+		' sensor #'+ cnf[0:4]+
+		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
+		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
+		' bytes)</p>')
+	df.write('<canvas id="day_view_light" width="632" height="120">'+
+		'</canvas></br>'+
+		'<canvas id="day_view_acc3d" width="632" height="200"></canvas>')
+	df.write(hhg_conf_html(cnf,sum(dta.view(np.recarray).d),len(dta)))
+	lbl = [' ']*bins;lbl[0]='00';lbl[int(bins/4)]='06';lbl[bins>>1]='12';
+	lbl[int(3*bins/4)]='18';lbl[bins-1]='00';
+	df.write('<script>var data_light={'+
+		'labels:'+str(['']*int(bins/bdiv)).replace(" ","")+
+		',datasets:[{fillColor : "rgba(220,220,0,7)",'+
+		'strokeColor:"rgba(220,220,220,1)",data:'+
+		str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")+
+		'}]};var data_acc3d = {labels: '+str(lbl).replace(" ","")+
+		',datasets:[{strokeColor : "rgba(220,0,0,1)",data: '+
+		str((day_bin.x).tolist()).replace(" ","")+'},'+
+		'{strokeColor : "rgba(0,170,0,1)",data: '+
+		str((day_bin.y).tolist()).replace(" ","")+'},'+
+		'{strokeColor : "rgba(0,0,220,1)",data: '+
+		str((day_bin.z).tolist()).replace(" ","")+'}]};')
+	df.write('var light = new Chart(document.getElementById('+
+		'"day_view_light").getContext("2d")).Bar(data_light,'+
+		'{scaleStepWidth:32});')		
+	df.write('var acc3d = new Chart(document.getElementById('+
+		'"day_view_acc3d").getContext("2d")).Line(data_acc3d,'+
+		'{scaleSteps:8,scaleStepWidth:32});')
+	df.write('</script></section></body></html>')
+	df.close()
 
 
 if len(sys.argv) < 2:
@@ -141,7 +189,7 @@ last_day_id = int(sorted(os.walk(dlpath).next()[1])[-1])+1
 month_vw = num2date(first_day_id).month
 
 f=open(os.path.join(dlpath,'index.html'),"w")
-hhg_cal_indexheader(f)
+f.write(hhg_cal_indexheader())
 f.write('<body><section id=calendar>')
 f.write('<h1>'+calendar.month_name[month_vw]+' '
 				 +str(num2date(first_day_id).year)+'</h1>')

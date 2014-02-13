@@ -5,13 +5,14 @@
  * Copyright 2013 Nick Downie
  * Released under the MIT license
  * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
+ * 
+ * Minimal version modified by KristofVL for the HedgeHog project
  */
 
 //Define the global Chart Variable as a class.
 window.Chart = function(context){
 
 	var chart = this;
-	
 	
 	//Easing functions adapted from Robert Penner's easing equations
 	//http://www.robertpenner.com/easing/
@@ -161,88 +162,7 @@ window.Chart = function(context){
 		context.scale(window.devicePixelRatio, window.devicePixelRatio);
 	}
 
-	this.PolarArea = function(data,options){
-	
-		chart.PolarArea.defaults = {
-			scaleOverlay : true,
-			scaleOverride : false,
-			scaleSteps : null,
-			scaleStepWidth : null,
-			scaleStartValue : null,
-			scaleShowLine : true,
-			scaleLineColor : "rgba(0,0,0,.1)",
-			scaleLineWidth : 1,
-			scaleShowLabels : true,
-			scaleLabel : "<%=value%>",
-			scaleFontFamily : "'Arial'",
-			scaleFontSize : 12,
-			scaleFontStyle : "normal",
-			scaleFontColor : "#666",
-			scaleShowLabelBackdrop : true,
-			scaleBackdropColor : "rgba(255,255,255,0.75)",
-			scaleBackdropPaddingY : 2,
-			scaleBackdropPaddingX : 2,
-			segmentShowStroke : true,
-			segmentStrokeColor : "#fff",
-			segmentStrokeWidth : 2,
-			animation : true,
-			animationSteps : 100,
-			animationEasing : "easeOutBounce",
-			animateRotate : true,
-			animateScale : false,
-			onAnimationComplete : null
-		};
-		
-		var config = (options)? mergeChartConfig(chart.PolarArea.defaults,options) : chart.PolarArea.defaults;
-		
-		return new PolarArea(data,config,context);
-	};
 
-	this.Radar = function(data,options){
-	
-		chart.Radar.defaults = {
-			scaleOverlay : false,
-			scaleOverride : false,
-			scaleSteps : null,
-			scaleStepWidth : null,
-			scaleStartValue : null,
-			scaleShowLine : true,
-			scaleLineColor : "rgba(0,0,0,.1)",
-			scaleLineWidth : 1,
-			scaleShowLabels : false,
-			scaleLabel : "<%=value%>",
-			scaleFontFamily : "'Arial'",
-			scaleFontSize : 12,
-			scaleFontStyle : "normal",
-			scaleFontColor : "#666",
-			scaleShowLabelBackdrop : true,
-			scaleBackdropColor : "rgba(255,255,255,0.75)",
-			scaleBackdropPaddingY : 2,
-			scaleBackdropPaddingX : 2,
-			angleShowLineOut : true,
-			angleLineColor : "rgba(0,0,0,.1)",
-			angleLineWidth : 1,			
-			pointLabelFontFamily : "'Arial'",
-			pointLabelFontStyle : "normal",
-			pointLabelFontSize : 12,
-			pointLabelFontColor : "#666",
-			pointDot : true,
-			pointDotRadius : 3,
-			pointDotStrokeWidth : 1,
-			datasetStroke : true,
-			datasetStrokeWidth : 2,
-			datasetFill : true,
-			animation : true,
-			animationSteps : 60,
-			animationEasing : "easeOutQuart",
-			onAnimationComplete : null
-		};
-		
-		var config = (options)? mergeChartConfig(chart.Radar.defaults,options) : chart.Radar.defaults;
-
-		return new Radar(data,config,context);
-	};
-	
 	this.Pie = function(data,options){
 		chart.Pie.defaults = {
 			segmentShowStroke : true,
@@ -286,10 +206,10 @@ window.Chart = function(context){
 	
 		chart.Line.defaults = {
 			scaleOverlay : false,
-			scaleOverride : false,
-			scaleSteps : null,
+			scaleOverride : true,
+			scaleSteps : 4,
 			scaleStepWidth : null,
-			scaleStartValue : null,
+			scaleStartValue : 0,
 			scaleLineColor : "rgba(0,0,0,.1)",
 			scaleLineWidth : 1,
 			scaleShowLabels : true,
@@ -301,14 +221,14 @@ window.Chart = function(context){
 			scaleShowGridLines : true,
 			scaleGridLineColor : "rgba(0,0,0,.05)",
 			scaleGridLineWidth : 1,
-			bezierCurve : true,
-			pointDot : true,
+			bezierCurve : false,
+			pointDot : false,
 			pointDotRadius : 4,
 			pointDotStrokeWidth : 2,
 			datasetStroke : true,
-			datasetStrokeWidth : 2,
-			datasetFill : true,
-			animation : true,
+			datasetStrokeWidth : 1,
+			datasetFill : false,
+			animation : false,
 			animationSteps : 60,
 			animationEasing : "easeOutQuart",
 			onAnimationComplete : null
@@ -321,10 +241,10 @@ window.Chart = function(context){
 	this.Bar = function(data,options){
 		chart.Bar.defaults = {
 			scaleOverlay : false,
-			scaleOverride : false,
-			scaleSteps : null,
+			scaleOverride : true,
+			scaleSteps : 4,
 			scaleStepWidth : null,
-			scaleStartValue : null,
+			scaleStartValue : 0,
 			scaleLineColor : "rgba(0,0,0,.1)",
 			scaleLineWidth : 1,
 			scaleShowLabels : true,
@@ -336,13 +256,13 @@ window.Chart = function(context){
 			scaleShowGridLines : true,
 			scaleGridLineColor : "rgba(0,0,0,.05)",
 			scaleGridLineWidth : 1,
-			barShowStroke : true,
-			barStrokeWidth : 2,
-			barValueSpacing : 5,
-			barDatasetSpacing : 1,
+			barShowStroke : false,
+			barStrokeWidth : 0,
+			barValueSpacing : 0,
+			barDatasetSpacing : 0,
 			animation : true,
 			animationSteps : 60,
-			animationEasing : "easeOutQuart",
+			animationEasing : "linear",
 			onAnimationComplete : null
 		};		
 		var config = (options) ? mergeChartConfig(chart.Bar.defaults,options) : chart.Bar.defaults;
@@ -354,343 +274,7 @@ window.Chart = function(context){
 		c.clearRect(0, 0, width, height);
 	};
 
-	var PolarArea = function(data,config,ctx){
-		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString;		
-		
-		
-		calculateDrawingSizes();
-		
-		valueBounds = getValueBounds();
-
-		labelTemplateString = (config.scaleShowLabels)? config.scaleLabel : null;
-
-		//Check and set the scale
-		if (!config.scaleOverride){
-			
-			calculatedScale = calculateScale(scaleHeight,valueBounds.maxSteps,valueBounds.minSteps,valueBounds.maxValue,valueBounds.minValue,labelTemplateString);
-		}
-		else {
-			calculatedScale = {
-				steps : config.scaleSteps,
-				stepValue : config.scaleStepWidth,
-				graphMin : config.scaleStartValue,
-				labels : []
-			}
-			populateLabels(labelTemplateString, calculatedScale.labels,calculatedScale.steps,config.scaleStartValue,config.scaleStepWidth);
-		}
-		
-		scaleHop = maxSize/(calculatedScale.steps);
-
-		//Wrap in an animation loop wrapper
-		animationLoop(config,drawScale,drawAllSegments,ctx);
-
-		function calculateDrawingSizes(){
-			maxSize = (Min([width,height])/2);
-			//Remove whatever is larger - the font size or line width.
-			
-			maxSize -= Max([config.scaleFontSize*0.5,config.scaleLineWidth*0.5]);
-			
-			labelHeight = config.scaleFontSize*2;
-			//If we're drawing the backdrop - add the Y padding to the label height and remove from drawing region.
-			if (config.scaleShowLabelBackdrop){
-				labelHeight += (2 * config.scaleBackdropPaddingY);
-				maxSize -= config.scaleBackdropPaddingY*1.5;
-			}
-			
-			scaleHeight = maxSize;
-			//If the label height is less than 5, set it to 5 so we don't have lines on top of each other.
-			labelHeight = Default(labelHeight,5);
-		}
-		function drawScale(){
-			for (var i=0; i<calculatedScale.steps; i++){
-				//If the line object is there
-				if (config.scaleShowLine){
-					ctx.beginPath();
-					ctx.arc(width/2, height/2, scaleHop * (i + 1), 0, (Math.PI * 2), true);
-					ctx.strokeStyle = config.scaleLineColor;
-					ctx.lineWidth = config.scaleLineWidth;
-					ctx.stroke();
-				}
-
-				if (config.scaleShowLabels){
-					ctx.textAlign = "center";
-					ctx.font = config.scaleFontStyle + " " + config.scaleFontSize + "px " + config.scaleFontFamily;
- 					var label =  calculatedScale.labels[i];
-					//If the backdrop object is within the font object
-					if (config.scaleShowLabelBackdrop){
-						var textWidth = ctx.measureText(label).width;
-						ctx.fillStyle = config.scaleBackdropColor;
-						ctx.beginPath();
-						ctx.rect(
-							Math.round(width/2 - textWidth/2 - config.scaleBackdropPaddingX),     //X
-							Math.round(height/2 - (scaleHop * (i + 1)) - config.scaleFontSize*0.5 - config.scaleBackdropPaddingY),//Y
-							Math.round(textWidth + (config.scaleBackdropPaddingX*2)), //Width
-							Math.round(config.scaleFontSize + (config.scaleBackdropPaddingY*2)) //Height
-						);
-						ctx.fill();
-					}
-					ctx.textBaseline = "middle";
-					ctx.fillStyle = config.scaleFontColor;
-					ctx.fillText(label,width/2,height/2 - (scaleHop * (i + 1)));
-				}
-			}
-		}
-		function drawAllSegments(animationDecimal){
-			var startAngle = -Math.PI/2,
-			angleStep = (Math.PI*2)/data.length,
-			scaleAnimation = 1,
-			rotateAnimation = 1;
-			if (config.animation) {
-				if (config.animateScale) {
-					scaleAnimation = animationDecimal;
-				}
-				if (config.animateRotate){
-					rotateAnimation = animationDecimal;
-				}
-			}
-
-			for (var i=0; i<data.length; i++){
-
-				ctx.beginPath();
-				ctx.arc(width/2,height/2,scaleAnimation * calculateOffset(data[i].value,calculatedScale,scaleHop),startAngle, startAngle + rotateAnimation*angleStep, false);
-				ctx.lineTo(width/2,height/2);
-				ctx.closePath();
-				ctx.fillStyle = data[i].color;
-				ctx.fill();
-
-				if(config.segmentShowStroke){
-					ctx.strokeStyle = config.segmentStrokeColor;
-					ctx.lineWidth = config.segmentStrokeWidth;
-					ctx.stroke();
-				}
-				startAngle += rotateAnimation*angleStep;
-			}
-		}
-		function getValueBounds() {
-			var upperValue = Number.MIN_VALUE;
-			var lowerValue = Number.MAX_VALUE;
-			for (var i=0; i<data.length; i++){
-				if (data[i].value > upperValue) {upperValue = data[i].value;}
-				if (data[i].value < lowerValue) {lowerValue = data[i].value;}
-			};
-
-			var maxSteps = Math.floor((scaleHeight / (labelHeight*0.66)));
-			var minSteps = Math.floor((scaleHeight / labelHeight*0.5));
-			
-			return {
-				maxValue : upperValue,
-				minValue : lowerValue,
-				maxSteps : maxSteps,
-				minSteps : minSteps
-			};
-			
-
-		}
-	}
-
-	var Radar = function (data,config,ctx) {
-		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString;	
-			
-		//If no labels are defined set to an empty array, so referencing length for looping doesn't blow up.
-		if (!data.labels) data.labels = [];
-		
-		calculateDrawingSizes();
-
-		var valueBounds = getValueBounds();
-
-		labelTemplateString = (config.scaleShowLabels)? config.scaleLabel : null;
-
-		//Check and set the scale
-		if (!config.scaleOverride){
-			
-			calculatedScale = calculateScale(scaleHeight,valueBounds.maxSteps,valueBounds.minSteps,valueBounds.maxValue,valueBounds.minValue,labelTemplateString);
-		}
-		else {
-			calculatedScale = {
-				steps : config.scaleSteps,
-				stepValue : config.scaleStepWidth,
-				graphMin : config.scaleStartValue,
-				labels : []
-			}
-			populateLabels(labelTemplateString, calculatedScale.labels,calculatedScale.steps,config.scaleStartValue,config.scaleStepWidth);
-		}
-		
-		scaleHop = maxSize/(calculatedScale.steps);
-		
-		animationLoop(config,drawScale,drawAllDataPoints,ctx);
-		
-		//Radar specific functions.
-		function drawAllDataPoints(animationDecimal){
-			var rotationDegree = (2*Math.PI)/data.datasets[0].data.length;
-
-			ctx.save();
-			//translate to the centre of the canvas.
-			ctx.translate(width/2,height/2);
-			
-			//We accept multiple data sets for radar charts, so show loop through each set
-			for (var i=0; i<data.datasets.length; i++){
-				ctx.beginPath();
-
-				ctx.moveTo(0,animationDecimal*(-1*calculateOffset(data.datasets[i].data[0],calculatedScale,scaleHop)));
-				for (var j=1; j<data.datasets[i].data.length; j++){
-					ctx.rotate(rotationDegree);	
-					ctx.lineTo(0,animationDecimal*(-1*calculateOffset(data.datasets[i].data[j],calculatedScale,scaleHop)));
-			
-				}
-				ctx.closePath();
-				
-				
-				ctx.fillStyle = data.datasets[i].fillColor;
-				ctx.strokeStyle = data.datasets[i].strokeColor;
-				ctx.lineWidth = config.datasetStrokeWidth;
-				ctx.fill();
-				ctx.stroke();
-				
-								
-				if (config.pointDot){
-					ctx.fillStyle = data.datasets[i].pointColor;
-					ctx.strokeStyle = data.datasets[i].pointStrokeColor;
-					ctx.lineWidth = config.pointDotStrokeWidth;
-					for (var k=0; k<data.datasets[i].data.length; k++){
-						ctx.rotate(rotationDegree);
-						ctx.beginPath();
-						ctx.arc(0,animationDecimal*(-1*calculateOffset(data.datasets[i].data[k],calculatedScale,scaleHop)),config.pointDotRadius,2*Math.PI,false);
-						ctx.fill();
-						ctx.stroke();
-					}					
-					
-				}
-				ctx.rotate(rotationDegree);
-				
-			}
-			ctx.restore();
-			
-			
-		}
-		function drawScale(){
-			var rotationDegree = (2*Math.PI)/data.datasets[0].data.length;
-			ctx.save();
-		    ctx.translate(width / 2, height / 2);	
-			
-			if (config.angleShowLineOut){
-				ctx.strokeStyle = config.angleLineColor;		    	    
-				ctx.lineWidth = config.angleLineWidth;
-				for (var h=0; h<data.datasets[0].data.length; h++){
-					
-				    ctx.rotate(rotationDegree);
-					ctx.beginPath();
-					ctx.moveTo(0,0);
-					ctx.lineTo(0,-maxSize);
-					ctx.stroke();
-				}
-			}
-
-			for (var i=0; i<calculatedScale.steps; i++){
-				ctx.beginPath();
-				
-				if(config.scaleShowLine){
-					ctx.strokeStyle = config.scaleLineColor;
-					ctx.lineWidth = config.scaleLineWidth;
-					ctx.moveTo(0,-scaleHop * (i+1));					
-					for (var j=0; j<data.datasets[0].data.length; j++){
-					    ctx.rotate(rotationDegree);
-						ctx.lineTo(0,-scaleHop * (i+1));
-					}
-					ctx.closePath();
-					ctx.stroke();			
-							
-				}
-				
-				if (config.scaleShowLabels){				
-					ctx.textAlign = 'center';
-					ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily; 
-					ctx.textBaseline = "middle";
-					
-					if (config.scaleShowLabelBackdrop){
-						var textWidth = ctx.measureText(calculatedScale.labels[i]).width;
-						ctx.fillStyle = config.scaleBackdropColor;
-						ctx.beginPath();
-						ctx.rect(
-							Math.round(- textWidth/2 - config.scaleBackdropPaddingX),     //X
-							Math.round((-scaleHop * (i + 1)) - config.scaleFontSize*0.5 - config.scaleBackdropPaddingY),//Y
-							Math.round(textWidth + (config.scaleBackdropPaddingX*2)), //Width
-							Math.round(config.scaleFontSize + (config.scaleBackdropPaddingY*2)) //Height
-						);
-						ctx.fill();
-					}						
-					ctx.fillStyle = config.scaleFontColor;
-					ctx.fillText(calculatedScale.labels[i],0,-scaleHop*(i+1));
-				}
-
-			}
-			for (var k=0; k<data.labels.length; k++){				
-			ctx.font = config.pointLabelFontStyle + " " + config.pointLabelFontSize+"px " + config.pointLabelFontFamily;
-			ctx.fillStyle = config.pointLabelFontColor;
-				var opposite = Math.sin(rotationDegree*k) * (maxSize + config.pointLabelFontSize);
-				var adjacent = Math.cos(rotationDegree*k) * (maxSize + config.pointLabelFontSize);
-				
-				if(rotationDegree*k == Math.PI || rotationDegree*k == 0){
-					ctx.textAlign = "center";
-				}
-				else if(rotationDegree*k > Math.PI){
-					ctx.textAlign = "right";
-				}
-				else{
-					ctx.textAlign = "left";
-				}
-				
-				ctx.textBaseline = "middle";
-				
-				ctx.fillText(data.labels[k],opposite,-adjacent);
-				
-			}
-			ctx.restore();
-		};
-		function calculateDrawingSizes(){
-			maxSize = (Min([width,height])/2);
-
-			labelHeight = config.scaleFontSize*2;
-			
-			var labelLength = 0;
-			for (var i=0; i<data.labels.length; i++){
-				ctx.font = config.pointLabelFontStyle + " " + config.pointLabelFontSize+"px " + config.pointLabelFontFamily;
-				var textMeasurement = ctx.measureText(data.labels[i]).width;
-				if(textMeasurement>labelLength) labelLength = textMeasurement;
-			}
-			
-			//Figure out whats the largest - the height of the text or the width of what's there, and minus it from the maximum usable size.
-			maxSize -= Max([labelLength,((config.pointLabelFontSize/2)*1.5)]);				
-			
-			maxSize -= config.pointLabelFontSize;
-			maxSize = CapValue(maxSize, null, 0);
-			scaleHeight = maxSize;
-			//If the label height is less than 5, set it to 5 so we don't have lines on top of each other.
-			labelHeight = Default(labelHeight,5);
-		};
-		function getValueBounds() {
-			var upperValue = Number.MIN_VALUE;
-			var lowerValue = Number.MAX_VALUE;
-			
-			for (var i=0; i<data.datasets.length; i++){
-				for (var j=0; j<data.datasets[i].data.length; j++){
-					if (data.datasets[i].data[j] > upperValue){upperValue = data.datasets[i].data[j]}
-					if (data.datasets[i].data[j] < lowerValue){lowerValue = data.datasets[i].data[j]}
-				}
-			}
-
-			var maxSteps = Math.floor((scaleHeight / (labelHeight*0.66)));
-			var minSteps = Math.floor((scaleHeight / labelHeight*0.5));
-			
-			return {
-				maxValue : upperValue,
-				minValue : lowerValue,
-				maxSteps : maxSteps,
-				minSteps : minSteps
-			};
-			
-
-		}
-	}
+	
 
 	var Pie = function(data,config,ctx){
 		var segmentTotal = 0;
@@ -701,7 +285,6 @@ window.Chart = function(context){
 		for (var i=0; i<data.length; i++){
 			segmentTotal += data[i].value;
 		}
-		
 		
 		animationLoop(config,null,drawPieSegments,ctx);
 				
@@ -787,7 +370,7 @@ window.Chart = function(context){
 	}
 
 	var Line = function(data,config,ctx){
-		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop,widestXLabel, xAxisLength,yAxisPosX,xAxisPosY, rotateLabels = 0;
+		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop,widestXLabel, xAxisLength,yAxisPosX,xAxisPosY;
 			
 		calculateDrawingSizes();
 		
@@ -820,24 +403,10 @@ window.Chart = function(context){
 				ctx.moveTo(yAxisPosX, xAxisPosY - animPc*(calculateOffset(data.datasets[i].data[0],calculatedScale,scaleHop)))
 
 				for (var j=1; j<data.datasets[i].data.length; j++){
-					if (config.bezierCurve){
-						ctx.bezierCurveTo(xPos(j-0.5),yPos(i,j-1),xPos(j-0.5),yPos(i,j),xPos(j),yPos(i,j));
-					}
-					else{
-						ctx.lineTo(xPos(j),yPos(i,j));
-					}
+					ctx.lineTo(xPos(j),yPos(i,j));
 				}
 				ctx.stroke();
-				if (config.datasetFill){
-					ctx.lineTo(yAxisPosX + (valueHop*(data.datasets[i].data.length-1)),xAxisPosY);
-					ctx.lineTo(yAxisPosX,xAxisPosY);
-					ctx.closePath();
-					ctx.fillStyle = data.datasets[i].fillColor;
-					ctx.fill();
-				}
-				else{
-					ctx.closePath();
-				}
+				ctx.closePath();
 				if(config.pointDot){
 					ctx.fillStyle = data.datasets[i].pointColor;
 					ctx.strokeStyle = data.datasets[i].pointStrokeColor;
@@ -867,33 +436,17 @@ window.Chart = function(context){
 			ctx.lineTo(width-(widestXLabel/2)-xAxisLength-5,xAxisPosY);
 			ctx.stroke();
 			
-			
-			if (rotateLabels > 0){
-				ctx.save();
-				ctx.textAlign = "right";
-			}
-			else{
-				ctx.textAlign = "center";
-			}
+			ctx.textAlign = "center";
 			ctx.fillStyle = config.scaleFontColor;
 			for (var i=0; i<data.labels.length; i++){
 				ctx.save();
-				if (rotateLabels > 0){
-					ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
-					ctx.rotate(-(rotateLabels * (Math.PI/180)));
-					ctx.fillText(data.labels[i], 0,0);
-					ctx.restore();
-				}
+				ctx.fillText(data.labels[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);					
 				
-				else{
-					ctx.fillText(data.labels[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);					
-				}
-
 				ctx.beginPath();
 				ctx.moveTo(yAxisPosX + i * valueHop, xAxisPosY+3);
 				
 				//Check i isnt 0, so we dont go over the Y axis twice.
-				if(config.scaleShowGridLines && i>0){
+				if(config.scaleShowGridLines && i>0 && (data.labels[i]!='')){
 					ctx.lineWidth = config.scaleGridLineWidth;
 					ctx.strokeStyle = config.scaleGridLineColor;					
 					ctx.lineTo(yAxisPosX + i * valueHop, 5);
@@ -932,8 +485,6 @@ window.Chart = function(context){
 					ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY - ((j+1) * scaleHop));
 				}
 			}
-			
-			
 		}
 		function calculateXAxisSize(){
 			var longestText = 1;
@@ -948,74 +499,33 @@ window.Chart = function(context){
 				longestText +=10;
 			}
 			xAxisLength = width - longestText - widestXLabel;
-			valueHop = xAxisLength/(data.labels.length-1);	
-				
+			valueHop = xAxisLength/(data.labels.length-1);
 			yAxisPosX = width-widestXLabel/2-xAxisLength;
 			xAxisPosY = scaleHeight + config.scaleFontSize/2;				
 		}		
 		function calculateDrawingSizes(){
 			maxSize = height;
-
 			//Need to check the X axis first - measure the length of each text metric, and figure out if we need to rotate by 45 degrees.
 			ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
 			widestXLabel = 1;
-			for (var i=0; i<data.labels.length; i++){
-				var textLength = ctx.measureText(data.labels[i]).width;
-				//If the text length is longer - make that equal to longest text!
-				widestXLabel = (textLength > widestXLabel)? textLength : widestXLabel;
-			}
-			if (width/data.labels.length < widestXLabel){
-				rotateLabels = 45;
-				if (width/data.labels.length < Math.cos(rotateLabels) * widestXLabel){
-					rotateLabels = 90;
-					maxSize -= widestXLabel; 
-				}
-				else{
-					maxSize -= Math.sin(rotateLabels) * widestXLabel;
-				}
-			}
-			else{
-				maxSize -= config.scaleFontSize;
-			}
-			
-			//Add a little padding between the x line and the text
-			maxSize -= 5;
-			
-			
+			maxSize -= config.scaleFontSize;
 			labelHeight = config.scaleFontSize;
-			
-			maxSize -= labelHeight;
-			//Set 5 pixels greater than the font size to allow for a little padding from the X axis.
-			
+			if (config.scaleShowLabels){
+				//Add a little padding between the x line and the text
+				maxSize -= 9;
+				maxSize -= labelHeight;
+			}
 			scaleHeight = maxSize;
-			
 			//Then get the area above we can safely draw on.
-			
 		}		
 		function getValueBounds() {
-			var upperValue = Number.MIN_VALUE;
-			var lowerValue = Number.MAX_VALUE;
-			for (var i=0; i<data.datasets.length; i++){
-				for (var j=0; j<data.datasets[i].data.length; j++){
-					if ( data.datasets[i].data[j] > upperValue) { upperValue = data.datasets[i].data[j] };
-					if ( data.datasets[i].data[j] < lowerValue) { lowerValue = data.datasets[i].data[j] };
-				}
-			};
-	
-			var maxSteps = Math.floor((scaleHeight / (labelHeight*0.66)));
-			var minSteps = Math.floor((scaleHeight / labelHeight*0.5));
-			
 			return {
-				maxValue : upperValue,
-				minValue : lowerValue,
-				maxSteps : maxSteps,
-				minSteps : minSteps
+				maxValue : 255,
+				minValue : 0,
+				maxSteps : Math.floor((scaleHeight / (labelHeight*0.66))),
+				minSteps : Math.floor((scaleHeight / labelHeight*0.5))
 			};
-			
-	
-		}
-
-		
+		}	
 	}
 	
 	var Bar = function(data,config,ctx){
@@ -1027,7 +537,6 @@ window.Chart = function(context){
 		//Check and set the scale
 		labelTemplateString = (config.scaleShowLabels)? config.scaleLabel : "";
 		if (!config.scaleOverride){
-			
 			calculatedScale = calculateScale(scaleHeight,valueBounds.maxSteps,valueBounds.minSteps,valueBounds.maxValue,valueBounds.minValue,labelTemplateString);
 		}
 		else {
@@ -1051,7 +560,6 @@ window.Chart = function(context){
 					ctx.strokeStyle = data.datasets[i].strokeColor;
 				for (var j=0; j<data.datasets[i].data.length; j++){
 					var barOffset = yAxisPosX + config.barValueSpacing + valueHop*j + barWidth*i + config.barDatasetSpacing*i + config.barStrokeWidth*i;
-					
 					ctx.beginPath();
 					ctx.moveTo(barOffset, xAxisPosY);
 					ctx.lineTo(barOffset, xAxisPosY - animPc*calculateOffset(data.datasets[i].data[j],calculatedScale,scaleHop)+(config.barStrokeWidth/2));
@@ -1076,24 +584,13 @@ window.Chart = function(context){
 			ctx.stroke();
 			
 			
-			if (rotateLabels > 0){
-				ctx.save();
-				ctx.textAlign = "right";
-			}
-			else{
+			{
 				ctx.textAlign = "center";
 			}
 			ctx.fillStyle = config.scaleFontColor;
 			for (var i=0; i<data.labels.length; i++){
 				ctx.save();
-				if (rotateLabels > 0){
-					ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
-					ctx.rotate(-(rotateLabels * (Math.PI/180)));
-					ctx.fillText(data.labels[i], 0,0);
-					ctx.restore();
-				}
-				
-				else{
+				{
 					ctx.fillText(data.labels[i], yAxisPosX + i*valueHop + valueHop/2,xAxisPosY + config.scaleFontSize+3);					
 				}
 
@@ -1101,9 +598,12 @@ window.Chart = function(context){
 				ctx.moveTo(yAxisPosX + (i+1) * valueHop, xAxisPosY+3);
 				
 				//Check i isnt 0, so we dont go over the Y axis twice.
+				if(config.scaleShowGridLines && i>0)
+				{
 					ctx.lineWidth = config.scaleGridLineWidth;
 					ctx.strokeStyle = config.scaleGridLineColor;					
 					ctx.lineTo(yAxisPosX + (i+1) * valueHop, 5);
+				}
 				ctx.stroke();
 			}
 			
@@ -1135,7 +635,6 @@ window.Chart = function(context){
 				}
 			}
 			
-			
 		}
 		function calculateXAxisSize(){
 			var longestText = 1;
@@ -1150,7 +649,7 @@ window.Chart = function(context){
 				longestText +=10;
 			}
 			xAxisLength = width - longestText - widestXLabel;
-			valueHop = Math.floor(xAxisLength/(data.labels.length));	
+			valueHop = xAxisLength/(data.labels.length);	
 			
 			barWidth = (valueHop - config.scaleGridLineWidth*2 - (config.barValueSpacing*2) - (config.barDatasetSpacing*data.datasets.length-1) - ((config.barStrokeWidth/2)*data.datasets.length-1))/data.datasets.length;
 			
@@ -1160,32 +659,11 @@ window.Chart = function(context){
 		function calculateDrawingSizes(){
 			maxSize = height;
 
-			//Need to check the X axis first - measure the length of each text metric, and figure out if we need to rotate by 45 degrees.
 			ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
 			widestXLabel = 1;
-			for (var i=0; i<data.labels.length; i++){
-				var textLength = ctx.measureText(data.labels[i]).width;
-				//If the text length is longer - make that equal to longest text!
-				widestXLabel = (textLength > widestXLabel)? textLength : widestXLabel;
-			}
-			if (width/data.labels.length < widestXLabel){
-				rotateLabels = 45;
-				if (width/data.labels.length < Math.cos(rotateLabels) * widestXLabel){
-					rotateLabels = 90;
-					maxSize -= widestXLabel; 
-				}
-				else{
-					maxSize -= Math.sin(rotateLabels) * widestXLabel;
-				}
-			}
-			else{
-				maxSize -= config.scaleFontSize;
-			}
+			maxSize -= config.scaleFontSize;
 			
 			//Add a little padding between the x line and the text
-			maxSize -= 5;
-			
-			
 			labelHeight = config.scaleFontSize;
 			
 			maxSize -= labelHeight;
@@ -1194,29 +672,14 @@ window.Chart = function(context){
 			scaleHeight = maxSize;
 			
 			//Then get the area above we can safely draw on.
-			
 		}		
 		function getValueBounds() {
-			var upperValue = Number.MIN_VALUE;
-			var lowerValue = Number.MAX_VALUE;
-			for (var i=0; i<data.datasets.length; i++){
-				for (var j=0; j<data.datasets[i].data.length; j++){
-					if ( data.datasets[i].data[j] > upperValue) { upperValue = data.datasets[i].data[j] };
-					if ( data.datasets[i].data[j] < lowerValue) { lowerValue = data.datasets[i].data[j] };
-				}
-			};
-	
-			var maxSteps = Math.floor((scaleHeight / (labelHeight*0.66)));
-			var minSteps = Math.floor((scaleHeight / labelHeight*0.5));
-			
 			return {
-				maxValue : upperValue,
-				minValue : lowerValue,
-				maxSteps : maxSteps,
-				minSteps : minSteps
-			};
-			
-	
+				maxValue : 127,
+				minValue : 0,
+				maxSteps : Math.floor((scaleHeight / (labelHeight*0.66))),
+				minSteps : Math.floor((scaleHeight / labelHeight*0.5))
+			};	
 		}
 	}
 	
