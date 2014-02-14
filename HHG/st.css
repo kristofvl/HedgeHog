@@ -1,8 +1,10 @@
-html, body { font-family: Helvetica Nueu, Helvetica, Arial, sans-serif; }
+html, body {font-family: Helvetica Nueu, Helvetica, Arial, sans-serif;}
 
 h1
 {
 	color:  #067A6A;
+	font-size: x-large;
+	height: 20px;
 }
 
 section#calendar 
@@ -21,7 +23,7 @@ section#calendar .header
 	border-color: #067A6A;
 	margin: 0 1px 7px 1px;
 	width: 164px;
-	height: 17px;
+	height: 20px;
 	text-align: right;
 	font-size: medium;
 }
@@ -49,7 +51,7 @@ section#calendar .header
 	unicode-bidi: embed;
 	font-family: monospace;
 	white-space: pre;
-	width: 210px; 
+	width: 200px; 
 	height: 120px;
 	border: 1px solid #067A6A;
 	border-radius: 7px;
@@ -70,7 +72,6 @@ time
 	font-weight: 900; 
 	border: 1px solid #067A6A;
 	border-radius: 7px;
-	background: #fff;
 }
 
 section#calendar time a
@@ -92,14 +93,14 @@ section#calendar time a:hover
 {
 	color: #000;
 	border: 1px solid #067A6A;
-	-webkit-filter: brightness(90%);
 }
 
-.canvas {
+.canvas
+{
 	position:absolute;
 	left:0px;
 }
 
 time.notmonth { }
-time.weekend  { background: #eee; }
+time.weekend  { background: #f5f5f5; }
 
