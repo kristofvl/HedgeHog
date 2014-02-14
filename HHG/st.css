@@ -29,7 +29,7 @@ section#calendar .header
 #days
 {
 	width: 1186px; 
-	height: 510px;
+	height: 470px;
 	overflow: hidden;
 	border: 0;
 }
@@ -37,7 +37,7 @@ section#calendar .header
 #scrollview
 {
 	width: 1200px; 
-	height: 510px;
+	height: 470px;
 	overflow-y: scroll;
 	border: 0;
 }

@@ -53,18 +53,18 @@ def hhg_conf_html(cnf,smps,rle):
 	bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
 	md_lookup = ['controller', 'sensor']			
 	pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
-	htstr = ('<div id="inf" style="left:650px;top:90px;height:70px;">'+
+	htstr = ('<div id="inf" style="left:850px;top:90px;height:72px;">'+
 		'<b>HedgeHog Configuration</b>\n'+ 
 		'HedgeHog_ID: '+str(cnf[0:4])+'\nfirmware:    ' + cnf[35:42] +
 		'\nlogging end: 20' +str(ord(cnf[71])) + '-' +
 		str(1+ord(cnf[72])).zfill(2) +'-'+ str(ord(cnf[73])).zfill(2) +
-		'</div><div id="inf" style="left:650px;top:190px;height:84px;">'+
+		'</div><div id="inf" style="left:850px;top:190px;height:84px;">'+
 		'<b>Accelerometer Settings</b>\n' +
 		'acc. range: +/- ' + str(g_range) +'g\nsampled at: ' + 
 		str(bw_lookup[ord(cnf[13])-48]) + 'Hz (' + 
 		str(md_lookup[ord(cnf[14])-48]) + ')\npower mode: ' + 
 		str(pw_lookup[ord(cnf[15])-48]) + '\nRLE delta : ' + str(cnf[20])+
-		'</div><div id="inf" style="left:650px;top:310px;height:50px;">'+
+		'</div><div id="inf" style="left:850px;top:310px;height:50px;">'+
 		'<b>Dataset Properties:</b>\n3d samples : '+str(smps).zfill(9)+
 		'\nRLE samples: '+str(rle).zfill(9)+
 		'</div>')
@@ -144,9 +144,9 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</p>')
-	df.write('<canvas id="day_view_light" width="632" height="120">'+
+	df.write('<canvas id="day_view_light" width="832" height="120">'+
 		'</canvas></br>'+
-		'<canvas id="day_view_acc3d" width="632" height="200"></canvas>')
+		'<canvas id="day_view_acc3d" width="832" height="200"></canvas>')
 	df.write(hhg_conf_html(cnf,sum(dta.view(np.recarray).d),len(dta)))
 	lbl = [' ']*bins;lbl[0]='00';lbl[int(bins/4)]='06';lbl[bins>>1]='12';
 	lbl[int(3*bins/4)]='18';lbl[bins-1]='00';
