@@ -52,8 +52,12 @@ def hhg_cal_indexheader():
 		'<script src="http://code.jquery.com/jquery-1.11.0.min.js">'+
 		'</script><script>$(document).ready(function(){'+
 		'$("time").mouseover(function(){'+
-		'var mnth = $(this).attr("datetime");$("h1").html(mnth)'+
-		'});});</script></head>')
+		'$("h1").html($(this).attr("datetime"))});});</script></head>')
+		
+## generate html for chart canvas:
+def hhg_canvas_html(varname, style, w, h):
+	return ('<canvas style="'+style+'" id="'+varname+
+		'" width="'+w+'" height="'+h+'"></canvas>')
 		
 ## generate html for light dataset variable:
 def hhg_ldata_html(varname, labels, fcolor, scolor, data):
@@ -61,12 +65,12 @@ def hhg_ldata_html(varname, labels, fcolor, scolor, data):
 		',datasets:[{fillColor:"rgba('+fcolor+')",' + 
 		'strokeColor : "rgba('+scolor+')",data:' + data +'}]};')
 
-## generate html for acc3d dataset variable:	
-def hhg_adata_html(varname, labels, scx, datax, scy, datay, scz, dataz):
+## generate html for acc3d dataset variable:
+def hhg_adata_html(varname, labels, scx,datax, scy,datay, scz,dataz):
 	return ('var '+varname+'={labels:'+labels+
-		',datasets:[{strokeColor : "rgba('+scx+')",data: '+datax+'},'+
-		'{strokeColor : "rgba('+scy+')",data: '+datay+'},'+
-		'{strokeColor : "rgba('+scz+')",data: '+dataz+'}]};')
+		',datasets:[{strokeColor:"rgba('+scx+')",data:'+datax+'},'+
+		'{strokeColor:"rgba('+scy+')",data:'+datay+'},'+
+		'{strokeColor:"rgba('+scz+')",data:'+dataz+'}]};')
 
 ## generate html for chart variable:
 def hhg_chart_html(varname, idname, charttype, dataname, options):
@@ -108,15 +112,13 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 		str(num2date(day_id).year)+ '"')
 	if num2date(day_id).weekday()>4:
 		f.write('class="weekend"')
-	elif month_view != num2date(day_id).month:
-		f.write(' class="notmonth"')
 	f.write('><a href="./'+ str(day_id) +'/index.html">' 
 				+ str(num2date(day_id).day) )
 	## open the data and configuration for the day:
 	try:
 		out = np.load(os.path.join(dlpath,str(day_id),'d.npz'))
 		dta = out['dta']
-		cnf = str(out['conf'])
+		cnf = str(out['conf']) 
 	except:
 		f.write('</a></time>')
 		print "Data not found for "+daystr
@@ -132,14 +134,13 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 		if day_bin[i][0]==0:
 			day_bin[i] = day_bin[i-1]
 	## construct the html for the calendar view:
-	f.write('</a><canvas style="top:0px;"'+
-		'id="dv_l'+str(day_id)+'" width="160" height="27">'+
-		'</canvas><canvas style="top:25px;"'+
-		'id="dv_a'+str(day_id)+'" width="160" height="70"></canvas>')
+	f.write('</a>')
+	f.write(hhg_canvas_html('dv_l'+str(day_id),'top:0px;', '160', '27'))
+	f.write(hhg_canvas_html('dv_a'+str(day_id),'top:25px;', '160', '70'))
 	f.write('\n<script>')
 	f.write( hhg_ldata_html('dl_'+str(day_id), 
 					str(['']*(bins/bdiv)).replace(" ",""), 
-					'220,220,0,7', '220,220,220,1', 
+					'220,220,7,1', '220,220,220,1', 
 					str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")) )
 	f.write( hhg_adata_html('da_'+str(day_id),
 					str(['']*(bins/bdiv)).replace(" ",""),
@@ -173,9 +174,9 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</p>')
-	df.write('<canvas id="day_view_light" width="832" height="120">'+
-		'</canvas></br>'+
-		'<canvas id="day_view_acc3d" width="832" height="200"></canvas>')
+	df.write( hhg_canvas_html('day_view_light', '', '832', '120') )
+	df.write('</br>')
+	df.write( hhg_canvas_html('day_view_acc3d', '', '832', '200') )
 	df.write(hhg_conf_html(cnf,sum(dta.view(np.recarray).d),len(dta)))
 	lbl = [' ']*bins;lbl[0]='00';lbl[int(bins/4)]='06';lbl[bins>>1]='12';
 	lbl[int(3*bins/4)]='18';lbl[bins-1]='00';
