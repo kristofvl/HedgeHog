@@ -65,9 +65,9 @@ def hhg_conf_html(cnf,smps,rle):
 		str(md_lookup[ord(cnf[14])-48]) + ')\npower mode: ' + 
 		str(pw_lookup[ord(cnf[15])-48]) + '\nRLE delta : ' + str(cnf[20])+
 		'</div><div id="inf" style="left:650px;top:310px;height:50px;">'+
-		'<b>logged 3d samples : '+str(smps).zfill(9)+
-		'\nlogged RLE samples: '+str(rle).zfill(9)+
-		'</b></div>')
+		'<b>Dataset Properties:</b>\n3d samples : '+str(smps).zfill(9)+
+		'\nRLE samples: '+str(rle).zfill(9)+
+		'</div>')
 	return htstr
 
 ## write a calendar entry
@@ -86,6 +86,8 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 	## open the data and configuration for the day:
 	try:
 		out = np.load(os.path.join(dlpath,str(day_id),'d.npz'))
+		dta = out['dta']
+		cnf = str(out['conf'])
 	except:
 		f.write('</a></time>')
 		print "Data not found"
@@ -93,8 +95,6 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 	## open the data and configuration for the day:
 	bins = 14400
 	bdiv = 50
-	dta = out['dta']
-	cnf = str(out['conf'])
 	day_bin = np.zeros(bins,dtype=desc_hhg).view(np.recarray)
 	for x in dta:
 		idx= int((x[0]-int(dta[0][0]))*bins)
@@ -124,7 +124,7 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 	f.write('var l_'+str(day_id)+'=new Chart(document.getElementById('+
 		'"dv_l'+str(day_id)+'").getContext("2d")).Bar(dl_'+str(day_id)+
 		',{scaleShowLabels:false,scaleShowGridLines:false,'+
-		'scaleFontSize:0,scaleStepWidth:32});')
+		'scaleFontSize:0,scaleStepWidth:32,animation:false});')
 	f.write('var a_'+str(day_id)+'=new Chart(document.getElementById('+
 		'"dv_a'+str(day_id)+'").getContext("2d")).Line(da_'+str(day_id)+
 		',{scaleShowLabels:false,scaleFontSize:0,'+
