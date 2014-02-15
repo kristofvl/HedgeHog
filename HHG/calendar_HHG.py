@@ -44,7 +44,10 @@ def hhg_day_indexheader(daystr):
 		'<script src="../Chart.js"></script></head>'+
 		'<body><section id="calendar" style="width:1050px;">'+
 		'<h1>'+daystr+'</h1>')
-def hhg_cal_indexheader():
+def hhg_cal_indexheader(mnth):
+	hdr = ''
+	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
+		hdr += ('<div class="header">'+dayname+'</div>')
 	return ('<!DOCTYPE html><html lang=en><meta charset=utf-8>'+
 		'<link rel=stylesheet href="st.css">'+
 		'<head><title>HedgeHog Calendar View</title>'+
@@ -52,8 +55,10 @@ def hhg_cal_indexheader():
 		'<script src="http://code.jquery.com/jquery-1.11.0.min.js">'+
 		'</script><script>$(document).ready(function(){'+
 		'$("time").mouseover(function(){'+
-		'$("h1").html($(this).attr("datetime"))});});</script></head>')
-		
+		'$("h1").html($(this).attr("datetime"))});});</script></head>'+
+		'<body><section id=calendar><h1>'+mnth+'</h1>'+hdr+
+		'<div id="days"><div id="scrollview">')
+
 ## generate html for chart canvas:
 def hhg_canvas_html(varname, style, w, h):
 	return ('<canvas style="'+style+'" id="'+varname+
@@ -102,7 +107,7 @@ def hhg_conf_html(cnf,smps,rle):
 		'\nRLE samples: '+str(rle).zfill(9)+'</div>')
 
 ## write a calendar entry
-def hhg_cal_entry(day_id, month_view, dlpath, f):
+def hhg_cal_entry(day_id, dlpath, f):
 	## construct the html page for the calendar:
 	daystr = str(num2date(day_id).year)+'-'
 	daystr += str(num2date(day_id).month).zfill(2)
@@ -112,18 +117,18 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 		str(num2date(day_id).year)+ '"')
 	if num2date(day_id).weekday()>4:
 		f.write('class="weekend"')
-	f.write('><a href="./'+ str(day_id) +'/index.html">' 
+	f.write('><a href="./'+ str(day_id) +'/index.html">'
 				+ str(num2date(day_id).day) )
 	## open the data and configuration for the day:
 	try:
 		out = np.load(os.path.join(dlpath,str(day_id),'d.npz'))
 		dta = out['dta']
-		cnf = str(out['conf']) 
+		cnf = str(out['conf'])
 	except:
 		f.write('</a></time>')
 		print "Data not found for "+daystr
 		return
-	## open the data and configuration for the day:
+	## reduce the data for plotting in bins:
 	bins = 14400
 	bdiv = 50
 	day_bin = np.zeros(bins,dtype=desc_hhg).view(np.recarray)
@@ -197,6 +202,10 @@ def hhg_cal_entry(day_id, month_view, dlpath, f):
 	df.close()
 
 
+
+
+## main script starts here: ############################################
+
 if len(sys.argv) < 2:
 	print 'use: calendar_HHG.py [download_folder]'
 	exit(1)
@@ -208,35 +217,35 @@ if not os.path.exists(dlpath):
 home = os.environ['HOME']
 subprocess.call(["cp", "%s/HedgeHog/HHG/st.css"%home, dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/Chart.js"%home, dlpath])
+
 first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
 last_day_id = int(sorted(os.walk(dlpath).next()[1])[-1])+1
  # assume that we're interested in first month:
 month_vw = num2date(first_day_id).month
 
-f=open(os.path.join(dlpath,'index.html'),"w")
-f.write(hhg_cal_indexheader())
-f.write('<body><section id=calendar>')
-f.write('<h1>'+calendar.month_name[month_vw]+' '
-				 +str(num2date(first_day_id).year)+'</h1>')	
-for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
-	f.write('<div class="header">'+dayname+'</div>')
-f.write('<div id="days"><div id="scrollview">')
+try:
+	f=open(os.path.join(dlpath,'index.html'),"w")
+except:
+	print 'Cannot write to index file'
+	exit(1)
+	
+f.write(hhg_cal_indexheader('January 2014'))
 
 # fill empty days before day of week:
 wkday =  num2date(first_day_id).weekday()
 for wd in range(wkday):
-	hhg_cal_entry(first_day_id-wkday+wd, month_vw, dlpath, f)
+	hhg_cal_entry(first_day_id-wkday+wd, dlpath, f)
 	
 # fill in days with data:
 for day_id in range(first_day_id, last_day_id):
-	hhg_cal_entry(day_id, month_vw, dlpath, f)
+	hhg_cal_entry(day_id, dlpath, f)
 	
 # add remaining days in row:
 for rd in range( 7-(last_day_id-first_day_id+wkday)%7 ):
-	hhg_cal_entry(last_day_id+rd, month_vw, dlpath, f)
+	hhg_cal_entry(last_day_id+rd, dlpath, f)
 
-f.write('</div></div>')
-f.write('</section></body>')
+f.write('</div></div></section></body>')
 f.close()
 
+## preview:
 subprocess.call(["firefox", "%s/index.html"%dlpath])
