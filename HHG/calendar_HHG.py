@@ -106,8 +106,22 @@ def hhg_conf_html(cnf,smps,rle):
 		'<b>Dataset Properties</b>\n3d samples : '+str(smps).zfill(9)+
 		'\nRLE samples: '+str(rle).zfill(9)+'</div>')
 
+## bin-wise reduce the data in dta for calendar plotting:
+def hhg_parse_npz(dta, bins, bdiv):
+	day_bin = np.zeros(bins,dtype=desc_hhg).view(np.recarray)
+	## stash samples in bins (over-writing previous bins):
+	for x in dta:
+		idx= int((x[0]-int(dta[0][0]))*bins)
+		day_bin[idx] = x
+	## fill in any holes with previous data y:
+	for i in range(1,bins):
+		if day_bin[i][0]==0:
+			day_bin[i] = day_bin[i-1]
+	return day_bin
+
 ## write a calendar entry
 def hhg_cal_entry(day_id, dlpath, f):
+	
 	## construct the html page for the calendar:
 	daystr = str(num2date(day_id).year)+'-'
 	daystr += str(num2date(day_id).month).zfill(2)
@@ -119,26 +133,25 @@ def hhg_cal_entry(day_id, dlpath, f):
 		f.write('class="weekend"')
 	f.write('><a href="./'+ str(day_id) +'/index.html">'
 				+ str(num2date(day_id).day) )
+				
 	## open the data and configuration for the day:
+	dfile = os.path.join(dlpath,str(day_id),'d.npz')
+	bins = 14400
+	bdiv = 50
 	try:
-		out = np.load(os.path.join(dlpath,str(day_id),'d.npz'))
+		out = np.load(dfile)
 		dta = out['dta']
 		cnf = str(out['conf'])
 	except:
 		f.write('</a></time>')
 		print "Data not found for "+daystr
 		return
-	## reduce the data for plotting in bins:
-	bins = 14400
-	bdiv = 50
-	day_bin = np.zeros(bins,dtype=desc_hhg).view(np.recarray)
-	for x in dta:
-		idx= int((x[0]-int(dta[0][0]))*bins)
-		day_bin[idx] = x
-	for i in range(1,bins):
-		if day_bin[i][0]==0:
-			day_bin[i] = day_bin[i-1]
-	## construct the html for the calendar view:
+	tic = time.clock()
+	day_bin =  hhg_parse_npz(dta, bins, bdiv)
+	toc = time.clock()
+	print daystr+' took '+str(toc-tic)+' seconds'
+	
+	## construct the html for the calendar view's plots:
 	f.write('</a>')
 	f.write(hhg_canvas_html('dv_l'+str(day_id),'top:0px;', '160', '27'))
 	f.write(hhg_canvas_html('dv_a'+str(day_id),'top:25px;', '160', '70'))
@@ -168,6 +181,8 @@ def hhg_cal_entry(day_id, dlpath, f):
 	f.write('</script></time>')
 		
 	## construct the html page for the day-view:
+	lbl = [' ']*bins;lbl[0]='00';lbl[int(bins/4)]='06';lbl[bins>>1]='12';
+	lbl[int(3*bins/4)]='18';lbl[bins-1]='00';
 	try:
 		df=open(os.path.join(dlpath,str(day_id),'index.html'),"w")
 	except:
@@ -183,11 +198,9 @@ def hhg_cal_entry(day_id, dlpath, f):
 	df.write('</br>')
 	df.write( hhg_canvas_html('day_view_acc3d', '', '832', '200') )
 	df.write(hhg_conf_html(cnf,sum(dta.view(np.recarray).d),len(dta)))
-	lbl = [' ']*bins;lbl[0]='00';lbl[int(bins/4)]='06';lbl[bins>>1]='12';
-	lbl[int(3*bins/4)]='18';lbl[bins-1]='00';
 	df.write('<script>')
 	df.write( hhg_ldata_html('data_light', 
-					str(['']*int(bins/bdiv)).replace(" ",""), 
+					str(['']*int(bins/bdiv)).replace(" ",""),
 					'220,220,0,7', '220,220,220,1', 
 					str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")) )
 	df.write( hhg_adata_html('data_acc3d', str(lbl).replace(" ",""),

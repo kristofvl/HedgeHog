@@ -24,7 +24,7 @@
 
 
 import sys, time
-from numpy import *
+import numpy as np
 import hhg_plot.hhg_plot as hplt
 import matplotlib.dates  as mld
 import pygtk, gtk
@@ -36,22 +36,18 @@ desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'),
 					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
 
-if len(sys.argv) == 2:
+try:
 	filename = sys.argv[1]
-else:
+	ext = filename[-3:]
+	ext = ext.lower()
+except:
 	print 'usage: viz_HHG.py <data.npy|data.db>'
 	exit()
 	
-## read the data file
-if len(filename)>3:
-	ext = filename[-3:]
-	ext = ext.lower()
-else:
-	exit(1)
 if ext=='npy': # simple loading of numpy file:
-	dta = load(filename)
+	dta = np.load(filename)
 elif ext=='npz':
-	out = load(filename)
+	out = np.load(filename)
 	dta = out['dta']
 	cnf = out['conf']
 elif ext=='.db':
@@ -60,18 +56,17 @@ elif ext=='.db':
 	cursor = conn.cursor()
 	test = cursor.execute('SELECT * FROM hhg')
 	dta = test.fetchall()
-	dta = array(dta,dtype=desc_hhg)
+	dta = np.array(dta,dtype=desc_hhg)
 else:
 	print 'file has wrong extension'
 	exit(1)
 	
-dta = dta.view(desc_hhg, recarray)
+dta = dta.view(desc_hhg, np.recarray)
 		
 ## actual plotting here:
 fig = hplt.Hhg_raw_plot(10,8,80)
-fig.plot(1, 3, dta.t, array((dta.x,dta.y,dta.z)).T,'3D acceleration')
-fig.plot(2, 3, dta.t, array((dta.e1)).T>>8, 'ambient light')
-fig.plot(3, 3, dta.t, (array((dta.e1)).T&0xFF)/2-30, 'temperature')
+fig.plot(1, 3, dta.t, np.array((dta.x,dta.y,dta.z)).T,'3D acceleration')
+fig.plot(2, 3, dta.t, np.array((dta.e1)).T>>8, 'ambient light')
+fig.plot(3, 3, dta.t, (np.array((dta.e1)).T&0xFF)/2-30, 'temperature')
 fig.show()
-
 
