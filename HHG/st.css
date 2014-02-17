@@ -104,3 +104,39 @@ section#calendar time a:hover
 time.notmonth { }
 time.weekend  { background: #f5f5f5; }
 
+.a-right,
+.a-left,
+.a-up {
+  border-style: dashed;
+  border-color: transparent;
+  border-width: 0.53em;
+  display: -moz-inline-box;
+  display: inline-block;
+  font-size: 20px;
+  height: 0;
+  line-height: 0;
+  position: relative;
+  vertical-align: middle;
+  width: 0;
+}
+
+.a-right {
+  border-left-width: 1em;
+  border-left-style: solid;
+  border-left-color: #067A6A;
+  left: 0.25em;
+}
+
+.a-left {
+  border-right-width: 1em;
+  border-right-style: solid;
+  border-right-color: #067A6A;
+  right: 0.25em;
+}
+
+.a-up {
+  border-bottom-width: 1em;
+  border-bottom-style: solid;
+  border-bottom-color: #067A6A;
+  bottom: 0.25em;
+}

@@ -37,13 +37,18 @@ desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'),
 				'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
 ## write html header:
-def hhg_day_indexheader(daystr):
+def hhg_day_indexheader(daystr, day_id):
 	return ('<!DOCTYPE html><html lang=en><meta charset=utf-8>'+
 		'<link rel=stylesheet href="../st.css">'+
 		'<head><title>HedgeHog Day View</title>'+
 		'<script src="../Chart.js"></script></head>'+
 		'<body><section id="calendar" style="width:1050px;">'+
-		'<h1>'+daystr+'</h1>')
+		'<h1><a href="../'+str(day_id-1)+
+		'/index.html"><span class="a-left"></span></a>'+daystr+
+		'<a href="../'+str(day_id+1)+
+		'/index.html"><span class="a-right"></span></a>'+
+		'<a style="text-align=right;" href="../index.html"><span class="a-up"></span></a>'
+		'</h1>')
 def hhg_cal_indexheader(mnth):
 	hdr = ''
 	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
@@ -67,15 +72,15 @@ def hhg_canvas_html(varname, style, w, h):
 ## generate html for light dataset variable:
 def hhg_ldata_html(varname, labels, fcolor, scolor, data):
 	return ('var '+varname+'={labels:'+labels+
-		',datasets:[{fillColor:"rgba('+fcolor+')",' + 
-		'strokeColor : "rgba('+scolor+')",data:' + data +'}]};')
+		',datasets:[{fillColor:"'+fcolor+'",' + 
+		'strokeColor : "'+scolor+'",data:' + data +'}]};')
 
 ## generate html for acc3d dataset variable:
 def hhg_adata_html(varname, labels, scx,datax, scy,datay, scz,dataz):
 	return ('var '+varname+'={labels:'+labels+
-		',datasets:[{strokeColor:"rgba('+scx+')",data:'+datax+'},'+
-		'{strokeColor:"rgba('+scy+')",data:'+datay+'},'+
-		'{strokeColor:"rgba('+scz+')",data:'+dataz+'}]};')
+		',datasets:[{strokeColor:"'+scx+'",data:'+datax+'},'+
+		'{strokeColor:"'+scy+'",data:'+datay+'},'+
+		'{strokeColor:"'+scz+'",data:'+dataz+'}]};')
 
 ## generate html for chart variable:
 def hhg_chart_html(varname, idname, charttype, dataname, options):
@@ -106,18 +111,36 @@ def hhg_conf_html(cnf,smps,rle):
 		'<b>Dataset Properties</b>\n3d samples : '+str(smps).zfill(9)+
 		'\nRLE samples: '+str(rle).zfill(9)+'</div>')
 
-## bin-wise reduce the data in dta for calendar plotting:
-def hhg_parse_npz(dta, bins, bdiv):
+## bin-wise collect the dta stats for calendar plotting
+## return mean, std, min, max for x, y, and z axes
+def hhg_stats_npz(dta, bins):
 	day_bin = np.zeros(bins,dtype=desc_hhg).view(np.recarray)
-	## stash samples in bins (over-writing previous bins):
+	day_bin_stats = np.zeros( (bins,12) )
+	cur_idx = 0; cur_bin = []
 	for x in dta:
-		idx= int((x[0]-int(dta[0][0]))*bins)
-		day_bin[idx] = x
-	## fill in any holes with previous data y:
-	for i in range(1,bins):
-		if day_bin[i][0]==0:
-			day_bin[i] = day_bin[i-1]
-	return day_bin
+		idx = int((x[0]-int(dta[0][0]))*bins)
+		if cur_idx == idx: 
+			cur_bin.append([x[2],x[3],x[4]])
+		else:
+			if cur_bin != []:
+				day_bin_stats[cur_idx,:] = np.concatenate([
+						np.mean(cur_bin, axis=0), np.std(cur_bin, axis=0),
+						np.min(cur_bin, axis=0),  np.max(cur_bin, axis=0)])
+				day_bin[cur_idx] = x
+				for k in range(0,3):
+					day_bin[cur_idx][2+k] = day_bin_stats[cur_idx,
+															(6+(cur_idx&1)*3)+k]
+				cur_bin = []
+			cur_idx = idx
+	## fill in any holes with previous data:
+	for cur_idx in range(1,bins):
+		if day_bin_stats[cur_idx,0:6].all()==0:
+			day_bin_stats[cur_idx]=day_bin_stats[cur_idx-1]
+		if day_bin[cur_idx][0]==0:
+			day_bin[cur_idx] = day_bin[cur_idx-1]
+			for k in range(0,3):
+				day_bin[cur_idx][2+k] = day_bin_stats[cur_idx-1,k]
+	return day_bin_stats, day_bin
 
 ## write a calendar entry
 def hhg_cal_entry(day_id, dlpath, f):
@@ -136,8 +159,8 @@ def hhg_cal_entry(day_id, dlpath, f):
 				
 	## open the data and configuration for the day:
 	dfile = os.path.join(dlpath,str(day_id),'d.npz')
-	bins = 14400
-	bdiv = 50
+	bins = 1440*2
+	bdiv = 17
 	try:
 		out = np.load(dfile)
 		dta = out['dta']
@@ -147,7 +170,8 @@ def hhg_cal_entry(day_id, dlpath, f):
 		print "Data not found for "+daystr
 		return
 	tic = time.clock()
-	day_bin =  hhg_parse_npz(dta, bins, bdiv)
+	#day_bin =  hhg_parse_npz(dta, bins)
+	days_stats, day_bin = hhg_stats_npz(dta, bins)
 	toc = time.clock()
 	print daystr+' took '+str(toc-tic)+' seconds'
 	
@@ -158,15 +182,13 @@ def hhg_cal_entry(day_id, dlpath, f):
 	f.write('\n<script>')
 	f.write( hhg_ldata_html('dl_'+str(day_id), 
 					str(['']*(bins/bdiv)).replace(" ",""), 
-					'220,220,7,1', '220,220,220,1', 
+					'#dd0', '#ddd', 
 					str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")) )
 	f.write( hhg_adata_html('da_'+str(day_id),
 					str(['']*(bins/bdiv)).replace(" ",""),
-					'220,0,0,1', 
-					str((day_bin.x[::bdiv]).tolist()).replace(" ",""),
-					'0,170,0,1',
-					str((day_bin.y[::bdiv]).tolist()).replace(" ",""),
-					'0,0,220,1',
+					'#d00',str((day_bin.x[::bdiv]).tolist()).replace(" ",""),
+					'#0a0',str((day_bin.y[::bdiv]).tolist()).replace(" ",""),
+					'#00d',
 					str((day_bin.z[::bdiv]).tolist()).replace(" ","") ) )
 	f.write(
 		hhg_chart_html('l_'+str(day_id), 'dv_l'+str(day_id), 'Bar', 
@@ -188,7 +210,7 @@ def hhg_cal_entry(day_id, dlpath, f):
 	except:
 		print "Day directory file not found for "+daystr
 		return
-	df.write(hhg_day_indexheader(daystr))
+	df.write(hhg_day_indexheader(daystr, day_id))
 	df.write('<p>Detailed 24h view for '+daystr+' with HedgeHog'+
 		' sensor #'+ cnf[0:4]+
 		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
@@ -200,13 +222,12 @@ def hhg_cal_entry(day_id, dlpath, f):
 	df.write(hhg_conf_html(cnf,sum(dta.view(np.recarray).d),len(dta)))
 	df.write('<script>')
 	df.write( hhg_ldata_html('data_light', 
-					str(['']*int(bins/bdiv)).replace(" ",""),
-					'220,220,0,7', '220,220,220,1', 
+					str(['']*int(bins/bdiv)).replace(" ",""),'#dd0', '#ddd', 
 					str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")) )
 	df.write( hhg_adata_html('data_acc3d', str(lbl).replace(" ",""),
-					'220,0,0,1', str((day_bin.x).tolist()).replace(" ",""),
-					'0,170,0,1', str((day_bin.y).tolist()).replace(" ",""),
-					'0,0,220,1', str((day_bin.z).tolist()).replace(" ","")) )
+					'#d00', str((day_bin.x).tolist()).replace(" ",""),
+					'#0c0', str((day_bin.y).tolist()).replace(" ",""),
+					'#00d', str((day_bin.z).tolist()).replace(" ","")) )
 	df.write( hhg_chart_html('light', 'day_view_light', 'Bar', 
 								'data_light', 'scaleStepWidth:32') )
 	df.write( hhg_chart_html('acc3d', 'day_view_acc3d', 'Line', 
