@@ -66,7 +66,7 @@ extern char is_logging;
 #define USE_SD_INTERFACE_WITH_SPI
 #define SD_CS               PORTCbits.RC6       // Chip Select
 #define SD_CS_TRIS          TRISCbits.TRISC6
-#define SD_CD               0           	// Card detect
+#define SD_CD               0					// Card detect
 #define SD_CD_TRIS          TRISAbits.TRISA3
 #define SD_WE               0
 #define SD_WE_TRIS          TRISAbits.TRISA3
@@ -90,7 +90,7 @@ extern char is_logging;
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
 #define LIGHTCHANNEL    4
-#define LIGHT_PWR 	LATBbits.LATB0
+#define LIGHT_PWR		LATBbits.LATB0
 
 /*******************************************************************/
 /******** remap pins ***********************************************/

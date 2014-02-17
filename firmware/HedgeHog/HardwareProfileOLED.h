@@ -112,15 +112,15 @@ extern char is_logging;
 /*******************************************************************/
 /******** USB Power Sense pin definitions and options **************/
 /*******************************************************************/
-#define USBP_INT_TRIS    TRISBbits.TRISB7
-#define USBP_INT         PORTBbits.RB7
+#define USBP_INT_TRIS	TRISBbits.TRISB7
+#define USBP_INT		PORTBbits.RB7
 
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
-#define LIGHTCHANNEL  4
-#define LIGHT_PWR 	PORTBbits.RB0
+#define LIGHTCHANNEL	4
+#define LIGHT_PWR		PORTBbits.RB0
 
 /*******************************************************************/
 /******** remap pins ***********************************************/

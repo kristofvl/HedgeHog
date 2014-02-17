@@ -49,10 +49,10 @@ void oled_reset(void) {
     oled_cmd(OLEDREG_SETPRECHARGE);	// set precharge period
     oled_cmd(0x22);			 // POR / 2 DCLK
     // Re-map
-    oled_cmd(0xA1);                    // [A0]:column address 0 is map to SEG0
-                                       // [A1]:column address 131 is map to SEG0
+    oled_cmd(0xA1);			// [A0]:column address 0 is map to SEG0
+							// [A1]:column address 131 is map to SEG0
     // COM Output Scan Direction
-    oled_cmd(0xC8);                    // C0 is COM0 to COMn, C8 is COMn to COM0
+    oled_cmd(0xC8);			// C0 is COM0 to COMn, C8 is COMn to COM0
     // COM Pins Hardware Configuration
     oled_cmd(0xDA);			// set pins hardware configuration
     oled_cmd(0x12);
@@ -72,20 +72,20 @@ void oled_reset(void) {
     oled_cmd(0xA6);			// Normal display
     oled_cmd(0xAD);			// Set DC-DC
     oled_cmd(0x8B);			// 8B=ON, 8A=OFF
-    oled_fill(0x00);			// fill display with black pixels
+    oled_fill(0x00);		// fill display with black pixels
 
     // Display ON/OFF
-    oled_cmd(OLEDREG_DISPLAY_ON);			// AF=ON, AE=OFF
-    Delay10KTCYx(20);	//DelayMs(10);
+    oled_cmd(OLEDREG_DISPLAY_ON);	// AF=ON, AE=OFF
+    Delay10KTCYx(20);				//DelayMs(10);
     // Entire Display ON/OFF
     oled_cmd(OLEDREG_EDISP_ON);
 
     // Display Start Line
     oled_cmd(OLEDREG_SETDISPSTART);	// Set display start line
     // Lower Column Address
-    oled_cmd(0x00+OLED_OFFSET);	// Set lower column address
+    oled_cmd(0x00+OLED_OFFSET);		// Set lower column address
     // Higher Column Address
-    oled_cmd(0x10);			// Set higher column address
+    oled_cmd(0x10);					// Set higher column address
 }
 
 /******************************************************************************/
