@@ -1,0 +1,136 @@
+html, body {font-family: Helvetica Nueu, Helvetica, Arial, sans-serif;}
+
+h1
+{
+	color:  #067A6A;
+	font-size: x-large;
+	height: 20px;
+}
+
+section#calendar 
+{
+	position: relative; 
+	width: 1186px; 
+	margin-left:auto;
+	margin-right:auto;
+}
+
+section#calendar .header
+{
+	display: inline-block;
+	border-width: 0 0 2px 0;
+	border-style: solid;
+	border-color: #067A6A;
+	margin: 0 1px 7px 1px;
+	width: 164px;
+	height: 20px;
+	text-align: right;
+	font-size: medium;
+}
+
+#days
+{
+	width: 1186px; 
+	height: 470px;
+	overflow: hidden;
+	border: 0;
+}
+
+#scrollview
+{
+	width: 1200px; 
+	height: 470px;
+	overflow-y: scroll;
+	border: 0;
+}
+
+#inf
+{
+	position: absolute;
+	display: block;
+	unicode-bidi: embed;
+	font-family: monospace;
+	white-space: pre;
+	width: 200px; 
+	height: 120px;
+	border: 1px solid #067A6A;
+	border-radius: 7px;
+	background: #efe;
+	padding: 7px;
+}
+
+time
+{
+	position: relative; 
+	display: inline-block;
+	width: 162px; 
+	height: 104px;
+	margin: 0;
+	padding: 1px 1px 1px 1px;
+	text-align: right;
+	font-size: x-large;
+	font-weight: 900; 
+	border: 1px solid #067A6A;
+	border-radius: 7px;
+}
+
+section#calendar time a
+{
+	position: absolute; 
+	z-index:1;
+	display: block;
+	width: 160px; 
+	height: 102px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #fff;
+	border-radius: 7px;
+	color: #f55b2c; 
+	text-decoration: none;
+}
+
+section#calendar time a:hover
+{
+	color: #000;
+	border: 1px solid #067A6A;
+}
+
+.canvas
+{
+	position:absolute;
+	left:0px;
+}
+
+time.notmonth { }
+time.weekend  { background: #f5f5f5; }
+
+.a-right,
+.a-left,
+.a-up {
+  border: 0.53em dashed transparent;
+  display: -moz-inline-box;
+  display: inline-block;
+  font-size: 20px;
+  height: 0;
+  line-height: 0;
+  position: relative;
+  vertical-align: middle;
+  width: 0;
+}
+
+.a-right {
+  border-left: 1em solid #067A6A;
+  left: 0.27em;
+}
+
+.a-left {
+  border-right: 1em solid #067A6A;
+  right: 0.27em;
+}
+
+.a-up {
+  border-bottom: 1em solid #067A6A;
+  position: absolute;
+  right: 0; 
+  top: 0;
+}
