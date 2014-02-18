@@ -141,6 +141,19 @@ def hhg_stats_npz(dta, bins):
 			for k in range(0,3):
 				day_bin[cur_idx][2+k] = day_bin_stats[cur_idx-1,k]
 	return day_bin_stats, day_bin
+	
+## return acc-threshold probabilities for sleep detection:
+def hhg_night_acc(stats, pct):
+	sum_std = np.sum(stats[:,3:6],1)
+	max_std = np.max(sum_std)/pct # put treshold at pct% of maximum std
+	probs = (sum_std <= max_std)*(max_std-sum_std)/max_std
+	return probs
+	
+## return light-threshold probabilities for sleep detection:
+def hhg_night_lgt(bins, pct):
+	thresh = np.max(bins.e1)/pct # put treshold at pct% of maximum 
+	probs = (bins.e1 <= thresh)*(thresh-bins.e1)/thresh
+	return probs
 
 ## write a calendar entry
 def hhg_cal_entry(day_id, dlpath, f):
@@ -170,8 +183,9 @@ def hhg_cal_entry(day_id, dlpath, f):
 		print "Data not found for "+daystr
 		return
 	tic = time.clock()
-	#day_bin =  hhg_parse_npz(dta, bins)
 	days_stats, day_bin = hhg_stats_npz(dta, bins)
+	probs = hhg_night_acc(days_stats, 10) * hhg_night_lgt(day_bin, 10)
+	print probs
 	toc = time.clock()
 	print daystr+' took '+str(toc-tic)+' seconds'
 	
