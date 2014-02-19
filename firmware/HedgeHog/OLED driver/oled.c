@@ -15,25 +15,21 @@
 
 /******************************************************************************/
 void oled_init(void) {
-    oledWR_TRIS = 0;
-    oledWR = 0;
-    oledRD_TRIS = 0;
-    oledRD = 0;
-    oledCS_TRIS = 0;
-    oledCS = 1;
-    oledD_C_TRIS = 0;
-    oledD_C = 0;
-    oledRESET = 0;
-    Delay1KTCYx(2);
-    oledRESET = 1;
-    Delay1KTCYx(2);
-    oled_cmd(OLEDREG_DISPLAY_OFF); // turn off the display
-    oled_cmd(OLEDREG_EDISP_OFF); // turn off the entire display
+	oledWR_TRIS = 0;	oledWR = 0;
+	oledRD_TRIS = 0;	oledRD = 0;
+	oledCS_TRIS = 0;	oledCS = 1;
+	oledD_C_TRIS = 0;	oledD_C = 0;
+
+	//Reset the device
+	oledRESET = 0;		Delay1KTCYx(2);
+	oledRESET = 1;		Delay1KTCYx(2);
+
+	oled_cmd(OLEDREG_DISPLAY_OFF); // turn off the display
+	oled_cmd(OLEDREG_EDISP_OFF); // turn off the entire display
 }
 
 /******************************************************************************/
 void oled_reset(void) {
-
     oledWR_TRIS = 0;    oledWR = 0;
     oledRD_TRIS = 0;    oledRD = 0;
     oledCS_TRIS = 0;    oledCS = 1;
@@ -141,10 +137,10 @@ void oled_fill(BYTE data) {
 
 	for(i=0xB0;i<0xB8;i++)		// Go through all 8 pages
 	{
-		oled_cmd(i);		// Set page
+		oled_cmd(i);			// Set page
 		oled_cmd(OLED_OFFSET);	// Set lower column address
-		oled_cmd(0x10);		// Set upper column address
-		for(j=0;j<132;j++)	// Write to all 132 bytes
+		oled_cmd(0x10);			// Set upper column address
+		for(j=0;j<132;j++)		// Write to all 132 bytes
 		{
 			oled_write_byte(data);
 		}

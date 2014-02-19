@@ -113,8 +113,8 @@ extern char is_logging;
 /*******************************************************************/
 #define USBP_INT_TRIS	TRISAbits.TRISA0   // POK_INT_TRIS = charger "POK"
 #define USBP_INT		PORTAbits.RA0      // POK_INT
-#define PWRGD_INT_TRIS	TRISAbits.TRISA1   // Voltage converter "power good"
-#define PWRGD_INT		PORTAbits.RA1      // PWRGD_INT
+// #define PWRGD_INT_TRIS	TRISAbits.TRISA1   // Voltage converter "power good"
+// #define PWRGD_INT		PORTAbits.RA1      // PWRGD_INT
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
@@ -130,10 +130,9 @@ extern char is_logging;
 //  RP6  as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P),
 #define remap_pins() {ul_reg(); RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5; l_reg();}
 
-// make sure all pins are output, except for
-//  A0 (POK)     - A1 (PWRGD)   - A5 (L_OUT)
-//	B2 (ACC INT) - B5 (A0_OLED)
-//  D6 (SPI MISO)
-#define set_unused_pins_to_output() {TRISA=0b00100011;TRISB=0b00100100;TRISD=0b01000000;TRISE=0;}
+// make sure all (unused) pins are output, except for
+//  A0 (POK)  -  A1 (PWRGD)  -  A5 (Light Sensor)
+//	B2 (ACC INT)  -  D6 (SPI MISO)
+#define set_unused_pins_to_output() {TRISA=0b00100011;TRISB=0b00000100;TRISD=0;}
 
 #endif  //HARDWARE_PROFILE_HEDGEHOG_OLED_513_H

@@ -134,9 +134,9 @@ void high_priority_ISR() {
 			INTCON3bits.INT1IE = 0; // turn interrupt in1 off
 		} else
 		#endif
-	{
-		USBDeviceTasks();
-	}
+		{
+			USBDeviceTasks();
+		}
 }
 #pragma interruptlow low_priority_ISR
 
@@ -201,10 +201,11 @@ static void init_system(void) {
 	Delay10KTCYx(250);
 	sdbuf_init();
 
-	user_init();		// Our other init routines come last
+	// Our other init routines come last
+	user_init();
 
-	#if !defined(DISPLAY_ENABLED)
 	// updating root table to reflect ID
+	#if !defined(DISPLAY_ENABLED)
 	memset((void*) &sd_buffer, 0, 512);
 	read_SD(SECTOR_CF, sd_buffer.bytes);
 	id_str[0] = sd_buffer.bytes[0];
@@ -237,10 +238,7 @@ void user_init(void) {
 	env_init();			// set up environment sensors (light, temp, ...)
 
 	#if defined(DISPLAY_ENABLED)
-	// wait 5,000,000 ticks and then initialize the display
-	Delay10KTCYx(250);
-	Delay10KTCYx(250);
-	disp_init();
+	disp_init();		// init display
 	#endif
 
 	#if defined(USBP_INT)		// If we detect USB (See HardwareProfile.h)
@@ -258,7 +256,9 @@ void process_IO(void) {
 	if (AppPowerReady() == FALSE) return; // Soft Start APP_VDD
 	#endif
 
+	#if defined(DISPLAY_ENABLED)
 	update_display();	// Update routine for the display
+	#endif
 
 	if (is_logging)
 		log_process();	// go to the logging process
@@ -314,22 +314,7 @@ void update_display(void) {
 		}
 	}
 	// execute possible commands to the display update routine:
-	switch (disp_refresh()) {
-		case DISP_CMD_ACCUP:
-			disp_acc_update(&accval, acc_str);
-			break;
-		case DISP_CMD_LGTMP:
-			disp_env_update((BYTE) (((light.Val > 950) ? 950 : light.Val) >> 5), lt_str, tmp_str);
-			break;
-		case DISP_CMD_CLOCK:
-			disp_time_update(date_str, time_str);
-			break;
-		case DISP_CMD_INTRO:
-		default:
-			disp_init_intro(HH_NAME_STR, HH_VER_STR);
-			break;
-	}
-	/*if (disp_refresh() == DISP_CMD_ACCUP)
+	if (disp_refresh() == DISP_CMD_ACCUP)
 		disp_acc_update(&accval, acc_str);
 	else if (disp_refresh() == DISP_CMD_LGTMP)
 		disp_env_update((BYTE) (((light.Val > 950) ? 950 : light.Val) >> 5), lt_str, tmp_str);
@@ -337,7 +322,6 @@ void update_display(void) {
 		disp_time_update(date_str, time_str);
 	else if (disp_refresh() == DISP_CMD_INTRO)
 		disp_init_intro(HH_NAME_STR, HH_VER_STR);
-	 */
 #endif // DISPLAY_ENABLED
 }
 
@@ -431,19 +415,19 @@ void log_process() {
 				sdbuf_goto_next_accslot();
 		}
 		#if defined(USBP_INT)
-		if (USBP_INT == 0) // if user plugged usb back in
-			goto_deep_sleep(&tm, 1); // go for a second in deep sleep
+		if (USBP_INT == 0)				// if user plugged usb back in
+			goto_deep_sleep(&tm, 1);	// go for a second in deep sleep
 		#endif
 	}
-	if (sdbuf_full()) { // write log to page
+	if (sdbuf_full()) {		// write log to page
 		#if defined(DISPLAY_ENABLED)
-		disp_log_subdue(); // switch off the display if it is on
+		disp_log_subdue();	// switch off the display if it is on
 		#endif
-		sdbuf_write(); // write to SD card and update counters (~8.5ms)
+		sdbuf_write();		// write to SD card and update counters (~8.5ms)
 		#if defined(DISPLAY_ENABLED)
 		disp_log_revive();
 		#endif
-		return; // return to IOProcess, buffer is now on_hold
+		return;				// return to IOProcess, buffer is now on_hold
 	}
 }
 
