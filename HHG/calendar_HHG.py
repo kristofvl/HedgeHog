@@ -42,12 +42,13 @@ def hhg_day_indexheader(daystr, day_id):
 		'<link rel=stylesheet href="../st.css">'+
 		'<head><title>HedgeHog Day View</title>'+
 		'<script src="../Chart.js"></script></head>'+
-		'<body><section id="calendar" style="width:1050px;">'+
+		'<body><section id="calendar" style="width:1100px;">'+
 		'<h1><a href="../'+str(day_id-1)+
 		'/index.html"><span class="a-left"></span></a>'+daystr+
 		'<a href="../'+str(day_id+1)+
 		'/index.html"><span class="a-right"></span></a>'+
-		'<a style="text-align=right;" href="../index.html"><span class="a-up"></span></a>'
+		'<a style="text-align=right;" href="../index.html">'+
+		'<span class="a-up"></span></a>'
 		'</h1>')
 def hhg_cal_indexheader(mnth):
 	hdr = ''
@@ -103,19 +104,19 @@ def hhg_conf_html(cnf,smps,rle):
 	md_lookup = ['controller', 'sensor']			
 	pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
 	div_preambl = '<div id="inf" style="left:'
-	left_offset = '850px'
-	return (div_preambl+left_offset+';top:90px;height:70px;">'+
+	left_offset = '865px'
+	return (div_preambl+left_offset+';top:62px;height:70px;">'+
 		'<b>HedgeHog Configuration</b>\n'+ 
 		'HedgeHog_ID: '+str(cnf[0:4])+'\nfirmware:    ' + cnf[35:42] +
 		'\nlogging end: 20' +str(ord(cnf[71])) + '-' +
 		str(1+ord(cnf[72])).zfill(2) +'-'+ str(ord(cnf[73])).zfill(2) +
 		'</div>'+div_preambl+left_offset+
-		';top:197px;height:84px;"><b>Accelerometer Settings</b>\n' +
+		';top:169px;height:84px;"><b>Accelerometer Settings</b>\n' +
 		'acc. range: +/- ' + str(g_range) +'g\nsampled at: ' + 
 		str(bw_lookup[ord(cnf[13])-48]) + 'Hz (' + 
 		str(md_lookup[ord(cnf[14])-48]) + ')\npower mode: ' + 
 		str(pw_lookup[ord(cnf[15])-48]) + '\nRLE delta : ' + str(cnf[20])+
-		'</div>'+div_preambl+left_offset+';top:320px;height:48px;">'+
+		'</div>'+div_preambl+left_offset+';top:292px;height:48px;">'+
 		'<b>Dataset Properties</b>\n3d samples : '+str(smps).zfill(9)+
 		'\nRLE samples: '+str(rle).zfill(9)+'</div>')
 
@@ -244,12 +245,14 @@ def hhg_cal_entry(day_id, dlpath, f):
 		print "Day directory file not found for "+daystr
 		return
 	df.write(hhg_day_indexheader(daystr, day_id))
-	df.write('<p>Detailed 24h view for '+daystr+' with HedgeHog'+
-		' sensor #'+ cnf[0:4]+
-		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
-		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
-		' bytes)</p>')
+	df.write('<hr>')
+	
 	df.write(hhg_conf_html(cnf,sum(dta.view(np.recarray).d),len(dta)))
+	df.write( '<div id="inf" style="left:865px;top:379px;height:70px;">'+
+		'<b>Sleep Estimation</b>\n'+ 
+		'total sleep:  00.00 Hours\n'+
+		'sleep start:  23:00 on '+str(day_id)+'\n' + 
+		'sleep stop:   23:00 on '+str(day_id)+'\n' +'</div>')
 	df.write('<div class="icn-sun"></div>')
 	df.write( hhg_canvas_html('day_view_light', 'position:relative;', 
 			'832', '120') )
@@ -276,7 +279,13 @@ def hhg_cal_entry(day_id, dlpath, f):
 								'data_acc3d', 'scaleSteps:8,scaleStepWidth:32'))
 	df.write( hhg_chart_html('night', 'night_view_prb', 'Bar', 
 								'data_night', 'scaleStepWidth:32,animation:false') )
-	df.write('</script></section></body></html>')
+	df.write('</script>')
+	df.write('<hr><p style="font-size: small;">Detailed 24h view for '+
+		daystr+' with HedgeHog sensor #'+ cnf[0:4]+
+		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
+		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
+		' bytes)</p>')
+	df.write('</section></body></html>')
 	df.close()
 
 
