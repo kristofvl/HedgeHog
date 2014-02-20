@@ -95,7 +95,7 @@ section#calendar time a:hover
 	border: 1px solid #067A6A;
 }
 
-.canvas
+canvas
 {
 	position:absolute;
 	left:0px;
@@ -133,4 +133,25 @@ time.weekend  { background: #f5f5f5; }
   position: absolute;
   right: 0; 
   top: 0;
+}
+
+.icn-slp,
+.icn-sun,
+.icn-act {
+	background-size:32px 32px;
+	width:32px;
+	height:32px;
+	position: absolute;
+	left:37px;
+	z-index:1;
+}
+
+.icn-slp {
+	background-image:url('sleep.png');
+}
+.icn-sun {
+	background-image:url('sun.png');
+}
+.icn-act {
+	background-image:url('act.png');
 }

@@ -66,14 +66,22 @@ def hhg_cal_indexheader(mnth):
 
 ## generate html for chart canvas:
 def hhg_canvas_html(varname, style, w, h):
-	return ('<canvas style="'+style+'" id="'+varname+
-		'" width="'+w+'" height="'+h+'"></canvas>')
+	return ('<canvas style="'+style+
+		'" id="'+varname+'" width="'+w+'" height="'+h+'"></canvas>')
 		
 ## generate html for light dataset variable:
 def hhg_ldata_html(varname, labels, fcolor, scolor, data):
 	return ('var '+varname+'={labels:'+labels+
 		',datasets:[{fillColor:"'+fcolor+'",' + 
 		'strokeColor : "'+scolor+'",data:' + data +'}]};')
+
+## generate html for night/light dataset variable:
+def hhg_ndata_html(varname, labels, fcl, scl, datal, fcn, scn, datan ):
+	return ('var '+varname+'={labels:'+labels+
+		',datasets:[{fillColor:"'+fcl+'",' + 
+		'strokeColor : "'+scl+'",data:' + datal +'},'+
+		'{fillColor:"'+fcn+'",' + 
+		'strokeColor : "'+scn+'",data:' + datan +'}]};')
 
 ## generate html for acc3d dataset variable:
 def hhg_adata_html(varname, labels, scx,datax, scy,datay, scz,dataz):
@@ -115,7 +123,7 @@ def hhg_conf_html(cnf,smps,rle):
 ## return mean, std, min, max for x, y, and z axes
 def hhg_stats_npz(dta, bins):
 	day_bin = np.zeros(bins,dtype=desc_hhg).view(np.recarray)
-	day_bin_stats = np.zeros( (bins,12) )
+	day_bin_stats = np.zeros( (bins,12) )-[0,0,0,1,1,1,0,0,0,0,0,0]
 	cur_idx = 0; cur_bin = []
 	for x in dta:
 		idx = int((x[0]-int(dta[0][0]))*bins)
@@ -135,7 +143,8 @@ def hhg_stats_npz(dta, bins):
 	## fill in any holes with previous data:
 	for cur_idx in range(1,bins):
 		if day_bin_stats[cur_idx,0:6].all()==0:
-			day_bin_stats[cur_idx]=day_bin_stats[cur_idx-1]
+			day_bin_stats[cur_idx][0:3]=day_bin_stats[cur_idx-1][0:3]
+			day_bin_stats[cur_idx][6:]=day_bin_stats[cur_idx-1][6:]
 		if day_bin[cur_idx][0]==0:
 			day_bin[cur_idx] = day_bin[cur_idx-1]
 			for k in range(0,3):
@@ -143,16 +152,23 @@ def hhg_stats_npz(dta, bins):
 	return day_bin_stats, day_bin
 	
 ## return acc-threshold probabilities for sleep detection:
-def hhg_night_acc(stats, pct):
+def hhg_night_acc(stats, bdiv, pct):
 	sum_std = np.sum(stats[:,3:6],1)
-	max_std = np.max(sum_std)/pct # put treshold at pct% of maximum std
-	probs = (sum_std <= max_std)*(max_std-sum_std)/max_std
+	max_std = np.max(sum_std)*(pct/100) # put treshold at % of maximum 
+	all_probs = ( (max_std-sum_std)/max_std * 
+					 ((stats[:,3]!=-1)*(sum_std <= max_std)) )
+	probs = np.zeros(int(len(all_probs)/bdiv))
+	for i in range(0,len(all_probs)/bdiv):
+		probs[i] = np.mean(all_probs[i*bdiv:(i+1)*bdiv])
 	return probs
 	
 ## return light-threshold probabilities for sleep detection:
-def hhg_night_lgt(bins, pct):
-	thresh = np.max(bins.e1)/pct # put treshold at pct% of maximum 
-	probs = (bins.e1 <= thresh)*(thresh-bins.e1)/thresh
+def hhg_night_lgt(bins, bdiv, pct):
+	thresh = np.max(bins)*(pct/100) # put treshold at pct% of maximum 
+	all_probs = (bins <= thresh) * (thresh-bins)/thresh
+	probs = np.zeros(int(len(all_probs)/bdiv))
+	for i in range(0,len(all_probs)/bdiv):
+		probs[i] = np.max(all_probs[i*bdiv:(i+1)*bdiv])
 	return probs
 
 ## write a calendar entry
@@ -169,7 +185,6 @@ def hhg_cal_entry(day_id, dlpath, f):
 		f.write('class="weekend"')
 	f.write('><a href="./'+ str(day_id) +'/index.html">'
 				+ str(num2date(day_id).day) )
-				
 	## open the data and configuration for the day:
 	dfile = os.path.join(dlpath,str(day_id),'d.npz')
 	bins = 1440*2
@@ -184,20 +199,24 @@ def hhg_cal_entry(day_id, dlpath, f):
 		return
 	tic = time.clock()
 	days_stats, day_bin = hhg_stats_npz(dta, bins)
-	probs = hhg_night_acc(days_stats, 10) * hhg_night_lgt(day_bin, 10)
-	print probs
+	probs = ( 128 	* hhg_night_acc(days_stats, bdiv, 2.0)
+						* hhg_night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
+						)
 	toc = time.clock()
 	print daystr+' took '+str(toc-tic)+' seconds'
 	
 	## construct the html for the calendar view's plots:
 	f.write('</a>')
-	f.write(hhg_canvas_html('dv_l'+str(day_id),'top:0px;', '160', '27'))
-	f.write(hhg_canvas_html('dv_a'+str(day_id),'top:25px;', '160', '70'))
+	f.write(hhg_canvas_html('dv_n'+str(day_id),
+		'position:absolute;left:0px;top:14px;', '160', '30'))
+	f.write(hhg_canvas_html('dv_a'+str(day_id),
+		'position:absolute;left:0px;top:42px;','160', '63'))
 	f.write('\n<script>')
-	f.write( hhg_ldata_html('dl_'+str(day_id), 
+	f.write( hhg_ndata_html('dn_'+str(day_id), 
 					str(['']*(bins/bdiv)).replace(" ",""), 
 					'#dd0', '#ddd', 
-					str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")) )
+					str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ",""),
+					'#000', '#ddd', str(probs.tolist()).replace(" ","")  ))
 	f.write( hhg_adata_html('da_'+str(day_id),
 					str(['']*(bins/bdiv)).replace(" ",""),
 					'#d00',str((day_bin.x[::bdiv]).tolist()).replace(" ",""),
@@ -205,8 +224,8 @@ def hhg_cal_entry(day_id, dlpath, f):
 					'#00d',
 					str((day_bin.z[::bdiv]).tolist()).replace(" ","") ) )
 	f.write(
-		hhg_chart_html('l_'+str(day_id), 'dv_l'+str(day_id), 'Bar', 
-							'dl_'+str(day_id), 'scaleShowLabels:false,'+
+		hhg_chart_html('n_'+str(day_id), 'dv_n'+str(day_id), 'Bar', 
+							'dn_'+str(day_id), 'scaleShowLabels:false,'+
 							'scaleFontSize:0,scaleShowGridLines:false,'+
 							'animation:false,scaleStepWidth:32') )
 	f.write(
@@ -230,10 +249,16 @@ def hhg_cal_entry(day_id, dlpath, f):
 		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</p>')
-	df.write( hhg_canvas_html('day_view_light', '', '832', '120') )
-	df.write('</br>')
-	df.write( hhg_canvas_html('day_view_acc3d', '', '832', '200') )
 	df.write(hhg_conf_html(cnf,sum(dta.view(np.recarray).d),len(dta)))
+	df.write('<div class="icn-sun"></div>')
+	df.write( hhg_canvas_html('day_view_light', 'position:relative;', 
+			'832', '120') )
+	df.write('</br><div class="icn-act"></div>')
+	df.write( hhg_canvas_html('day_view_acc3d', 'position:relative;',
+			'832', '200') )
+	df.write('</br><div class="icn-slp"></div>')
+	df.write( hhg_canvas_html('night_view_prb', 'position:relative;', 
+			'832', '100') )
 	df.write('<script>')
 	df.write( hhg_ldata_html('data_light', 
 					str(['']*int(bins/bdiv)).replace(" ",""),'#dd0', '#ddd', 
@@ -242,13 +267,17 @@ def hhg_cal_entry(day_id, dlpath, f):
 					'#d00', str((day_bin.x).tolist()).replace(" ",""),
 					'#0c0', str((day_bin.y).tolist()).replace(" ",""),
 					'#00d', str((day_bin.z).tolist()).replace(" ","")) )
+	df.write( hhg_ldata_html('data_night', 
+					str(['']*int(bins/bdiv)).replace(" ",""),'#111', '#ddd', 
+					str(probs.tolist()).replace(" ","")) )
 	df.write( hhg_chart_html('light', 'day_view_light', 'Bar', 
 								'data_light', 'scaleStepWidth:32') )
 	df.write( hhg_chart_html('acc3d', 'day_view_acc3d', 'Line', 
 								'data_acc3d', 'scaleSteps:8,scaleStepWidth:32'))
+	df.write( hhg_chart_html('night', 'night_view_prb', 'Bar', 
+								'data_night', 'scaleStepWidth:32,animation:false') )
 	df.write('</script></section></body></html>')
 	df.close()
-
 
 
 
@@ -263,8 +292,11 @@ if not os.path.exists(dlpath):
 	exit(1)
 
 home = os.environ['HOME']
-subprocess.call(["cp", "%s/HedgeHog/HHG/st.css"%home, dlpath])
-subprocess.call(["cp", "%s/HedgeHog/HHG/Chart.js"%home, dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,  dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/Chart.js"%home, dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sleep.png"%home,dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sun.png"%home,dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/act.png"%home,dlpath])
 
 first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
 last_day_id = int(sorted(os.walk(dlpath).next()[1])[-1])+1

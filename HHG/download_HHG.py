@@ -153,13 +153,14 @@ while len(loglst) > file_iter:
 			tt = len([x for x in bdta.t if x<int(bdta.t[-1])])
 			dta  =  np.append(dta, bdta[:tt]).view(desc_hhg, np.recarray)
 			if tt>0:
-				daypath = hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
 				fig.update_plot(dta[::itr], stats)
-				fig.save_plot(os.path.join(daypath,'p'))			
+			if len(dta)>0:
+				daypath = hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
+				if daypath=='':
+					print 'warning: could not write to '+	dlpath
 			dta  = bdta[tt:].view(desc_hhg, np.recarray)
 		else:
 			dta  = np.append(dta, bdta).view(desc_hhg, np.recarray)
-		
 		fig.update_plot(dta[::itr], stats)
 		## stop for current file if buffer not filled ############
 		if len(bdta)<126*bufsize-1:
@@ -171,8 +172,9 @@ while len(loglst) > file_iter:
 
 ## finalize output:
 daypath = hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
+if daypath=='':
+	print 'warning: could not write to '+	dlpath
 fig.update_plot(dta[::itr], stats)
-fig.save_plot(daypath+'/p')
 
 
 
