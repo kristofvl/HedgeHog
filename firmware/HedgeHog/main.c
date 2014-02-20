@@ -124,14 +124,14 @@ void remapped_low_ISR(void) {
 // interrupt handling routines:
 #pragma interrupt high_priority_ISR
 void high_priority_ISR() {
-	if (PIE1bits.TMR1IE && PIR1bits.TMR1IF) { // handle timer1 interrupts
-		PIE1bits.TMR1IE = 0; // turn interrupt t1 off
+	if (PIE1bits.TMR1IE && PIR1bits.TMR1IF) { // handle TIMER1 interrupts
+		PIE1bits.TMR1IE = 0;	// turn interrupt tmr1 off
 		PIR1bits.TMR1IF = 0;
-		T1CONbits.TMR1ON = 0; // turn timer 1 off
+		T1CONbits.TMR1ON = 0;	// turn timer 1 off
 	} else
 		#if defined(ADXL345_ENABLED)
-		if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // handle INT1 interrupts
-			INTCON3bits.INT1IE = 0; // turn interrupt in1 off
+		if (INTCON3bits.INT1IE && INTCON3bits.INT1IF) { // handle INT1 interrupt
+			INTCON3bits.INT1IE = 0; // turn interrupt int1 off
 		} else
 		#endif
 		{
@@ -204,7 +204,7 @@ static void init_system(void) {
 	// Our other init routines come last
 	user_init();
 
-	// updating root table to reflect ID
+	// updating root table to reflect ID (don't if OLED version)
 	#if !defined(DISPLAY_ENABLED)
 	memset((void*) &sd_buffer, 0, 512);
 	read_SD(SECTOR_CF, sd_buffer.bytes);
@@ -242,7 +242,7 @@ void user_init(void) {
 	#endif
 
 	#if defined(USBP_INT)		// If we detect USB (See HardwareProfile.h)
-	rtc_set_timeout_s(&tm, 5);	//   set alarm after 5 seconds (to check USB)
+	rtc_set_timeout_s(&tm, 5);	//     set alarm after 5 seconds (to check USB)
 	#endif
 }
 
@@ -260,20 +260,23 @@ void process_IO(void) {
 	update_display();	// Update routine for the display
 	#endif
 
-	if (is_logging)
-		log_process();	// go to the logging process
-	else {
+	if (is_logging)		// go to the logging process
+		log_process();
+	else {				// not logging, check for USB presence
 		if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1)) {
 			#if defined(USBP_INT)
 			if (!rtc_alrm()) {
+				#if !defined(DISPLAY_ENABLED)	// no deepsleep for OLED -> demo
 				goto_deep_sleep(&tm, 3);
+				#endif
 			}
 			#endif
-			return;
 		}
-		MSDTasks(); // mass storage device tasks
-		if (MSD_State == MSD_WAIT) { // update configuration when we're not busy
-			config_process();
+		else {				// not logging and USB connection present
+			MSDTasks();		// mass storage device tasks
+			if (MSD_State == MSD_WAIT) {
+				config_process();	// update configuration when we're not busy
+			}
 		}
 	}
 }

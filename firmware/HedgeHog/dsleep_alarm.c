@@ -15,7 +15,7 @@
 
 void goto_deep_sleep(rtc_timedate *tm, int seconds)
 {
-	INTCONbits.GIE = 0;  //global interrupts disable (to stop interference)
+	INTCONbits.GIE = 0;		// global interrupts disable (to stop interference)
 	rtc_init();
 	rtc_set_timeout_s(tm, seconds);
 	while (RTCCFGbits.RTCSYNC != 0); // make sure RTC is ready to roll
@@ -37,7 +37,9 @@ void wakeup_check(rtc_timedate *tm, int seconds)
 
 	// check whether USB is there:
 	if (USBP_INT != 0) {
+		#if !defined(DISPLAY_ENABLED)
 		goto_deep_sleep(tm, seconds);	// sleep if USB power is not present
+		#endif
 	} else
 		return;							// continue if USB power present
 }
