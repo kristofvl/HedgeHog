@@ -4,10 +4,7 @@
 #
 # Filename: download_HHG.py 							Authors: KristofVL
 #
-# Descript: Download from the Hedgehog, convert the log files, split 
-# 			the data into days and save them as a numpy file in the 
-#			users home folder in 'HHG'. The log files are being stored
-#			in 'HHG/raw'.
+# Descript: Process downloaded npz files into a web calendar view
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,11 +27,12 @@ import sys, time, calendar
 import numpy as np
 import os, subprocess
 from matplotlib.dates import num2date
+import hhg_features.hhg_bstats as hf
+import hhg_io.hhg_import as hi
 
 
-#data descriptor for the hedgehog default data:
-desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
-				'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
+
+
 
 ## write html header:
 def hhg_day_indexheader(daystr, day_id):
@@ -120,57 +118,6 @@ def hhg_conf_html(cnf,smps,rle):
 		'<b>Dataset Properties</b>\n3d samples : '+str(smps).zfill(9)+
 		'\nRLE samples: '+str(rle).zfill(9)+'</div>')
 
-## bin-wise collect the dta stats for calendar plotting
-## return mean, std, min, max for x, y, and z axes
-def hhg_stats_npz(dta, bins):
-	day_bin = np.zeros(bins,dtype=desc_hhg).view(np.recarray)
-	day_bin_stats = np.zeros( (bins,12) )-[0,0,0,1,1,1,0,0,0,0,0,0]
-	cur_idx = 0; cur_bin = []
-	for x in dta:
-		idx = int((x[0]-int(dta[0][0]))*bins)
-		if cur_idx == idx: 
-			cur_bin.append([x[2],x[3],x[4]])
-		else:
-			if cur_bin != []:
-				day_bin_stats[cur_idx,:] = np.concatenate([
-						np.mean(cur_bin, axis=0), np.std(cur_bin, axis=0),
-						np.min(cur_bin, axis=0),  np.max(cur_bin, axis=0)])
-				day_bin[cur_idx] = x
-				for k in range(0,3):
-					day_bin[cur_idx][2+k] = day_bin_stats[cur_idx,
-															(6+(cur_idx&1)*3)+k]
-				cur_bin = []
-			cur_idx = idx
-	## fill in any holes with previous data:
-	for cur_idx in range(1,bins):
-		if day_bin_stats[cur_idx,0:6].all()==0:
-			day_bin_stats[cur_idx][0:3]=day_bin_stats[cur_idx-1][0:3]
-			day_bin_stats[cur_idx][6:]=day_bin_stats[cur_idx-1][6:]
-		if day_bin[cur_idx][0]==0:
-			day_bin[cur_idx] = day_bin[cur_idx-1]
-			for k in range(0,3):
-				day_bin[cur_idx][2+k] = day_bin_stats[cur_idx-1,k]
-	return day_bin_stats, day_bin
-	
-## return acc-threshold probabilities for sleep detection:
-def hhg_night_acc(stats, bdiv, pct):
-	sum_std = np.sum(stats[:,3:6],1)
-	max_std = np.max(sum_std)*(pct/100) # put treshold at % of maximum 
-	all_probs = ( (max_std-sum_std)/max_std * 
-					 ((stats[:,3]!=-1)*(sum_std <= max_std)) )
-	probs = np.zeros(int(len(all_probs)/bdiv))
-	for i in range(0,len(all_probs)/bdiv):
-		probs[i] = np.mean(all_probs[i*bdiv:(i+1)*bdiv])
-	return probs
-	
-## return light-threshold probabilities for sleep detection:
-def hhg_night_lgt(bins, bdiv, pct):
-	thresh = np.max(bins)*(pct/100) # put treshold at pct% of maximum 
-	all_probs = (bins <= thresh) * (thresh-bins)/thresh
-	probs = np.zeros(int(len(all_probs)/bdiv))
-	for i in range(0,len(all_probs)/bdiv):
-		probs[i] = np.max(all_probs[i*bdiv:(i+1)*bdiv])
-	return probs
 
 ## write a calendar entry
 def hhg_cal_entry(day_id, dlpath, f):
@@ -199,9 +146,9 @@ def hhg_cal_entry(day_id, dlpath, f):
 		print "Data not found for "+daystr
 		return
 	tic = time.clock()
-	days_stats, day_bin = hhg_stats_npz(dta, bins)
-	probs = ( 128 	* hhg_night_acc(days_stats, bdiv, 2.0)
-						* hhg_night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
+	days_stats, day_bin = hf.stats_npz(dta, bins)
+	probs = ( 128 	* hf.night_acc(days_stats, bdiv, 2.0)
+						* hf.night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
 						)
 	toc = time.clock()
 	print daystr+' took '+str(toc-tic)+' seconds'

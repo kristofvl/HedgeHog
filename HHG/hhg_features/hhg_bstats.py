@@ -24,19 +24,72 @@
 
 
 
-from numpy import *
+import numpy as np
 import time
 from matplotlib.dates import num2date
-import hhg_io.hhg_import as hio
+import hhg_io.hhg_import as hi
 
 
-
-
-# unique encoding for different types of features:
-HHGFEAT_BSTATS      = 21	# basic statistics for raw data on 10ms scale
-HHGFEAT_TS_BSTATS   = 22	# basic timestamp-based statistics (1s scale)
-HHGFEAT_RWTS_BSTATS = 220	#    ... implementation for raw data
-HHGFEAT_MVTS_BSTATS = 221	#    ... implementation for mean-var data
+## bin-wise collect the dta stats for calendar plotting
+## return mean, std, min, max for x, y, and z axes
+def stats_npz(dta, bins):
+	day_bin = np.zeros(bins,dtype=hi.desc_hhg).view(np.recarray)
+	day_bin_stats = np.zeros( (bins,12) )-[0,0,0,1,1,1,0,0,0,0,0,0]
+	cur_idx = 0; cur_bin = []
+	for x in dta:
+		idx = int((x[0]-int(dta[0][0]))*bins)
+		if cur_idx == idx: 
+			cur_bin.append([x[2],x[3],x[4]])
+		else:
+			if cur_bin != []:
+				day_bin_stats[cur_idx,:] = np.concatenate([
+						np.mean(cur_bin, axis=0), np.std(cur_bin, axis=0),
+						np.min(cur_bin, axis=0),  np.max(cur_bin, axis=0)])
+				day_bin[cur_idx] = x
+				for k in range(0,3):
+					day_bin[cur_idx][2+k] = day_bin_stats[cur_idx,
+															(6+(cur_idx&1)*3)+k]
+				cur_bin = []
+			cur_idx = idx
+	## fill in any holes with previous data:
+	for cur_idx in range(1,bins):
+		if day_bin_stats[cur_idx,0:6].all()==0:
+			day_bin_stats[cur_idx][0:3]=day_bin_stats[cur_idx-1][0:3]
+			day_bin_stats[cur_idx][6:]=day_bin_stats[cur_idx-1][6:]
+		if day_bin[cur_idx][0]==0:
+			day_bin[cur_idx] = day_bin[cur_idx-1]
+			for k in range(0,3):
+				day_bin[cur_idx][2+k] = day_bin_stats[cur_idx-1,k]
+	return day_bin_stats, day_bin
+	
+## return acc-threshold probabilities for sleep detection:
+def night_acc(stats, bdiv, pct):
+	sum_std = np.sum(stats[:,3:6],1)
+	max_std = np.max(sum_std)*(pct/100) # put treshold at % of maximum 
+	all_probs = ( (max_std-sum_std)/max_std * 
+					 ((stats[:,3]!=-1)*(sum_std <= max_std)) )
+	probs = np.zeros(int(len(all_probs)/bdiv))
+	for i in range(0,len(all_probs)/bdiv):
+		probs[i] = np.mean(all_probs[i*bdiv:(i+1)*bdiv])
+	return probs
+	
+## return light-threshold probabilities for sleep detection:
+def night_lgt(bins, bdiv, pct):
+	thresh = np.max(bins)*(pct/100) # put treshold at pct% of maximum 
+	all_probs = (bins <= thresh) * (thresh-bins)/thresh
+	probs = np.zeros(int(len(all_probs)/bdiv))
+	for i in range(0,len(all_probs)/bdiv):
+		probs[i] = np.max(all_probs[i*bdiv:(i+1)*bdiv])
+	return probs
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 					
 # get basic statistics on raw data, on a window of n original samples
@@ -89,9 +142,9 @@ def hhg_bstats_ts(dta, n):
 	if dta == False:
 		return False, False, False, False
 	else:
-		if dta.dtype==hio.desc_raw:	
+		if dta.dtype==hi.desc_raw:	
 			return hhg_bstats_ts_raw(dta, n)
-		elif dta.dtype==hio.desc_mv: 	
+		elif dta.dtype==hi.desc_mv: 	
 			return hhg_bstats_ts_mv(dta, n)
 		else:
 			return False, False, False, False
@@ -104,12 +157,12 @@ def hhg_bstats_ts_raw(dta, n):
 		tic = time.clock()
 		t  = array(dta.t)
 		l  = array(dta.l)
-		xyz  = zeros( (len(dta),3), dtype='u4' )
+		xyz  = np.zeros( (len(dta),3), dtype='u4' )
 		xyz[:,0] = dta.x;		xyz[:,1] = dta.y;		xyz[:,2] = dta.z
 		numfeats = int(((dta.t[-1]-dta.t[0])*86400.0)/n) 
-		mv  = zeros( (numfeats,6), dtype='u4' )
-		ts  = zeros( numfeats, dtype='f8' )
-		env = zeros( numfeats, dtype='u2' )
+		mv  = np.zeros( (numfeats,6), dtype='u4' )
+		ts  = np.zeros( numfeats, dtype='f8' )
+		env = np.zeros( numfeats, dtype='u2' )
 		int_size = (n/86400.0) # interval size (86400 seconds in a day)
 		i = ii = 0; 
 		while ii<len(t):
@@ -121,8 +174,8 @@ def hhg_bstats_ts_raw(dta, n):
 			if ii<len(t) and i<len(ts):
 				irange = range(start_ii,ii)
 				ts[i] = t[start_ii]
-				mv[i] = concatenate( [ mean( xyz[irange], axis=0 ), 
-											  std(  xyz[irange], axis=0 ) ] )
+				mv[i] = np.concatenate( [ np.mean( xyz[irange], axis=0 ), 
+											  np.std(  xyz[irange], axis=0 ) ] )
 				env[i] = l[start_ii]
 				i += 1
 			else: break
@@ -139,13 +192,13 @@ def hhg_bstats_ts_mv(dta, n):
 		tic = time.clock()
 		t  = array(dta.t)
 		l  = array(dta.l)
-		xyz  = zeros( (len(dta),6), dtype='u4' )
+		xyz  = np.zeros( (len(dta),6), dtype='u4' )
 		xyz[:,0] = dta.xm;		xyz[:,1] = dta.ym;		xyz[:,2] = dta.zm
 		xyz[:,3] = dta.xv;		xyz[:,4] = dta.yv;		xyz[:,5] = dta.zv
 		numfeats = int(((dta.t[-1]-dta.t[0])*86400.0)/n)
-		mv  = zeros( (numfeats,6), dtype='u4' )
-		ts  = zeros( numfeats, dtype='f8' )
-		env = zeros( numfeats, dtype='u2' )
+		mv  = np.zeros( (numfeats,6), dtype='u4' )
+		ts  = np.zeros( numfeats, dtype='f8' )
+		env = np.zeros( numfeats, dtype='u2' )
 		int_size = (n/86400.0) # interval size (86400 seconds in a day)
 		i = ii = 0; 
 		while ii<len(t):
@@ -157,7 +210,7 @@ def hhg_bstats_ts_mv(dta, n):
 			if ii<len(t) and i<len(ts):
 				irange = range(start_ii,ii)
 				ts[i] = t[start_ii]
-				mv[i] = mean( xyz[irange], axis=0 )
+				mv[i] = np.mean( xyz[irange], axis=0 )
 				env[i] = l[start_ii]
 				i += 1
 			else: break

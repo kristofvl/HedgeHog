@@ -32,8 +32,6 @@ from struct import unpack
 import pygtk, gtk
 import subprocess
 
-import pdb
-
 
 SDRLESIZE = 126 #  sd buffer size in RLE samples:
 SDBUFSIZE = 512 #  sd buffer size in bytes
@@ -135,13 +133,23 @@ def hhg_import_n(filen, strt, stop):
 	else:
 		return []
 		
-		
+## store the data and configuration from a HedgeHog in an npz file
 def hhg_store(path, daystamp, dta, conf):
 	try:
 		outpath = os.path.join(path,str(daystamp))
 		if not os.path.exists(outpath):
 			os.makedirs(outpath)
-		np.savez(os.path.join(outpath,'d.npz'), dta=dta, conf=conf)		
+		outfile = os.path.join(outpath,'d.npz')
+		# if the file exists: append if the times match:
+		if os.path.exists(outfile):
+			out_old = np.load(outfile)
+			dta_old  = out_old['dta']
+			conf_old = out_old['conf']
+			if dta[0][0]>dta_old[-1][0]:
+				dta = np.append(dta_old,dta)
+			else:
+				outfile = os.path.join(outpath,'d_new.npz')
+		np.savez(outfile, dta=dta, conf=conf)
 		return outpath
 	except:
 		return ''
@@ -157,10 +165,6 @@ def hhg_store(path, daystamp, dta, conf):
 		
 	
 #### Everything below will be abandoned soon -- avoid using it!
-
-
-
-
 
 
 # maximum file buffer

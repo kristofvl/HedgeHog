@@ -2,13 +2,9 @@
 
 ########################################################################
 #
-# Filename: download_HHG.py 							Authors: Enzo Torella, 
-#																	   HanyA, KristofVL
+# Filename: download_HHG.py 		Authors: Enzo Torella, HanyA, KristofVL
 #
-# Descript: Download from the Hedgehog, convert the log files, split 
-# 			the data into days and save them as a numpy file in the 
-#			users home folder in 'HHG'. The log files are being stored
-#			in 'HHG/raw'.
+# Descript: Download from the Hedgehog as npz files. 
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,25 +23,16 @@
 # 
 ########################################################################
 
-import sys, time, calendar
-import os
+import sys, time, calendar, os
 import numpy as np
 import pygtk, gtk
 import re
 from struct import unpack
-import glob
-import subprocess 
-import shutil
+import glob, subprocess, shutil
 from matplotlib.dates import num2date
 import hhg_plot.hhg_plot as hplt
 import hhg_io.hhg_import as hgi
 import hhg_dialogs.hhg_scan as hgd
-
-
-
-## data descriptor for the hedgehog default data:
-desc_hhg = {	'names':   ('t',  'd',  'x',  'y',  'z',  'e1', 'e2'), 
-					'formats': ('f8', 'B1', 'B1', 'B1', 'B1', 'u2', 'u2') }
 
 ## buffer size: how many blocks (of 512 bytes each) do we read at once?
 bufsize = 192	# takes about 0.5 seconds on a laptop
@@ -60,7 +47,7 @@ else:
 	srcdir = sys.argv[1]
 
 ## prepare the output structures:
-dta = np.recarray(0, dtype=desc_hhg)
+dta = np.recarray(0, dtype=hgi.desc_hhg)
 dlpath = os.path.join(homedir,'hhg_logs')
 if not os.path.exists(dlpath):
 	os.makedirs(dlpath)
@@ -151,16 +138,16 @@ while len(loglst) > file_iter:
 			old_day = new_day
 			## first plot the remains of the last day and save: ###
 			tt = len([x for x in bdta.t if x<int(bdta.t[-1])])
-			dta  =  np.append(dta, bdta[:tt]).view(desc_hhg, np.recarray)
+			dta = np.append(dta, bdta[:tt]).view(hgi.desc_hhg,np.recarray)
 			if tt>0:
 				fig.update_plot(dta[::itr], stats)
 			if len(dta)>0:
 				daypath = hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
 				if daypath=='':
 					print 'warning: could not write to '+	dlpath
-			dta  = bdta[tt:].view(desc_hhg, np.recarray)
+			dta  = bdta[tt:].view(hgi.desc_hhg, np.recarray)
 		else:
-			dta  = np.append(dta, bdta).view(desc_hhg, np.recarray)
+			dta  = np.append(dta, bdta).view(hgi.desc_hhg, np.recarray)
 		fig.update_plot(dta[::itr], stats)
 		## stop for current file if buffer not filled ############
 		if len(bdta)<126*bufsize-1:
