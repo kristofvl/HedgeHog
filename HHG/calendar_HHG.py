@@ -23,39 +23,38 @@
 # 
 ########################################################################
 
-import sys, time, calendar
+import sys, time
 import numpy as np
 import os, subprocess
 from matplotlib.dates import num2date
 import hhg_features.hhg_bstats as hf
 import hhg_io.hhg_import as hi
+from calendar import TimeEncoding, month_name
 
 
 
 
 
-## write html header:
-def hhg_day_indexheader(daystr, day_id):
+## write html headers:
+def hhg_htmlhead(title, csspath, jspath):
 	return ('<!DOCTYPE html><html lang=en><meta charset=utf-8>'+
-		'<link rel=stylesheet href="../st.css">'+
-		'<head><title>HedgeHog Day View</title>'+
-		'<script src="../Chart.js"></script></head>'+
-		'<body><section id="calendar" style="width:1100px;">'+
+		'<link rel=stylesheet href="'+csspath+'">'+
+		'<head><title>'+title+'</title>'+
+		'<script src="'+jspath+'"></script>')
+def hhg_day_indexheader(daystr, day_id):
+	return (hhg_htmlhead('HedgeHog Day View','../st.css','../Chart.js')+
+		'</head><body><section id="calendar" style="width:1100px;">'+
 		'<h1><a href="../'+str(day_id-1)+
 		'/index.html"><span class="a-left"></span></a>'+daystr+
 		'<a href="../'+str(day_id+1)+
 		'/index.html"><span class="a-right"></span></a>'+
 		'<a style="text-align=right;" href="../index.html">'+
-		'<span class="a-up"></span></a>'
-		'</h1>')
+		'<span class="a-up"></span></a></h1>')
 def hhg_cal_indexheader(mnth):
 	hdr = ''
 	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
 		hdr += ('<div class="header">'+dayname+'</div>')
-	return ('<!DOCTYPE html><html lang=en><meta charset=utf-8>'+
-		'<link rel=stylesheet href="st.css">'+
-		'<head><title>HedgeHog Calendar View</title>'+
-		'<script src="Chart.js"></script>'+
+	return (hhg_htmlhead('HedgeHog Calendar View','st.css','Chart.js')+
 		'<script src="http://code.jquery.com/jquery-1.11.0.min.js">'+
 		'</script><script>$(document).ready(function(){'+
 		'$("time").mouseover(function(){'+
@@ -70,24 +69,20 @@ def hhg_canvas_html(varname, style, w, h):
 		
 ## generate html for light dataset variable:
 def hhg_ldata_html(varname, labels, fcolor, scolor, data):
-	return ('var '+varname+'={labels:'+labels+
-		',datasets:[{fillColor:"'+fcolor+'",' + 
-		'strokeColor : "'+scolor+'",data:' + data +'}]};')
+	return ('var '+varname+'={l:'+labels+',ds:[{fc:"'+
+		fcolor+'",'+'sc:"'+scolor+'",d:'+data+'}]};')
 
 ## generate html for night/light dataset variable:
 def hhg_ndata_html(varname, labels, fcl, scl, datal, fcn, scn, datan ):
-	return ('var '+varname+'={labels:'+labels+
-		',datasets:[{fillColor:"'+fcl+'",' + 
-		'strokeColor : "'+scl+'",data:' + datal +'},'+
-		'{fillColor:"'+fcn+'",' + 
-		'strokeColor : "'+scn+'",data:' + datan +'}]};')
+	return ('var '+varname+'={l:'+labels+
+		',ds:[{fc:"'+fcl+'",sc:"'+scl+'",d:' + datal +'},'+
+		'{fc:"'+fcn+'",'+'sc:"'+scn+'",d:' + datan +'}]};')
 
 ## generate html for acc3d dataset variable:
 def hhg_adata_html(varname, labels, scx,datax, scy,datay, scz,dataz):
-	return ('var '+varname+'={labels:'+labels+
-		',datasets:[{strokeColor:"'+scx+'",data:'+datax+'},'+
-		'{strokeColor:"'+scy+'",data:'+datay+'},'+
-		'{strokeColor:"'+scz+'",data:'+dataz+'}]};')
+	return ('var '+varname+'={l:'+labels+
+		',ds:[{sc:"'+scx+'",d:'+datax+'},'+
+		'{sc:"'+scy+'",d:'+datay+'},{sc:"'+scz+'",d:'+dataz+'}]};')
 
 ## generate html for chart variable:
 def hhg_chart_html(varname, idname, charttype, dataname, options):
@@ -121,14 +116,20 @@ def hhg_conf_html(cnf,smps,rle):
 
 ## write a calendar entry
 def hhg_cal_entry(day_id, dlpath, f):
-	
+	## helper function to get month name:
+	def get_month_name(month_no, locale):
+		with TimeEncoding(locale) as encoding:
+			s = month_name[month_no]
+			if encoding is not None:
+				s = s.decode(encoding)
+			return s
 	## construct the html page for the calendar:
 	daystr = str(num2date(day_id).year)+'-'
 	daystr += str(num2date(day_id).month).zfill(2)
 	daystr += '-' + str(num2date(day_id).day).zfill(2)
 	f.write('<time datetime="'+
-		calendar.month_name[num2date(day_id).month]+' '+
-		str(num2date(day_id).year)+ '"')
+		get_month_name(num2date(day_id).month, "en_US.UTF-8")+
+		' '+str(num2date(day_id).year)+ '"')
 	if num2date(day_id).weekday()>4:
 		f.write('class="weekend"')
 	f.write('><a href="./'+ str(day_id) +'/index.html">'
@@ -150,37 +151,30 @@ def hhg_cal_entry(day_id, dlpath, f):
 	probs = ( 128 	* hf.night_acc(days_stats, bdiv, 2.0)
 						* hf.night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
 						)
+	probs_str = str( map(int,probs.tolist()) ).replace(" ","")
 	toc = time.clock()
 	print daystr+' took '+str(toc-tic)+' seconds'
 	
 	## construct the html for the calendar view's plots:
 	f.write('</a>')
-	f.write(hhg_canvas_html('dv_n'+str(day_id),
+	f.write(hhg_canvas_html('dvn'+str(day_id),
 		'position:absolute;left:0px;top:14px;', '160', '30'))
-	f.write(hhg_canvas_html('dv_a'+str(day_id),
+	f.write(hhg_canvas_html('dva'+str(day_id),
 		'position:absolute;left:0px;top:42px;','160', '63'))
 	f.write('\n<script>')
-	f.write( hhg_ndata_html('dn_'+str(day_id), 
-					str(['']*(bins/bdiv)).replace(" ",""), 
-					'#dd0', '#ddd', 
+	f.write( hhg_ndata_html('dn'+str(day_id), str([]), '#dd0', '#ddd', 
 					str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ",""),
-					'#000', '#ddd', str(probs.tolist()).replace(" ","")  ))
-	f.write( hhg_adata_html('da_'+str(day_id),
-					str(['']*(bins/bdiv)).replace(" ",""),
-					'#d00',str((day_bin.x[::bdiv]).tolist()).replace(" ",""),
-					'#0a0',str((day_bin.y[::bdiv]).tolist()).replace(" ",""),
-					'#00d',
-					str((day_bin.z[::bdiv]).tolist()).replace(" ","") ) )
+					'#000', '#ddd', probs_str ))
+	f.write( hhg_adata_html('da'+str(day_id),str([]),
+				'#d00',str((day_bin.x[::bdiv]).tolist()).replace(" ",""),
+				'#0a0',str((day_bin.y[::bdiv]).tolist()).replace(" ",""),
+				'#00d',str((day_bin.z[::bdiv]).tolist()).replace(" ","") ) )
 	f.write(
-		hhg_chart_html('n_'+str(day_id), 'dv_n'+str(day_id), 'Bar', 
-							'dn_'+str(day_id), 'scaleShowLabels:false,'+
-							'scaleFontSize:0,scaleShowGridLines:false,'+
-							'animation:false,scaleStepWidth:32') )
+		hhg_chart_html('n'+str(day_id), 'dvn'+str(day_id), 'Bar', 
+							'dn'+str(day_id), '') )
 	f.write(
-		hhg_chart_html('a_'+str(day_id), 'dv_a'+str(day_id), 'Line', 
-							'da_'+str(day_id), 'scaleShowLabels:false,'+
-							'scaleFontSize:0,scaleLineWidth:0,'+
-							'datasetStrokeWidth:0.5,scaleStepWidth:64') )
+		hhg_chart_html('a'+str(day_id), 'dva'+str(day_id), 'Line', 
+							'da'+str(day_id), '') )
 	f.write('</script></time>')
 		
 	## construct the html page for the day-view:
@@ -196,10 +190,9 @@ def hhg_cal_entry(day_id, dlpath, f):
 	
 	df.write(hhg_conf_html(cnf,sum(dta.view(np.recarray).d),len(dta)))
 	df.write( '<div id="inf" style="left:865px;top:379px;height:70px;">'+
-		'<b>Sleep Estimation</b>\n'+ 
-		'total sleep:  00.00 Hours\n'+
-		'sleep start:  23:00 on '+str(day_id)+'\n' + 
-		'sleep stop:   23:00 on '+str(day_id)+'\n' +'</div>')
+		'<b>Sleep Estimation</b>\ntotal sleep: 00.00 Hours\n'+
+		'start: 23:00,'+daystr+'\n' + 
+		'stop:  23:00,'+daystr+'\n' +'</div>')
 	df.write('<div class="icn-sun"></div>')
 	df.write( hhg_canvas_html('day_view_light', 'position:relative;', 
 			'832', '120') )
@@ -210,25 +203,29 @@ def hhg_cal_entry(day_id, dlpath, f):
 	df.write( hhg_canvas_html('night_view_prb', 'position:relative;', 
 			'832', '100') )
 	df.write('<script>')
-	df.write( hhg_ldata_html('data_light', 
-					str(['']*int(bins/bdiv)).replace(" ",""),'#dd0', '#ddd', 
+	df.write( hhg_ldata_html('d_light', str([]),'#dd0', '#ddd', 
 					str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")) )
-	df.write( hhg_adata_html('data_acc3d', str(lbl).replace(" ",""),
+	df.write( hhg_adata_html('d_acc3d', str(lbl).replace(" ",""),
 					'#d00', str((day_bin.x).tolist()).replace(" ",""),
 					'#0c0', str((day_bin.y).tolist()).replace(" ",""),
 					'#00d', str((day_bin.z).tolist()).replace(" ","")) )
-	df.write( hhg_ldata_html('data_night', 
-					str(['']*int(bins/bdiv)).replace(" ",""),'#111', '#ddd', 
-					str(probs.tolist()).replace(" ","")) )
+	df.write( hhg_ldata_html('d_night',str([]),'#111','#ddd', probs_str))
 	df.write( hhg_chart_html('light', 'day_view_light', 'Bar', 
-								'data_light', 'scaleStepWidth:32') )
+								'd_light', 'scaleShowLabels:true,'+
+								'scaleFontSize:12,scaleShowGridLines:true,'+
+								'animation:false,scaleStepWidth:32') )
 	df.write( hhg_chart_html('acc3d', 'day_view_acc3d', 'Line', 
-								'data_acc3d', 'scaleSteps:8,scaleStepWidth:32'))
+								'd_acc3d', 'scaleSteps:8,scaleShowLabels:true,'+
+								'scaleFontSize:12,scaleLineWidth:1,'+
+								'datasetStrokeWidth:0.5,scaleStepWidth:32'))
 	df.write( hhg_chart_html('night', 'night_view_prb', 'Bar', 
-								'data_night', 'scaleStepWidth:32,animation:false') )
+								'd_night', 'scaleShowLabels:true,'+
+							'scaleFontSize:12,scaleShowGridLines:true,'+
+							'animation:false,scaleStepWidth:32') )
 	df.write('</script>')
-	df.write('<hr><p style="font-size: small;">Detailed 24h view for '+
-		daystr+' with HedgeHog sensor #'+ cnf[0:4]+
+	df.write('<hr><p style="font-size:small;">Detailed 24h view for '+
+		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
+		'HedgeHog sensor</a> #'+ cnf[0:4]+
 		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</p>')
