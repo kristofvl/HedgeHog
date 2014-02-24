@@ -213,7 +213,7 @@ def hhg_cal_entry(day_id, dlpath, f):
 	df.write( hhg_chart_html('light', 'day_view_light', 'Bar', 
 								'd_light', 'scaleShowLabels:true,'+
 								'scaleFontSize:12,scaleShowGridLines:true,'+
-								'animation:false,scaleStepWidth:32') )
+								'animation:true,scaleStepWidth:32') )
 	df.write( hhg_chart_html('acc3d', 'day_view_acc3d', 'Line', 
 								'd_acc3d', 'scaleSteps:8,scaleShowLabels:true,'+
 								'scaleFontSize:12,scaleLineWidth:1,'+
@@ -221,7 +221,7 @@ def hhg_cal_entry(day_id, dlpath, f):
 	df.write( hhg_chart_html('night', 'night_view_prb', 'Bar', 
 								'd_night', 'scaleShowLabels:true,'+
 							'scaleFontSize:12,scaleShowGridLines:true,'+
-							'animation:false,scaleStepWidth:32') )
+							'animation:true,scaleStepWidth:32') )
 	df.write('</script>')
 	df.write('<hr><p style="font-size:small;">Detailed 24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
