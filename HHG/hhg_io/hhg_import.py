@@ -4,7 +4,7 @@
 #
 # Filename: hhg_import.py								Author: Kristof VL
 #
-# Descript: Data import routines for HedgeHog sensor data (+progressbar)
+# Descript: Data import routines for HedgeHog sensor data 
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
