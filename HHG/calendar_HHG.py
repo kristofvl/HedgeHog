@@ -54,9 +54,7 @@ def cal_entry(day_id, dlpath, f):
 		print str(num2date(day_id))[0:10]+": data not found"
 		return
 	days_stats, day_bin = hf.stats_npz(dta, bins)
-	probs = ( 128 	* hf.night_acc(days_stats, bdiv, 2.0)
-						* hf.night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
-						)
+	probs = hf.night(bins, bdiv, days_stats, day_bin)
 	lbl = [' ']*bins; lbl[0]='00'; lbl[int(bins/4)]='06';
 	lbl[bins>>1]='12'; lbl[int(3*bins/4)]='18'; lbl[bins-1]='00';
 	lbl_str = str(lbl).replace(" ","")
