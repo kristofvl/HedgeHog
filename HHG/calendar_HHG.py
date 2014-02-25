@@ -237,7 +237,7 @@ def hhg_cal_entry(day_id, dlpath, f):
 ## main script starts here: ############################################
 
 if len(sys.argv) < 2:
-	print 'use: calendar_HHG.py [download_folder]'
+	print 'use: calendar_HHG.py [download_folder] [start day]'
 	exit(1)
 
 dlpath = sys.argv[1]
@@ -252,6 +252,8 @@ subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sun.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/act.png"%home,dlpath])
 
 first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
+if len(sys.argv) > 2: first_day_id = int(sys.argv[2]) # allow skip days
+
 last_day_id = int(sorted(os.walk(dlpath).next()[1])[-1])+1
  # assume that we're interested in first month:
 month_vw = num2date(first_day_id).month
