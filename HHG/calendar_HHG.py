@@ -41,6 +41,7 @@ bdiv = 17    	# for calendar views
 
 ## write a calendar entry
 def cal_entry(day_id, dlpath, f):
+	tic = time.clock()
 	hh.write_cal_entry(day_id, f)
 	## open the data and configuration for the day:
 	dfile = os.path.join(dlpath,str(day_id),'d.npz')
@@ -52,7 +53,6 @@ def cal_entry(day_id, dlpath, f):
 		f.write('</a></time>')
 		print str(num2date(day_id))[0:10]+": data not found"
 		return
-	tic = time.clock()
 	days_stats, day_bin = hf.stats_npz(dta, bins)
 	probs = ( 128 	* hf.night_acc(days_stats, bdiv, 2.0)
 						* hf.night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
@@ -60,14 +60,14 @@ def cal_entry(day_id, dlpath, f):
 	lbl = [' ']*bins; lbl[0]='00'; lbl[int(bins/4)]='06';
 	lbl[bins>>1]='12'; lbl[int(3*bins/4)]='18'; lbl[bins-1]='00';
 	lbl_str = str(lbl).replace(" ","")
-	l_str = str((day_bin.e1[::bdiv]>>8).tolist()).replace(" ","")
-	x_str = str((day_bin.x).tolist()).replace(" ","")
-	y_str = str((day_bin.y).tolist()).replace(" ","")
-	z_str = str((day_bin.z).tolist()).replace(" ","")
-	xs_str = str((day_bin.x[::bdiv]).tolist()).replace(" ","")
-	ys_str = str((day_bin.y[::bdiv]).tolist()).replace(" ","")
-	zs_str = str((day_bin.z[::bdiv]).tolist()).replace(" ","")
-	p_str = str( map(int,probs.tolist()) ).replace(" ","")
+	l_str =''.join(["%02x" %c for c in (day_bin.e1[::bdiv]>>8).tolist()])
+	x_str =''.join(["%02x" %c for c in (day_bin.x).tolist()])
+	y_str =''.join(["%02x" %c for c in (day_bin.y).tolist()])
+	z_str =''.join(["%02x" %c for c in (day_bin.z).tolist()])
+	xs_str=''.join(["%02x" %c for c in day_bin.x[::bdiv].tolist()])
+	ys_str=''.join(["%02x" %c for c in day_bin.y[::bdiv].tolist()])
+	zs_str=''.join(["%02x" %c for c in day_bin.z[::bdiv].tolist()])
+	p_str =''.join(["%02x" %c for c in map(int,probs.tolist())])
 	dta_sum = sum(dta.view(np.recarray).d)
 	dta_rle = len(dta)
 	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
@@ -107,7 +107,7 @@ except:
 	print 'Cannot write to index file'
 	exit(1)
 	
-f.write(hh.cal_indexheader('Month  View'))
+f.write(hh.cal_indexheader('Month View'))
 
 # fill empty days before day of week:
 wkday =  num2date(first_day_id).weekday()
@@ -119,7 +119,7 @@ for day_id in range(first_day_id, last_day_id):
 	cal_entry(day_id, dlpath, f)
 	
 # add remaining days in row:
-for rd in range( 7-(last_day_id-first_day_id+wkday)%7 ):
+for rd in range( 7-(last_day_id-first_day_id+wkday)%7):
 	cal_entry(last_day_id+rd, dlpath, f)
 
 f.write('</div></div></section></body>')

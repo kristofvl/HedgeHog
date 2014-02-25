@@ -70,20 +70,20 @@ def canvas_html(varname, style, w, h):
 ## generate html for light dataset variable:
 def ldata_html(varname, labels, fcolor, scolor, data):
 	return ('var '+varname+'={l:'+labels+',ds:[{fc:"'+
-		fcolor+'",'+'sc:"'+scolor+'",d:'+data+'}]};')
+		fcolor+'",'+'sc:"'+scolor+'",d:"'+data+'"}]};')
 
 ## generate html for night/light dataset variable:
 def ndata_html(varname, labels, fcl, scl, datal, fcn, scn, datan ):
 	return ('var '+varname+'={l:'+labels+
-		',ds:[{fc:"'+fcl+'",sc:"'+scl+'",d:' + datal +'},'+
-		'{fc:"'+fcn+'",'+'sc:"'+scn+'",d:' + datan +'}]};')
+		',ds:[{fc:"'+fcl+'",sc:"'+scl+'",d:"' + datal +'"},'+
+		'{fc:"'+fcn+'",'+'sc:"'+scn+'",d:"' + datan +'"}]};')
 
 ## generate html for acc3d dataset variable:
 def adata_html(varname, labels, scx,dx, scy,dy, scz,dz):
 	return ('var '+varname+'={l:'+labels+
-			',ds:[{sc:"'+scx+'",d:'+dx+'},'+
-			'{sc:"'+scy+'",d:'+dy+
-			'},{sc:"'+scz+'",d:'+dz+'}]};')
+			',ds:[{sc:"'+scx+'",d:"'+dx+'"},'+
+			'{sc:"'+scy+'",d:"'+dy+
+			'"},{sc:"'+scz+'",d:"'+dz+'"}]};')
 
 ## generate html for chart variable:
 def chart_html(varname, idname, charttype, dataname, options):
@@ -177,29 +177,27 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle,
 		'start: 23:00,'+daystr+'\n' + 
 		'stop:  23:00,'+daystr+'\n' +'</div>')
 	f.write('<div class="icn-sun"></div>')
-	f.write( canvas_html('day_view_light', 'position:relative;', 
-			'832', '120') )
-	f.write('</br><div class="icn-act"></div>')
-	f.write( canvas_html('day_view_acc3d', 'position:relative;',
-			'832', '200') )
-	f.write('</br><div class="icn-slp"></div>')
-	f.write( canvas_html('night_view_prb', 'position:relative;', 
-			'832', '100') )
+	f.write( 
+		canvas_html('day_view_light','position:relative;','832','120') +
+		'</br><div class="icn-act"></div>'+
+		canvas_html('day_view_acc3d','position:relative;','832','200') +
+		'</br><div class="icn-slp"></div>'+
+		canvas_html('night_view_prb','position:relative;','832','100') )
 	f.write('<script>')
 	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
 	f.write( adata_html('d_acc3d', lbl_str, 
 					'#d00', x_str, '#0c0', y_str, '#00d', z_str ) )
 	f.write( ldata_html('d_night',str([]),'#111','#ddd', p_str))
-	f.write( chart_html('light', 'day_view_light', 'Bar', 
-								'd_light', 'scaleShowLabels:true,'+
-								'scaleFontSize:12,scaleShowGridLines:true,'+
-								'animation:true,scaleStepWidth:32') )
-	f.write( chart_html('acc3d', 'day_view_acc3d', 'Line', 
-								'd_acc3d', 'scaleSteps:8,scaleShowLabels:true,'+
+	f.write( chart_html('light', 'day_view_light', 'Bar', 'd_light', 
+						'scaleShowLabels:true,scaleFontSize:12,'+
+						'scaleShowGridLines:true,animation:true,'+
+						'scaleStepWidth:32') +
+				chart_html('acc3d', 'day_view_acc3d', 'Line', 'd_acc3d', 
+								'scaleSteps:8,scaleShowLabels:true,'+
 								'scaleFontSize:12,scaleLineWidth:1,'+
-								'datasetStrokeWidth:0.5,scaleStepWidth:32'))
-	f.write( chart_html('night', 'night_view_prb', 'Bar', 
-								'd_night', 'scaleShowLabels:true,'+
+								'datasetStrokeWidth:0.5,scaleStepWidth:32') +
+				chart_html('night', 'night_view_prb', 'Bar', 'd_night', 
+								'scaleShowLabels:true,'+
 								'scaleFontSize:12,scaleShowGridLines:true,'+
 								'animation:true,scaleStepWidth:32') )
 	f.write('</script>')

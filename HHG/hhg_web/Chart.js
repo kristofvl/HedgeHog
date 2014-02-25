@@ -6,7 +6,7 @@
  * Released under the MIT license
  * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
  * 
- * Minimal version modified by KristofVL for the HedgeHog project
+ * heavily modified by KristofVL for the HedgeHog project
  */
 
 //Define the global Chart Variable as a class.
@@ -113,11 +113,18 @@ window.Chart = function(context){
 		c.clearRect(0, 0, width, height);
 	};
 
-	
-
 	var Line = function(data,config,ctx){
 		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop,widestXLabel, xAxisLength,yAxisPosX,xAxisPosY;
 			
+		for (var i=0; i<data.ds.length; i++){
+			var d = [];
+			while (data.ds[i].d.length) {
+				d.push(parseInt(data.ds[i].d.substr(0,2),16));
+				data.ds[i].d = data.ds[i].d.substr(2);
+			}
+			data.ds[i].d = d;
+		}
+		
 		calculateDrawingSizes();
 		
 		valueBounds = getValueBounds();
@@ -261,14 +268,23 @@ window.Chart = function(context){
 				maxSteps : Math.floor((scaleHeight / (labelHeight*0.66))),
 				minSteps : Math.floor((scaleHeight / labelHeight*0.5))
 			};
-		}	
+		}
 	}
 	
 	
 	
 	var Bar = function(data,config,ctx){
 		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop,widestXLabel, xAxisLength,yAxisPosX,xAxisPosY,barWidth;
-			
+		
+		for (var i=0; i<data.ds.length; i++){
+			var d = [];
+			while (data.ds[i].d.length) {
+				d.push(parseInt(data.ds[i].d.substr(0,2),16));
+				data.ds[i].d = data.ds[i].d.substr(2);
+			}
+			data.ds[i].d = d;
+		}
+		
 		calculateDrawingSizes();
 		
 		valueBounds = getValueBounds();
@@ -396,6 +412,9 @@ window.Chart = function(context){
 			};	
 		}
 	}
+	
+
+		
 	
 	function calculateOffset(val,calculatedScale,scaleHop){
 		var outerValue = calculatedScale.steps * calculatedScale.stepValue;
