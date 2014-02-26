@@ -55,6 +55,7 @@ def cal_entry(day_id, dlpath, f):
 		return
 	days_stats, day_bin = hf.stats_npz(dta, bins)
 	probs = hf.night(bins, bdiv, days_stats, day_bin)
+	nt = hf.night_endpoints(probs)
 	lbl = [' ']*bins; lbl[0]='00'; lbl[int(bins/4)]='06';
 	lbl[bins>>1]='12'; lbl[int(3*bins/4)]='18'; lbl[bins-1]='00';
 	lbl_str = str(lbl).replace(" ","")
@@ -69,7 +70,7 @@ def cal_entry(day_id, dlpath, f):
 	dta_sum = sum(dta.view(np.recarray).d)
 	dta_rle = len(dta)
 	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
-	hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, 
+	hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 							x_str, y_str, z_str, l_str, p_str, lbl_str)
 	toc = time.clock()
 	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'

@@ -157,11 +157,15 @@ def write_cal_plots(day_id, f, l_str, x_str, y_str, z_str, p_str ):
 	f.write('</script></time>')
 	
 	
-def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, 
+def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 			x_str, y_str, z_str, l_str, p_str, lbl_str):
 	daystr = str(num2date(day_id).year)+'-'
 	daystr += str(num2date(day_id).month).zfill(2)
 	daystr += '-' + str(num2date(day_id).day).zfill(2)
+	ntimes = [' ', ' ', '']
+	ntimes[0] = str(num2date(day_id+nt[0]))[:16]
+	ntimes[1] = str(num2date(day_id+nt[1]))[:16]
+	ntimes[2] = str(num2date(day_id+nt[1]-nt[0]))[11:16]
 	## construct html file
 	try:
 		f=open(os.path.join(dlpath,str(day_id),'index.html'),"w")
@@ -173,9 +177,8 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle,
 	f.write('<hr>')
 	f.write(conf_html(cnf,dta_sum, dta_rle))
 	f.write( '<div id="inf" style="left:865px;top:379px;height:70px;">'+
-		'<b>Sleep Estimation</b>\ntotal sleep: 00.00 Hours\n'+
-		'start: 23:00,'+daystr+'\n' + 
-		'stop:  23:00,'+daystr+'\n' +'</div>')
+		'<b>Largest Sleep Segment</b>\ntotal duration: '+ntimes[2]+'\n'+
+		'start: '+ntimes[0]+'\n' +'stop:  '+ntimes[1]+'\n' +'</div>')
 	f.write('<div class="icn-sun"></div>')
 	f.write( 
 		canvas_html('day_view_light','position:relative;','832','120') +
@@ -207,6 +210,15 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle,
 		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</p>')
+	f.write('<p style="font-size:small;color:#fff;left:'+
+		str(15+800.0*nt[0]+400.0*(nt[1]-nt[0]))+'px;top:432px;'+
+		'height:70px;position:absolute;">'+ntimes[2]+'</p>')
+	f.write('<p style="font-size:small;color:#666;left:'+
+		str(15+800.0*nt[0])+'px;top:452px;'+
+		'height:70px;position:absolute;">'+ntimes[0][11:]+'</p>')
+	f.write('<p style="font-size:small;color:#666;left:'+
+		str(15+800.0*nt[1])+'px;top:452px;'+
+		'height:70px;position:absolute;">'+ntimes[1][11:]+'</p>')
 	f.write('</section></body></html>')
 	f.close()
 	return True

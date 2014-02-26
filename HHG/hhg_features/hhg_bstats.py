@@ -82,14 +82,6 @@ def night_lgt(bins, bdiv, pct):
 		probs[i] = np.max(all_probs[i*bdiv:(i+1)*bdiv])
 	return probs
 	
-## return sleep detection total probabilities:
-def night(bins, bdiv, days_stats, day_bin):
-	return ( 128 	* night_acc(days_stats, bdiv, 2.0)
-						* night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
-						* night_time( bins/bdiv )
-						)
-					
-
 # convert minute-of-day to nighttime probabilities
 def night_time(bins):
 	p_ngt = [ 951, 951, 952, 952, 953, 953, 954, 954, 955, 955, 956, 956, 957, 957, 958, 958, 959, 959, 960, 960, 
@@ -164,7 +156,54 @@ def night_time(bins):
 			905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 914, 915, 916, 917, 918, 919, 920, 921, 921, 922, 
 			923, 924, 925, 925, 926, 927, 928, 929, 929, 930, 931, 932, 932, 933, 934, 935, 935, 936, 937, 937, 
 			938, 939, 939, 940, 941, 941, 942, 943, 943, 944, 945, 945, 946, 946, 947, 948, 948, 949, 949, 950]
-	return np.interp(range(0,bins), range(0,1440) , p_ngt)/1000.0
+	return np.interp([x*(1440.0/bins) for x in range(0,int(bins))], range(0,1440) , p_ngt)/1000.0
+	
+## return sleep detection total probabilities:
+def night(bins, bdiv, days_stats, day_bin):
+	p = ( 128 	* night_acc(days_stats, bdiv, 2.0)
+						* night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
+						* night_time( bins/bdiv )
+						)
+	p = p*(p>(np.max(p)/3))
+	w_l = 5
+	s = np.r_[p[w_l-1:0:-1], p, p[-1:-w_l:-1] ]
+	w = np.ones(w_l,'d') # moving average window
+	r = np.convolve(w/w.sum(), s, mode='valid')
+	return r*(r>(np.max(r)/4))
+
+## return sleep endpoints over the day:						
+def night_endpoints(p):
+	## look for biggest blob:
+	blob_size = max_blob_size = 0
+	blob_start = max_blob_start = max_blob_stop = 0
+	plen = len(p)
+	p = np.concatenate([p, [0]]) # force closure:
+	for i in range(0,len(p)):
+		if p[i]>0:
+			if blob_size == 0:
+				blob_start = i
+			blob_size += p[i]
+		else:
+			if blob_size>0:
+				if (max_blob_size < blob_size):
+					max_blob_size = blob_size
+					max_blob_start = blob_start
+					max_blob_stop  = i
+				blob_size = 0
+	return [1.0*max_blob_start/plen, 1.0*max_blob_stop/plen]
+
+
+
+
+
+
+
+
+
+## these functions below are depricated:	
+	
+	
+	
 	
 	
 

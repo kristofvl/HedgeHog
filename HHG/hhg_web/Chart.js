@@ -68,7 +68,7 @@ window.Chart = function(context){
 			datasetStrokeWidth : 0.5,
 			datasetFill : false,
 			animation : false,
-			animationSteps : 60,
+			animationSteps : 2,
 			animationEasing : "linear",
 			onAnimationComplete : null
 		};		
@@ -100,7 +100,7 @@ window.Chart = function(context){
 			barValueSpacing : 0,
 			barDatasetSpacing : 0,
 			animation : false,
-			animationSteps : 60,
+			animationSteps : 17,
 			animationEasing : "linear",
 			onAnimationComplete : null
 		};		
