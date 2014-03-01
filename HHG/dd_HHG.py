@@ -21,12 +21,12 @@ if not deviceStr:
 	sys.exit()	 
 else: 
 	indexNL = [i for i, ltr in enumerate(deviceStr) if ltr == '\n']
-	i = 0
-	for ind in indexNL:
-		deviceList.insert(i,deviceStr[ind-11:ind])
-		print (str(i)+ ').' + deviceStr[ind-11:ind])
-		i = i+1
-
+	deviceList.insert(0,deviceStr[0:indexNL[0]])
+	for i in xrange(1,len(indexNL)):
+		deviceList.insert(i,deviceStr[indexNL[i-1]+1:indexNL[i]])
+	for i in xrange(0,len(deviceList)):
+		print (str(i)+ ').' + deviceList[i])
+		
 target = raw_input('Choose the number of a HedgeHog device from the list above:')
 
 if int(target) < len(deviceList):
