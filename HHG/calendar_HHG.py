@@ -67,11 +67,16 @@ def cal_entry(day_id, dlpath, f):
 	ys_str=''.join(["%02x" %c for c in day_bin.y[::bdiv].tolist()])
 	zs_str=''.join(["%02x" %c for c in day_bin.z[::bdiv].tolist()])
 	p_str =''.join(["%02x" %c for c in map(int,probs.tolist())])
-	dta_sum = sum(dta.view(np.recarray).d)
+	dta = dta.view(np.recarray)
+	dta_sum = sum(dta.d)
 	dta_rle = len(dta)
+	csva = np.array( ( dta.t-int(dta.t[0]), dta.x, dta.y,dta.z  ) ).T
+	np.savetxt( os.path.join(dlpath,str(day_id),'d.csv'), csva, 
+		fmt="%1.8f,%d,%d,%d")
 	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
 	hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 							x_str, y_str, z_str, l_str, p_str, lbl_str)
+	hh.write_raw_day_html(day_id, dlpath)
 	toc = time.clock()
 	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'
 	

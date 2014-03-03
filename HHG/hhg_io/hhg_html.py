@@ -48,7 +48,17 @@ def day_indexheader(daystr, day_id):
 		'/index.html"><span class="a-left"></span></a>'+daystr+
 		'<a href="../'+str(day_id+1)+
 		'/index.html"><span class="a-right"></span></a>'+
-		'<a style="text-align=right;" href="../index.html">'+
+		'<a style="text-align:right;" href="../index.html">'+
+		'<span class="a-up"></span></a></h1>')
+def rawday_indexheader(daystr, day_id):
+	return (htmlhead('HedgeHog Day View (Raw)','../st.css',
+			'../dygraph-combined.js')+
+		'</head><body><section id="calendar" style="width:1100px;">'+
+		'<h1><a href="../'+str(day_id-1)+
+		'/index_raw.html"><span class="a-left"></span></a>'+daystr+
+		'<a href="../'+str(day_id+1)+
+		'/index_raw.html"><span class="a-right"></span></a>'+
+		'<a style="text-align:right;" href="../index.html">'+
 		'<span class="a-up"></span></a></h1>')
 def cal_indexheader(mnth):
 	hdr = ''
@@ -207,7 +217,7 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 	f.write('<hr><p style="font-size:small;">Detailed 24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
 		'HedgeHog sensor</a> #'+ cnf[0:4]+
-		'. Raw data download: <a href="d.npz">here</a> (npz format, '+
+		'. Raw data view: <a href="index_raw.html">here</a> (npz format, '+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</p>')
 	f.write('<p style="font-size:small;color:#fff;left:'+
@@ -219,6 +229,34 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 	f.write('<p style="font-size:small;color:#666;left:'+
 		str(15+800.0*nt[1])+'px;top:452px;'+
 		'height:70px;position:absolute;">'+ntimes[1][11:]+'</p>')
+	f.write('</section></body></html>')
+	f.close()
+	return True
+
+def write_raw_day_html(day_id, dlpath):
+	daystr = str(num2date(day_id).year)+'-'
+	daystr += str(num2date(day_id).month).zfill(2)
+	daystr += '-' + str(num2date(day_id).day).zfill(2)
+	## construct html file
+	try:
+		f=open(os.path.join(dlpath,str(day_id),'index_raw.html'),"w")
+	except:
+		print "Day directory file not found for "+daystr
+		return False
+	## construct the html page for the day-view:
+	f.write(rawday_indexheader(daystr, day_id))
+	f.write('<hr><div id="graphdiv" style="width:100%; height:300px;">'+
+		'</div><script type="text/javascript">'+
+		'g3 = new Dygraph(document.getElementById("graphdiv"),'+
+		'"d.csv",{colors:["#d00","#0c0","#00d"],'+
+		'labels:["time","X","Y","Z"],'+
+		'strokeWidth:0.7,xAxisHeight:11,xAxisLabelWidth:80,'+
+		'axes:{x:{valueFormatter: function(f){'+
+		'return new Date(f*86400000).strftime("%H:%M:%S");},'+
+		'axisLabelFontSize:10,'+
+		'axisLabelFormatter:function(f){'+
+		'return new Date(f*86400000).strftime("%H:%M:%S");}}}});'+
+		'</script>')
 	f.write('</section></body></html>')
 	f.close()
 	return True
