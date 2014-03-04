@@ -269,8 +269,9 @@ window.Chart = function(context){
 				minSteps : Math.floor((scaleHeight / labelHeight*0.5))
 			};
 		}
+		
+
 	}
-	
 	
 	
 	var Bar = function(data,config,ctx){
@@ -413,8 +414,22 @@ window.Chart = function(context){
 		}
 	}
 	
-
-		
+	function writeMsg(msg){
+		context.clearRect(787,0,50,17);
+		context.font = '10pt Courier';
+		context.fillStyle = 'black';
+		context.fillText(msg, 830,7);
+	}
+	function getMousePos(e){
+		var rect = context.canvas.getBoundingClientRect();
+		return {x: e.clientX-rect.left, y: e.clientY-rect.top};
+	}
+	context.canvas.addEventListener('mousemove',function(e) {
+			var p=getMousePos(e);
+			if (p.x>35) { var ofs = (p.x-35);
+			writeMsg(''+Math.floor(24*ofs/797)+':'+
+				('00'+Math.floor((24*ofs/797-Math.floor(24*ofs/797))*60)).slice(-2))
+			};}, false);
 	
 	function calculateOffset(val,calculatedScale,scaleHop){
 		var outerValue = calculatedScale.steps * calculatedScale.stepValue;
