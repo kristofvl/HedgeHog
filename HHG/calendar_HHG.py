@@ -97,6 +97,9 @@ subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/Chart.js"%home, dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sleep.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sun.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/act.png"%home,dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/zoom.png"%home,dlpath])
+subprocess.call(["wget", "-P%s"%dlpath,
+	"http://dygraphs.com/1.0.1/dygraph-combined.js"])
 
 first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
 if len(sys.argv) > 2: first_day_id = int(sys.argv[2]) # allow skip days

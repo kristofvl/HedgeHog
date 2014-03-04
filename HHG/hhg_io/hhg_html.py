@@ -214,12 +214,13 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 								'scaleFontSize:12,scaleShowGridLines:true,'+
 								'animation:true,scaleStepWidth:32') )
 	f.write('</script>')
-	f.write('<hr><p style="font-size:small;">Detailed 24h view for '+
+	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
 		'HedgeHog sensor</a> #'+ cnf[0:4]+
-		'. Raw data view: <a href="index_raw.html">here</a> (npz format, '+
+		'.<br/><a href="index_raw.html"><img src="../zoom.png" style="'+
+		'vertical-align:middle;"</img> Raw data view for full npz file ('+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
-		' bytes)</p>')
+		' bytes)</a></p>')
 	f.write('<p style="font-size:small;color:#fff;left:'+
 		str(15+800.0*nt[0]+400.0*(nt[1]-nt[0]))+'px;top:432px;'+
 		'height:70px;position:absolute;">'+ntimes[2]+'</p>')
@@ -252,11 +253,11 @@ def write_raw_day_html(day_id, dlpath):
 		'labels:["time","X","Y","Z"],'+
 		'strokeWidth:0.7,xAxisHeight:11,xAxisLabelWidth:80,'+
 		'axes:{x:{valueFormatter: function(f){return new Date('+
-		'f*86400000+(new Date().getTimezoneOffset()*60000)).strftime("%H:%M:%S");},'+
-		'axisLabelFontSize:10,'+
+		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
+		'strftime("%H:%M:%S");},axisLabelFontSize:10,'+
 		'axisLabelFormatter:function(f){return new Date('+
-		'f*86400000+(new Date().getTimezoneOffset()*60000)).strftime("%H:%M:%S");}'+
-		'}}});</script>')
+		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
+		'strftime("%H:%M:%S");}}}});</script>')
 	f.write('</section></body></html>')
 	f.close()
 	return True
