@@ -53,7 +53,7 @@ if not os.path.exists(dlpath):
 	os.makedirs(dlpath)
 	
 ## read configuration file:
-filen = srcdir+'/config.ure'
+filen = srcdir+'/config.URE'
 # check if the conf file exists:
 if os.path.isfile(filen):	
 	# read config as a string:

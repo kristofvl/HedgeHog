@@ -67,10 +67,10 @@ class Hhg_scan_dlg:
 		return ret
 	def scan_files(self, srcdir):
 		self.infotxt.set_text('Mounted. Parsing directory...')
-		ret = os.path.isfile(srcdir+'/config.ure')
+		ret = os.path.isfile(srcdir+'/config.URE')
 		while not ret and not self.quitnow:
 			self.update_prgs()
-			ret = os.path.isfile(srcdir+'/config.ure')
+			ret = os.path.isfile(srcdir+'/config.URE')
 			time.sleep(0.1)
 	def close(self, dta=[], msg=[]):
 		self.quitnow = True;

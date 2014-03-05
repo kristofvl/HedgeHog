@@ -94,7 +94,7 @@ while len(sys.argv) > file_iter+1:
 			# read configuration if we're reading from a hedgehog:
 			if len(filename)>=10:
 				if filename[-10:-5]=='log00':
-					filen = filename[:-10]+'config.ure'
+					filen = filename[:-10]+'config.URE'
 					# check if the conf file exists:
 					if os.path.isfile(filen):	
 						# read config as a string:
