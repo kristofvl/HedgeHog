@@ -97,7 +97,7 @@ class start_HHG_dialog:
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
 else:	
-	config_file = hgd.Hhg_scan_dlg().run() + '/config.ure'
+	config_file = hgd.Hhg_scan_dlg().run() + '/config.URE'
 		
 if path.isfile(config_file) and access(config_file, W_OK):
 	dialog = start_HHG_dialog()

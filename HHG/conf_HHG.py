@@ -162,7 +162,7 @@ class conf_HHG_dialog:
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
 else: ## look for an attached HedgeHog:
-	config_file = hgd.Hhg_scan_dlg().run()+'/config.ure'
+	config_file = hgd.Hhg_scan_dlg().run()+'/config.URE'
 
 hhg_dialog = conf_HHG_dialog()
 gtk.main()
