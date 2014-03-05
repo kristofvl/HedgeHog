@@ -17,9 +17,9 @@
 #define read_SD(sector, buf) MDD_SDSPI_SectorRead(sector, buf);
 
 #define SECTOR_RT 128       // root table start sector
-#define SECTOR_CF 192       // configuration file start sector
-#define SECTOR_LF 193       // sector of configuration flags
-#define SECTOR_LG 4352      // logging files start sector
+#define SECTOR_CF 192+32       // configuration file start sector
+#define SECTOR_LF 193+32       // sector of configuration flags
+#define SECTOR_LG 4352+32      // logging files start sector
 
 void write_MBR(sd_buffer_t *sd_buffer);
 void write_root_table(sd_buffer_t *sd_buffer, char *id_str);

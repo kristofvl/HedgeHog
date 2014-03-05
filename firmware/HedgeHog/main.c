@@ -204,7 +204,7 @@ static void init_system(void) {
         // Our other init routines come last
 	user_init();
 
-////---------------------------------------------------------------
+//---------------------------------------------------------------
 //        // write 0s to sectors 0-250
 //        memset((void*) &sd_buffer, 0, 512);
 //        for (i = 0; i <= 250; i++)
