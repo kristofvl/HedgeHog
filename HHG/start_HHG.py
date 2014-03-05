@@ -85,7 +85,7 @@ class start_HHG_dialog:
 			starthhg.seek(1023,0)  
 			starthhg.write("l")
 			starthhg.close()
-		hhgDir = re.sub("config.ure","",self.conf_file,count=1)
+		hhgDir = re.sub("config.URE","",self.conf_file,count=1)
 		subprocess.call(["sync"])
 		print "HedgeHog has started and will stop on " + str(self.stpTime)
 		subprocess.call(["umount", hhgDir])
@@ -97,7 +97,7 @@ class start_HHG_dialog:
 if len(sys.argv) >= 2:
 	config_file = sys.argv[1]
 else:	
-	config_file = hgd.Hhg_scan_dlg().run() + '/config.ure'
+	config_file = hgd.Hhg_scan_dlg().run() + '/config.URE'
 		
 if path.isfile(config_file) and access(config_file, W_OK):
 	dialog = start_HHG_dialog()
