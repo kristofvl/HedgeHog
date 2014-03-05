@@ -37,13 +37,11 @@
 
 #define NUM_FILES            9
 
-rom UINT16 startC[NUM_FILES] = { 3, 68, 133, 263, 523,  978, 1693, 2733, 4163 };
-            //, 6048, 8453, 11443, 15083, 19438, 24573 };
-rom UINT16 endC[NUM_FILES] = { 67, 132, 262, 522, 977, 1692, 2732, 4162, 6047};
-            //, 8452, 11442, 15082, 19437, 24572, 30552  };
+rom UINT16 startC[NUM_FILES] = {3, 68, 133, 263, 523, 978, 1693, 2733, 4163};
+rom UINT16 endC[NUM_FILES] = {67, 132, 262, 522, 977, 1692, 2732, 4162, 6047};
+
 rom UINT32 fileSz[NUM_FILES] = { 2129920,  2129920,  4259840, 8519680, 14909440,
                                  23429120, 34078720, 46858240, 61767680 };
-            //78807040, 97976320, 119275520, 142704640, 168263680, 195952640 };
 
 // The following 32 bytes describe the volume label of the SD Card:
 rom BYTE SDVolLabel[] = {
@@ -57,7 +55,7 @@ rom BYTE SDLogFiles[] = {
 0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x45,0x00,0x00,0x80,0x01,0x00
 };
 rom BYTE SDConfigFile[] = {
-    'c','o','n','f','i','g',' ',' ','u','r','e',' ',8,6,0x3B,0x8A,
+    'C','O','N','F','I','G',' ',' ','U','R','E',' ',8,6,0x3B,0x8A,
 0xA7,0x3C,0xA7,0x3C,0x00,0x00,0x62,0x57,0xA6,0x3C,0x02,0x00,0x00,0x80,0x20,0x00
 };
 
@@ -65,25 +63,26 @@ const BYTE SDMasterBootRecord[] = { // based on MSDOS MBR, without boot code
     0xEB, 0x3C, 0x90,       // x86 machine code jump
     0x4D, 0x53, 0x44, 0x4F, 0x53, 0x35, 0x2E, 0x30, // OEM name
     0x00, 0x02,             // 512 bytes per sector
-    0x40,               // 64 sectors per cluster
+    0x40,                   // 64 sectors per cluster
     0x08, 0x00,             // 8-1 reserved sectors
-    0x01,               // 1 FATs
+    0x01,                   // 1 FATs
     0x00, 0x02,             // max. 512 entries in root
     0x00, 0x00,
-    0xF8,               // media descriptor: HD
-    0xEC, 0x00,             // sectors per FAT
-    0x3F, 0x00,             // sectors per track
-    0xFF, 0x00,             // number of pages / heads
-    0x87, 0x00, 0x00, 0x00,     // number of hidden sectors
+    0xF8,                   // media descriptor: HD
+    0x78, 0x00,             // 120 sectors per FAT
+    0x3F, 0x00,             // 63 sectors per track
+    0xFF, 0x00,             // 255 number of pages / heads
+    0x00, 0x00, 0x00, 0x00,     // number of hidden sectors before FAT
     0x00, 0xD0, 0x1D, 0x00,     // total number of sectors
-        //0xC6, 0xC0, 0x1E, 0x00,
-    0x00,               // physical BIOS number
+    
+    0x80,               // physical BIOS number
     0x00,               // reserved
     0x29,               // ext. boot signature
     0x0A, 0x38, 0x86, 0xC8,     // data system id
-        //name of data system: 'NO NAME    '
-    0x4E, 0x4F, 0x20, 0x4E, 0x41, 0x4D, 0x45, 0x20, 0x20, 0x20, 0x20,
+
+    0x4E, 0x4F, 0x20, 0x4E, 0x41, 0x4D, 0x45, 0x20, 0x20, 0x20, 0x20, // "NO NAME"
     0x46, 0x41, 0x54, 0x31, 0x36, 0x20, 0x20, 0x20,  // 'FAT16   ' string
+
     // normally 448 more bytes here for the boot code (not used)
     0x55, 0xAA          // final two bytes of bootrecord
 };
