@@ -85,7 +85,7 @@ class start_HHG_dialog:
 			starthhg.seek(1023,0)  
 			starthhg.write("l")
 			starthhg.close()
-		hhgDir = re.sub("config.ure","",self.conf_file,count=1)
+		hhgDir = re.sub("config.URE","",self.conf_file,count=1)
 		subprocess.call(["sync"])
 		print "HedgeHog has started and will stop on " + str(self.stpTime)
 		subprocess.call(["umount", hhgDir])

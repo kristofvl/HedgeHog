@@ -426,10 +426,13 @@ window.Chart = function(context){
 	}
 	context.canvas.addEventListener('mousemove',function(e) {
 			var p=getMousePos(e);
-			if (p.x>35) { var ofs = (p.x-35);
+			if (p.x>34) { var ofs = (p.x-34);
 			writeMsg(''+Math.floor(24*ofs/797)+':'+
 				('00'+Math.floor((24*ofs/797-Math.floor(24*ofs/797))*60)).slice(-2))
 			};}, false);
+	context.canvas.addEventListener('mouseout',function(e) {
+			writeMsg('     ');
+			}, false);
 	
 	function calculateOffset(val,calculatedScale,scaleHop){
 		var outerValue = calculatedScale.steps * calculatedScale.stepValue;
