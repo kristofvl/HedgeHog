@@ -119,6 +119,10 @@ void write_root_table(sd_buffer_t *sd_buffer, char *id_str)
         for (sdbuffer_i = 7; sdbuffer_i < 11; sdbuffer_i++)
             sd_buffer->bytes[sdbuffer_i] = id_str[sdbuffer_i-7];
     }
+    else {
+         for (sdbuffer_i = 7; sdbuffer_i < 11; sdbuffer_i++)
+            sd_buffer->bytes[sdbuffer_i] = '0';
+    }
     
     // Write config file
     clustp = startC[0];
