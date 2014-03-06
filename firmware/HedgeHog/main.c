@@ -12,7 +12,7 @@ rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '4',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
-int i = 0;
+
 /** INCLUDES ******************************************************************/
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
 #include "HardwareProfile.h"		// Hardware design wrapper
@@ -203,34 +203,6 @@ static void init_system(void) {
 
         // Our other init routines come last
 	user_init();
-
-//---------------------------------------------------------------
-//        // write 0s to sectors 0-250
-//        memset((void*) &sd_buffer, 0, 512);
-//        for (i = 0; i <= 250; i++)
-//                MDD_SDSPI_SectorWrite(i, sd_buffer.bytes, 1);
-//
-//        // write MBR to sector 0
-//        memset((void*) &sd_buffer, 0, 512);
-//        write_MBR(&sd_buffer);
-//        MDD_SDSPI_SectorWrite(0, sd_buffer.bytes, 1);
-//
-//        // write FAT
-//        memset((void*) &sd_buffer, 0, 512);
-//        for (i = 0; i <= 90; i++) {
-//                write_FAT(&sd_buffer, i);
-//                write_SD(i + 8, sd_buffer.bytes);
-//        }
-//
-//        // write root table
-//        memset((void*) &sd_buffer, 0, 512);
-//        write_root_table(&sd_buffer, NULL);
-//        write_SD(SECTOR_RT, sd_buffer.bytes);
-//
-//        // Erase SD_Buffer_Struct
-//        memset((void*) &sd_buffer, 0, 512);
-
-//---------------------------------------------------------------
 
 	// updating root table to reflect ID (don't if OLED version)
 	#if !defined(DISPLAY_ENABLED)
