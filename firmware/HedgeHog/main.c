@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '4',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '5',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
@@ -464,7 +464,7 @@ void config_process(void) {
 
 			// write FAT
 			memset((void*) &sd_buffer, 0, 512);
-			for (i = 0; i <= 90; i++) {
+			for (i = 0; i <= 24; i++) {
 				write_FAT(&sd_buffer, i);
 				write_SD(i + 8, sd_buffer.bytes);
 			}

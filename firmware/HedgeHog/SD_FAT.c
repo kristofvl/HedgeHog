@@ -41,11 +41,11 @@
 // CLUSTER 2 STARTS RIGHT AFTER THE ROOT TABLE
 // DATA STARTS AT: DATA_START = ROOTTABLE_SECTOR + MAX_NUMBER_ENTERIES*32 
 // CLUSTER_NUMBER TO SECTOR_NUMBER: DATA_START + (CLUSTER_NUMBER-2)*SECTORS_PER_CLUSTER
-rom UINT16 startC[NUM_FILES] = {3, 68, 133, 263, 523, 978, 1693, 2733, 4163};
-rom UINT16 endC[NUM_FILES] = {67, 132, 262, 522, 977, 1692, 2732, 4162, 6047};
+rom UINT16 startC[NUM_FILES] = {2, 67, 132, 262, 522, 977, 1692, 2732, 4162};
+rom UINT16 endC[NUM_FILES] = {66, 131, 261, 521, 976, 1691, 2731, 4161, 6399};
 
 rom UINT32 fileSz[NUM_FILES] = { 2129920,  2129920,  4259840, 8519680, 14909440,
-                                 23429120, 34078720, 46858240, 61767680 };
+                                 23429120, 34078720, 46858240, 73334784 };
 
 // The following 32 bytes describe the volume label of the SD Card:
 rom BYTE SDVolLabel[] = {
@@ -166,7 +166,7 @@ void write_FAT(sd_buffer_t *sd_buffer, UINT16 i)
             sd_buffer->wrd[sdbuffer_i] = 0xFFFF;
         for(look_i=0; look_i<NUM_FILES; look_i++) {
             test = endC[look_i];
-            if(test == (check_byte-1))
+            if(test == (check_byte-1)) // write FFFF to last sector
                 sd_buffer->wrd[sdbuffer_i] =  0xFFFF;
         }
     }
