@@ -58,6 +58,8 @@ class configure:
 			confhhg.write(str(powCombo.get_active()))
 			confhhg.seek(20,0) # Write RLE Delta
 			confhhg.write(str(rleCombo.get_active()))
+			confhhg.seek(1023,0)
+			confhhg.write("c")
 			confhhg.close()
 		sys.exit()
 

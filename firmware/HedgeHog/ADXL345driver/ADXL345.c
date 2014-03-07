@@ -199,11 +199,13 @@ void adxl345_init(hhg_conf_accs_t cnf, UINT32_VAL* initmsg) {
     // go into power mode:
     adxl345_write_byte(ADXL345_POWR_CTL, 
             ADXL345_POW_MEASURE | ADXL345_POW_LINK | pwr_autosleep);
-    
-    (*initmsg).v[0] = adxl345_read_byte(ADXL345_POWR_CTL); // power mode
-    (*initmsg).v[1] = adxl345_read_byte(ADXL345_DATA_FMT); // data format
-    (*initmsg).v[2] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID
-    (*initmsg).v[3] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID
+
+    if(initmsg != NULL){
+        (*initmsg).v[0] = adxl345_read_byte(ADXL345_POWR_CTL); // power mode
+        (*initmsg).v[1] = adxl345_read_byte(ADXL345_DATA_FMT); // data format
+        (*initmsg).v[2] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID
+        (*initmsg).v[3] = adxl345_read_byte(ADXL345_CHIP_ID); // chip ID
+    }
 }
 
 void adxl345_SPI_init(void)

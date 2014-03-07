@@ -13,7 +13,7 @@
 #include "Compiler.h"
 #include "GenericTypeDefs.h"
 #include "HardwareProfile.h"
-#include "HHG_conf.h"       // for acc configuration
+#include "SD_Buffer.h"
 #include "acc3D_wrapper.h"
 
 #define BMA150_ADDR15 0x15

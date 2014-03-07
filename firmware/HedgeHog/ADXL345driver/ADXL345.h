@@ -13,8 +13,8 @@
 #include "Compiler.h"
 #include "GenericTypeDefs.h"
 #include "HardwareProfile.h"
-#include "HHG_conf.h"       // for acc configuration
 #include "acc3D_wrapper.h"
+#include "SD_Buffer.h"
 
 // registers:
 #define ADXL345_CHIP_ID  0x00
