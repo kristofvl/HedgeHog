@@ -49,7 +49,6 @@
       <itemPath>../osc.h</itemPath>
       <itemPath>../Soft Start/soft_start.h</itemPath>
       <itemPath>../usb_config.h</itemPath>
-      <itemPath>../HHG_conf.h</itemPath>
       <itemPath>../RTC/rtc.h</itemPath>
       <itemPath>../dsleep_alarm.h</itemPath>
     </logicalFolder>
@@ -91,7 +90,6 @@
       <itemPath>../osc.c</itemPath>
       <itemPath>../Soft Start/soft_start.c</itemPath>
       <itemPath>../usb_descriptors.c</itemPath>
-      <itemPath>../HHG_conf.c</itemPath>
       <itemPath>../SD_Buffer.c</itemPath>
       <itemPath>../main.c</itemPath>
       <itemPath>../RTC/rtc.c</itemPath>
@@ -149,26 +147,6 @@
         </C18LanguageToolchain>
       </item>
       <item path="../ADXL345driver/ADXL345.h" ex="true" overriding="false">
-        <C18>
-        </C18>
-        <C18-AS>
-        </C18-AS>
-        <C18-LD>
-        </C18-LD>
-        <C18LanguageToolchain>
-        </C18LanguageToolchain>
-      </item>
-      <item path="../HHG_conf.c" ex="true" overriding="false">
-        <C18>
-        </C18>
-        <C18-AS>
-        </C18-AS>
-        <C18-LD>
-        </C18-LD>
-        <C18LanguageToolchain>
-        </C18LanguageToolchain>
-      </item>
-      <item path="../HHG_conf.h" ex="true" overriding="false">
         <C18>
         </C18>
         <C18-AS>
@@ -302,26 +280,6 @@
         </C18LanguageToolchain>
       </item>
       <item path="../BMA150 driver/BMA150.h" ex="true" overriding="false">
-        <C18>
-        </C18>
-        <C18-AS>
-        </C18-AS>
-        <C18-LD>
-        </C18-LD>
-        <C18LanguageToolchain>
-        </C18LanguageToolchain>
-      </item>
-      <item path="../HHG_conf.c" ex="true" overriding="false">
-        <C18>
-        </C18>
-        <C18-AS>
-        </C18-AS>
-        <C18-LD>
-        </C18-LD>
-        <C18LanguageToolchain>
-        </C18LanguageToolchain>
-      </item>
-      <item path="../HHG_conf.h" ex="true" overriding="false">
         <C18>
         </C18>
         <C18-AS>
@@ -587,26 +545,6 @@
         <C18LanguageToolchain>
         </C18LanguageToolchain>
       </item>
-      <item path="../HHG_conf.c" ex="true" overriding="false">
-        <C18>
-        </C18>
-        <C18-AS>
-        </C18-AS>
-        <C18-LD>
-        </C18-LD>
-        <C18LanguageToolchain>
-        </C18LanguageToolchain>
-      </item>
-      <item path="../HHG_conf.h" ex="true" overriding="false">
-        <C18>
-        </C18>
-        <C18-AS>
-        </C18-AS>
-        <C18-LD>
-        </C18-LD>
-        <C18LanguageToolchain>
-        </C18LanguageToolchain>
-      </item>
       <item path="../OLED driver/oled.c" ex="true" overriding="false">
         <C18>
         </C18>
@@ -761,26 +699,6 @@
         </C18LanguageToolchain>
       </item>
       <item path="../BMA150 driver/BMA150.h" ex="true" overriding="false">
-        <C18>
-        </C18>
-        <C18-AS>
-        </C18-AS>
-        <C18-LD>
-        </C18-LD>
-        <C18LanguageToolchain>
-        </C18LanguageToolchain>
-      </item>
-      <item path="../HHG_conf.c" ex="true" overriding="false">
-        <C18>
-        </C18>
-        <C18-AS>
-        </C18-AS>
-        <C18-LD>
-        </C18-LD>
-        <C18LanguageToolchain>
-        </C18LanguageToolchain>
-      </item>
-      <item path="../HHG_conf.h" ex="true" overriding="false">
         <C18>
         </C18>
         <C18-AS>
