@@ -26,7 +26,7 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 #include "RTC/rtc.h"				// RTC functions
 #include "osc.h"
 #include "delays.h"
-#include "HHG_conf.h"
+
 
 #if defined(SOFTSTART_ENABLED)
 #include "./Soft Start/soft_start.h"	// controls soft start
@@ -34,6 +34,7 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 #if defined(DISPLAY_ENABLED)
 #include "display_config.h"				// OLED display defines
 #endif
+
 
 /** CONFIGURATION *************************************************************/
 #pragma config WDTEN = OFF          //WDT disabled
@@ -82,7 +83,7 @@ char id_str[4];
 
 // config variables:
 UINT8           rle_delta = 0;
-hhg_conf_accs_t acc_confs = 0;
+hhg_conf_accs_t acc_settings = 0;
 
 /** CONSTANTS *****************************************************************/
 /* Standard Response to INQUIRY command stored in ROM 	*/
@@ -204,19 +205,6 @@ static void init_system(void) {
         // Our other init routines come last
 	user_init();
 
-	// updating root table to reflect ID (don't if OLED version)
-	#if !defined(DISPLAY_ENABLED)
-	memset((void*) &sd_buffer, 0, 512);
-	read_SD(SECTOR_CF, sd_buffer.bytes);
-	id_str[0] = sd_buffer.bytes[0];
-	id_str[1] = sd_buffer.bytes[1];
-	id_str[2] = sd_buffer.bytes[2];
-	id_str[3] = sd_buffer.bytes[3];
-	memset((void*) &sd_buffer, 0, 512);
-	write_root_table(&sd_buffer, id_str);
-	write_SD(SECTOR_RT, sd_buffer.bytes);
-	memset((void*) &sd_buffer, 0, 512);
-	#endif
 }
 
 /*******************************************************************************
@@ -345,18 +333,9 @@ void log_process() {
 		USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin
 		#endif
 		sdbuf_init();
-
-		// initialize Sensors with settings from SD-Buffer
-		memset((void*) &sd_buffer, 0, 512);
-		read_SD(SECTOR_CF, sd_buffer.bytes);
-		rle_delta = sd_buffer.conf.rle_delta - 48;
+		// initialize Sensors with settings	
 		env_init();
-		acc_init(sd_buffer.conf.acc_s, &(sd_buffer.conf.acc));
-		acc_confs = sd_buffer.conf.acc_s;
-
-		// write acc-sensor answer after initialization
-		write_SD(SECTOR_CF, sd_buffer.bytes);
-		memset((void*) &sd_buffer, 0, 512);
+                acc_init(acc_settings, NULL);
 
 		#if defined(DISPLAY_ENABLED)
 		disp_start_log();
@@ -378,7 +357,7 @@ void log_process() {
 		sd_buffer.f.timestmp = rtc_2uint32(&tm);
 		env_read(light, thermo); // read time stamp and light (env) value
 		sd_buffer.f.envdata = ((light.Val >> 3) << 8) | (thermo);
-		sdbuf_init_buffer();
+                sdbuf_init_buffer();
 		if (sd_buffer.f.timestmp > tm_stop) { // go into shutdown mode
 			Reset();
 		}
@@ -386,7 +365,7 @@ void log_process() {
 	}
 	if (sdbuf_notfull()) { // log the main data
 		#if defined(ADXL345_ENABLED)
-		if (acc_confs.f.mode = '1') { // does AsDXL do sampling in buffer?
+		if (acc_settings.f.mode = '1') { // does AsDXL do sampling in buffer?
 			while (((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111) > 0) ||
 					(ACC_INT == 1)) { // while FIFO not empty or interrupt high:
 				acc_getxyz(&accval);
@@ -484,12 +463,23 @@ void config_process(void) {
 
 			break;
 
-		case 'l':
-
-			memset((void*) &sd_buffer, 0, 512);
-			read_SD(SECTOR_CF, sd_buffer.bytes);
-
-			// write Version String to SD-Buffer
+                case 'c':
+                    
+                        // updating root table to reflect ID
+                        memset((void*) &sd_buffer, 0, 512);
+                        read_SD(SECTOR_CF, sd_buffer.bytes);
+                        id_str[0] = sd_buffer.bytes[0];
+                        id_str[1] = sd_buffer.bytes[1];
+                        id_str[2] = sd_buffer.bytes[2];
+                        id_str[3] = sd_buffer.bytes[3];
+                        memset((void*) &sd_buffer, 0, 512);
+                        write_root_table(&sd_buffer, id_str);
+                        write_SD(SECTOR_RT, sd_buffer.bytes);
+                        
+                        memset((void*) &sd_buffer, 0, 512);
+                        read_SD(SECTOR_CF, sd_buffer.bytes);
+                        
+                        // write Version String to SD-Buffer
 			sd_buffer.conf.ver[0] = HH_VER_STR[0];
 			sd_buffer.conf.ver[1] = HH_VER_STR[1];
 			sd_buffer.conf.ver[2] = HH_VER_STR[2];
@@ -508,7 +498,22 @@ void config_process(void) {
 			sd_buffer.conf.name[6] = HH_NAME_STR[6];
 			sd_buffer.conf.name[7] = HH_NAME_STR[7];
 
-			// read and set System Time from SD-Buffer
+                        write_SD(SECTOR_CF, sd_buffer.bytes);
+			memset((void*) &sd_buffer, 0, 512);
+                        
+                        sd_buffer.conf.flag = 0;
+			write_SD(SECTOR_LF, sd_buffer.bytes);
+			memset((void*) &sd_buffer, 0, 512);
+
+                        USBSoftDetach(); // force flush on system side
+                        break;
+
+		case 'l':
+
+			memset((void*) &sd_buffer, 0, 512);
+			read_SD(SECTOR_CF, sd_buffer.bytes);
+
+ 			// read and set System Time from SD-Buffer
 			memcpy(tm.b, (const void*) sd_buffer.conf.systime, 8 * sizeof (BYTE));
 			rtc_init();
 			rtc_write(&tm);
@@ -518,17 +523,9 @@ void config_process(void) {
 			memcpy(tm.b, (const void*) sd_buffer.conf.stptime, 8 * sizeof (BYTE));
 			tm_stop = rtc_2uint32(&tm);
 
-			// write name and version str to SD-Card
-			write_SD(SECTOR_CF, sd_buffer.bytes);
-			memset((void*) &sd_buffer, 0, 512);
-
-			// Update Disk Label to reflect ID
-			id_str[0] = sd_buffer.bytes[0];
-			id_str[1] = sd_buffer.bytes[1];
-			id_str[2] = sd_buffer.bytes[2];
-			id_str[3] = sd_buffer.bytes[3];
-			write_root_table(&sd_buffer, id_str);
-			write_SD(SECTOR_RT, sd_buffer.bytes);
+                        // initialize measurement settings
+                        rle_delta = sd_buffer.conf.rle_delta - 48;
+                        acc_settings = sd_buffer.conf.acc_s;
 
 			// Erase SD_Buffer_Struct
 			memset((void*) &sd_buffer, 0, 512);
