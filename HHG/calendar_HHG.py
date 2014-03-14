@@ -98,7 +98,7 @@ subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sleep.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sun.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/act.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/zoom.png"%home,dlpath])
-subprocess.call(["wget", "-q", "-P%s"%dlpath,
+subprocess.call(["wget", "-q", "-nc", "-P%s"%dlpath,
 	"http://dygraphs.com/1.0.1/dygraph-combined.js"])
 
 first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
