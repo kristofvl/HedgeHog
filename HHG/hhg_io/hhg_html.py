@@ -189,13 +189,14 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 	f.write( '<div id="inf" style="left:865px;top:379px;height:70px;">'+
 		'<b>Largest Sleep Segment</b>\ntotal duration: '+ntimes[2]+'\n'+
 		'start: '+ntimes[0]+'\n' +'stop:  '+ntimes[1]+'\n' +'</div>')
-	f.write('<div class="icn-sun"></div>')
+	f.write('<div class="icn-slp"></div>')
 	f.write( 
+		canvas_html('night_view_prb','position:relative;','832','100') +
+		'</br><div class="icn-sun"></div>'+
 		canvas_html('day_view_light','position:relative;','832','120') +
 		'</br><div class="icn-act"></div>'+
-		canvas_html('day_view_acc3d','position:relative;','832','200') +
-		'</br><div class="icn-slp"></div>'+
-		canvas_html('night_view_prb','position:relative;','832','100') )
+		canvas_html('day_view_acc3d','position:relative;','832','200') 
+		 )
 	f.write('<script>')
 	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
 	f.write( adata_html('d_acc3d', lbl_str, 
@@ -222,13 +223,13 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</a></p>')
 	f.write('<p style="font-size:small;color:#fff;left:'+
-		str(15+800.0*nt[0]+400.0*(nt[1]-nt[0]))+'px;top:432px;'+
+		str(15+800.0*nt[0]+400.0*(nt[1]-nt[0]))+'px;top:102px;'+
 		'height:70px;position:absolute;">'+ntimes[2]+'</p>')
 	f.write('<p style="font-size:small;color:#666;left:'+
-		str(15+800.0*nt[0])+'px;top:452px;'+
+		str(15+800.0*nt[0])+'px;top:122px;'+
 		'height:70px;position:absolute;">'+ntimes[0][11:]+'</p>')
 	f.write('<p style="font-size:small;color:#666;left:'+
-		str(15+800.0*nt[1])+'px;top:452px;'+
+		str(15+800.0*nt[1])+'px;top:122px;'+
 		'height:70px;position:absolute;">'+ntimes[1][11:]+'</p>')
 	f.write('</section></body></html>')
 	f.close()

@@ -130,8 +130,8 @@ for rd in range( 7-(last_day_id-first_day_id+wkday)%7):
 	cal_entry(last_day_id+rd, dlpath, f)
 
 f.write('</div></div></section>'+
-	'<script>$("#scrollview").scrollTop('+
-		'$("#scrollview")[0].scrollHeight);</script>'+
+	'<script>$("#scrollview").stop().animate({scrollTop:'+
+		'$("#scrollview")[0].scrollHeight},700);</script>'+
 		'</body>')
 f.close()
 
