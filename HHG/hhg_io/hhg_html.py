@@ -253,9 +253,10 @@ def write_raw_day_html(day_id, dlpath):
 		'"d.csv",{colors:["#d00","#0c0","#00d"],'+
 		'labels:["time","X","Y","Z"],'+
 		'strokeWidth:0.7,xAxisHeight:11,xAxisLabelWidth:80,'+
+		'yAxisLabelWidth:30,axisLabelFontSize:10,'+
 		'axes:{x:{valueFormatter: function(f){return new Date('+
 		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
-		'strftime("%H:%M:%S");},axisLabelFontSize:10,'+
+		'strftime("%H:%M:%S");},'+
 		'axisLabelFormatter:function(f){return new Date('+
 		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
 		'strftime("%H:%M:%S");}}}});</script>')
