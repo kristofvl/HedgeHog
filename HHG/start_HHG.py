@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python2
 
 
 import sys
@@ -9,6 +9,7 @@ import time, datetime, os
 from datetime import timedelta
 import re
 import hhg_dialogs.hhg_scan as hgd
+from os.path import realpath,dirname,join
 
 class timer:
     
@@ -56,7 +57,7 @@ class start_HHG_dialog:
         try:
             self.builder.add_from_file(self.homeDir+"/.hgg/start.ui")
         except:
-            self.builder.add_from_file("start.ui")
+            self.builder.add_from_file(join(dirname(realpath(__file__)),"start.ui"))
         self.logger = self.builder.get_object("Logger")
         self.cal = self.builder.get_object("Cal")
         dic = {

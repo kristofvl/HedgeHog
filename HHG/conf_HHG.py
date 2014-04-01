@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python2
 
 
 import sys
@@ -8,6 +8,7 @@ import subprocess
 import os
 import hhg_dialogs.hhg_scan as hgd
 import string
+from os.path import realpath,join,dirname
 
 class configure:
 
@@ -82,7 +83,7 @@ class conf_HHG_dialog:
 		try:
 				self.builder.add_from_file(self.homeDir+"/.hgg/conf.ui")
 		except:
-				self.builder.add_from_file("conf.ui")
+				self.builder.add_from_file(join(dirname(realpath(__file__)),"conf.ui"))
 		self.window = self.builder.get_object("HedgeHog")
 		self.window.set_title("HedgeHog Configuration" + self.version)
 		self.window.show_all()
