@@ -251,7 +251,7 @@ def hhg_import(filen):
 					while gtk.events_pending(): gtk.main_iteration()
 				# read:
 				tme_next = hhg_convtime(bs[504],bs[505],bs[506],bs[507])
-				if (abs(tme_next-tme) < 0.005) and tme_next>0:  # time okay:
+				if (abs(tme_next-tme) < 0.005) and tme_next>0 and tme_next>tme:  # time okay:
 					num_samples = sum(bs[0:504:4])
 					if num_samples > 0:
 						tme_delta = (tme_next - tme) / num_samples
