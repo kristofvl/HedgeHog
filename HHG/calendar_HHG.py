@@ -98,7 +98,7 @@ subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sleep.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sun.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/act.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/zoom.png"%home,dlpath])
-subprocess.call(["wget", "-q", "-P%s"%dlpath,
+subprocess.call(["wget", "-q", "-nc", "-P%s"%dlpath,
 	"http://dygraphs.com/1.0.1/dygraph-combined.js"])
 
 first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
@@ -129,7 +129,10 @@ for day_id in range(first_day_id, last_day_id):
 for rd in range( 7-(last_day_id-first_day_id+wkday)%7):
 	cal_entry(last_day_id+rd, dlpath, f)
 
-f.write('</div></div></section></body>')
+f.write('</div></div></section>'+
+	'<script>$("#scrollview").stop().animate({scrollTop:'+
+		'$("#scrollview")[0].scrollHeight},700);</script>'+
+		'</body>')
 f.close()
 
 ## preview:

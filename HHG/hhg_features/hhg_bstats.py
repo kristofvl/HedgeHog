@@ -75,8 +75,9 @@ def night_acc(stats, bdiv, pct):
 	
 ## return light-threshold probabilities for sleep detection:
 def night_lgt(bins, bdiv, pct):
-	thresh = np.max(bins)*(pct/100) # put treshold at pct% of maximum 
-	all_probs = (bins <= thresh) * (thresh-bins)/thresh
+	off_bins = bins-np.min(bins)
+	thresh = np.max(off_bins)*(pct/100) # put treshold at pct% of maximum
+	all_probs = (off_bins <= thresh) * (thresh-off_bins)/thresh
 	probs = np.zeros(int(len(all_probs)/bdiv))
 	for i in range(0,len(all_probs)/bdiv):
 		probs[i] = np.max(all_probs[i*bdiv:(i+1)*bdiv])
