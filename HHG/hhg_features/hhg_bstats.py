@@ -215,15 +215,16 @@ def hhg_bstats_raw(dta, n):
 		return False, False, False, False
 	else:
 		tic = time.clock()
-		t  = array(dta.t);		dt = array(dta.d)
-		l  = array(dta.l)
-		xyz  = zeros( (len(dta),3), dtype='u4' )
+		t  = np.array(dta.t)
+		dt = np.array(dta.d)
+		l  = np.array(dta.l)
+		xyz  = np.zeros( (len(dta),3), dtype='u4' )
 		xyz[:,0] = dta.x;		xyz[:,1] = dta.y;		xyz[:,2] = dta.z
 		numsamples = sum(dt)
 		numfeats = 1+numsamples/n
-		mv  = zeros( (numfeats,6), dtype='u4' )
-		ts  = zeros( numfeats, dtype='f8' )
-		env = zeros( numfeats, dtype='u2' )
+		mv  = np.zeros( (numfeats,6), dtype='u4' )
+		ts  = np.zeros( numfeats, dtype='f8' )
+		env = np.zeros( numfeats, dtype='u2' )
 		i = j = 0; rf = 0; 
 		while j<len(dt):
 			ii = 0; # renew counting till n
@@ -235,18 +236,18 @@ def hhg_bstats_raw(dta, n):
 				acc = xyz[j,:]
 				#array([x[j],y[j],z[j]], dtype='u4')
 				#calculate multipl. & res. factors
-				if rf==0:									# 
-					if ii+dt[j]<=n:						#  
-						mf = dt[j]; rf = 0; j += 1;	# 
-					else: 									# 
-						mf = n-ii;  rf = ii+dt[j]-n;  # 
-				else: 										# 	
-					if rf<=n:								# 
-						mf = rf;    rf = 0; j += 1;	# 
-					else:										#
-						mf = n;	   rf -= n; 			# 
+				if rf==0:
+					if ii+dt[j]<=n:
+						mf = dt[j]; rf = 0; j += 1;
+					else:
+						mf = n-ii;  rf = ii+dt[j]-n;
+				else:
+					if rf<=n:
+						mf = rf;    rf = 0; j += 1;
+					else:
+						mf = n;	   rf -= n;
 				ii += mf
-				mv[i,:] += concatenate([acc, acc**2]) * mf
+				mv[i,:] += np.concatenate([acc, acc**2]) * mf
 			i += 1
 		mv[:i,3:6] -= (mv[:,0:3]**2)/n
 		mv[:i,0:3] /= n
@@ -272,8 +273,8 @@ def hhg_bstats_ts_raw(dta, n):
 		return False, False, False, False
 	else:
 		tic = time.clock()
-		t  = array(dta.t)
-		l  = array(dta.l)
+		t  = np.array(dta.t)
+		l  = np.array(dta.l)
 		xyz  = np.zeros( (len(dta),3), dtype='u4' )
 		xyz[:,0] = dta.x;		xyz[:,1] = dta.y;		xyz[:,2] = dta.z
 		numfeats = int(((dta.t[-1]-dta.t[0])*86400.0)/n) 
@@ -307,8 +308,8 @@ def hhg_bstats_ts_mv(dta, n):
 		return False, False, False, False
 	else:
 		tic = time.clock()
-		t  = array(dta.t)
-		l  = array(dta.l)
+		t  = np.array(dta.t)
+		l  = np.array(dta.l)
 		xyz  = np.zeros( (len(dta),6), dtype='u4' )
 		xyz[:,0] = dta.xm;		xyz[:,1] = dta.ym;		xyz[:,2] = dta.zm
 		xyz[:,3] = dta.xv;		xyz[:,4] = dta.yv;		xyz[:,5] = dta.zv
