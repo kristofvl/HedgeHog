@@ -8,6 +8,7 @@ import subprocess
 import os
 import hhg_dialogs.hhg_scan as hgd
 import string
+import pdb
 
 class configure:
 
@@ -37,7 +38,7 @@ class configure:
 				rleCombo.set_active(int(rletmp))
 			confhhg.seek(35,0)
 			version = confhhg.read(7)
-		        if all(ch in string.printable for ch in version):
+			if all(ch in string.printable for ch in version):
 				window.set_title("HedgeHog Configuration " + version)
 			confhhg.close()
 
@@ -53,8 +54,7 @@ class configure:
 			confhhg.seek(12,0)  # Write ACC Settings
 			confhhg.write(str(rangeCombo.get_active()))
 			confhhg.write(str(freqCombo.get_active()))
-			#confhhg.write(str(modeCombo.get_active()))
-			confhhg.write(str(1))
+			confhhg.write(str(modeCombo.get_active())) 	#~ confhhg.write(str(1))
 			confhhg.write(str(powCombo.get_active()))
 			confhhg.seek(20,0) # Write RLE Delta
 			confhhg.write(str(rleCombo.get_active()))
@@ -96,8 +96,7 @@ class conf_HHG_dialog:
 
 		self.stpTime = []
 		self.ranges = ["-2 to +2 g","-4 to +4 g","-8 to +8 g","-16 to +16 g"]    
-		self.freqs =  ["0.1Hz","5Hz","10Hz","25Hz","50Hz","100Hz","0.2kHz","0.4kHz",
-			"0.8kHz","1.5kHz"]
+		self.freqs =  ["0.1Hz","5Hz","10Hz","25Hz","50Hz","100Hz","0.2kHz","0.4kHz","0.8kHz","1.5kHz"]
 		self.pows = ["normal","low-power","auto-sleep","low / auto"]
 		self.modes = ["sampling by PIC", "sampling by sensor, raw sampling"]
 		self.deltas = ["0","1","2","3","4","5","6","7"]
@@ -149,8 +148,7 @@ class conf_HHG_dialog:
 				"on_FormatButton_clicked": self.FormatButtonClick}
 		self.builder.connect_signals(dic)
 
-
-		self.conf.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo, self.version, self.window)					   		
+		self.conf.readSettings(self.idEntry, self.rleCombo, self.rangeCombo, self.powCombo, self.freqCombo, self.modeCombo, self.version, self.window)
 
 	def Quit(self, widget):
 		sys.exit(0)
