@@ -121,18 +121,22 @@ extern char is_logging;
 /*******************************************************************/
 #define LIGHTCHANNEL	4						// RA5 == AN4 == CHANNEL#4
 #define LIGHT_PWR		PORTAbits.RA3			// RA3 (PIN22)
+#define LIGHT_PWR_TRIS	TRISAbits.RA3
 
 /*******************************************************************/
 /******** remap pins ***********************************************/
 /*******************************************************************/
 #define ul_reg()	{ EECON2 = 0x55; EECON2 = 0xAA; PPSCONbits.IOLOCK = 0;}
 #define l_reg()		{ EECON2 = 0x55; EECON2 = 0xAA; PPSCONbits.IOLOCK = 1;}
-//  RP6  as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P),
+//  RP6 as SDO2 (o/p), RP13 as SCK2 (o/p), RP23 as SDI2 (i/P),
 #define remap_pins() {ul_reg(); RPOR6=9;RPOR13=10;RPINR21=23;RPINR1=5; l_reg();}
 
 // make sure all (unused) pins are output, except for
-//  A0 (POK)  -  A1 (PWRGD)  -  A5 (Light Sensor)
-//	B2 (ACC INT)  -  D6 (SPI MISO)
-#define set_unused_pins_to_output() {TRISA=0b00100011;TRISB=0b00000100;TRISD=0;}
+//  A0 (POK)  -  A1 (PWRGD)  -  A3 (Light GND)  -  A5 (Light Sensor Values)
+//	B2 (ACC INT)  -  D6 (SPI MISO)  //0b00100011;
+#define set_unused_pins_to_output() { \
+	TRISAbits.TRISA0=1;TRISAbits.TRISA1=1;TRISAbits.TRISA2=0;TRISAbits.TRISA3=0;\
+	TRISAbits.TRISA5=1; TRISB=0b00000100; TRISD=0; \
+}
 
 #endif  //HARDWARE_PROFILE_HEDGEHOG_OLED_513_H
