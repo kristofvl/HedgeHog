@@ -51,7 +51,13 @@ def hhg_findmount():
 			return lsblk
 	except:
 		return ''
-		
+
+## return hedgehog id
+def hhg_findname():
+	lsblk = hhg_findmount()
+	name = lsblk[len(lsblk)-4:]
+	return name
+	
 ## checks dmesg output for recent occurences of a hedgehog popping up
 def hhg_parsedmesg():
 	usbList = subprocess.check_output("lsusb", shell=True)
