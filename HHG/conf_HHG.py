@@ -55,6 +55,11 @@ class configure:
 			confhhg.write(str(rangeCombo.get_active()))
 			confhhg.write(str(freqCombo.get_active()))
 			confhhg.write(str(modeCombo.get_active())) 	#~ confhhg.write(str(1))
+			if (modeCombo.get_active()==0):
+				confhhg.seek(13,0)
+				confhhg.write("5")
+				freqCombo.set_active(5) # for PIC sampling always set Freq to 100Hz
+				confhhg.seek(15,0)
 			confhhg.write(str(powCombo.get_active()))
 			confhhg.seek(20,0) # Write RLE Delta
 			confhhg.write(str(rleCombo.get_active()))
