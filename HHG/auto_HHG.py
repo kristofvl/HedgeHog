@@ -16,12 +16,12 @@ import hhg_io.hhg_import as hgi
 import hhg_dialogs.hhg_scan as hgd
 
 class hhg_connect_download_dlg:
-	def __init__(self, size_x=250, size_y=100):
+	def __init__(self, size_x=400, size_y=125):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 		self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
-		self.dlg.connect("response",self.close)
+		self.dlg.connect("response",self.on_cancel)
 		self.pbar = gtk.ProgressBar()
 		self.infotxt = gtk.Label()
 		self.infotxt.set_text('Connect first HedgeHog...')
@@ -31,8 +31,8 @@ class hhg_connect_download_dlg:
 		self.quitnow = False
 		self.dlg.show_all()
 		self.dlg.set_keep_above(True)
-	def on_cancel(self):
-		gtk.main_quit()
+	def on_cancel(self, dta=[], msg=[]):
+		sys.exit(1)
 	def update_prgs(self):
 		self.priter += 1
 		self.pbar.set_fraction(float(self.priter%70)/70)
@@ -73,12 +73,12 @@ class hhg_connect_download_dlg:
 		return [first_srcdir, first_id]
 
 class hhg_disconnect_download_dlg:
-	def __init__(self, size_x=250, size_y=125):
-		self.counter = datetime.datetime.now()
+	def __init__(self, size_x=400, size_y=150):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
+		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 		self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
-		self.dlg.connect("response",self.close)
+		self.dlg.connect("response",self.on_cancel)
 		self.pbar = gtk.ProgressBar()
 		self.infotxt1 = gtk.Label()
 		self.infotxt2 = gtk.Label()
@@ -88,8 +88,9 @@ class hhg_disconnect_download_dlg:
 		self.dlg.set_size_request(size_x, size_y)
 		self.quitnow = False
 		self.dlg.show_all()
-	def on_cancel(self):
-		gtk.main_quit()
+		self.dlg.set_keep_above(True)
+	def on_cancel(self, dta=[], msg=[]):
+		sys.exit(1)
 	def update_prgs(self):
 		self.priter += 1
 		self.pbar.set_fraction(float(self.priter%70)/70)
@@ -109,13 +110,15 @@ class hhg_disconnect_download_dlg:
 		self.priter = 0
 		self.scan_dmesg()
 		self.close()
+		return True
 
 class hhg_connect_start_dlg:
-	def __init__(self, size_x=250, size_y=100):
+	def __init__(self, size_x=400, size_y=125):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
+		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 		self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
-		self.dlg.connect("response",self.close)
+		self.dlg.connect("response",self.on_cancel)
 		self.pbar = gtk.ProgressBar()
 		self.infotxt = gtk.Label()
 		self.dlg.vbox.add(self.pbar)
@@ -123,8 +126,9 @@ class hhg_connect_start_dlg:
 		self.dlg.set_size_request(size_x, size_y)
 		self.quitnow = False
 		self.dlg.show_all()
-	def on_cancel(self):
-		gtk.main_quit()
+		self.dlg.set_keep_above(True)
+	def on_cancel(self, dta=[], msg=[]):
+		sys.exit(1)
 	def update_prgs(self):
 		self.priter += 1
 		self.pbar.set_fraction(float(self.priter%70)/70)
@@ -165,12 +169,12 @@ class hhg_connect_start_dlg:
 		return [second_srcdir, second_id]
 					
 class hhg_disconnect_start_dlg:
-	def __init__(self, size_x=250, size_y=125):
-		self.counter = datetime.datetime.now()
+	def __init__(self, size_x=400, size_y=150):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
+		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 		self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
-		self.dlg.connect("response",self.close)
+		self.dlg.connect("response",self.on_cancel)
 		self.pbar = gtk.ProgressBar()
 		self.infotxt1 = gtk.Label()
 		self.infotxt2 = gtk.Label()
@@ -180,8 +184,9 @@ class hhg_disconnect_start_dlg:
 		self.dlg.set_size_request(size_x, size_y)
 		self.quitnow = False
 		self.dlg.show_all()
-	def on_cancel(self):
-		gtk.main_quit()
+		self.dlg.set_keep_above(True)
+	def on_cancel(self, dta=[], msg=[]):
+		sys.exit(1)
 	def update_prgs(self):
 		self.priter += 1
 		self.pbar.set_fraction(float(self.priter%70)/70)
@@ -201,9 +206,8 @@ class hhg_disconnect_start_dlg:
 		self.priter = 0
 		self.scan_dmesg()
 		self.close()
+		return True
 		
-		
-
 while True:
 	## buffer size: how many blocks (of 512 bytes each) do we read at once?
 	bufsize = 192	# takes about 0.5 seconds on a laptop
@@ -336,9 +340,9 @@ while True:
 	subprocess.call(["sync"])
 	subprocess.call(["umount", first_srcdir])
 	
-	## waiting 20 seconds for user to disconnect
+	## waiting for user to disconnect
 	hhgdlwait = hhg_disconnect_download_dlg()
-	hhgdlwait.run()
+	ret = hhgdlwait.run()
 	
 	## waiting for user to attach new hedgehog
 	hhgcnt = hhg_connect_start_dlg()
@@ -376,14 +380,14 @@ while True:
 	## start logging 	
 	with open (second_config_file,"r+w") as starthhg:
 		starthhg.seek(1023,0)  
-		#starthhg.write("l")
+		starthhg.write("l")
 		starthhg.close()
 	
 	## unmount second hedgehog	
 	subprocess.call(["sync"])
 	subprocess.call(["umount", second_srcdir])
 
-	## waiting 20 seconds for user to disconnect
+	## waiti for user to disconnect
 	hhgstwait = hhg_disconnect_start_dlg()
-	hhgstwait.run()
+	ret = hhgstwait.run()
 	
