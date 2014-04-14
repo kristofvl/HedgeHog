@@ -53,7 +53,7 @@ def hhg_findmount():
 		return ''
 
 ## return hedgehog id
-def hhg_findname():
+def hhg_findid():
 	lsblk = hhg_findmount()
 	name = lsblk[len(lsblk)-4:]
 	return name

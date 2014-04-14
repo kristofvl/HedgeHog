@@ -15,8 +15,25 @@ import hhg_plot.hhg_plot as hplt
 import hhg_io.hhg_import as hgi
 import hhg_dialogs.hhg_scan as hgd
 
+id_matrix = [["0000","0001","0002"],["0010","0011","0012"],["0020","0021","0022"],["0030","0031","0032"]]
+
+def find_element(id_matrix, hhg_id):
+    for row, i in enumerate(id_matrix):
+        try:
+            column = i.index(hhg_id)
+        except ValueError:
+            continue
+        return row, column
+    return False
+
+def hhg_nextid(id_matrix ,hhg_id):
+	[row ,column] = find_element(id_matrix, hhg_id)
+	ret = id_matrix[row][:] 
+	ret.remove(hhg_id)
+	return ret 
+
 class hhg_connect_download_dlg:
-	def __init__(self, size_x=400, size_y=125):
+	def __init__(self, size_x=300, size_y=140):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
@@ -45,15 +62,15 @@ class hhg_connect_download_dlg:
 			ret = hgi.hhg_parsedmesg()
 			time.sleep(0.1)
 	def scan_mount(self):
-		self.infotxt.set_text('First HedgeHog connected. Mounting...')
+		self.infotxt.set_text('HedgeHog connected. Mounting...')
 		ret = hgi.hhg_findmount()
 		while ret=='' and not self.quitnow:
 			self.update_prgs()
 			ret = hgi.hhg_findmount()
 			time.sleep(0.1)
 		return ret
-	def scan_files(self, srcdir):
-		self.infotxt.set_text('Mounted. Parsing directory...')
+	def scan_files(self, srcdir, hhg_id):
+		self.infotxt.set_text('HedgeHog '+hhg_id+' Mounted. Parsing directory...')
 		ret = os.path.isfile(srcdir+'/config.URE')
 		while not ret and not self.quitnow:
 			self.update_prgs()
@@ -67,24 +84,22 @@ class hhg_connect_download_dlg:
 		if not hgi.hhg_findmount():
 			self.scan_dmesg()
 		first_srcdir = self.scan_mount()
-		self.scan_files(first_srcdir)
-		first_id = hgi.hhg_findname()
+		first_id = hgi.hhg_findid()
+		self.scan_files(first_srcdir, first_id)
 		self.close()
 		return [first_srcdir, first_id]
 
 class hhg_disconnect_download_dlg:
-	def __init__(self, size_x=400, size_y=150):
+	def __init__(self, size_x=300, size_y=140):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 		self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
 		self.dlg.connect("response",self.on_cancel)
 		self.pbar = gtk.ProgressBar()
-		self.infotxt1 = gtk.Label()
-		self.infotxt2 = gtk.Label()
+		self.infotxt = gtk.Label()
 		self.dlg.vbox.add(self.pbar)
-		self.dlg.vbox.add(self.infotxt1)
-		self.dlg.vbox.add(self.infotxt2)
+		self.dlg.vbox.add(self.infotxt)
 		self.dlg.set_size_request(size_x, size_y)
 		self.quitnow = False
 		self.dlg.show_all()
@@ -96,8 +111,8 @@ class hhg_disconnect_download_dlg:
 		self.pbar.set_fraction(float(self.priter%70)/70)
 		while gtk.events_pending(): gtk.main_iteration()
 	def scan_dmesg(self):
-		self.infotxt1.set_text('Download successful')
-		self.infotxt2.set_text('Disconnect first Hedgehog...')
+		padding='      '
+		self.infotxt.set_text(padding+'Download successful\nDisconnect HedgeHog'+first_id+'...')
 		ret = True
 		while ret and not self.quitnow:
 			self.update_prgs()
@@ -113,7 +128,7 @@ class hhg_disconnect_download_dlg:
 		return True
 
 class hhg_connect_start_dlg:
-	def __init__(self, size_x=400, size_y=125):
+	def __init__(self, size_x=300, size_y=140):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
@@ -134,18 +149,27 @@ class hhg_connect_start_dlg:
 		self.pbar.set_fraction(float(self.priter%70)/70)
 		while gtk.events_pending(): gtk.main_iteration()
 	def scan_dmesg(self):
-		self.infotxt.set_text('Connect second HedgeHog...')
+		self.infotxt.set_text('Connect HedgeHog'+self.idlist[0]+' or HegdeHog'+self.idlist[1]+'...')
 		ret = hgi.hhg_parsedmesg()
 		while not ret and not self.quitnow:
 			self.update_prgs()
 			ret = hgi.hhg_parsedmesg()
 			time.sleep(0.1)
 	def scan_mount(self):
-		self.infotxt.set_text('Second HedgeHog connected. Mounting...')
+		self.infotxt.set_text('HedgeHog connected. Mounting...')
 		ret = hgi.hhg_findmount()
 		while ret=='' and not self.quitnow:
 			self.update_prgs()
 			ret = hgi.hhg_findmount()
+			time.sleep(0.1)
+		return ret
+	def detect_false(self):
+		padding = '           '
+		self.infotxt.set_text(padding+'Wrong HedgeHog connected\nConnect HedgeHog'+self.idlist[0]+' or HegdeHog'+self.idlist[1]+'...')
+		ret = hgi.hhg_parsedmesg()
+		while ret and not self.quitnow:
+			self.update_prgs()
+			ret = hgi.hhg_parsedmesg()
 			time.sleep(0.1)
 		return ret
 	def scan_files(self, srcdir):
@@ -160,27 +184,33 @@ class hhg_connect_start_dlg:
 		self.dlg.destroy()
 	def run(self):
 		self.priter = 0
-		if not hgi.hhg_findmount():
-			self.scan_dmesg()
-		second_srcdir = self.scan_mount()
+		second_id =[]
+		while not second_id:
+			if not hgi.hhg_findmount():
+				self.idlist = hhg_nextid(id_matrix, first_id)
+				self.scan_dmesg()
+			second_srcdir = self.scan_mount()
+			second_id = hgi.hhg_findid()
+			if (second_id not in self.idlist and second_id):
+				second_id = []
+				self.falsedetect = 1
+				while self.falsedetect:
+					self.falsedetect = self.detect_false()
 		self.scan_files(second_srcdir)
-		second_id = hgi.hhg_findname()
 		self.close()
 		return [second_srcdir, second_id]
 					
 class hhg_disconnect_start_dlg:
-	def __init__(self, size_x=400, size_y=150):
+	def __init__(self, size_x=300, size_y=140):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 		self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
 		self.dlg.connect("response",self.on_cancel)
 		self.pbar = gtk.ProgressBar()
-		self.infotxt1 = gtk.Label()
-		self.infotxt2 = gtk.Label()
+		self.infotxt = gtk.Label()
 		self.dlg.vbox.add(self.pbar)
-		self.dlg.vbox.add(self.infotxt1)
-		self.dlg.vbox.add(self.infotxt2)
+		self.dlg.vbox.add(self.infotxt)
 		self.dlg.set_size_request(size_x, size_y)
 		self.quitnow = False
 		self.dlg.show_all()
@@ -189,26 +219,44 @@ class hhg_disconnect_start_dlg:
 		sys.exit(1)
 	def update_prgs(self):
 		self.priter += 1
-		self.pbar.set_fraction(float(self.priter%70)/70)
+		self.pbar.set_fraction(float(self.priter%20)/20)
 		while gtk.events_pending(): gtk.main_iteration()
-	def scan_dmesg(self):
-		self.infotxt1.set_text('HedgeHog is logging for 7 days')
-		self.infotxt2.set_text('Disconnect second HedgeHog...')
-		ret = True
-		while ret and not self.quitnow:
+	def disconnect(self): 
+		tt = datetime.datetime.now()
+		counterstr = str(self.counter)
+		if (len(counterstr)==1):
+			counterstr = '0'+ counterstr
+		if (tt.second-self.timestamp.second ==1):
+			padding='       '
+			self.infotxt.set_text(padding+'HedgeHog will log for 7 days\nYou have '+counterstr+' seconds to disconnect...')
 			self.update_prgs()
-			ret = hgi.hhg_parsedmesg()
+			self.counter = self.counter-1
+			self.timestamp = tt
 			time.sleep(0.1)
+		return self.counter
+	def scan_dmesg(self):
+			ret = hgi.hhg_parsedmesg()
+			if ret:
+				return True
+			else:
+				return False
 	def close(self, dta=[], msg=[]):
 		self.quitnow = True;
 		self.dlg.destroy()
 	def run(self):
 		self.priter = 0
-		self.scan_dmesg()
+		self.counter = 20
+		self.timestamp = datetime.datetime.now()
+		while (self.counter !=0):	
+			self.counter = self.disconnect()
 		self.close()
 		return True
 		
+## plotting init:		
+fig = hplt.Hhg_load_plot(20,25,80)
+
 while True:
+	
 	## buffer size: how many blocks (of 512 bytes each) do we read at once?
 	bufsize = 192	# takes about 0.5 seconds on a laptop
 
@@ -275,8 +323,6 @@ while True:
 		## read the HHG data file(s) and show progress plot to inform user
 		file_iter = 0
 		old_day = 0
-		## plotting init:
-		fig = hplt.Hhg_load_plot(10,8,80)
 		## loop over input files:
 		while len(loglst) > file_iter:
 			filename = loglst[file_iter]
@@ -321,7 +367,7 @@ while True:
 					dta  = bdta[tt:].view(hgi.desc_hhg, np.recarray)
 				else:
 					dta  = np.append(dta, bdta).view(hgi.desc_hhg, np.recarray)
-				#fig.update_plot(dta[::itr], stats)
+				fig.update_plot(dta[::itr], stats)
 				## stop for current file if buffer not filled ############
 				if len(bdta)<126*bufsize-1:
 					break; ## done, get out this infinite loop
@@ -341,8 +387,8 @@ while True:
 	subprocess.call(["umount", first_srcdir])
 	
 	## waiting for user to disconnect
-	hhgdlwait = hhg_disconnect_download_dlg()
-	ret = hhgdlwait.run()
+	hhgdct = hhg_disconnect_download_dlg()
+	ret = hhgdct.run()
 	
 	## waiting for user to attach new hedgehog
 	hhgcnt = hhg_connect_start_dlg()
@@ -352,7 +398,7 @@ while True:
 	### write stp time to new hedgehog
 	stpTime = []
 	sysTime = datetime.datetime.now()
-	stpTime_struc = datetime.datetime.now()+timedelta(days=7)
+	stpTime_struc = sysTime+timedelta(days=7)
 	stpTime.insert(0,stpTime_struc.year)
 	stpTime.insert(1,stpTime_struc.month)
 	stpTime.insert(2,stpTime_struc.day)
@@ -388,6 +434,6 @@ while True:
 	subprocess.call(["umount", second_srcdir])
 
 	## waiti for user to disconnect
-	hhgstwait = hhg_disconnect_start_dlg()
-	ret = hhgstwait.run()
+	hhgdct = hhg_disconnect_start_dlg()
+	ret = hhgdct.run()
 	
