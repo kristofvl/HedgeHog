@@ -33,7 +33,7 @@ def hhg_nextid(id_matrix ,hhg_id):
 	return ret 
 
 class hhg_connect_download_dlg:
-	def __init__(self, size_x=300, size_y=140):
+	def __init__(self, size_x=300, size_y=125):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
@@ -90,7 +90,7 @@ class hhg_connect_download_dlg:
 		return [first_srcdir, first_id]
 
 class hhg_disconnect_download_dlg:
-	def __init__(self, size_x=300, size_y=140):
+	def __init__(self, size_x=300, size_y=125):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
@@ -128,7 +128,7 @@ class hhg_disconnect_download_dlg:
 		return True
 
 class hhg_connect_start_dlg:
-	def __init__(self, size_x=300, size_y=140):
+	def __init__(self, size_x=300, size_y=125):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
 		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
@@ -201,12 +201,15 @@ class hhg_connect_start_dlg:
 		return [second_srcdir, second_id]
 					
 class hhg_disconnect_start_dlg:
-	def __init__(self, size_x=300, size_y=140):
+	def __init__(self, size_x=300, size_y=125):
 		self.dlg = gtk.Dialog("Please wait", None, 0, None)
 		self.dlg.set_urgency_hint(True)
-		self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
+		#self.dlg.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
+		#self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
+		#self.dlg.connect("response",self.on_cancel)
+		self.dlg.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
 		self.dlg.set_default_response(gtk.RESPONSE_CANCEL)
-		self.dlg.connect("response",self.on_cancel)
+		self.dlg.connect("response",self.close)
 		self.pbar = gtk.ProgressBar()
 		self.infotxt = gtk.Label()
 		self.dlg.vbox.add(self.pbar)

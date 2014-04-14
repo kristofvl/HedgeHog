@@ -93,7 +93,7 @@ class Hhg_load_plot:
 			self.fig.text( 0.04, 0.927,
 			'HedgeHog_ID: ' + cnf[:4] + '\nfirmware:    ' + cnf[35:42]
 			+' \nlogging end: 20' +str(ord(cnf[71])) +'-'
-			+str(1+ord(cnf[72])).zfill(2) +'-'+ str(ord(cnf[73])).zfill(2),
+			+str(ord(cnf[74])).zfill(2) +'-'+ str(ord(cnf[73])).zfill(2),
 			ha='left', va='top', family='monospace', fontsize=11,
 			bbox=dict(boxstyle='round',facecolor='yellow',alpha=.4))
 		## display accelerometer settings: ###############################
