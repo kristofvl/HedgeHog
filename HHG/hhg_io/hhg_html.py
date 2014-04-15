@@ -26,6 +26,8 @@
 
 import sys, os, glob, shutil, time
 import numpy as np
+import json
+from json import encoder
 from matplotlib.dates import date2num, num2date
 from datetime import datetime
 from struct import unpack
@@ -248,7 +250,8 @@ def write_raw_day_html(day_id, dlpath):
 	## construct the html page for the day-view:
 	f.write(rawday_indexheader(daystr, day_id))
 	f.write('<hr><div id="graphdiv" style="width:100%; height:300px;">'+
-		'</div><script type="text/javascript">'+
+		'</div><script type="text/javascript">')
+	f.write(
 		'g3 = new Dygraph(document.getElementById("graphdiv"),'+
 		'"d.csv",{colors:["#d00","#0c0","#00d"],'+
 		'labels:["time","X","Y","Z"],'+
