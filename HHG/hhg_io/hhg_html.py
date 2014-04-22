@@ -67,7 +67,7 @@ def cal_indexheader(mnth):
 	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
 		hdr += ('<div class="header">'+dayname+'</div>')
 	return (htmlhead('HedgeHog Calendar View','st.css','Chart.js')+
-		'<script src="http://code.jquery.com/jquery-1.11.0.min.js">'+
+		'<script src="https://code.jquery.com/jquery-1.11.0.min.js">'+
 		'</script><script>$(document).ready(function(){'+
 		'$("time").mouseover(function(){'+
 		'$("h1").html($(this).attr("datetime"))});});</script></head>'+
