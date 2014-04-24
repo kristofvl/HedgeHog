@@ -4,6 +4,14 @@
 var anscanvas = document.getElementById("dvans")
 var ac=anscanvas.getContext("2d");
 
+if (window.devicePixelRatio) {
+	ac.canvas.style.width = anscanvas.width + "px";
+	ac.canvas.style.height = anscanvas.height + "px";
+	ac.canvas.height = anscanvas.height * window.devicePixelRatio;
+	ac.canvas.width = anscanvas.width * window.devicePixelRatio;
+	ac.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+
 var drag,dragL,dragR = false,
     mouseX, mouseY,
     closeEnough = 10,
@@ -22,6 +30,7 @@ function init_ans() {
 	anscanvas.addEventListener('mousedown', mouseDown, false);
 	anscanvas.addEventListener('mouseup', mouseUp, false);
 	anscanvas.addEventListener('mousemove', mouseMove, false);
+	anscanvas.addEventListener('dblclick', mouseDbl, false);
 	draw_ans();
 }
 
@@ -32,7 +41,6 @@ function mouseDown(e) {
 	else if (e.layerX){
 		mouseX = e.layerX; mouseY = e.layerY;
 	}
-	// check where was was clicked:
 	for(var i=0;i<ans.length;i++){
 	if (ans[i][3]==dayid){
 		if( checkCloseEnough(mouseX, 30+ans[i][1]*800) && 
@@ -82,12 +90,34 @@ function mouseMove(e) {
 		draw_ans();
 	}
 }
+function mouseDbl(e) {
+	console.log("double");
+	if (e.offsetX) {
+		mouseX = e.offsetX; mouseY = e.offsetY;
+	}
+	else if (e.layerX){
+		mouseX = e.layerX; mouseY = e.layerY;
+	}
+	var deleted = false
+	for(var i=0;i<ans.length;i++){
+	if (ans[i][3]==dayid){
+		if((mouseX<30+(ans[i][2])*800)&&(mouseX>30+(ans[i][1])*800)){
+			ans.splice(i,1);
+			deleted = true;
+			break;
+		}
+	}}
+	if (!deleted) {
+		ans.push(["new",(mouseX-47)/800,(mouseX-13)/800,dayid]);
+	}
+	draw_ans();
+}
 
 function draw_ans() {
 	ac.beginPath();
 	ac.fillStyle = "white";
 	ac.fillRect(0,0,832,100);
-	ac.font="12px Helvetica"; ac.fillStyle = "black";
+	ac.font="10pt Courier"; ac.fillStyle = "black";
 	if (typeof(ans)!="undefined"){
 		for(var i=0;i<ans.length;i++){
 		if (ans[i][3]==dayid){	

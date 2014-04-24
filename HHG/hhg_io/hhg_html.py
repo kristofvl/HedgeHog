@@ -218,12 +218,14 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 								'scaleShowLabels:true,'+
 								'scaleFontSize:12,scaleShowGridLines:true,'+
 								'animation:true,scaleStepWidth:32') )
-	f.write('</script>')
+	f.write('var dayid='+str(day_id)+';</script>')
+	f.write('<script src="../ans_array.js"></script>'+
+		'<script src="../ans.js"></script>')
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
 		'HedgeHog sensor</a> #'+ cnf[0:4]+
 		'.<br/><a href="index_raw.html"><img src="../zoom.png" style="'+
-		'vertical-align:middle;"</img> Raw data view for full npz file ('+
+		'vertical-align:middle;"></img> Raw data view for full npz file ('+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</a></p>')
 	f.write('<p style="font-size:small;color:#fff;left:'+
@@ -235,9 +237,6 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 	f.write('<p style="font-size:small;color:#666;left:'+
 		str(15+800.0*nt[1])+'px;top:122px;'+
 		'height:70px;position:absolute;">'+ntimes[1][11:]+'</p>')
-	f.write('<script>var dayid='+str(day_id)+
-		';</script><script src="../ans_array.js"></script>'+
-		'<script src="../ans.js"></script>')
 	f.write('</section></body></html>')
 	f.close()
 	return True
