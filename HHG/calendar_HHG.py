@@ -76,7 +76,7 @@ def cal_entry(day_id, dlpath, f):
 	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
 	hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 							x_str, y_str, z_str, l_str, p_str, lbl_str)
-	hh.write_raw_day_html(day_id, dlpath)
+	hh.write_raw_day_htmls(day_id, dlpath)
 	toc = time.clock()
 	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'
 	
@@ -94,6 +94,7 @@ if not os.path.exists(dlpath):
 home = os.environ['HOME']
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,  dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/Chart.js"%home, dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/ans.js"%home, dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sleep.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sun.png"%home,dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/act.png"%home,dlpath])
