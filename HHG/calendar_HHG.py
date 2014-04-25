@@ -95,17 +95,29 @@ home = os.environ['HOME']
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,  dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/Chart.js"%home, dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/ans.js"%home, dlpath])
-subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sleep.png"%home,dlpath])
-subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/sun.png"%home,dlpath])
-subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/act.png"%home,dlpath])
-subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/zoom.png"%home,dlpath])
+subprocess.call(["cp", "-rf", "%s/HedgeHog/HHG/hhg_web/img"%home,dlpath])
 subprocess.call(["wget", "-q", "-nc", "-P%s"%dlpath,
 	"http://dygraphs.com/1.0.1/dygraph-combined.js"])
 
-first_day_id = int(sorted(os.walk(dlpath).next()[1])[0])
+
+first_day_id = -1;
+try_id = 0;
+while (first_day_id==-1):
+	try:
+		first_day_id = int(sorted(os.walk(dlpath).next()[1])[try_id])
+	except ValueError:
+		first_day_id = -1; try_id+=1;
+		
 if len(sys.argv) > 2: first_day_id = int(sys.argv[2]) # allow skip days
 
-last_day_id = int(sorted(os.walk(dlpath).next()[1])[-1])+1
+last_day_id = -1;
+try_id = -1;
+while (last_day_id==-1):
+	try:
+		last_day_id = int(sorted(os.walk(dlpath).next()[1])[try_id])+1
+	except ValueError:
+		last_day_id = -1; try_id-=1;	
+		
  # assume that we're interested in first month:
 month_vw = num2date(first_day_id).month
 

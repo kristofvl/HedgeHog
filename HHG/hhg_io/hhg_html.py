@@ -223,9 +223,9 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 		'<script src="../ans.js"></script>')
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
-		'HedgeHog sensor</a> #'+ cnf[0:4]+
-		'.<br/><a href="index_raw.html"><img src="../zoom.png" style="'+
-		'vertical-align:middle;"></img> Raw data view for full npz file ('+
+		'HedgeHog sensor</a> #'+ cnf[0:4]+'.<br/>'+
+		'<a href="index_raw.html"><img src="..img/zoom.png" style="'+
+		'vertical-align:middle;"></img>Raw data view for full npz file ('+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</a></p>')
 	f.write('<p style="font-size:small;color:#fff;left:'+

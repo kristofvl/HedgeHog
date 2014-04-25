@@ -1,7 +1,17 @@
 
+var imgsa = [
+["sleeping", "../img/sleep.png"],
+["bicycling","../img/riding_bike.png"],
+["car","../img/driving_car.png"]
+];
 
+var imga = new Array();
+for (var i=0;i<imga.length;i++){
+	imga[i] = new Image();
+	imga[i].src = imgsa[i][1];
+}
 
-var anscanvas = document.getElementById("dvans")
+var anscanvas = document.getElementById("dvans");
 var ac=anscanvas.getContext("2d");
 
 if (window.devicePixelRatio) {
@@ -117,16 +127,29 @@ function draw_ans() {
 	ac.beginPath();
 	ac.fillStyle = "white";
 	ac.fillRect(0,0,832,100);
-	ac.font="10pt Courier"; ac.fillStyle = "black";
+	ac.font="8pt Arial"; ac.fillStyle = "black";
 	if (typeof(ans)!="undefined"){
 		for(var i=0;i<ans.length;i++){
 		if (ans[i][3]==dayid){	
 			ac.rect(30+ans[i][1]*800,-2,(ans[i][2]-ans[i][1])*800,17);
 			tw = ac.measureText(ans[i][0]).width/2;
-			ac.fillText(ans[i][0],30+(ans[i][1]+ans[i][2])*400-tw,27);
+			function loadIcon(src,x,y) {
+				var img = new Image();
+				img.src= src;
+				img.onload = function(){
+					ac.drawImage(img,x,y,17,17);
+				}
+			}
+			ret = 0;
+			for (var k=0;k<imgsa.length;k++){
+				if (ans[i][0]==imgsa[k][0]) {ret=k;break;}
+			}
+			loadIcon(imgsa[ret][1],30+(ans[i][1]+ans[i][2])*400-8,22);
+			//ac.drawImage(imga[ret],30+(ans[i][1]+ans[i][2])*400-8,22,17,17); 	
+			ac.fillText(ans[i][0],30+(ans[i][1]+ans[i][2])*400-tw,53);
 			ac.stroke();
 		}}
 	}
 }
 
-init_ans()
+init_ans();
