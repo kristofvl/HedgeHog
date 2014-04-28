@@ -1,8 +1,12 @@
 
 var imgsa = [
-["sleeping", "../img/sleep.png"],
-["bicycling","../img/riding_bike.png"],
-["car","../img/driving_car.png"]
+["unknown",'../img/unknown.png'],
+["sleep", "../img/sleep.png"],
+["bike","../img/riding_bike.png"],
+["car","../img/driving_car.png"],
+["walk","../img/walk.gif"],
+["smoke","../img/smoking.gif"],
+["inj","../img/injecting.gif"]
 ];
 
 var imga = new Array();
