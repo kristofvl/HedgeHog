@@ -52,9 +52,9 @@ if dta == []:
 #shortcut to read the new npy files (have 7 cols):
 if len(dta[0])==7:
 	fig = hplt.Hhg_raw_plot(scr.get_width()/80,8,80)
-	fig.plot(1, 3, dta.t, array((dta.x,dta.y,dta.z)).T,'3D acceleration')
-	fig.plot(2, 3, dta.t, array((dta.e1)).T>>8, 'ambient light')
-	fig.plot(3, 3, dta.t, (array((dta.e1)).T&0xFF)/2-30, 'temperature')
+	fig.plot(1, 3, dta.t, np.array((dta.x,dta.y,dta.z)).T,'3D acceleration')
+	fig.plot(2, 3, dta.t, np.array((dta.e1)).T>>8, 'ambient light')
+	fig.plot(3, 3, dta.t, (np.array((dta.e1)).T&0xFF)/2-30, 'temperature')
 	fig.show()
 	exit(0)
 
@@ -79,9 +79,9 @@ if len(dta)>100000:
 #otherwise prepare a raw plot:
 else:
 	fig = hplt.Hhg_raw_plot(scr.get_width()/80,8,80)
-	fig.plot(1, 3, dta.t, array((dta.x,dta.y,dta.z)).T,'3D acceleration')
-	fig.plot(2, 3, dta.t, array((dta.l)).T>>8, 'ambient light')
-	fig.plot(3, 3, dta.t, (array((dta.l)).T&0xFF)/2-30, 'temperature')
+	fig.plot(1, 3, dta.t, np.array((dta.x,dta.y,dta.z)).T,'3D acceleration')
+	fig.plot(2, 3, dta.t, np.array((dta.l)).T>>8, 'ambient light')
+	fig.plot(3, 3, dta.t, (np.array((dta.l)).T&0xFF)/2-30, 'temperature')
 	fig.show()
 
 # if selected, write data to binary file (so it can be used later):

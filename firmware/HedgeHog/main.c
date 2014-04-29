@@ -70,6 +70,9 @@ sd_buffer_t sd_buffer;
 rtc_timedate tm;		//  holding time info for current time
 char date_str[11] = "01/01/2012";
 char time_str[9]  = "00:00:00";
+char date_stop_str[11] = "01/01/2016";
+char time_stop_str[9]  = "00:00:00";
+
 UINT32 tm_stop;
 
 // sensor variables:
@@ -202,9 +205,8 @@ static void init_system(void) {
 	Delay10KTCYx(250);
 	sdbuf_init();
 
-        // Our other init routines come last
+	// Our other init routines come last
 	user_init();
-
 }
 
 /*******************************************************************************
@@ -250,7 +252,7 @@ void process_IO(void) {
 
 	if (is_logging)		// go to the logging process
 		log_process();
-	else {				// not logging, check for USB presence
+	else {				// not logging, no USB connection present
 		if ((USBDeviceState < CONFIGURED_STATE) || (USBSuspendControl == 1)) {
 			#if defined(USBP_INT)
 			if (!rtc_alrm()) {
@@ -326,6 +328,7 @@ void update_display(void) {
 void log_process() {
 	static UINT8 startup = 0; // startup after a while
 	if (startup == 0) { // to init light sensors, accelerometer & SD card
+		startup++;
 		Delay10KTCYx(250);
 		set_osc_8Mhz();
 		set_unused_pins_to_output();
@@ -335,8 +338,7 @@ void log_process() {
 		sdbuf_init();
 		// initialize Sensors with settings	
 		env_init();
-                acc_init(acc_settings, NULL);
-
+		acc_init(acc_settings, NULL);
 		#if defined(DISPLAY_ENABLED)
 		disp_start_log();
 		#endif
@@ -344,7 +346,7 @@ void log_process() {
 		adxl345_conf_tap(0x09, 0xA0, 0x72, 0x30, 0xFF); // configure double tap
 		#endif
 		#if defined(USBP_INT)
-		while ((USBP_INT == 0) && (startup < 254)) { // wait till usb disconnect
+		while ((USBP_INT == 0) && (startup < 128)) { // wait till usb disconnect
 			set_osc_sleep_t1(255); // +-70ms timeout
 			startup++;
 		}
@@ -357,15 +359,17 @@ void log_process() {
 		sd_buffer.f.timestmp = rtc_2uint32(&tm);
 		env_read(light, thermo); // read time stamp and light (env) value
 		sd_buffer.f.envdata = ((light.Val >> 3) << 8) | (thermo);
-                sdbuf_init_buffer();
+		sdbuf_init_buffer();
+		/*
 		if (sd_buffer.f.timestmp > tm_stop) { // go into shutdown mode
 			Reset();
 		}
+		 */
 		return;
 	}
-	if (sdbuf_notfull()) { // log the main data
+	if (sdbuf_notfull()) {// log the main data
 		#if defined(ADXL345_ENABLED)
-		if (acc_settings.f.mode = '1') { // does AsDXL do sampling in buffer?
+		if (acc_settings.f.mode == '1') { // does AsDXL do sampling in buffer?
 			while (((adxl345_read_byte(ADXL345_FIFO_ST)&0b00011111) > 0) ||
 					(ACC_INT == 1)) { // while FIFO not empty or interrupt high:
 				acc_getxyz(&accval);
@@ -390,15 +394,23 @@ void log_process() {
 					sdbuf_goto_next_accslot(); // then go to the next slot
 			}
 			if (sdbuf_notfull()) {
-				sdbuf_add_acc(&accval); // add/overwrite the new sensor values
-				set_osc_sleep_t1(36); // go to sleep for timeout of ~9.5ms
+				sdbuf_add_acc(&accval);	// add/overwrite the new sensor values
+				set_osc_sleep_t1(36);	// go to sleep for timeout of ~9.5ms
 			}
 			if (sdbuf_deltaT_full())
 				sdbuf_goto_next_accslot();
 		}
 		#if defined(USBP_INT)
 		if (USBP_INT == 0)				// if user plugged usb back in
+		{
+			#if defined(DISPLAY_ENABLED)
+			oled_reset();
+			_oledw("USB POWER DETECTED",0,3);
+			Delay10KTCYx(250);
+			Delay10KTCYx(250);
+			#endif
 			goto_deep_sleep(&tm, 1);	// go for a second in deep sleep
+		}
 		#endif
 	}
 	if (sdbuf_full()) {		// write log to page
@@ -419,17 +431,15 @@ void log_process() {
  * Overview:        Setting the HedgeHog's configuration via serial
  ******************************************************************************/
 void config_process(void) {
-
 	int i;
-
-	// read 512 Bytes from config.ure
-	read_SD(SECTOR_LF, sd_buffer.bytes);
+	read_SD(SECTOR_LF, sd_buffer.bytes);	// read 512 Bytes from config.URE
 
 	switch (sd_buffer.conf.flag) {
 
 		case 'f':
-			
+			Delay10KTCYx(250);
 			USBSoftDetach();
+			Delay10KTCYx(250);
 
 			// write 0s to sectors 0-250
 			memset((void*) &sd_buffer, 0, 512);
@@ -463,23 +473,26 @@ void config_process(void) {
 
 			break;
 
-                case 'c':
-                    
-                        // updating root table to reflect ID
-                        memset((void*) &sd_buffer, 0, 512);
-                        read_SD(SECTOR_CF, sd_buffer.bytes);
-                        id_str[0] = sd_buffer.bytes[0];
-                        id_str[1] = sd_buffer.bytes[1];
-                        id_str[2] = sd_buffer.bytes[2];
-                        id_str[3] = sd_buffer.bytes[3];
-                        memset((void*) &sd_buffer, 0, 512);
-                        write_root_table(&sd_buffer, id_str);
-                        write_SD(SECTOR_RT, sd_buffer.bytes);
-                        
-                        memset((void*) &sd_buffer, 0, 512);
-                        read_SD(SECTOR_CF, sd_buffer.bytes);
-                        
-                        // write Version String to SD-Buffer
+		case 'c':
+			Delay10KTCYx(250);
+			USBSoftDetach(); // force flush on system side
+			Delay10KTCYx(250);
+
+			// updating root table to reflect ID
+			memset((void*) &sd_buffer, 0, 512);
+			read_SD(SECTOR_CF, sd_buffer.bytes);
+			id_str[0] = sd_buffer.bytes[0];
+			id_str[1] = sd_buffer.bytes[1];
+			id_str[2] = sd_buffer.bytes[2];
+			id_str[3] = sd_buffer.bytes[3];
+			memset((void*) &sd_buffer, 0, 512);
+			write_root_table(&sd_buffer, id_str);
+			write_SD(SECTOR_RT, sd_buffer.bytes);
+
+			memset((void*) &sd_buffer, 0, 512);
+			read_SD(SECTOR_CF, sd_buffer.bytes);
+
+			// write Version String to SD-Buffer
 			sd_buffer.conf.ver[0] = HH_VER_STR[0];
 			sd_buffer.conf.ver[1] = HH_VER_STR[1];
 			sd_buffer.conf.ver[2] = HH_VER_STR[2];
@@ -498,22 +511,24 @@ void config_process(void) {
 			sd_buffer.conf.name[6] = HH_NAME_STR[6];
 			sd_buffer.conf.name[7] = HH_NAME_STR[7];
 
-                        write_SD(SECTOR_CF, sd_buffer.bytes);
+			write_SD(SECTOR_CF, sd_buffer.bytes);
 			memset((void*) &sd_buffer, 0, 512);
-                        
-                        sd_buffer.conf.flag = 0;
+
+			sd_buffer.conf.flag = 0;
 			write_SD(SECTOR_LF, sd_buffer.bytes);
 			memset((void*) &sd_buffer, 0, 512);
 
-                        USBSoftDetach(); // force flush on system side
-                        break;
+			break;
 
 		case 'l':
-
+			Delay10KTCYx(250);
+			USBSoftDetach(); // force flush on system side
+			Delay10KTCYx(250);
+			
 			memset((void*) &sd_buffer, 0, 512);
 			read_SD(SECTOR_CF, sd_buffer.bytes);
 
- 			// read and set System Time from SD-Buffer
+			// read and set System Time from SD-Buffer
 			memcpy(tm.b, (const void*) sd_buffer.conf.systime, 8 * sizeof (BYTE));
 			rtc_init();
 			rtc_write(&tm);
@@ -522,10 +537,11 @@ void config_process(void) {
 			// read and set Stop Time from SD-Buffer
 			memcpy(tm.b, (const void*) sd_buffer.conf.stptime, 8 * sizeof (BYTE));
 			tm_stop = rtc_2uint32(&tm);
-
-                        // initialize measurement settings
-                        rle_delta = sd_buffer.conf.rle_delta - 48;
-                        acc_settings = sd_buffer.conf.acc_s;
+			rtc_writestr(&tm, date_stop_str, time_stop_str);
+			
+			// initialize measurement settings
+			rle_delta = sd_buffer.conf.rle_delta - 48;
+			acc_settings = sd_buffer.conf.acc_s;
 
 			// Erase SD_Buffer_Struct
 			memset((void*) &sd_buffer, 0, 512);
@@ -534,8 +550,9 @@ void config_process(void) {
 			sd_buffer.conf.flag = 0;
 			write_SD(SECTOR_LF, sd_buffer.bytes);
 			memset((void*) &sd_buffer, 0, 512);
-			is_logging = 1;
 			
+			is_logging = 1;
+
 			break;
 	}
 }

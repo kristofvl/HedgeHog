@@ -6,10 +6,8 @@
  * Released under the MIT license
  * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
  * 
- * heavily modified by KristofVL for the HedgeHog project
+ * Minimal version modified by KristofVL for the HedgeHog project
  */
-
-
 
 //Define the global Chart Variable as a class.
 window.Chart = function(context){
@@ -18,6 +16,7 @@ window.Chart = function(context){
 	
 	//Easing functions adapted from Robert Penner's easing equations
 	//http://www.robertpenner.com/easing/
+	
 	var animationOptions = {
 		linear : function (t){
 			return t;
@@ -27,6 +26,125 @@ window.Chart = function(context){
 		},
 		easeOutQuad: function (t) {
 			return -1 *t*(t-2);
+		},
+		easeInOutQuad: function (t) {
+			if ((t/=1/2) < 1) return 1/2*t*t;
+			return -1/2 * ((--t)*(t-2) - 1);
+		},
+		easeInCubic: function (t) {
+			return t*t*t;
+		},
+		easeOutCubic: function (t) {
+			return 1*((t=t/1-1)*t*t + 1);
+		},
+		easeInOutCubic: function (t) {
+			if ((t/=1/2) < 1) return 1/2*t*t*t;
+			return 1/2*((t-=2)*t*t + 2);
+		},
+		easeInQuart: function (t) {
+			return t*t*t*t;
+		},
+		easeOutQuart: function (t) {
+			return -1 * ((t=t/1-1)*t*t*t - 1);
+		},
+		easeInOutQuart: function (t) {
+			if ((t/=1/2) < 1) return 1/2*t*t*t*t;
+			return -1/2 * ((t-=2)*t*t*t - 2);
+		},
+		easeInQuint: function (t) {
+			return 1*(t/=1)*t*t*t*t;
+		},
+		easeOutQuint: function (t) {
+			return 1*((t=t/1-1)*t*t*t*t + 1);
+		},
+		easeInOutQuint: function (t) {
+			if ((t/=1/2) < 1) return 1/2*t*t*t*t*t;
+			return 1/2*((t-=2)*t*t*t*t + 2);
+		},
+		easeInSine: function (t) {
+			return -1 * Math.cos(t/1 * (Math.PI/2)) + 1;
+		},
+		easeOutSine: function (t) {
+			return 1 * Math.sin(t/1 * (Math.PI/2));
+		},
+		easeInOutSine: function (t) {
+			return -1/2 * (Math.cos(Math.PI*t/1) - 1);
+		},
+		easeInExpo: function (t) {
+			return (t==0) ? 1 : 1 * Math.pow(2, 10 * (t/1 - 1));
+		},
+		easeOutExpo: function (t) {
+			return (t==1) ? 1 : 1 * (-Math.pow(2, -10 * t/1) + 1);
+		},
+		easeInOutExpo: function (t) {
+			if (t==0) return 0;
+			if (t==1) return 1;
+			if ((t/=1/2) < 1) return 1/2 * Math.pow(2, 10 * (t - 1));
+			return 1/2 * (-Math.pow(2, -10 * --t) + 2);
+			},
+		easeInCirc: function (t) {
+			if (t>=1) return t;
+			return -1 * (Math.sqrt(1 - (t/=1)*t) - 1);
+		},
+		easeOutCirc: function (t) {
+			return 1 * Math.sqrt(1 - (t=t/1-1)*t);
+		},
+		easeInOutCirc: function (t) {
+			if ((t/=1/2) < 1) return -1/2 * (Math.sqrt(1 - t*t) - 1);
+			return 1/2 * (Math.sqrt(1 - (t-=2)*t) + 1);
+		},
+		easeInElastic: function (t) {
+			var s=1.70158;var p=0;var a=1;
+			if (t==0) return 0;  if ((t/=1)==1) return 1;  if (!p) p=1*.3;
+			if (a < Math.abs(1)) { a=1; var s=p/4; }
+			else var s = p/(2*Math.PI) * Math.asin (1/a);
+			return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*1-s)*(2*Math.PI)/p ));
+		},
+		easeOutElastic: function (t) {
+			var s=1.70158;var p=0;var a=1;
+			if (t==0) return 0;  if ((t/=1)==1) return 1;  if (!p) p=1*.3;
+			if (a < Math.abs(1)) { a=1; var s=p/4; }
+			else var s = p/(2*Math.PI) * Math.asin (1/a);
+			return a*Math.pow(2,-10*t) * Math.sin( (t*1-s)*(2*Math.PI)/p ) + 1;
+		},
+		easeInOutElastic: function (t) {
+			var s=1.70158;var p=0;var a=1;
+			if (t==0) return 0;  if ((t/=1/2)==2) return 1;  if (!p) p=1*(.3*1.5);
+			if (a < Math.abs(1)) { a=1; var s=p/4; }
+			else var s = p/(2*Math.PI) * Math.asin (1/a);
+			if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*1-s)*(2*Math.PI)/p ));
+			return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*1-s)*(2*Math.PI)/p )*.5 + 1;
+		},
+		easeInBack: function (t) {
+			var s = 1.70158;
+			return 1*(t/=1)*t*((s+1)*t - s);
+		},
+		easeOutBack: function (t) {
+			var s = 1.70158;
+			return 1*((t=t/1-1)*t*((s+1)*t + s) + 1);
+		},
+		easeInOutBack: function (t) {
+			var s = 1.70158; 
+			if ((t/=1/2) < 1) return 1/2*(t*t*(((s*=(1.525))+1)*t - s));
+			return 1/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2);
+		},
+		easeInBounce: function (t) {
+			return 1 - animationOptions.easeOutBounce (1-t);
+		},
+		easeOutBounce: function (t) {
+			if ((t/=1) < (1/2.75)) {
+				return 1*(7.5625*t*t);
+			} else if (t < (2/2.75)) {
+				return 1*(7.5625*(t-=(1.5/2.75))*t + .75);
+			} else if (t < (2.5/2.75)) {
+				return 1*(7.5625*(t-=(2.25/2.75))*t + .9375);
+			} else {
+				return 1*(7.5625*(t-=(2.625/2.75))*t + .984375);
+			}
+		},
+		easeInOutBounce: function (t) {
+			if (t < 1/2) return animationOptions.easeInBounce (t*2) * .5;
+			return animationOptions.easeOutBounce (t*2-1) * .5 + 1*.5;
 		}
 	};
 
@@ -43,20 +161,59 @@ window.Chart = function(context){
 		context.scale(window.devicePixelRatio, window.devicePixelRatio);
 	}
 
+	this.Pie = function(data,options){
+		chart.Pie.defaults = {
+			segmentShowStroke : true,
+			segmentStrokeColor : "#fff",
+			segmentStrokeWidth : 2,
+			animation : true,
+			animationSteps : 100,
+			animationEasing : "easeOutBounce",
+			animateRotate : true,
+			animateScale : false,
+			onAnimationComplete : null
+		};		
+
+		var config = (options)? mergeChartConfig(chart.Pie.defaults,options) : chart.Pie.defaults;
+		
+		return new Pie(data,config,context);				
+	};
+	
+	this.Doughnut = function(data,options){
+	
+		chart.Doughnut.defaults = {
+			segmentShowStroke : true,
+			segmentStrokeColor : "#fff",
+			segmentStrokeWidth : 2,
+			percentageInnerCutout : 50,
+			animation : true,
+			animationSteps : 100,
+			animationEasing : "easeOutBounce",
+			animateRotate : true,
+			animateScale : false,
+			onAnimationComplete : null
+		};		
+
+		var config = (options)? mergeChartConfig(chart.Doughnut.defaults,options) : chart.Doughnut.defaults;
+		
+		return new Doughnut(data,config,context);
+		
+	};
+
 	this.Line = function(data,options){
 	
 		chart.Line.defaults = {
 			scaleOverlay : false,
 			scaleOverride : true,
 			scaleSteps : 4,
-			scaleStepWidth : 64,
+			scaleStepWidth : null,
 			scaleStartValue : 0,
 			scaleLineColor : "rgba(0,0,0,.1)",
-			scaleLineWidth : 0,
-			scaleShowLabels : false,
+			scaleLineWidth : 1,
+			scaleShowLabels : true,
 			scaleLabel : "<%=value%>",
 			scaleFontFamily : "'Arial'",
-			scaleFontSize : 0,
+			scaleFontSize : 12,
 			scaleFontStyle : "normal",
 			scaleFontColor : "#666",
 			scaleShowGridLines : true,
@@ -67,11 +224,11 @@ window.Chart = function(context){
 			pointDotRadius : 4,
 			pointDotStrokeWidth : 2,
 			datasetStroke : true,
-			datasetStrokeWidth : 0.5,
+			datasetStrokeWidth : 1,
 			datasetFill : false,
 			animation : false,
-			animationSteps : 2,
-			animationEasing : "linear",
+			animationSteps : 60,
+			animationEasing : "easeOutQuart",
 			onAnimationComplete : null
 		};		
 		var config = (options) ? mergeChartConfig(chart.Line.defaults,options) : chart.Line.defaults;
@@ -84,25 +241,25 @@ window.Chart = function(context){
 			scaleOverlay : false,
 			scaleOverride : true,
 			scaleSteps : 4,
-			scaleStepWidth : 32,
+			scaleStepWidth : null,
 			scaleStartValue : 0,
 			scaleLineColor : "rgba(0,0,0,.1)",
 			scaleLineWidth : 1,
-			scaleShowLabels : false,
+			scaleShowLabels : true,
 			scaleLabel : "<%=value%>",
 			scaleFontFamily : "'Arial'",
-			scaleFontSize : 0,
+			scaleFontSize : 12,
 			scaleFontStyle : "normal",
 			scaleFontColor : "#666",
-			scaleShowGridLines : false,
+			scaleShowGridLines : true,
 			scaleGridLineColor : "rgba(0,0,0,.05)",
 			scaleGridLineWidth : 1,
 			barShowStroke : false,
 			barStrokeWidth : 0,
 			barValueSpacing : 0,
 			barDatasetSpacing : 0,
-			animation : false,
-			animationSteps : 17,
+			animation : true,
+			animationSteps : 60,
 			animationEasing : "linear",
 			onAnimationComplete : null
 		};		
@@ -115,24 +272,111 @@ window.Chart = function(context){
 		c.clearRect(0, 0, width, height);
 	};
 
+	
+
+	var Pie = function(data,config,ctx){
+		var segmentTotal = 0;
+		
+		//In case we have a canvas that is not a square. Minus 5 pixels as padding round the edge.
+		var pieRadius = Min([height/2,width/2]) - 5;
+		
+		for (var i=0; i<data.length; i++){
+			segmentTotal += data[i].value;
+		}
+		
+		animationLoop(config,null,drawPieSegments,ctx);
+				
+		function drawPieSegments (animationDecimal){
+			var cumulativeAngle = -Math.PI/2,
+			scaleAnimation = 1,
+			rotateAnimation = 1;
+			if (config.animation) {
+				if (config.animateScale) {
+					scaleAnimation = animationDecimal;
+				}
+				if (config.animateRotate){
+					rotateAnimation = animationDecimal;
+				}
+			}
+			for (var i=0; i<data.length; i++){
+				var segmentAngle = rotateAnimation * ((data[i].value/segmentTotal) * (Math.PI*2));
+				ctx.beginPath();
+				ctx.arc(width/2,height/2,scaleAnimation * pieRadius,cumulativeAngle,cumulativeAngle + segmentAngle);
+				ctx.lineTo(width/2,height/2);
+				ctx.closePath();
+				ctx.fillStyle = data[i].color;
+				ctx.fill();
+				
+				if(config.segmentShowStroke){
+					ctx.lineWidth = config.segmentStrokeWidth;
+					ctx.strokeStyle = config.segmentStrokeColor;
+					ctx.stroke();
+				}
+				cumulativeAngle += segmentAngle;
+			}			
+		}		
+	}
+
+	var Doughnut = function(data,config,ctx){
+		var segmentTotal = 0;
+		
+		//In case we have a canvas that is not a square. Minus 5 pixels as padding round the edge.
+		var doughnutRadius = Min([height/2,width/2]) - 5;
+		
+		var cutoutRadius = doughnutRadius * (config.percentageInnerCutout/100);
+		
+		for (var i=0; i<data.length; i++){
+			segmentTotal += data[i].value;
+		}
+		
+		
+		animationLoop(config,null,drawPieSegments,ctx);
+		
+		
+		function drawPieSegments (animationDecimal){
+			var cumulativeAngle = -Math.PI/2,
+			scaleAnimation = 1,
+			rotateAnimation = 1;
+			if (config.animation) {
+				if (config.animateScale) {
+					scaleAnimation = animationDecimal;
+				}
+				if (config.animateRotate){
+					rotateAnimation = animationDecimal;
+				}
+			}
+			for (var i=0; i<data.length; i++){
+				var segmentAngle = rotateAnimation * ((data[i].value/segmentTotal) * (Math.PI*2));
+				ctx.beginPath();
+				ctx.arc(width/2,height/2,scaleAnimation * doughnutRadius,cumulativeAngle,cumulativeAngle + segmentAngle,false);
+				ctx.arc(width/2,height/2,scaleAnimation * cutoutRadius,cumulativeAngle + segmentAngle,cumulativeAngle,true);
+				ctx.closePath();
+				ctx.fillStyle = data[i].color;
+				ctx.fill();
+				
+				if(config.segmentShowStroke){
+					ctx.lineWidth = config.segmentStrokeWidth;
+					ctx.strokeStyle = config.segmentStrokeColor;
+					ctx.stroke();
+				}
+				cumulativeAngle += segmentAngle;
+			}			
+		}			
+		
+		
+		
+	}
+
 	var Line = function(data,config,ctx){
 		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop,widestXLabel, xAxisLength,yAxisPosX,xAxisPosY;
 			
-		for (var i=0; i<data.ds.length; i++){
-			var d = [];
-			while (data.ds[i].d.length) {
-				d.push(parseInt(data.ds[i].d.substr(0,2),16));
-				data.ds[i].d = data.ds[i].d.substr(2);
-			}
-			data.ds[i].d = d;
-		}
-		
 		calculateDrawingSizes();
 		
 		valueBounds = getValueBounds();
 		//Check and set the scale
 		labelTemplateString = (config.scaleShowLabels)? config.scaleLabel : "";
 		if (!config.scaleOverride){
+			
 			calculatedScale = calculateScale(scaleHeight,valueBounds.maxSteps,valueBounds.minSteps,valueBounds.maxValue,valueBounds.minValue,labelTemplateString);
 		}
 		else {
@@ -150,24 +394,24 @@ window.Chart = function(context){
 		animationLoop(config,drawScale,drawLines,ctx);		
 		
 		function drawLines(animPc){
-			for (var i=0; i<data.ds.length; i++){
-				ctx.strokeStyle = data.ds[i].sc;
+			for (var i=0; i<data.datasets.length; i++){
+				ctx.strokeStyle = data.datasets[i].strokeColor;
 				ctx.lineWidth = config.datasetStrokeWidth;
 				ctx.beginPath();
-				ctx.moveTo(yAxisPosX, xAxisPosY - animPc*(calculateOffset(data.ds[i].d[0],calculatedScale,scaleHop)))
+				ctx.moveTo(yAxisPosX, xAxisPosY - animPc*(calculateOffset(data.datasets[i].data[0],calculatedScale,scaleHop)))
 
-				for (var j=1; j<data.ds[i].d.length; j++){
+				for (var j=1; j<data.datasets[i].data.length; j++){
 					ctx.lineTo(xPos(j),yPos(i,j));
 				}
 				ctx.stroke();
 				ctx.closePath();
 				if(config.pointDot){
-					ctx.fillStyle = data.ds[i].pointColor;
-					ctx.strokeStyle = data.ds[i].pointStrokeColor;
+					ctx.fillStyle = data.datasets[i].pointColor;
+					ctx.strokeStyle = data.datasets[i].pointStrokeColor;
 					ctx.lineWidth = config.pointDotStrokeWidth;
-					for (var k=0; k<data.ds[i].d.length; k++){
+					for (var k=0; k<data.datasets[i].data.length; k++){
 						ctx.beginPath();
-						ctx.arc(yAxisPosX + (valueHop *k),xAxisPosY - animPc*(calculateOffset(data.ds[i].d[k],calculatedScale,scaleHop)),config.pointDotRadius,0,Math.PI*2,true);
+						ctx.arc(yAxisPosX + (valueHop *k),xAxisPosY - animPc*(calculateOffset(data.datasets[i].data[k],calculatedScale,scaleHop)),config.pointDotRadius,0,Math.PI*2,true);
 						ctx.fill();
 						ctx.stroke();
 					}
@@ -175,7 +419,7 @@ window.Chart = function(context){
 			}
 			
 			function yPos(dataSet,iteration){
-				return xAxisPosY - animPc*(calculateOffset(data.ds[dataSet].d[iteration],calculatedScale,scaleHop));			
+				return xAxisPosY - animPc*(calculateOffset(data.datasets[dataSet].data[iteration],calculatedScale,scaleHop));			
 			}
 			function xPos(iteration){
 				return yAxisPosX + (valueHop * iteration);
@@ -189,28 +433,26 @@ window.Chart = function(context){
 			ctx.moveTo(width-widestXLabel/2+5,xAxisPosY);
 			ctx.lineTo(width-(widestXLabel/2)-xAxisLength-5,xAxisPosY);
 			ctx.stroke();
+			
+			ctx.textAlign = "center";
 			ctx.fillStyle = config.scaleFontColor;
-			if (data.l != []) {
-				ctx.textAlign = "center";
+			for (var i=0; i<data.labels.length; i++){
+				ctx.save();
+				ctx.fillText(data.labels[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);					
 				
-				for (var i=0; i<data.l.length; i++){
-					ctx.save();
-					if (data.l[i]!='') {
-						ctx.fillText(data.l[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);					
-					}
-					ctx.beginPath();
-					ctx.moveTo(yAxisPosX + i * valueHop, xAxisPosY+3);
-					//Check i isnt 0, so we dont go over the Y axis twice.
-					if(config.scaleShowGridLines && i>0 && (data.l[i]!='')){
-						ctx.lineWidth = config.scaleGridLineWidth;
-						ctx.strokeStyle = config.scaleGridLineColor;					
-						ctx.lineTo(yAxisPosX + i * valueHop, 5);
-					}
-					else{
-						ctx.lineTo(yAxisPosX + i * valueHop, xAxisPosY+3);				
-					}
-					ctx.stroke();
+				ctx.beginPath();
+				ctx.moveTo(yAxisPosX + i * valueHop, xAxisPosY+3);
+				
+				//Check i isnt 0, so we dont go over the Y axis twice.
+				if(config.scaleShowGridLines && i>0 && (data.labels[i]!='')){
+					ctx.lineWidth = config.scaleGridLineWidth;
+					ctx.strokeStyle = config.scaleGridLineColor;					
+					ctx.lineTo(yAxisPosX + i * valueHop, 5);
 				}
+				else{
+					ctx.lineTo(yAxisPosX + i * valueHop, xAxisPosY+3);				
+				}
+				ctx.stroke();
 			}
 			
 			//Y axis
@@ -220,6 +462,7 @@ window.Chart = function(context){
 			ctx.moveTo(yAxisPosX,xAxisPosY+5);
 			ctx.lineTo(yAxisPosX,5);
 			ctx.stroke();
+			
 			ctx.textAlign = "right";
 			ctx.textBaseline = "middle";
 			for (var j=0; j<calculatedScale.steps; j++){
@@ -233,7 +476,9 @@ window.Chart = function(context){
 				else{
 					ctx.lineTo(yAxisPosX-0.5,xAxisPosY - ((j+1) * scaleHop));
 				}
+				
 				ctx.stroke();
+				
 				if (config.scaleShowLabels){
 					ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY - ((j+1) * scaleHop));
 				}
@@ -243,15 +488,22 @@ window.Chart = function(context){
 			var longestText = 1;
 			//if we are showing the labels
 			if (config.scaleShowLabels){
-				longestText +=30;
+				ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
+				for (var i=0; i<calculatedScale.labels.length; i++){
+					var measuredText = ctx.measureText(calculatedScale.labels[i]).width;
+					longestText = (measuredText > longestText)? measuredText : longestText;
+				}
+				//Add a little extra padding from the y axis
+				longestText +=10;
 			}
 			xAxisLength = width - longestText - widestXLabel;
-			valueHop = xAxisLength/(data.ds[0].d.length-1);
+			valueHop = xAxisLength/(data.labels.length-1);
 			yAxisPosX = width-widestXLabel/2-xAxisLength;
 			xAxisPosY = scaleHeight + config.scaleFontSize/2;				
 		}		
 		function calculateDrawingSizes(){
 			maxSize = height;
+			//Need to check the X axis first - measure the length of each text metric, and figure out if we need to rotate by 45 degrees.
 			ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
 			widestXLabel = 1;
 			maxSize -= config.scaleFontSize;
@@ -262,7 +514,8 @@ window.Chart = function(context){
 				maxSize -= labelHeight;
 			}
 			scaleHeight = maxSize;
-		}
+			//Then get the area above we can safely draw on.
+		}		
 		function getValueBounds() {
 			return {
 				maxValue : 255,
@@ -270,24 +523,12 @@ window.Chart = function(context){
 				maxSteps : Math.floor((scaleHeight / (labelHeight*0.66))),
 				minSteps : Math.floor((scaleHeight / labelHeight*0.5))
 			};
-		}
-		
-
+		}	
 	}
 	
-	
 	var Bar = function(data,config,ctx){
-		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop,widestXLabel, xAxisLength,yAxisPosX,xAxisPosY,barWidth;
-		
-		for (var i=0; i<data.ds.length; i++){
-			var d = [];
-			while (data.ds[i].d.length) {
-				d.push(parseInt(data.ds[i].d.substr(0,2),16));
-				data.ds[i].d = data.ds[i].d.substr(2);
-			}
-			data.ds[i].d = d;
-		}
-		
+		var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop,widestXLabel, xAxisLength,yAxisPosX,xAxisPosY,barWidth, rotateLabels = 0;
+			
 		calculateDrawingSizes();
 		
 		valueBounds = getValueBounds();
@@ -312,15 +553,15 @@ window.Chart = function(context){
 		
 		function drawBars(animPc){
 			ctx.lineWidth = config.barStrokeWidth;
-			for (var i=0; i<data.ds.length; i++){
-					ctx.fillStyle = data.ds[i].fc;
-					ctx.strokeStyle = data.ds[i].sc;
-				for (var j=0; j<data.ds[i].d.length; j++){
+			for (var i=0; i<data.datasets.length; i++){
+					ctx.fillStyle = data.datasets[i].fillColor;
+					ctx.strokeStyle = data.datasets[i].strokeColor;
+				for (var j=0; j<data.datasets[i].data.length; j++){
 					var barOffset = yAxisPosX + config.barValueSpacing + valueHop*j + barWidth*i + config.barDatasetSpacing*i + config.barStrokeWidth*i;
 					ctx.beginPath();
 					ctx.moveTo(barOffset, xAxisPosY);
-					ctx.lineTo(barOffset, xAxisPosY - animPc*calculateOffset(data.ds[i].d[j],calculatedScale,scaleHop)+(config.barStrokeWidth/2));
-					ctx.lineTo(barOffset + barWidth, xAxisPosY - animPc*calculateOffset(data.ds[i].d[j],calculatedScale,scaleHop)+(config.barStrokeWidth/2));
+					ctx.lineTo(barOffset, xAxisPosY - animPc*calculateOffset(data.datasets[i].data[j],calculatedScale,scaleHop)+(config.barStrokeWidth/2));
+					ctx.lineTo(barOffset + barWidth, xAxisPosY - animPc*calculateOffset(data.datasets[i].data[j],calculatedScale,scaleHop)+(config.barStrokeWidth/2));
 					ctx.lineTo(barOffset + barWidth, xAxisPosY);
 					if(config.barShowStroke){
 						ctx.stroke();
@@ -338,12 +579,24 @@ window.Chart = function(context){
 			ctx.beginPath();
 			ctx.moveTo(width-widestXLabel/2+5,xAxisPosY);
 			ctx.lineTo(width-(widestXLabel/2)-xAxisLength-5,xAxisPosY);
+			ctx.stroke();
+			
+			
+			{
+				ctx.textAlign = "center";
+			}
 			ctx.fillStyle = config.scaleFontColor;
-			for (var i=0; i<data.ds[0].d.length; i++){
+			for (var i=0; i<data.labels.length; i++){
 				ctx.save();
+				{
+					ctx.fillText(data.labels[i], yAxisPosX + i*valueHop + valueHop/2,xAxisPosY + config.scaleFontSize+3);					
+				}
+
 				ctx.beginPath();
 				ctx.moveTo(yAxisPosX + (i+1) * valueHop, xAxisPosY+3);
-				if(config.scaleShowGridLines)
+				
+				//Check i isnt 0, so we dont go over the Y axis twice.
+				if(config.scaleShowGridLines && i>0)
 				{
 					ctx.lineWidth = config.scaleGridLineWidth;
 					ctx.strokeStyle = config.scaleGridLineColor;					
@@ -359,6 +612,7 @@ window.Chart = function(context){
 			ctx.moveTo(yAxisPosX,xAxisPosY+5);
 			ctx.lineTo(yAxisPosX,5);
 			ctx.stroke();
+			
 			ctx.textAlign = "right";
 			ctx.textBaseline = "middle";
 			for (var j=0; j<calculatedScale.steps; j++){
@@ -378,20 +632,27 @@ window.Chart = function(context){
 					ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY - ((j+1) * scaleHop));
 				}
 			}
+			
 		}
 		function calculateXAxisSize(){
 			var longestText = 1;
+			//if we are showing the labels
 			if (config.scaleShowLabels){
 				ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
-				longestText +=30;
+				for (var i=0; i<calculatedScale.labels.length; i++){
+					var measuredText = ctx.measureText(calculatedScale.labels[i]).width;
+					longestText = (measuredText > longestText)? measuredText : longestText;
+				}
+				//Add a little extra padding from the y axis
+				longestText +=10;
 			}
 			xAxisLength = width - longestText - widestXLabel;
-			valueHop = xAxisLength/(data.ds[0].d.length);
+			valueHop = xAxisLength/(data.labels.length);	
 			
-			barWidth = (valueHop - config.scaleGridLineWidth*2 - (config.barValueSpacing*2) - (config.barDatasetSpacing*data.ds.length-1) - ((config.barStrokeWidth/2)*data.ds.length-1))/data.ds.length;
+			barWidth = (valueHop - config.scaleGridLineWidth*2 - (config.barValueSpacing*2) - (config.barDatasetSpacing*data.datasets.length-1) - ((config.barStrokeWidth/2)*data.datasets.length-1))/data.datasets.length;
 			
 			yAxisPosX = width-widestXLabel/2-xAxisLength;
-			xAxisPosY = scaleHeight + config.scaleFontSize/2;		
+			xAxisPosY = scaleHeight + config.scaleFontSize/2;				
 		}		
 		function calculateDrawingSizes(){
 			maxSize = height;
@@ -404,7 +665,11 @@ window.Chart = function(context){
 			labelHeight = config.scaleFontSize;
 			
 			maxSize -= labelHeight;
+			//Set 5 pixels greater than the font size to allow for a little padding from the X axis.
+			
 			scaleHeight = maxSize;
+			
+			//Then get the area above we can safely draw on.
 		}		
 		function getValueBounds() {
 			return {
@@ -415,26 +680,6 @@ window.Chart = function(context){
 			};	
 		}
 	}
-	
-	function writeMsg(msg){
-		context.clearRect(787,0,50,17);
-		context.font = '10pt Courier';
-		context.fillStyle = 'black';
-		context.fillText(msg, 830,7);
-	}
-	function getMousePos(e){
-		var rect = context.canvas.getBoundingClientRect();
-		return {x: e.clientX-rect.left, y: e.clientY-rect.top};
-	}
-	context.canvas.addEventListener('mousemove',function(e) {
-			var p=getMousePos(e);
-			if (p.x>34) { var ofs = (p.x-34);
-			writeMsg(''+Math.floor(24*ofs/797)+':'+
-				('00'+Math.floor((24*ofs/797-Math.floor(24*ofs/797))*60)).slice(-2))
-			};}, false);
-	context.canvas.addEventListener('mouseout',function(e) {
-			writeMsg('     ');
-			}, false);
 	
 	function calculateOffset(val,calculatedScale,scaleHop){
 		var outerValue = calculatedScale.steps * calculatedScale.stepValue;

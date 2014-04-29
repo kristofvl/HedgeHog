@@ -26,11 +26,13 @@
 
 import sys, os, glob, shutil, time
 import numpy as np
+import json
+from json import encoder
 from matplotlib.dates import date2num, num2date
 from datetime import datetime
 from struct import unpack
 from calendar import TimeEncoding, month_name
-
+import csv
 
 ## change this to alter names of calendar entities:
 locale_str = "en_US.UTF-8"
@@ -65,7 +67,7 @@ def cal_indexheader(mnth):
 	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
 		hdr += ('<div class="header">'+dayname+'</div>')
 	return (htmlhead('HedgeHog Calendar View','st.css','Chart.js')+
-		'<script src="http://code.jquery.com/jquery-1.11.0.min.js">'+
+		'<script src="https://code.jquery.com/jquery-1.11.0.min.js">'+
 		'</script><script>$(document).ready(function(){'+
 		'$("time").mouseover(function(){'+
 		'$("h1").html($(this).attr("datetime"))});});</script></head>'+
@@ -195,7 +197,9 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 		'</br><div class="icn-sun"></div>'+
 		canvas_html('day_view_light','position:relative;','832','120') +
 		'</br><div class="icn-act"></div>'+
-		canvas_html('day_view_acc3d','position:relative;','832','200') 
+		canvas_html('day_view_acc3d','position:relative;','832','200') +
+		'</br>'+
+		canvas_html('dvans','position:relative;','832','100')
 		 )
 	f.write('<script>')
 	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
@@ -214,12 +218,14 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 								'scaleShowLabels:true,'+
 								'scaleFontSize:12,scaleShowGridLines:true,'+
 								'animation:true,scaleStepWidth:32') )
-	f.write('</script>')
+	f.write('var dayid='+str(day_id)+';</script>')
+	f.write('<script src="../ans_array.js"></script>'+
+		'<script src="../ans.js"></script>')
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
-		'HedgeHog sensor</a> #'+ cnf[0:4]+
-		'.<br/><a href="index_raw.html"><img src="../zoom.png" style="'+
-		'vertical-align:middle;"</img> Raw data view for full npz file ('+
+		'HedgeHog sensor</a> #'+ cnf[0:4]+'.<br/>'+
+		'<a href="index_raw.html"><img src="..img/zoom.png" style="'+
+		'vertical-align:middle;"></img>Raw data view for full npz file ('+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</a></p>')
 	f.write('<p style="font-size:small;color:#fff;left:'+
@@ -248,7 +254,8 @@ def write_raw_day_html(day_id, dlpath):
 	## construct the html page for the day-view:
 	f.write(rawday_indexheader(daystr, day_id))
 	f.write('<hr><div id="graphdiv" style="width:100%; height:300px;">'+
-		'</div><script type="text/javascript">'+
+		'</div><script type="text/javascript">')
+	f.write(
 		'g3 = new Dygraph(document.getElementById("graphdiv"),'+
 		'"d.csv",{colors:["#d00","#0c0","#00d"],'+
 		'labels:["time","X","Y","Z"],'+
@@ -264,3 +271,40 @@ def write_raw_day_html(day_id, dlpath):
 	f.close()
 	return True
 
+def write_raw_day_htmls(day_id, dlpath):
+	daystr = str(num2date(day_id).year)+'-'
+	daystr += str(num2date(day_id).month).zfill(2)
+	daystr += '-' + str(num2date(day_id).day).zfill(2)
+	## construct html file
+	try:
+		f=open(os.path.join(dlpath,str(day_id),'index_raw.html'),"w")
+	except:
+		print "Day directory file not found for "+daystr
+		return False
+	## construct the html page for the day-view:
+	f.write(rawday_indexheader(daystr, day_id))
+	f.write('<hr><div id="graphdiv" style="width:100%; height:300px;">'+
+		'</div><script type="text/javascript">')
+	f.write('dta = [')
+	## load csv file and put in a js array:
+	with open(os.path.join(dlpath,str(day_id),'d.csv'),"rb") as csvfile:
+		dta = csv.reader(csvfile, delimiter=',')
+		for row in dta:
+			f.write('['+str(float(row[0]))+','+str((row[1]))+','+
+					str((row[2]))+','+str((row[3]))+'],')
+	f.write('];')
+	f.write(
+		'g3 = new Dygraph(document.getElementById("graphdiv"),'+
+		'dta,{colors:["#d00","#0c0","#00d"],'+
+		'labels:["time","X","Y","Z"],'+
+		'strokeWidth:0.7,xAxisHeight:11,xAxisLabelWidth:80,'+
+		'yAxisLabelWidth:30,axisLabelFontSize:10,'+
+		'axes:{x:{valueFormatter: function(f){return new Date('+
+		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
+		'strftime("%H:%M:%S");},'+
+		'axisLabelFormatter:function(f){return new Date('+
+		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
+		'strftime("%H:%M:%S");}}}});</script>')
+	f.write('</section></body></html>')
+	f.close()
+	return True
