@@ -1,0 +1,20 @@
+# build files in firmware/HedgeHog/HHOS.X/*/*
+
+build/
+dist/
+*.err
+*.hex
+*.cof
+*.mk
+*.o
+*.d
+*.o.d
+*.pyc
+hardware/*.b#*
+hardware/*.s#*
+hardware/*.l#*
+
+.directory
+
+/firmware/HedgeHog/HHOS.X/nbproject/Makefile-genesis.properties
+

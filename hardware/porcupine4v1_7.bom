@@ -1,0 +1,30 @@
+Stückliste exportiert aus /home/absolut/projects/HedgeHog/hardware/porcupine4v1_7c.sch am 16.07.12 14:00
+
+  == farnell und digikey bestell nummern hinzugefügt ==
+
+Part            Value           Device          Package        Description                        Farnell / Digikey
+12MHZ_RESONATOR RESONATORPRQC-S RESONATORPRQC-S PRQC           Ceramic Resonator with caps        478-6318-1-ND
+32KHZ_CRYSTAL   SMD_CRYSTAL     SMD_CRYSTAL     SMD_CRYSTAL    ABRACON,  ABS09-32.768KHZ-T        2101349
+ACCELEROMETER   ADXL345         ADXL345         LGA14          ANALOG DEVICES, ADXL345BCCZ        1776621
+CHARGER         MAX1551         MAX1551         SOT23-5L       USB/AC Adapter 1-Cell Li+ Charger  1628221
+LDO             MCP1824         MCP1824         SOT-23-5       MICROCHIP, MCP1824T-3302E/OT       1578387
+PIC_CONTROLLER  PIC_P2V6        PIC_P2V6        QFN44ML8X8     MICROCHIP, PIC18F46J50-I/ML        1706311
+C1_32KHZ        22p             C-EUC0603K      C0603K         CAPACITOR, European symbol
+C2_32KHZ        22p             C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_ADX_VDD       0.1u            C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_ADX_VSS       1u              C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_PWR_BAT       1u              C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_PWR_SW        10u             C-EUC0805K      C0805K         CAPACITOR, European symbol
+C_PWR_VREG      1u              C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_PWR_VUSB      1u              C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_UC_P7/8       0.22u           C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_UC_P28/29     0.22u           C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_UC_P37        0.1u            C-EUC0603K      C0603K         CAPACITOR, European symbol
+C_UC_VDDCORE    10u             C-EUC0805K      C0805K         CAPACITOR, European symbol
+R1              10k             R-EU_R0603      R0603          RESISTOR, European symbol
+R2              10k             R-EU_R0603      R0603          RESISTOR, European symbol
+R3              10k             R-EU_R0603      R0603          RESISTOR, European symbol
+R4              10k             R-EU_R0603      R0603          RESISTOR, European symbol
+R5              10k             R-EU_R0603      R0603          RESISTOR, European symbol
+R6              10k             R-EU_R0603      R0603          RESISTOR, European symbol
+R7              10k             R-EU_R0603      R0603          RESISTOR, European symbol
