@@ -168,6 +168,23 @@ def write_cal_plots(day_id, f, l_str, x_str, y_str, z_str, p_str ):
 							'da'+str(day_id), '') )
 	f.write('</script></time>')
 	
+def write_day_stub_html(day_id, dlpath):
+	daystr = str(num2date(day_id).year)+'-'
+	daystr += str(num2date(day_id).month).zfill(2)
+	daystr += '-' + str(num2date(day_id).day).zfill(2)
+	## construct html file
+	try:
+		f=open(os.path.join(dlpath,str(day_id),'index.html'),"w")
+	except:
+		print "Day directory file not found for "+daystr
+		return False
+	## construct the html page for the day-view:
+	f.write(day_indexheader(daystr, day_id))
+	f.write('<hr>')
+	f.write('<p>no data found for this day</p>')
+	f.write('</section></body></html>')
+	f.close()
+	return True
 	
 def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 			x_str, y_str, z_str, l_str, p_str, lbl_str):
@@ -202,8 +219,10 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 		canvas_html('dvans','position:relative;','832','100')
 		 )
 	f.write('<script>')
+	f.write("var ll= new Array(2*1440).join('0').split('');"+
+	"ll[0]='00';ll[719]='06';ll[1439]='12';ll[2159]='18';ll[2879]='00';")
 	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
-	f.write( adata_html('d_acc3d', lbl_str, 
+	f.write( adata_html('d_acc3d', 'll', 
 					'#d00', x_str, '#0c0', y_str, '#00d', z_str ) )
 	f.write( ldata_html('d_night',str([]),'#111','#ddd', p_str))
 	f.write( chart_html('light', 'day_view_light', 'Bar', 'd_light', 
@@ -224,7 +243,7 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
 		'HedgeHog sensor</a> #'+ cnf[0:4]+'.<br/>'+
-		'<a href="index_raw.html"><img src="..img/zoom.png" style="'+
+		'<a href="index_raw.html"><img src="../img/zoom.png" style="'+
 		'vertical-align:middle;"></img>Raw data view for full npz file ('+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</a></p>')

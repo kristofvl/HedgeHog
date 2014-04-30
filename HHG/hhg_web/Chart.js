@@ -195,13 +195,13 @@ window.Chart = function(context){
 				
 				for (var i=0; i<data.l.length; i++){
 					ctx.save();
-					if (data.l[i]!='') {
+					if (data.l[i]!='0') {
 						ctx.fillText(data.l[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);					
 					}
 					ctx.beginPath();
 					ctx.moveTo(yAxisPosX + i * valueHop, xAxisPosY+3);
 					//Check i isnt 0, so we dont go over the Y axis twice.
-					if(config.scaleShowGridLines && i>0 && (data.l[i]!='')){
+					if(config.scaleShowGridLines && i>0 && (data.l[i]!="0")){
 						ctx.lineWidth = config.scaleGridLineWidth;
 						ctx.strokeStyle = config.scaleGridLineColor;					
 						ctx.lineTo(yAxisPosX + i * valueHop, 5);

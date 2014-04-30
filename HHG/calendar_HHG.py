@@ -51,6 +51,11 @@ def cal_entry(day_id, dlpath, f):
 		cnf = str(out['conf'])
 	except:
 		f.write('</a></time>')
+		try:
+			os.makedirs(os.path.join(dlpath,str(day_id)))
+		except:
+			pass
+		hh.write_day_stub_html(day_id, dlpath)
 		print str(num2date(day_id))[0:10]+": data not found"
 		return
 	days_stats, day_bin = hf.stats_npz(dta, bins)
