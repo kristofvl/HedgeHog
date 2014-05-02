@@ -53,14 +53,22 @@ def day_indexheader(daystr, day_id):
 		'<a style="text-align:right;" href="../index.html">'+
 		'<span class="a-up"></span></a></h1>')  
 def subday_indexheader(daystr, tstr, day_id):
+	prevh = (str(int(tstr[:2])-3).zfill(2)+
+				str((int(tstr[2:])-3)%24).zfill(2))
+	nexth = (str((int(tstr[:2])+3)).zfill(2)+
+				str((int(tstr[2:])+3)%24).zfill(2))
+	if (tstr[:2]=="00"):
+		prevh = "1800"
+	if (tstr[2:]=="00"):
+		nexth = "0006"
+	prevd =  str(day_id-int(tstr[:2]=="00"))
+	nextd =  str(day_id+int(tstr[2:]=="00"))
 	return (htmlhead('HedgeHog Zoom View','../st.css','../Chart.js')+
 		'</head><body><section id="calendar" style="width:1100px;">'+
-		'<h1><a href="../'+str(day_id-int(tstr[:2]=="00"))+'/index_'+
-		str(int(tstr[:2])-3).zfill(2)+str((int(tstr[2:])-3)%24).zfill(2)+
+		'<h1><a href="../'+prevd+'/index_'+prevh+
 		'.html"><span class="a-left"></span></a>'+daystr+', '+
 		tstr[:2]+':00-'+tstr[2:]+':00'+
-		'<a href="../'+str(day_id+int(tstr[2:]=="00"))+'/index_'+
-		str((int(tstr[:2])+3)).zfill(2)+str((int(tstr[2:])+3)%24).zfill(2)+
+		'<a href="../'+nextd+'/index_'+nexth+
 		'.html"><span class="a-right"></span></a>'+
 		'<a style="text-align:right;" href="./index.html">'+
 		'<span class="a-up"></span></a></h1>')
