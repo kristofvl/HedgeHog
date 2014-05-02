@@ -35,9 +35,25 @@ import hhg_io.hhg_html as hh
 	
 	
 ## resolution at which the plotting occurs:
-bins = 1440*2	# for full day view
+bins = 1440*2	# for full day view: 30 seconds
+zbins = 1440*6 # for zoom view
 bdiv = 17    	# for calendar views
+zdiv = 32		
 	
+## subplots per day:
+subp = [	(0,0.25,'0006'), (0.125,0.375,'0309'), (0.25,0.5,'0612'), 
+			(0.375,0.625,'0915'), (0.5,0.75,'1218'), 
+			(0.625,0.875,'1521'), (0.75,1,'1800') ]
+	
+## one day canvas width (pixels):
+cd_px_draw = 800
+cd_px_yaxs = 32
+cd_px = cd_px_yaxs + cd_px_draw
+
+## zoomed day canvas width (pixels):
+cz_px_draw = 1064
+cz_px_yaxs = 32
+cz_px = cz_px_yaxs + cz_px_draw
 
 ## write a calendar entry
 def cal_entry(day_id, dlpath, f):
@@ -58,12 +74,10 @@ def cal_entry(day_id, dlpath, f):
 		hh.write_day_stub_html(day_id, dlpath)
 		print str(num2date(day_id))[0:10]+": data not found"
 		return
+	## calculate day statistics and plot array (w. 30 seconds bins)
 	days_stats, day_bin = hf.stats_npz(dta, bins)
 	probs = hf.night(bins, bdiv, days_stats, day_bin)
 	nt = hf.night_endpoints(probs)
-	lbl = [' ']*bins; lbl[0]='00'; lbl[int(bins/4)]='06';
-	lbl[bins>>1]='12'; lbl[int(3*bins/4)]='18'; lbl[bins-1]='00';
-	lbl_str = str(lbl).replace(" ","")
 	l_str =''.join(["%02x" %c for c in (day_bin.e1[::bdiv]>>8).tolist()])
 	x_str =''.join(["%02x" %c for c in (day_bin.x).tolist()])
 	y_str =''.join(["%02x" %c for c in (day_bin.y).tolist()])
@@ -80,7 +94,26 @@ def cal_entry(day_id, dlpath, f):
 		fmt="%1.8f,%d,%d,%d")
 	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
 	hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
-							x_str, y_str, z_str, l_str, p_str, lbl_str)
+							x_str, y_str, z_str, l_str, p_str, cd_px)
+	## calculate raw data view for 6 hours with 3 hour overlaps:
+	for intr in subp:
+		dta_sel = [dta[j] for j in range(len(dta)) 
+						if ((dta[j][0]>(day_id+intr[0])) and   
+							(dta[j][0]<(day_id+intr[1])))]
+		dta_sel = np.array(dta_sel).view(np.recarray)
+		if dta_sel!=[]:
+			int_bin = hf.equidist_npz(dta_sel)
+			int_bin = int_bin[0:-1:(len(int_bin)/zbins)]
+			l_str =''.join(["%02x" %c for c in (
+											int_bin.e1[::zdiv]>>8).tolist()])
+			x_str =''.join(["%02x" %c for c in (int_bin.x).tolist()])
+			y_str =''.join(["%02x" %c for c in (int_bin.y).tolist()])
+			z_str =''.join(["%02x" %c for c in (int_bin.z).tolist()])
+			hh.write_day_zoom_html(day_id, dlpath, 
+				x_str, y_str, z_str, l_str, 
+				p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
+				intr[2], cz_px)
+		
 	hh.write_raw_day_htmls(day_id, dlpath)
 	toc = time.clock()
 	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'

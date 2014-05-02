@@ -39,18 +39,19 @@ def stats_npz(dta, bins):
 	for x in dta:
 		idx = int((x[0]-int(dta[0][0]))*bins)
 		if cur_idx == idx: 
+			##for ii in range(x[1]):  ## over a day, this is insignificant
 			cur_bin.append([x[2],x[3],x[4]])
 		else:
 			if cur_bin != []:
 				day_bin_stats[cur_idx,:] = np.concatenate([
 						np.mean(cur_bin, axis=0), np.std(cur_bin, axis=0),
 						np.min(cur_bin, axis=0),  np.max(cur_bin, axis=0)])
-				day_bin[cur_idx] = x
+				day_bin[cur_idx] = x ## the last seen value of the bin
 				for k in range(0,3):
 					day_bin[cur_idx][2+k] = day_bin_stats[cur_idx,
 															(6+(cur_idx&1)*3)+k]
 				cur_bin = []
-			cur_idx = idx
+			cur_idx = idx  
 	## fill in any holes with previous data:
 	for cur_idx in range(1,bins):
 		if day_bin_stats[cur_idx,0:6].all()==0:
@@ -62,6 +63,21 @@ def stats_npz(dta, bins):
 				day_bin[cur_idx][2+k] = day_bin_stats[cur_idx-1,k]
 	return day_bin_stats, day_bin
 	
+## return equidistant sampling data from RLE:
+def equidist_npz(dta):
+	day_bin = np.zeros( sum(dta.d) ,dtype=hi.desc_hhg).view(np.recarray)
+	cur_idx = 0
+	for x in dta:
+		for ii in range(x[1]):
+			day_bin[cur_idx] = (x[0], 0, x[2],x[3],x[4], x[5],x[6])
+			cur_idx+=1
+	return day_bin
+	
+## return a sub-sampled array from dta, leading to [bins] bins:
+def sub_npz(dta, bins):
+	return dta[0:-1:len(dta)/bins]
+	
+
 ## return acc-threshold probabilities for sleep detection:
 def night_acc(stats, bdiv, pct):
 	sum_std = np.sum(stats[:,3:6],1)
