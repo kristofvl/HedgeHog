@@ -52,6 +52,18 @@ def day_indexheader(daystr, day_id):
 		'/index.html"><span class="a-right"></span></a>'+
 		'<a style="text-align:right;" href="../index.html">'+
 		'<span class="a-up"></span></a></h1>')
+def subday_indexheader(daystr, tstr, day_id):
+	return (htmlhead('HedgeHog Zoom View','../st.css','../Chart.js')+
+		'</head><body><section id="calendar" style="width:1100px;">'+
+		'<h1><a href="../'+str(day_id-int(tstr[:2]=="00"))+'/index_'+
+		str(int(tstr[:2])-3).zfill(2)+str((int(tstr[2:])-3)%24).zfill(2)+
+		'.html"><span class="a-left"></span></a>'+daystr+', '+
+		tstr[:2]+':00-'+tstr[2:]+':00'+
+		'<a href="../'+str(day_id+int(tstr[2:]=="00"))+'/index_'+
+		str((int(tstr[:2])+3)).zfill(2)+str((int(tstr[2:])+3)%24).zfill(2)+
+		'.html"><span class="a-right"></span></a>'+
+		'<a style="text-align:right;" href="./index.html">'+
+		'<span class="a-up"></span></a></h1>')
 def rawday_indexheader(daystr, day_id):
 	return (htmlhead('HedgeHog Day View (Raw)','../st.css',
 			'../dygraph-combined.js')+
@@ -126,7 +138,6 @@ def conf_html(cnf,smps,rle):
 		'<b>Dataset Properties</b>\n3d samples : '+str(smps).zfill(9)+
 		'\nRLE samples: '+str(rle).zfill(9)+'</div>')
 
-
 ## helper function to get month name:
 def get_month_name(month_no, locale):
 	with TimeEncoding(locale) as encoding:
@@ -187,7 +198,7 @@ def write_day_stub_html(day_id, dlpath):
 	return True
 	
 def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
-			x_str, y_str, z_str, l_str, p_str, lbl_str):
+			x_str, y_str, z_str, l_str, p_str, cd_px):
 	daystr = str(num2date(day_id).year)+'-'
 	daystr += str(num2date(day_id).month).zfill(2)
 	daystr += '-' + str(num2date(day_id).day).zfill(2)
@@ -195,6 +206,7 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 	ntimes[0] = str(num2date(day_id+nt[0]))[:16]
 	ntimes[1] = str(num2date(day_id+nt[1]))[:16]
 	ntimes[2] = str(num2date(day_id+nt[1]-nt[0]))[11:16]
+	canw=str(cd_px)
 	## construct html file
 	try:
 		f=open(os.path.join(dlpath,str(day_id),'index.html'),"w")
@@ -210,13 +222,13 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 		'start: '+ntimes[0]+'\n' +'stop:  '+ntimes[1]+'\n' +'</div>')
 	f.write('<div class="icn-slp"></div>')
 	f.write( 
-		canvas_html('night_view_prb','position:relative;','832','100') +
+		canvas_html('night_view_prb','position:relative;',canw,'100') +
 		'</br><div class="icn-sun"></div>'+
-		canvas_html('day_view_light','position:relative;','832','120') +
+		canvas_html('day_view_light','position:relative;',canw,'120') +
 		'</br><div class="icn-act"></div>'+
-		canvas_html('day_view_acc3d','position:relative;','832','200') +
+		canvas_html('day_view_acc3d','position:relative;',canw,'200') +
 		'</br>'+
-		canvas_html('dvans','position:relative;','832','100')
+		canvas_html('dvans','position:relative;',canw,'100')
 		 )
 	f.write('<script>')
 	f.write("var ll= new Array(2*1440).join('0').split('');"+
@@ -259,6 +271,69 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 	f.write('</section></body></html>')
 	f.close()
 	return True
+	
+def write_day_zoom_html(day_id, dlpath, 
+								x_str, y_str, z_str, l_str, p_str, tstr, cz_px):
+	daystr = str(num2date(day_id).year)+'-'
+	daystr += str(num2date(day_id).month).zfill(2)
+	daystr += '-' + str(num2date(day_id).day).zfill(2)
+	canw = str(cz_px)
+	dlen = int(len(x_str)/2)
+	## construct html file
+	try:
+		f=open(os.path.join(dlpath,str(day_id),'index_'+tstr+'.html'),"w")
+	except:
+		print "Day directory file not found for "+daystr
+		return False
+	## construct the html page for the day-view:
+	f.write(subday_indexheader(daystr, tstr, day_id))
+	f.write('<hr>')
+	f.write( 
+		canvas_html('night_view_prb','position:relative;',canw,'100') +
+		'</br><div class="icn-sun"></div>'+
+		canvas_html('day_view_light','position:relative;',canw,'120') +
+		'</br><div class="icn-act"></div>'+
+		canvas_html('day_view_acc3d','position:relative;',canw,'200') +
+		'</br>'+
+		canvas_html('dvans','position:relative;',canw,'100')
+		 )
+	f.write('<script>')
+	f.write("var ll= new Array("+str(dlen)+").join('0').split('');")
+	for hitr in [(0,tstr[:2]), (dlen/6, str(int(tstr[:2])+1)),
+			(2*dlen/6, str(int(tstr[:2])+2)),
+			(3*dlen/6, str(int(tstr[:2])+3)),
+			(4*dlen/6, str(int(tstr[:2])+4)),
+			(5*dlen/6, str(int(tstr[:2])+5)),
+			(dlen-1,tstr[2:])]:
+		f.write("ll["+str(hitr[0])+"]='"+hitr[1]+"';")
+	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
+	f.write( adata_html('d_acc3d', 'll', 
+					'#d00', x_str, '#0c0', y_str, '#00d', z_str ) )
+	f.write( ldata_html('d_night',str([]),'#111','#ddd', p_str))
+	f.write( chart_html('light', 'day_view_light', 'Bar', 'd_light', 
+						'scaleShowLabels:true,scaleFontSize:12,'+
+						'scaleShowGridLines:true,animation:false,'+
+						'scaleStepWidth:32,'+
+						'hspan:6,hoff:'+str(float(tstr[:2]))) +
+				chart_html('acc3d', 'day_view_acc3d', 'Line', 'd_acc3d', 
+								'scaleSteps:8,scaleShowLabels:true,'+
+								'scaleFontSize:12,scaleLineWidth:1,'+
+								'datasetStrokeWidth:0.5,scaleStepWidth:32,'+
+								'hspan:6,hoff:'+str(float(tstr[:2]))) +
+				chart_html('night', 'night_view_prb', 'Bar', 'd_night', 
+								'scaleShowLabels:true,'+
+								'scaleFontSize:12,scaleShowGridLines:true,'+
+								'animation:false,scaleStepWidth:32,'+
+								'hspan:6,hoff:'+str(float(tstr[:2]))) )
+	f.write('var dayid='+str(day_id)+';</script>')
+	f.write('<script src="../ans_array.js"></script>'+
+		'<script src="../ans.js"></script>')
+	f.write('<hr><p style="font-size:small;">24h view for '+
+		daystr+' with a <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
+		'HedgeHog sensor</a> <br/></p>')
+	f.write('</section></body></html>')
+	f.close()
+	return True									
 
 def write_raw_day_html(day_id, dlpath):
 	daystr = str(num2date(day_id).year)+'-'

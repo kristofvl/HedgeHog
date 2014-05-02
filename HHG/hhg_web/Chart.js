@@ -29,7 +29,10 @@ window.Chart = function(context){
 			return -1 *t*(t-2);
 		}
 	};
-
+	
+	var hspan = 24;
+	var hoff = 0;
+	
 	//Variables global to the chart
 	var width = context.canvas.width;
 	var height = context.canvas.height;
@@ -72,7 +75,9 @@ window.Chart = function(context){
 			animation : false,
 			animationSteps : 2,
 			animationEasing : "linear",
-			onAnimationComplete : null
+			onAnimationComplete : null,
+			hspan: 24,
+			hoff:0
 		};		
 		var config = (options) ? mergeChartConfig(chart.Line.defaults,options) : chart.Line.defaults;
 		
@@ -104,8 +109,10 @@ window.Chart = function(context){
 			animation : false,
 			animationSteps : 17,
 			animationEasing : "linear",
-			onAnimationComplete : null
-		};		
+			onAnimationComplete : null,
+			hspan: 24,
+			hoff:0
+		};	
 		var config = (options) ? mergeChartConfig(chart.Bar.defaults,options) : chart.Bar.defaults;
 		
 		return new Bar(data,config,context);		
@@ -126,6 +133,9 @@ window.Chart = function(context){
 			}
 			data.ds[i].d = d;
 		}
+		
+		hspan = config.hspan;
+		hoff = config.hoff;
 		
 		calculateDrawingSizes();
 		
@@ -271,8 +281,6 @@ window.Chart = function(context){
 				minSteps : Math.floor((scaleHeight / labelHeight*0.5))
 			};
 		}
-		
-
 	}
 	
 	
@@ -287,6 +295,9 @@ window.Chart = function(context){
 			}
 			data.ds[i].d = d;
 		}
+		
+		hspan = config.hspan;
+		hoff = config.hoff;
 		
 		calculateDrawingSizes();
 		
@@ -417,10 +428,10 @@ window.Chart = function(context){
 	}
 	
 	function writeMsg(msg){
-		context.clearRect(787,0,50,17);
+		context.clearRect(width-46,0,46,14);
 		context.font = '10pt Courier';
 		context.fillStyle = 'black';
-		context.fillText(msg, 830,7);
+		context.fillText(msg, width-2,7);
 	}
 	function getMousePos(e){
 		var rect = context.canvas.getBoundingClientRect();
@@ -428,9 +439,10 @@ window.Chart = function(context){
 	}
 	context.canvas.addEventListener('mousemove',function(e) {
 			var p=getMousePos(e);
+			var tmeoff = hspan/(width-35);
 			if (p.x>34) { var ofs = (p.x-34);
-			writeMsg(''+Math.floor(24*ofs/797)+':'+
-				('00'+Math.floor((24*ofs/797-Math.floor(24*ofs/797))*60)).slice(-2))
+			writeMsg(''+Math.floor(hoff+tmeoff*ofs)+':'+
+				('00'+Math.floor((hoff+tmeoff*ofs-Math.floor(hoff+tmeoff*ofs))*60)).slice(-2))
 			};}, false);
 	context.canvas.addEventListener('mouseout',function(e) {
 			writeMsg('     ');
