@@ -76,7 +76,11 @@ typedef union {
         BYTE  systime[8];    //60
         UINT8 separator_7[3];
         BYTE  stptime[8];    //71
-        UINT8 separator_8[432];
+        UINT8 separator_8[423];
+        UINT16 sdbuf_pointer;
+        UINT8 separator_9[3];
+        UINT8 sdbuf_flag;
+        UINT8 separator_10[3];
         UINT8 flag;
     } conf;
 
@@ -84,7 +88,7 @@ typedef union {
 
 /******************************************************************************/
 extern sd_buffer_t sd_buffer;
-static UINT16 sdbuffer_p;
+extern UINT16 sdbuffer_p;
 static UINT16 sdbuffer_i;
 
 

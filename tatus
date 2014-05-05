@@ -1,0 +1,2565 @@
+commit 50fd71ff85b74a6b969a06e9fea96f5f04d7d12d
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Fri Mar 7 02:31:24 2014 +0100
+
+    removed old HHG_conf files
+
+commit f5ef6cd8154234d16ab54dfb3473f7b289c45bb6
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Fri Mar 7 02:21:53 2014 +0100
+
+    streamlined config and log functions
+
+commit 17c22bcbb2d04ff7a59a2d8fb65e8a8e286a3914
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Fri Mar 7 02:21:05 2014 +0100
+
+    removed HHG_conf.h completely
+
+commit 7f4210686fea426a56c48fb0e0bca42bddb5c0cc
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Fri Mar 7 00:41:54 2014 +0100
+
+    id is 0000 when str is null
+
+commit cce2c66fd07c4a45de69378ee7c21b6b0d07c90b
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Thu Mar 6 15:47:03 2014 +0100
+
+    updated dd images
+
+commit bd58c1c317d57742387d248eb91ae12211017877
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Thu Mar 6 15:45:59 2014 +0100
+
+    updated dd.img
+
+commit 50ce0185c5195d5b988cd36924bebf0380e9af45
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Thu Mar 6 15:45:34 2014 +0100
+
+    fixed formating and resized last file
+
+commit cda1c10ded4725d2dd1bbef36359089807be21fc
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Mar 6 11:53:08 2014 +0100
+
+    removed SectorScript dir
+
+commit 75de96a0156b4ef33d581529de951da2b3380655
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Mar 6 11:47:11 2014 +0100
+
+    moved SectorScript.py
+
+commit cf1c8582e7e34ac7afdfc6457401a8cf5fef449a
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Mar 6 11:42:36 2014 +0100
+
+    clean up main.c
+
+commit 963a3b9477f16240d04dd10dc3d1e512a846d533
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Mar 6 11:42:18 2014 +0100
+
+    add few FAT intstruction for future reference
+
+commit a3a32e94bdbe2be9a8b2bf6d18a08c0d79554e5d
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Wed Mar 5 21:02:44 2014 +0100
+
+    config.ure is now config.URE
+
+commit f2c3af172c52ffb27b17aa3afdbdc210fece5f9b
+Merge: 0e9e5a8 dca5055
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Wed Mar 5 15:50:22 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit dca50552979ece6ba5f1508551eb8498b1fe9084
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 5 15:36:31 2014 +0100
+
+    config extension now in CAPS
+
+commit 0e9e5a8315703e29838e65cae5a037af2573ef6e
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Wed Mar 5 15:29:28 2014 +0100
+
+    config.ure is now config.URE
+
+commit 353984edd98456869463441bd5b0b2918ed18f26
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Wed Mar 5 12:56:06 2014 +0100
+
+    sector addresses must shifted by 32
+
+commit b31fbb18e24072ec1cc3561d0a27693f09d66346
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Wed Mar 5 12:53:50 2014 +0100
+
+    updated dd image
+
+commit efd693eecc4c1f824b11bf9fbca844abc64794c2
+Merge: c936afe 635f7cc
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Wed Mar 5 11:08:40 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit c936afe06d2b6df46a93965ec1575750b20b3817
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Wed Mar 5 11:08:09 2014 +0100
+
+    new dd image
+
+commit 61db6aab2f2240b68b859f617cd8a89b4a664892
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Wed Mar 5 10:57:46 2014 +0100
+
+    reconfigured MBR
+
+commit 635f7cc53bbec5e8c73cc690d31453cb2662c8c3
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Mar 4 15:28:14 2014 +0100
+
+    added hour:min annotations in calendar
+
+commit 3bd007bfbe2c3901c4da54e0ba353da5f5edc89a
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Mar 4 11:00:46 2014 +0100
+
+    added a clearer link and wget for dygraphs
+
+commit a734a03264bb971fdb07e3151dff6d10f66ca3fb
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 3 16:47:09 2014 +0100
+
+    added full-res fix
+
+commit 2e8a248de59526496fbb916ed5907449a6a09ac0
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 3 14:16:45 2014 +0100
+
+    added full-res browsing to calendar
+
+commit ad294e165ff49542cce624a4873016c90f809df4
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sat Mar 1 17:18:31 2014 +0100
+
+    updated dd script
+
+commit 991bdec86be95015b21b33b6fa4bbda7b45f177e
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 26 16:32:48 2014 +0100
+
+    added sleep duration annotations
+
+commit 08fb9fbe5a850045aee9ac78f41f24159ddd0381
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 25 16:46:49 2014 +0100
+
+    added time of day in night detection
+
+commit 34e81eee7b48142c80f22ff2da99854569d5c691
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 25 15:38:00 2014 +0100
+
+    compressed data to hex
+
+commit cc9e84685682fb29a4bed4747ba8624ee7bc42b1
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 25 13:41:26 2014 +0100
+
+    moved html to its own file
+
+commit 497d911ab50ecb64eb7c6947131363e2f30b9d61
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 25 10:10:55 2014 +0100
+
+    now with basic calendar skipping
+
+commit 3cb6e140df9443e77e4b0d9c81090aae5eff2b64
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 24 16:08:31 2014 +0100
+
+    performance increased a bit for cal
+
+commit f1074b9e338bd7dcd52739a9797c7a7b6e642be5
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 24 16:06:53 2014 +0100
+
+    performance increased a bit for cal
+
+commit b3338ebf2eaf3ab77a542f622115d73c431b8675
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Feb 21 16:40:16 2014 +0100
+
+    cleanup time
+
+commit 4fe2d5aa0420375622ef1659a598901a65742ca8
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Feb 21 10:03:24 2014 +0100
+
+    added icons
+
+commit 8d2941cbab8015fd9bf57c45f78fd739b029e1c6
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 20 22:25:15 2014 +0100
+
+    small resizing and adding of sleep info boxes
+
+commit c76101270aadabd69e1f649dc3946a2064f535f0
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 20 16:02:04 2014 +0100
+
+    more visuals in calendar form - enjoy
+
+commit 41eb8e8b3c4215b73e7c397de6ea65fdf20ed005
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Thu Feb 20 14:15:39 2014 +0100
+
+    OLED version now able to run in demo mode
+
+commit 8e74f46272f1d9674bcc5d920b1b06287e4b2f1e
+Merge: ce7950e ba39f85
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Feb 19 13:27:19 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit ce7950e9062d1826ca33548036dfd6a7c33a7ed6
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Feb 19 13:27:15 2014 +0100
+
+    OLED eagle schematics updated, OLED firmware code update
+
+commit ba39f85b8f84fb4bb62c186ae45e323a5bb1ea52
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 18 10:28:17 2014 +0100
+
+    moved web stuff in hhg_web
+
+commit 5b425f8a406efc1b7ec09723d034b4c4e5fda393
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 18 10:18:26 2014 +0100
+
+    added sleep icon
+
+commit f3059b346dabb2a652224334e6f50bb2b460f555
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 18 10:23:56 2014 +0100
+
+    started sleep detection integration
+
+commit 2e33367c40c60c19995893c52189bc13f4144fc6
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 18 09:12:13 2014 +0100
+
+    small update in css
+
+commit eba8295f433089c645a80c093afe7e1e1730e2d5
+Merge: 7f55dbb af9c0f6
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 17 17:00:10 2014 +0100
+
+    merge
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 7f55dbb4399d3d3f1f8a523b1e9decd516a443e1
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 17 16:58:30 2014 +0100
+
+    cal additions
+
+commit af9c0f661ef27a71b5d2c5a13c5a005e8fedf66c
+Merge: a6700a2 0ff7dab
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Feb 17 12:47:11 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit a6700a22defd9fab313d20ace49f971e172db508
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Feb 17 12:46:58 2014 +0100
+
+    OLED 5.1.3 mass storage device detected (at least with 1GB cards)
+
+commit 0ff7dab7007c7a8ebd1118e2918122bcdd2e4189
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Sun Feb 16 14:20:05 2014 +0100
+
+    another small update
+
+commit 0cdbed5160548049d645e0b4659ef357e6d00c0a
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Sat Feb 15 14:42:47 2014 +0100
+
+    small fixes
+
+commit b81aecc0df7fdfc7c533a613022b4bef96a18beb
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Feb 14 17:20:38 2014 +0100
+
+    smaller fixes
+
+commit 1612a3e6c6f9ed894dce8d16c55cd55a53ede707
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Feb 14 16:21:06 2014 +0100
+
+    added month name change
+
+commit 7747e4478a7b48d6a25f9086793086b540e37320
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Feb 14 10:44:25 2014 +0100
+
+    small add-ons
+
+commit b1132f07b581a0ba9923734a6688793cc320d3a3
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Feb 14 06:57:12 2014 +0100
+
+    small fixes
+
+commit 58d7bfeb5fdec1c849a0494e73e05a85943d5de4
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 13 17:36:56 2014 +0100
+
+    finished basic version of calendar
+
+commit 1c18c2d3edce89ea9537a9060b8bc0472daa5366
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 13 09:56:31 2014 +0100
+
+    light now works for the dayview
+
+commit d6fc86c164eacec38e79972ce97633547405e6cd
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 12 16:57:38 2014 +0100
+
+    small update to make parsing the data faster
+
+commit 518e454e4d4091c4b5cc40673f5c21e439e39293
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 12 15:56:35 2014 +0100
+
+    small cal updates
+
+commit 81dd54a08e973a40c4c8fa44d1b19a0f4b9f197d
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 12 15:46:21 2014 +0100
+
+    calendar uses now chart.js
+
+commit faeba89f1c945402e82a48cf0752731af9fa9172
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Tue Feb 11 15:45:39 2014 +0100
+
+    check for readable strings
+
+commit f5f1a3c034acd52b8dcae5ae1cd4eca559b1a08e
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 11 14:57:19 2014 +0100
+
+    oled bypass in init
+
+commit 8a017dd0a91b9275be4ea1b909ed5aced45ff545
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 11 14:45:52 2014 +0100
+
+    fixed type
+
+commit 6989ec10b2090a3ccadc752a3944a79106b2edf7
+Merge: a631606 78e056e
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Feb 11 11:00:57 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit a6316068ecc6fc26392ea30a7a4fd9ba9a585ebe
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Feb 11 11:00:52 2014 +0100
+
+    fixed layout bug in 5.1.3 OLED version schematics
+
+commit 78e056ef397837334288c35d974a7cc8fb18b634
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 21:04:43 2014 +0100
+
+    edited formatting routine
+
+commit f6711a93a0a42d3e61dd82ff3cf64c35403e5b10
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 17:13:11 2014 +0100
+
+    small gui edit
+
+commit 71dde42cb38d0b39e91710c1d3eece37c327984f
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 17:09:51 2014 +0100
+
+    minimal changes to gui
+
+commit 0e008361c4493eec527cfd9c774f748484f99388
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 16:42:13 2014 +0100
+
+    dont try to download if first time stamp is not valid
+
+commit 6c1c898776679f8ce5c2bfb706072c5be4adf616
+Merge: f840dab 68a33a6
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 16:31:20 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit f840dab3a65254925fd75729f1511aeec232f272
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 16:31:14 2014 +0100
+
+    dd check if by-label folder exists
+
+commit 68a33a69f0288366b7e25cc73cdd084a172ca75d
+Merge: d9f71cb 262e63a
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 10 16:30:55 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit d9f71cbb5a31132851358018beef543cf3269cb1
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 10 16:30:32 2014 +0100
+
+    now with icons
+
+commit a3b36e8df947dfb1a3839bf9c88ada3e5ff41e8f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 10 16:25:08 2014 +0100
+
+    small additions
+
+commit 262e63afc4a98a8691714aec65ce8def74d4f3ba
+Merge: da78579 a3b36e8
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 16:24:36 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit da78579cc01cf9737c9a2249268bcc1f21cbe243
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 16:24:20 2014 +0100
+
+    fixed small bug in start calendar
+
+commit e418a62666a9ecd7942ba10815833d8f34fdf644
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 10 15:09:38 2014 +0100
+
+    activated cancel
+
+commit b16f233b8515f91e56527657ae62fd6eca062fdd
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 10 14:51:57 2014 +0100
+
+    modified and added hhg scanner to conf, start and download
+
+commit ed9fea99fe00057301b52d50abed7c32f2865411
+Merge: 6f10ca8 78c8996
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 13:15:23 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 6f10ca8eab6e24879a20643fe71e81af22892fcf
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Mon Feb 10 13:15:00 2014 +0100
+
+    updated dd script
+
+commit 78c899620a22aab5f2c39bac32d6a058fe80dbea
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 10 11:39:19 2014 +0100
+
+    small fixes
+
+commit b23bc207d0516c110baf5fddd03cab925e31d897
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 10 10:21:20 2014 +0100
+
+    small tweaks in the calendar script
+
+commit ea498323cc7e376c6b9e1190591208209ec1b4fe
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 14:55:10 2014 +0100
+
+    lsusb now uses fff0 to detect device
+
+commit 7b45fd33e2fe62395f0481e1e4a6f77b2de13e27
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 13:29:24 2014 +0100
+
+    retain dmesg code just in case
+
+commit a121624ed2aa1ca8f0411b81072ee3eccdbd3d46
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 13:22:59 2014 +0100
+
+    detect over lsusb
+
+commit 3b3f44566ce249e3189f704731e1a691b15fd40c
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 13:06:04 2014 +0100
+
+    edit start gui
+
+commit 422efeabfc404f36373e9b0d7fb1a99239ade0c7
+Merge: 98ec0e6 46d5090
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 12:33:37 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 98ec0e6575315ba7d13d3eb684b76179c0e5ba06
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 12:33:31 2014 +0100
+
+    limit ID to 4 digits
+
+commit 46d50903275219fa64556a650ad609b9db3622e7
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 12:24:53 2014 +0100
+
+    beautified dd_HHG
+
+commit 6e62ec69f58d26d91e7136ba0a13b4e317f4134b
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 11:31:56 2014 +0100
+
+    clean up old files
+
+commit d1f41293ee63823bfcabf0b0bb265f03fb9c0ff7
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 11:27:07 2014 +0100
+
+    revert back to gtk2
+
+commit 7f3313a9bdc708f2a75006bf5f28aba5eb5e8f4a
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sat Feb 8 11:25:42 2014 +0100
+
+    remove dmesg script
+
+commit 6aa5fb391ecc2ea65d21ed6c5a6577dc27a38459
+Merge: de0e2d0 386d700
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Feb 7 14:54:04 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit de0e2d0a6da26912ab06e4369d8898209d3b4396
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Feb 7 14:53:59 2014 +0100
+
+    updated TRISB initialisation for different Hardware profiles
+
+commit 386d700328b1db56e37645324830758118fcc7c9
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 6 16:20:48 2014 +0100
+
+    small fixes
+
+commit 445ed3592d223615edb7cd01ec43cb6db04b8541
+Author: hwlab <hwlab@ariel.ess.informatik.tu-darmstadt.de>
+Date:   Thu Feb 6 15:32:05 2014 +0100
+
+    version in configuration
+
+commit 7521d213627296edab0add5f0eb3729c681659c1
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 6 15:19:04 2014 +0100
+
+    interactive download
+
+commit 298eae79bd1c654a49b1be9d431f5034d3e0e504
+Merge: d92b7dd f530907
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 6 14:46:49 2014 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit f5309077dfd31fcbd9fd2aeccaee29a89debb02b
+Author: hwlab <hwlab@ariel.ess.informatik.tu-darmstadt.de>
+Date:   Thu Feb 6 14:46:10 2014 +0100
+
+    dmesg update
+
+commit d92b7dd44855e924de9d4ad21aff0262a6e785f4
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 6 14:42:56 2014 +0100
+
+    added findmount
+
+commit 0f2b0176a1633d1e4359b0d0e72485a1f6049d32
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 6 13:26:42 2014 +0100
+
+    perfected download script
+
+commit bf9d516f38b1d3bae1bc6992ddff6f8d38856522
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Feb 6 09:56:23 2014 +0100
+
+    small hack to download to initiate a gui -- stay tuned
+
+commit 79864baf82c46a0cb7f3640e8ec9bc9918377d50
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 5 16:59:30 2014 +0100
+
+    small css changes to cal-view
+
+commit 3e0b85a499d88e5cbbc674eda4f544c3ec29f5d3
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 5 16:03:03 2014 +0100
+
+    small additions to the calendar routines
+
+commit 055a7bd7332d94eca9f52a47172a7b86a95ca9cb
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 5 10:53:45 2014 +0100
+
+    made the calendar view a bit nicer
+
+commit a2da2d53be0f2645e01843bc0cc60b6fb4da7b3c
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 5 09:34:14 2014 +0100
+
+    calendar starts on monday now
+
+commit 60c79033853bc9b8eba85f52fcbbd84961839d75
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 5 09:22:44 2014 +0100
+
+    new calendar script added
+
+commit a786bfe434ab3077eced757e441a1f088a7ec97e
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 4 16:55:54 2014 +0100
+
+    improved the download script
+
+commit 40877258f2e3f0f699806fa91d7027c854ef907f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Feb 3 16:45:16 2014 +0100
+
+    smaller additions
+
+commit 2172d81d12d05a46ead00d0eb669bbc9a70cc292
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Thu Jan 30 09:58:07 2014 +0100
+
+    disable sampling by pic for now to avoid problems
+
+commit 66a6081dc55e04dc9bf16463a8eebdf389c773a7
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Jan 29 16:47:16 2014 +0100
+
+    started adding day to day images support in import_hhg
+
+commit 1a19f0523e89c5c808bf35229c497603322b6985
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Jan 29 16:17:21 2014 +0100
+
+    simplified the loading code in import_hhg
+
+commit 616fb6fabda308bd9df25c04b91b8a7dc9d8e7c3
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Jan 29 13:21:05 2014 +0100
+
+    small fix for date bug in import
+
+commit 8a899eb88fe08d35a3a388489d49c1a49f878ec2
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Jan 28 14:22:42 2014 +0100
+
+    small update to plot ambient light while importing
+
+commit fa2cca8217328b04ab6bff845b55619cfa3f6f92
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Jan 27 15:49:03 2014 +0100
+
+    small update to speed up importing
+
+commit dbd7e4267f6f412a223841b42418cc2a71e053bb
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sun Jan 19 16:15:01 2014 +0100
+
+    update install script
+
+commit 8f86f28beb30f71e5e637f1e605e1dd0785b9ab6
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sun Jan 19 16:02:22 2014 +0100
+
+    edited download script
+
+commit 12a9d5fbb912594f1661a0b3cd790bbc471a93d0
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sun Jan 19 15:42:56 2014 +0100
+
+    updated dmesg script
+
+commit ece05aa79e3b489c62f923dd812f92698aa75097
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sun Jan 19 15:38:19 2014 +0100
+
+    fixed install script
+
+commit b31eb874942ce0bb1977d9d09bab6e0c256376ec
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Jan 14 13:09:41 2014 +0100
+
+    misc small fixes
+
+commit dae2b6eb6e18dba236493c6ab0fc8ed149209909
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Jan 13 15:50:17 2014 +0100
+
+    small update that speeds up reading from SD card
+
+commit c9ae89dfee07ded7d59954cb8c7152c1f65b50b0
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Jan 13 14:12:50 2014 +0100
+
+    bug fix
+
+commit d759ec8f979bf1a2388ea6d4873c552b92f957a6
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Wed Jan 8 14:47:50 2014 +0100
+
+    remove flush
+
+commit 5fe43ec59ead94448fceeb8f3bb5d4cd82edfc9a
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Wed Jan 8 14:34:46 2014 +0100
+
+    small changes
+
+commit 39ae9c0c2c448ad7011801055764e8d4be20385d
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Jan 6 18:33:39 2014 +0100
+
+    updated git ignore
+
+commit 23d757077696e2a683e838ea65d7eb74769e39e0
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Jan 3 10:47:07 2014 +0100
+
+    added OLED adapter
+
+commit bd7ecdd77d530e8afb8ec98d56b1bb7617ed99c0
+Merge: 5c72e22 54b6786
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Dec 27 11:11:49 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 54b678661d22dad21bbaa4009d04bd3adefaaca0
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Dec 20 16:06:00 2013 +0100
+
+    cleaned up code and fixed a few bugs
+
+commit 5c72e22e35bd2640f2747d6691d53b252af9de81
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Dec 20 15:21:04 2013 +0100
+
+    updated OLED 5.1.4 version: wiring
+
+commit b0a1a0a4000b2c6f2638c158ffd3ae84a8223c50
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Thu Dec 19 14:21:25 2013 +0100
+
+    updated new OLED 5.1.4 version
+
+commit c1024e1b29c2de47890ade586824a13222c5f63e
+Merge: c3fc046 5d748ca
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Thu Dec 19 11:33:11 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit c3fc046af88f4f83f31297c8c3c227f5e2caef53
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Thu Dec 19 11:33:05 2013 +0100
+
+    added new OLEDdisplay
+
+commit 5d748cad2abf1124ab72186da7ee67f2096a9807
+Merge: 22525fa 06caa54
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 18 18:02:26 2013 +0100
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog
+
+commit 22525fa66a1027f900d57d9d63c5cffe036c0350
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 18 18:01:00 2013 +0100
+
+    more configurations added
+
+commit 06caa5474cbd92c4eb4621729f5545bdf5c6a293
+Merge: ba135fe 8432e65
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Dec 18 15:26:54 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit ba135fec59cfbb82d553eb5e560506054644d11d
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Dec 18 15:26:51 2013 +0100
+
+    OLED v5.1.3 pin layout update
+
+commit 8432e659dbb8c4059e24cca98f0e6f5c3965a18c
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 18 11:36:22 2013 +0100
+
+    more info and visuals when importing...
+
+commit 36892759dc41606794cda94b1d63df931f1bc492
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 18 10:33:14 2013 +0100
+
+    almost done with graphical importing
+
+commit c47d58f5441280eeb1449b0124d48a455d8e9079
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 18 10:24:45 2013 +0100
+
+    almost done with graphical importing
+
+commit b5aab0e664c5bb177757ac505b67be160efcfacd
+Merge: f3ac9ca 691c4fb
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Dec 17 17:33:47 2013 +0100
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog
+
+commit f3ac9ca6af54bd2b223f84566d328f65d7d1604d
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Dec 17 17:33:28 2013 +0100
+
+    added graph loading to import
+
+commit 691c4fb20269f9d8323d3470a4e34db9b9be8bf9
+Merge: f6b0b27 98b9010
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 17 16:28:27 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit f6b0b27d6099822ab134bae6d6591b4e7062f944
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 17 16:27:49 2013 +0100
+
+    dmesg script update
+
+commit 98b90101b5371960e1046d58ef3bccc6ec543f8c
+Merge: cb4e0d0 bb4b5cf
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Dec 17 14:13:39 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit cb4e0d0499bb33bf82613fa9d55152aa579b2ff0
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Dec 17 14:13:36 2013 +0100
+
+    added OLED DD-12864WE-4A to hedgehog library; reverted v5.1.2 to original layout
+
+commit bb4b5cfe5b1428019ed8d22808bf222b433684a8
+Merge: 9211c62 7f32d08
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 17 14:01:46 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 9211c62818f3e1b9fd152ba6bd02eae9e9dc83a1
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 17 14:01:21 2013 +0100
+
+    python version and download script
+
+commit cad6ea2f4cc498cb05901f8e495a2307efd65114
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 17 13:59:00 2013 +0100
+
+    right number of sectors 1GB for now
+
+commit 7f32d08f7ccd9081de3a89078f835d0f519df0e1
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Dec 16 17:16:15 2013 +0100
+
+    updated hedgehog library (oled display)
+
+commit 528bc066e6ac6f829ca6f7cd7c61ca3e7e0dd4d4
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Dec 16 11:04:26 2013 +0100
+
+    renaming hardware profiles according to actual eagleCAD iterations
+
+commit ef4b5d2f879b1f416dd725bd44c3c746da02171a
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Dec 12 11:11:55 2013 +0100
+
+    added import and viz prototypes to the install script
+
+commit b2a3ffcec95ba6c62e862e70e597bb7c40dc6ca3
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Thu Dec 12 10:28:44 2013 +0100
+
+    importing libraries without wildcard
+
+commit 29c5377dab9d47e108dde61a5390014b06928ef7
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 11 16:31:43 2013 +0100
+
+    added support for multi-HHG-file importing to db or npy
+
+commit beaa2728d2635ad76159ab4723cc4c18d70ff858
+Merge: cfcc40c 7348367
+Author: hwlab <hwlab@ariel.ess.informatik.tu-darmstadt.de>
+Date:   Wed Dec 11 16:05:16 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit cfcc40c8df81f2ef4ba5db8159eb86fc73490993
+Author: hwlab <hwlab@ariel.ess.informatik.tu-darmstadt.de>
+Date:   Wed Dec 11 16:05:05 2013 +0100
+
+    added new hardware profile for basic v4.1.8
+
+commit 7348367b6ab965005b194bafb53d85d46c285527
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 11 15:12:55 2013 +0100
+
+    added basic sqlite storage support: import_HHG and viz_HHG
+
+commit 519e4816044cc4b5fe3d6dc240f55648f261741e
+Merge: 1847875 f4e6e37
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 11 10:03:30 2013 +0100
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog
+
+commit 1847875ff95a7e350a1498b95ac0fea4dec0d152
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 11 10:03:06 2013 +0100
+
+    fixed some small errors in new import function
+
+commit f4e6e3757f3f912f0c121372c0610b116d95fe31
+Merge: 240d779 9b8aad3
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Dec 10 15:35:48 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 240d779765a26b847b9da5495357b6bd81640354
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Dec 10 15:35:45 2013 +0100
+
+    fixed importing bug
+
+commit 9b8aad3a7e96ef454faa5d0c96377822ff027596
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 10 15:28:55 2013 +0100
+
+    removed relative linking
+
+commit 5a7abe47fff85bba1b82986a025fd0c5ec777a79
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Dec 9 20:17:53 2013 +0100
+
+    added a bit more to improve the importing routines
+
+commit c6f8149e932f6646de18f8ebd4a4248d4e78db82
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Dec 9 19:38:35 2013 +0100
+
+    added more modular import function
+
+commit 923ad74d7b8730163a9988dbf42c4b8b0bac28b3
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Dec 8 23:57:42 2013 +0100
+
+    small changes
+
+commit 5d4e472b4c76767e5c5ed14314cfa5b4d2671496
+Merge: 1fa527f 19fc121
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Dec 8 23:48:35 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 19fc1215076e6664799d03277234a011e8adcd4b
+Merge: f121b93 172a1b7
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sun Dec 8 23:41:42 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit f121b93768ff4897068a1e6681fcbca8a9973125
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sun Dec 8 23:33:55 2013 +0100
+
+    .hhg now contains only links
+
+commit 9d8abc4b628cbac5e798f4499b6a1f9ad1aa18d9
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Sun Dec 8 23:17:53 2013 +0100
+
+    dmesg_HHG
+
+commit 1fa527f6f8635bca5e8a39d7bde5d003751d9cb1
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Dec 8 23:12:10 2013 +0100
+
+    remove shell script HHG
+
+commit 859503b4d085c2498e68ca1fca820fde86e0d2f8
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Dec 8 14:58:58 2013 +0100
+
+    small changes
+
+commit 172a1b74212eb8cbf8085ca642361a2780413b0d
+Author: Philipp M. Scholl <scholl@ess.tu-darmstadt.de>
+Date:   Wed Dec 4 15:56:26 2013 +0100
+
+    add the possibility to start _HHG.py script without installation
+
+commit deabdb2a529be46a8ccaa6dc6decf8ea91fc045f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 4 16:38:49 2013 +0100
+
+    increased timeout to avoid having to rush
+
+commit 157454605f45bbd43f0e5b91d7c1ff637ab73cbc
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 4 14:31:27 2013 +0100
+
+    small update
+
+commit 2cfb195abeaefa80183a5c2c2e16ae20ad8293bb
+Merge: 00a6f99 25c8fc7
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 4 14:24:13 2013 +0100
+
+    Merge branch 'nocdc' of https://github.com/kristofvl/HedgeHog
+    
+    Conflicts:
+    	firmware/HedgeHog/main.c
+
+commit 00a6f993e2aed7e9910ed1d54523e5fa8510f2b4
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 4 13:55:42 2013 +0100
+
+    fixed the exorbitant timeout delay
+
+commit 25c8fc7427a062aafd5c0fc010b87b96fe2d7af5
+Merge: 0e328a3 d932428
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 4 13:45:45 2013 +0100
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog into nocdc
+
+commit 0e328a3c4939cc96e412da4a9d0dac60047f88d6
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Dec 4 13:44:43 2013 +0100
+
+    fixed timeout bug
+
+commit d9324283ade20549f4c5c825e526d3094a27c19b
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Dec 4 10:34:05 2013 +0100
+
+    ignoring temporary eagle files (libraries with #)
+
+commit 5a6fb063803534a78adc46f4d3a3f04aec73e236
+Merge: 7813a9d bcd7c5a
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Dec 4 10:31:44 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 7813a9d1d8ea97941db1b51b0d92f2d3c7bbde4f
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Dec 4 10:31:38 2013 +0100
+
+    updated schematics adding polarity for coil (oled) and resonator
+
+commit bcd7c5ad2ccc225f018d691fbaf39e8705677548
+Author: hanyas <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 3 16:09:05 2013 +0100
+
+    plot handeling arguments
+
+commit 2339b632a96d27d14763043957a8315115491958
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 3 15:39:33 2013 +0100
+
+    fast fix for features
+
+commit 05ebf84532920f72ed3d4a821afd2538961dafae
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Dec 3 15:30:56 2013 +0100
+
+    fast fix for features prob
+
+commit 2633ed5262199038ea692455ec1cb4fe2aa8911b
+Merge: 63f3ce8 6cfbcd6
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Dec 3 14:30:24 2013 +0100
+
+    Merge branch 'nocdc' of github.com:kristofvl/HedgeHog into nocdc
+
+commit 6cfbcd6f7d9ad36efbce5705fd75f9715bd44295
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Dec 3 14:21:07 2013 +0100
+
+    fixed short dataset plotting error
+
+commit 63f3ce8c46c97ca0c07af40b6bf8c05ff5a468b9
+Author: hwlab <hwlab@mint>
+Date:   Fri Nov 29 14:47:10 2013 +0100
+
+    updated .gitignore
+
+commit 6cf8102b2410c1a8d9e89586967c27ce16a6852e
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Nov 26 14:46:21 2013 +0100
+
+    updated hedgehog library and next iteration versions
+
+commit 6d6fa7cf3c1bdc43f624828eb89e5d71b7e1ca3f
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Nov 26 11:10:47 2013 +0100
+
+    added resonators to the HedgeHob eagle library; updated basic and oled versions (new version number)
+
+commit 738d41f4417088787d751bf41ca828cefea517ce
+Author: hwlab <hwlab@mint>
+Date:   Thu Nov 21 17:00:29 2013 +0100
+
+    OLED version: improved eagle schematics
+
+commit 0b1e52c5732158b0d71e7ee59254f4ae15846f6a
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Thu Nov 21 13:32:07 2013 +0100
+
+    OLED version: a) updating coil eagle package b) fixing BOM list (resistors)
+
+commit 00123383e2903e51e4cd78487c371d5f7b474bee
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Nov 20 17:51:32 2013 +0100
+
+    OLED version: BOM list updated (important)
+
+commit 4d928ef8148b8b4176ce5b0c97bd1de79b806f72
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Nov 20 10:27:18 2013 +0100
+
+    OLED version: updated BOM list (final)
+
+commit 17d7f8f4c8264bba23d7b066391cf6857e72b139
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Nov 19 20:54:42 2013 +0100
+
+    OLED version: replaced non-deliverable devices
+
+commit 37636c3fb10e8513e30c01a02060e43731ec167b
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Nov 19 13:59:46 2013 +0100
+
+    removed *.pyc files from the repo
+
+commit f4c87931013ba8c47e5dc0127314de2ae637b187
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Nov 19 13:58:57 2013 +0100
+
+    OLED version: updated BOM list
+
+commit 589ca5a56f0f722857da2b33465a5009c0cd5c14
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 18 14:52:21 2013 +0100
+
+    OLED version: fixed BOM list
+
+commit 70963290c861133bb8d5a050bf403fecf2ff8ab5
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 18 14:44:40 2013 +0100
+
+    updated OLED version: BOM; board; library
+
+commit d5015a5d38ffd5008d867174f68eadb260198092
+Merge: 1c86f5b 90fd6c4
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 18 13:28:00 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 1c86f5b51685dd44a8048f02d073997d17522a8b
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 18 13:27:40 2013 +0100
+
+    OLED BOM updated
+
+commit 90fd6c4e8f2acfca409463c64f77cdf4787208e6
+Merge: 94d3982 7fe5871
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Nov 18 12:56:58 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 94d398261c1f38342dee0463556861b03b8b390b
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Nov 18 12:55:39 2013 +0100
+
+    removed history directory
+
+commit 7fe587170971644906f650228e06c7dfe60096d3
+Merge: 75adf97 f3e0af9
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 18 11:32:17 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 75adf97b3536cb56c103bf60ef3224a2b559a6c9
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 18 11:31:56 2013 +0100
+
+    updated BOM list
+
+commit f3e0af9253b0282d2d9f9e91a2e7e91bd019e509
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Nov 18 11:13:31 2013 +0100
+
+    small changes in hardware
+
+commit 066b27310c2084ba0d049a77f5436be971734ce8
+Merge: dbc431b 954e7fe
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Nov 18 11:11:43 2013 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 954e7fec66dbcf8c079b19d6e3edac840de75569
+Author: Martin Zittel <martin@zittel.eu>
+Date:   Mon Nov 18 00:30:27 2013 +0100
+
+    Update porcupine5v1_3-bom.csv
+    
+    minor fix
+
+commit f650e2f6978f5326ecb61ce96c1ef75a7fc0bdb6
+Author: Martin Zittel <martin.zittel@gmail.com>
+Date:   Mon Nov 18 00:27:06 2013 +0100
+
+    added oled bom
+
+commit dbc431b0bd985c5c12b879ccdb31ec9f9b5e88d0
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Nov 18 00:17:48 2013 +0100
+
+    small changes to dd_HHG.py
+
+commit 13c358140ac73daa32b9fed45e86c7b3d6dc8288
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Nov 17 23:54:28 2013 +0100
+
+    dd image and script for new SD cards
+
+commit b40894c11666dfbbc0da71d28ee0cdbc457e9296
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Nov 17 18:15:49 2013 +0100
+
+    README
+
+commit 10a2adea6d0c4e08f1194275f32832b7554eeb04
+Merge: 9ee9195 db146e4
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Nov 17 18:14:32 2013 +0100
+
+    merge fixes
+
+commit 9ee91959e4311ada8b29d9e61ce6b26d1b0ecda6
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Sat Nov 16 17:30:08 2013 +0100
+
+    OLED version: update wiring, added layout docs
+
+commit 11079a817f03d9745767ebce4e9a956ffe82467d
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Sat Nov 16 17:16:40 2013 +0100
+
+    OLED version updated wiring
+
+commit a5481b7239c25d32044234a232ed4890c121eb35
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Sat Nov 16 16:12:39 2013 +0100
+
+    OLED version updated components names and values
+
+commit 1fd7014a59d0c587ed1e695ac2b2a24aa826aae7
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Sat Nov 16 15:06:18 2013 +0100
+
+    OLED version update wiring
+
+commit d01ab5e4b7ba279c26ee13ceee0d6694141aaf96
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Nov 15 17:00:37 2013 +0100
+
+    OLED version updated
+
+commit 1e9f88911f875046da777e61279ff8c9a8195fee
+Author: Martin Zittel <martin.zittel@gmail.com>
+Date:   Wed Nov 13 17:07:38 2013 +0100
+
+    updated oled board
+
+commit e7325305c7e7c25316da60dd689f7d6a4af8a43a
+Author: Martin Zittel <martin.zittel@gmail.com>
+Date:   Wed Nov 13 16:05:09 2013 +0100
+
+    updated oled schematic
+
+commit db146e4cc0c85d454921101d70039c59331b6353
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Nov 12 15:15:25 2013 +0100
+
+    reordered icons for hhg_plot
+
+commit e1dc6b23d0ab21e5e3e962b4bd291d1fb458b578
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 11 12:57:54 2013 +0100
+
+    porcupine5: added OLED version
+
+commit 84e64d8d1b13342d3af3df3b7bc5c014e419e7e8
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Nov 10 19:19:45 2013 +0100
+
+    recommit changes to dsleep.c after testing
+
+commit 7cf3b6bef03f60e6d28792153c7852e39675b9f1
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Nov 10 16:39:09 2013 +0100
+
+    fixed configuration bug and reverted changes to deepsleep for now
+
+commit f45879a192e69975a9ca2abeea81ddc37b1fdd51
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Nov 6 11:43:09 2013 +0100
+
+    porcupine4v1_8: updated component layout
+
+commit ab402229029089afbc541d56eac4874c5af6a140
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Nov 5 13:50:53 2013 +0100
+
+    porcupine4v1_8: BOM-list updated
+
+commit 249f5eb934b0f57de398ba0f3a3a0c9da7e1c282
+Merge: 410f587 77fa6a7
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Nov 5 12:54:46 2013 +0100
+
+    Merge branch 'nocdc' of https://github.com/kristofvl/HedgeHog into nocdc
+
+commit 410f5874d1200830e9e4afdf385992e1f5b657e6
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Nov 5 12:54:32 2013 +0100
+
+    small clean up
+
+commit 7ff20f76668759f7309eea1ce432dd89d2398fd2
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Nov 5 12:53:33 2013 +0100
+
+    incorporate format in GUI
+
+commit 2218c70d238104f0255564a19482458054b57dc2
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Nov 5 11:08:44 2013 +0100
+
+    porcupine4v1_8: updated extension pins (names), shifted some vias
+
+commit 519242c299b15dc13577c5ab5b9b6ad2e557bb2d
+Author: Martin Zittel <martin.zittel@gmail.com>
+Date:   Mon Nov 4 18:26:42 2013 +0100
+
+    4.1.8 added bom & fixing
+
+commit 588777ac26d0f9284433c515e137d6088d0d6d83
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 4 13:53:17 2013 +0100
+
+    porcupine4v1_8: some wires rewired
+
+commit 34c6822bb2d1e128d227a1198e8c9a0355429f3f
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 4 13:46:20 2013 +0100
+
+    porcupine4v1_8: added extension pins
+
+commit 402efe1825857c808ff32ccfdd9ed86ad0eb8880
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Nov 4 11:31:31 2013 +0100
+
+    added porcupine4v1_8 to the repository
+
+commit 77fa6a7a868caed58593dcae6cf6cdabd951732b
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Oct 28 16:20:16 2013 +0100
+
+    lets deep sleep commence straight away after bootup
+
+commit 589cc2bc88e3b5e6895c3ced1f40976bbed6789e
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Oct 28 00:17:57 2013 +0100
+
+    Initial Implemention of Format Parameter
+
+commit 4524b9997c024feedd4a130b7abb69b9c621f8f6
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Oct 27 23:36:45 2013 +0100
+
+    implementing wipe and format
+
+commit dbfdf66911e30bcfc5bcf3114c259bf0a78ce2d2
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Oct 27 23:02:58 2013 +0100
+
+    exclude old files from build
+
+commit 17a347c130875f1afb8eb2097a53f14e92a0728f
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Oct 27 23:00:15 2013 +0100
+
+    add RLE flag and update version string to 1.3
+
+commit aefb1151b76098694b1ded87492d1ddbaeb87dea
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Sun Oct 27 22:59:17 2013 +0100
+
+    changed RLE byte
+
+commit c1125a1a22badac8a27e39a06a541bed671cbe2d
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Oct 25 15:03:32 2013 +0200
+
+    fixed inconsistency for HedgeHog eagle files
+
+commit 6192df7fb6bb52f89d547236170df0cb317dae37
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Oct 24 11:26:39 2013 +0200
+
+    added the date to the time resolution in raw data plot for plot_hhg.py
+
+commit e2f8a5700950cd5d04932477ad0b8299442792b9
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Oct 23 16:14:16 2013 +0200
+
+    fixed acc configuration issue
+
+commit 6c3b528147a583db5f34e4dbe7f40f38445829c0
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Oct 22 14:38:58 2013 +0200
+
+    added file check to start_HHG.py
+
+commit 05be0817eb53e5db6cc2d41b5bc11f346919e08c
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Oct 22 14:33:28 2013 +0200
+
+    added file check to start_HHG.py
+
+commit 2ad37ce16e5f1eaf32c3e81aece9739a4de10723
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Oct 22 13:53:04 2013 +0200
+
+    fixed typo in conf_hhg script
+
+commit 70304e695fa8fb35b9adba8a2f13ace070ca601d
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Oct 17 15:26:42 2013 +0200
+
+    small update fixing warnings
+
+commit 9e2d4817928de42ac23329b284d9a693a236bfc8
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Oct 15 10:57:00 2013 +0200
+
+    repository cleanup: tmp build files, makefiles
+
+commit d8cd62b87baf00bc0312392f13b787c4784bddc8
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Oct 15 10:37:07 2013 +0200
+
+    restoreing conf and Makefile 2nd try
+
+commit 624bd25c103c48de039dc65c9295bfd58a6e4d07
+Merge: 16e2d3f 6fc8ded
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Oct 14 20:52:49 2013 +0200
+
+    fixing conf files
+
+commit 16e2d3fb4316b3ac3efb91065b2778efa7cf0bf0
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Oct 14 20:42:24 2013 +0200
+
+    removed binaries
+
+commit 6fc8ded31da20d3fc72dc55eb260856506363a6a
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Oct 14 16:19:04 2013 +0200
+
+    restored Makefile-genesis.properties and configurations.xml
+
+commit 162084f4c35b2e0d2c34e49d546bd18c1344e1fb
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Oct 14 14:03:18 2013 +0200
+
+    updated gitignore
+
+commit 1aee49974e951497e9d95e353ee901f311e660f8
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Oct 14 14:01:44 2013 +0200
+
+    nbproject folder upated
+
+commit 3e60f93a1e4371bd3e961e2e567da9f84e7b30da
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Oct 14 14:00:40 2013 +0200
+
+    added gitignore file
+
+commit 389a9077dc6fd034612dbcbf976872b56daa53fd
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Oct 10 16:01:38 2013 +0200
+
+    added an argument check to conf_HHG.py
+
+commit ede40b44debc2f03709d5e3b6a4a3a424e61861a
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Oct 10 14:56:11 2013 +0200
+
+    updated plot script
+
+commit dc9e94e039903aecf0c4a9e5d6b999f162c64c83
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Oct 10 14:53:54 2013 +0200
+
+    updated plot script
+
+commit 56df10ed6acdaae9f2e4d6cb06ec664755fc8d04
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Oct 10 14:05:02 2013 +0200
+
+    fixed python2.7 bin path
+
+commit 7233fe32606130616a8a2864c48ebea6fb0042c8
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Oct 10 14:00:37 2013 +0200
+
+    removed some binaries
+
+commit 4db0dc1a89c0f6ac49941827d0e3ac41b07f4065
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Oct 10 13:57:39 2013 +0200
+
+    removed some binaries
+
+commit e25df6bfc72d8b3ae3bee7aad50fcd904b561e13
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Oct 10 13:42:12 2013 +0200
+
+    remove start file
+
+commit 5a263e7ce2794e14be0952d3698de730545a8366
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Sep 30 16:46:35 2013 +0200
+
+    install script add
+
+commit 2394dfc8b9c122d7300242078394560b39ff4f5a
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Sep 30 01:25:33 2013 +0200
+
+    bug fixed in log process
+
+commit 9ad24337c6ea493a9e2bc605713ea9717781d089
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Fri Sep 27 17:05:49 2013 +0200
+
+    small fixes
+
+commit 8001145bf72dcbddd512fdc726908c3b441f3bef
+Author: hwlab <hwlab@mint>
+Date:   Fri Sep 27 15:20:34 2013 +0200
+
+    bug fixes
+
+commit c963a9a26c14150e7963f09e4a9d0fe5a62a9f89
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Sep 26 19:27:22 2013 +0200
+
+    small fixes and NEW GUI
+
+commit 91ddd2c975ed0134fc438b2f9e63f84a32aa74af
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Sep 26 16:41:44 2013 +0200
+
+    small fixes and scripts
+
+commit 0503e13fba950cf84b8f0b62c635fefd0298d714
+Merge: ff04582 5f28d02
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Sep 9 00:22:32 2013 +0200
+
+    Merge branch 'nocdc' of https://github.com/kristofvl/HedgeHog into nocdc
+
+commit ff045825e3f7604f2524f59b6ae78f7e1b7d3c02
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Mon Sep 9 00:10:49 2013 +0200
+
+    SD-Conf and GUI
+
+commit 42b093d6e03d210ea018dfacbc0760d07e196e48
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Aug 14 14:43:11 2013 +0200
+
+    added package files
+
+commit 4b24f793e0af7078d5322cc88f9b6f8757412307
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Aug 14 14:41:00 2013 +0200
+
+    restored makefile properties
+
+commit cb4329d9ced1fcb914cd94226bd0413d00fb98f0
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Aug 14 14:27:37 2013 +0200
+
+    restored project xml files
+
+commit 777dafb098562acc5e638c972a59a7f0e36a3ef3
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Jul 8 15:00:03 2013 +0200
+
+    fixed download_HHG method (to some extent).. needs more work
+
+commit 9c52d9c5fdc109e105ae53f3c748df0046b71d60
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Thu Jun 27 15:21:44 2013 +0200
+
+    python skript update
+
+commit 5f28d021aa7df1df1a0f635de4aa2f238340b22f
+Merge: 66230e5 ead8b04
+Author: kristofvl <kryztov@gmail.com>
+Date:   Tue Jun 25 05:19:51 2013 -0700
+
+    Merge pull request #3 from hanyas/nocdc
+    
+    Configure from SD-Card
+
+commit ead8b04c7e19bb83454eb1cbb085c1afd83acddc
+Author: Hany Abdulsamad <hany.abdulsamad@gmail.com>
+Date:   Tue Jun 25 14:05:06 2013 +0200
+
+    nocdc commit
+
+commit 66230e5421cfd78971b6e2cb82f933ad37316dfe
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Jun 14 15:02:09 2013 +0200
+
+    branched no cdc firmware code
+
+commit 8ced2147e748c532ecf8c46f1d72165b6cc57e44
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue May 21 14:40:33 2013 +0200
+
+    added makefile files
+
+commit 29e96122026a09a1ed9ba67b7f42e814d08f99a2
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri May 17 14:46:05 2013 +0200
+
+    fixed minor issues for testbed
+
+commit fb894b8580dc654c15739301c71d26d0c06d8e24
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Apr 22 14:38:26 2013 +0200
+
+    fixed the boot code -- HedgeHogs with a 1.210 firmware should boot now
+
+commit 9177b392206c0dd34b841d0bdc4ab158e63b8826
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Apr 18 13:44:12 2013 +0200
+
+    fixed a few typos, redesigned the conf tool
+
+commit c42b1fbba62d8ad2709230acc2bf8d09ff9d284c
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Apr 18 11:01:25 2013 +0200
+
+    changed parameters for sync'ing: it's a lot more stable now
+
+commit 7e60250409c20fd0cfebe403edd9e85921e2da4d
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 17 16:52:48 2013 +0200
+
+    added error dialogs after unresponsive serial port, added zeroing to the quick format button
+
+commit 6c79210c96e66ba217710e120b1c5f3b5e7c8976
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Apr 12 11:00:11 2013 +0200
+
+    configuration is now mirrored in the config.hhg file
+
+commit d2faf3837a6f479eaa1d2edce5b0309a9dc7284a
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 10 13:31:38 2013 +0200
+
+    added functionality: wiping the sd card's first 640 sectors
+
+commit 043a6a5c3c4d2daa100afb6e11b63949d18f014f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Apr 9 16:47:49 2013 +0200
+
+    added reset function for debugging
+
+commit cdd49b6b594814f490a56c0289a988e9955c0a9f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 3 16:25:42 2013 +0200
+
+    cleaned main file a bit
+
+commit d61572acdd0e898ea76c65befba0e427ffa7dcec
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 3 16:09:28 2013 +0200
+
+    another bugfix
+
+commit fdfc33e545aae231159625a5195bd276e4d0c04a
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 3 16:06:54 2013 +0200
+
+    another bugfix
+
+commit 454bf2931bddda488257c04b09b721c0b5e6fe62
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 3 15:48:05 2013 +0200
+
+    another bugfix
+
+commit 24ee3b0e1ba7ec7affaf7925f37363eadf079f35
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 3 14:35:11 2013 +0200
+
+    oops
+
+commit b2e560fba0190a6c235f54c9389748e77eb5d6be
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 3 14:30:21 2013 +0200
+
+    small cleanup
+
+commit 162519167cb5d768e42e862a5b25a4a96b2dcc1d
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Tue Apr 2 10:49:37 2013 +0200
+
+    revert MBR to 2GB volume
+
+commit c91dba3538b82df90397b874f0c2cb19091c3880
+Merge: 296e2d6 1d5e1d8
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Thu Mar 28 12:51:33 2013 +0100
+
+    Merge branch 'hotFix' of github.com:kristofvl/HedgeHog into hotFix
+
+commit 296e2d6af7c36d93a2a82c096ba9ba024afac24e
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Thu Mar 28 12:45:38 2013 +0100
+
+    Modified a few hot fixes
+
+commit 1d5e1d897096cbe18396a11d2998f2cefe4a97e8
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Mar 20 16:17:09 2013 +0100
+
+    removed wrong if-clause in main.c
+
+commit 5531bb2627879c4c94b36bf4307e16b4183adc69
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Wed Mar 20 16:14:37 2013 +0100
+
+    refat timeout now set to 7 seconds
+
+commit 188ad9ce8b6635433c001e3034b0e2dbc36150a8
+Merge: 831c209 8342860
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Wed Mar 20 10:59:56 2013 +0100
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog into hotFix
+
+commit 831c2090932e91d917f17a81bf06cc41cff797cf
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Wed Mar 20 10:46:18 2013 +0100
+
+    Added a quick fix
+
+commit 8342860bc1b260d87a386a0c957ce379707d571d
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Feb 22 11:06:22 2013 +0100
+
+    added toolbutton to select and save a subset of the data in the plot (e.g. a day)
+
+commit efa44869e3aac11977e56414f02493847dea30b8
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Feb 12 15:14:01 2013 +0100
+
+    updated old and new HardwareProfile (unused pins)
+
+commit f965a9da807c770ff6344f2d89173c7895e924a7
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Thu Feb 7 14:56:50 2013 +0100
+
+    fixed log files offset and closed gap; version incremented
+
+commit d2d31b34da9ac96f02a2eb40cd923700236d2a75
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Thu Feb 7 14:06:23 2013 +0100
+
+    Modified file boundaries
+
+commit 9da232f53a92633dbb39eb5c2d9a52192763ca84
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Mon Jan 28 16:08:05 2013 +0100
+
+    Fixed the plot issue
+
+commit d75a4c66ff462820764842adef5b768c56c37bee
+Merge: b595c8c 008e2be
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Wed Jan 23 12:47:18 2013 +0100
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog
+
+commit b595c8cb2947c812104372fbea6ea27e096cd2a6
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Wed Jan 23 12:37:49 2013 +0100
+
+    Data starts logging at location of log000.HHG file.
+
+commit 008e2be1b8a14ed84df4474b47ff3b361adf24f0
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Dec 11 17:33:47 2012 +0100
+
+    following fixes
+    * PIN output/input settings in HardwareProfileBasicNew.h
+    * removing legacy include of the HardwareProfileBasic.h in main.c
+    * using macro for LATD6 in dsleep_alarm.c
+    * ... -> diff please!
+
+commit 4f7b535faf56ef9359d735ba8ce4eb50432bfe44
+Merge: a26c49f 98ba981
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Dec 11 17:27:26 2012 +0100
+
+    Merge branch 'master' of https://github.com/kristofvl/HedgeHog
+
+commit 98ba98165bbedfd4baacb17ff6ac5301e5929176
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Mon Dec 10 13:51:09 2012 +0100
+
+    Removed Warning
+
+commit a26c49f612499d0a1de0d89c42c0a33a01c31809
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Dec 3 15:43:03 2012 +0100
+
+    two small changes to HHG plot and import function
+
+commit dd4c97a4fd011464d571663f67077fa554c0b858
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Mon Nov 26 15:24:08 2012 +0100
+
+    First Cluster of files is cluster number 3
+
+commit b4a4ff4dd324c65896fa1485ad0ad2d84f2ca1a8
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Mon Nov 26 14:40:12 2012 +0100
+
+    Occupies (almost) the whole 1GB after Format
+
+commit ed8d7c8bbb639f4d824ee3983a27295cac6b499c
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Mon Nov 26 14:39:17 2012 +0100
+
+    Version 1.200 with 950+ mB of log data
+
+commit ef188cc2d8a0542335bc2b4dbe86f8d0aca0ca94
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Thu Oct 18 15:06:13 2012 +0200
+
+    * bug fix for new sensor prototype logging problem
+      USB power interrupt / POK pin declaration fixed
+
+commit f788c2f97db105730b87be4edf33f7ea212d29a4
+Author: kristofvl <kryztov@gmail.com>
+Date:   Wed Sep 26 11:20:35 2012 +0200
+
+    small typo fix in HHG
+
+commit b34b76e27cc3f41b70eb8b433859cde052883dd7
+Author: kristofvl <kryztov@gmail.com>
+Date:   Wed Sep 26 11:16:59 2012 +0200
+
+    added show log functionality in conf_HHG for the SmartLighter
+
+commit 8af97cfe4459139485e81ae937218c0ffbfbd330
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Fri Sep 14 14:50:23 2012 +0200
+
+    added new hardware profile for new sensor prototype
+
+commit d3de915d717a3a736a2e19825af487f19a79a75c
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Aug 28 15:10:20 2012 +0200
+
+    new hardware profile added: raw_sampling_basic_new
+
+commit 61c9ab4616bb228ace599495e5c7af6b61fadb13
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Aug 28 15:08:02 2012 +0200
+
+    updated eagle schematics
+
+commit b921d41dca469ce6c04bebe11a13785d31b40484
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Tue Aug 28 13:21:52 2012 +0200
+
+    hardware update
+    eagle cad brd/sch and lib files for version 4v1_7
+
+commit 69527bc0c79531ddaa199dbfe1a10ade149a86d2
+Author: kristofvl <kryztov@gmail.com>
+Date:   Fri Aug 10 15:47:31 2012 +0200
+
+    patched up for csv now (thanks phil!)
+
+commit 383ab78c917eb1d01113f6ba9d7f68e931c3d452
+Author: Enzo <enzo@enzo-HP-Pavilion-dv6-Notebook-PC.(none)>
+Date:   Tue Jul 10 16:17:05 2012 +0200
+
+    -Viewer for inertial data split into days added
+    -minor errors corrected in convet and download
+
+commit 1220ef3d8da97ba098f9e8069f7c4788dfb27d19
+Author: mibor <borazio@ess.tu-darmstadt.de>
+Date:   Wed Jun 27 10:37:13 2012 +0200
+
+    fixed a bug when creating the icons
+
+commit 45f1d2c9a2321e07ba139649e192e6d1942a6db8
+Author: etor <etor89@gmail.com>
+Date:   Tue Jun 26 16:45:22 2012 +0200
+
+    added preview array creation to the converter
+
+commit f7315ff7a5baddbd218f1e2dc9d60c2aa83c4383
+Author: etor <etor89@gmail.com>
+Date:   Tue Jun 26 16:44:37 2012 +0200
+
+    added preview file creation to the converter
+
+commit 5bbd3034c0e4a3cb00998c4e2a7ee2906aa5a921
+Author: etor <etor89@gmail.com>
+Date:   Tue Jun 26 16:43:10 2012 +0200
+
+    added converter icon to the install script
+
+commit a44c5423413f9ab616affa265f3678cfb85f8a69
+Author: etor <etor89@gmail.com>
+Date:   Mon Jun 25 16:23:27 2012 +0200
+
+    eliminated error
+
+commit d6ae7e2a2afdf351685c94d4f12f0dee5db7c5e0
+Author: etor <etor89@gmail.com>
+Date:   Mon Jun 25 16:17:19 2012 +0200
+
+    added per minute array fta
+
+commit 7f5946c93392c0604f2d3692071ebf08b1d69099
+Author: mibor <borazio@ess.tu-darmstadt.de>
+Date:   Fri Jun 1 14:50:24 2012 +0200
+
+    deleted unused imports
+
+commit 2e428a7969d26a40981493b1225ac6ed21828b93
+Author: mibor <borazio@ess.tu-darmstadt.de>
+Date:   Fri Jun 1 14:39:21 2012 +0200
+
+    errors fixed: enless loop while reading multiple HHG files; import packages changed
+
+commit 3e5ce9228902ec5f30d207dd6b781652a8d6439c
+Author: mibor <borazio@ess.tu-darmstadt.de>
+Date:   Fri Jun 1 14:31:03 2012 +0200
+
+    fixed errors: endless loop for multiple HHG files;status showing now the right number of files copied
+
+commit 5fba056e39ade2e6e0a5244a6bd7f6f0bef30da5
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu May 31 17:36:36 2012 +0200
+
+    moved splitting to io (to fix lacking __init__ )
+
+commit 3d94efa3551864fa04541422356d3d6b6b8eb3d9
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu May 31 13:56:38 2012 +0200
+
+    small modifications to new HHG command scripts
+
+commit 08231b590e4198af6caaa66f8833dd23492693d9
+Author: etor <etor89@gmail.com>
+Date:   Wed May 30 15:08:11 2012 +0200
+
+    Added download and convert functionality for HHG files
+
+commit 921d4a61e44f9e1660780956416387de3cae148f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Apr 19 13:40:41 2012 +0200
+
+    minor comments, version++
+
+commit c57004c619aa874aa0bcea539666a87920febbb1
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Thu Apr 12 14:45:07 2012 +0200
+
+    Reduced current drain
+
+commit a5d420a0981a3087bb93c240cdec13126e028873
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Apr 11 10:41:06 2012 +0200
+
+    deep sleep now enabled
+
+commit 84c9e58156364fe5b7d030cbf6cc9f3e2ea3017b
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Apr 5 17:48:00 2012 +0200
+
+    rtc alarm now works (but disabled for now)
+
+commit 75b3b5b325a388a5461408b6366c82ccdfd2e1c4
+Author: essuser <essuser@ess.tu-darmstadt.de>
+Date:   Wed Apr 4 17:43:35 2012 +0200
+
+    update after correcting rtc alarm functions
+
+commit e675ba4ae59f9dbb6bed9ccb0e0ed36ecefe5378
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Apr 2 16:07:11 2012 +0200
+
+    added some comments
+
+commit 128a9908afb428014cb71a8c088d97c35e56bd7a
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 29 17:15:45 2012 +0200
+
+    resized dialogs to accomodate smaller screens
+
+commit 4c49171e7518375bbba5ee196f094178eba332f1
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 29 17:00:05 2012 +0200
+
+    resized dialogs to accomodate smaller screens
+
+commit 49bead6532b2df6269e9b7e08aa2471e218a99a4
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 29 13:00:07 2012 +0200
+
+    updated display_config
+
+commit bd565d7587c7965cd712243971b808379571898e
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 29 12:59:31 2012 +0200
+
+    deep sleep disabled (for now)
+
+commit f7f5044f0c8b26201fe9a4eb31e5388c340102da
+Merge: b1ec623 64811a2
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 29 10:08:39 2012 +0200
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog
+
+commit b1ec62309a93d61cd8f30ced1cd7739dedfb230c
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 29 10:08:33 2012 +0200
+
+    preparing for changes
+
+commit 64811a2581ede6096ed7b2bc2d9dc172d758700b
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Thu Mar 29 03:41:10 2012 +0200
+
+    "runs 2 times all right and then..."
+
+commit e963405069b7c192f4c6345502ef5f00a9dec3de
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Thu Mar 29 02:50:33 2012 +0200
+
+    "Timing issues but runs"
+
+commit 394f1e46328dad0af899b1170607dc44f600cf03
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 28 10:51:56 2012 +0200
+
+    double-tap OLED bug fixed
+
+commit 3ff9e32fa7c308c18944db68ae306a60d80213d7
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Mar 27 15:48:45 2012 +0200
+
+    USB interrupt now works while logging. happy-happy joy-joy
+
+commit 4994a64bf5cde5d9ac4f459a9a818df7f57817eb
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Mar 27 10:54:39 2012 +0200
+
+    deep sleep when no USB connection prepared
+
+commit 0f97dd69625343d0537af61ae93559967bf66bed
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 15:33:55 2012 +0200
+
+    almost there for deep sleep
+
+commit 0ecaac66d111b9dd3b6664b689ed6593e1aa7ac2
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 14:41:51 2012 +0200
+
+    update
+
+commit a5e40ab140394da4a56621c5d94831b452550e78
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 14:23:00 2012 +0200
+
+    refreshed the logging int1 bug
+
+commit 59ff65c46b24867d6c1d415014bf4ae98a7ddc31
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 13:44:37 2012 +0200
+
+    makefiles update
+
+commit 3487001f018bdf719ea0825134a8d7b0307743d8
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 13:43:17 2012 +0200
+
+    dsleep functions
+
+commit 617634ae4d5dc89e31944f166d22dd278752a924
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 13:42:27 2012 +0200
+
+    deleted more binaries
+
+commit 79ad8fe4f8cd676a642e15183ca9fbc9fb62678a
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 13:40:47 2012 +0200
+
+    removed more binaries
+
+commit 2c6995b94986477aa8eb27a995d78a5aa4179f80
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 13:39:52 2012 +0200
+
+    removing binaries
+
+commit 81fd66222e0332e2dee5fe30097bf5d4c6e6ea8b
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 13:37:32 2012 +0200
+
+    preparation for deep sleep functions
+
+commit ca1203437bd64b239cc5ede29d9c33ced2b08226
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 11:13:54 2012 +0200
+
+    restored MPLAB X makefiles
+
+commit a7ed2f06501f6974d5403c8d389afb22f6047400
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 10:46:52 2012 +0200
+
+    Revert "removed Taimoor's binaries"
+    
+    This reverts commit 4ab54760302c39e0dc34f024398ab60fbad1b990.
+
+commit d38d4be39db2e54f069854ad43c53b95a665f1a3
+Merge: 9a442a9 77dcff9
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 10:43:22 2012 +0200
+
+    Merge branch 'master' of https://github.com/taimoorib/HedgeHog
+    
+    Conflicts:
+    	firmware/HedgeHog/main.c
+
+commit 9a442a9697831ad164d7f0a4a0e69c83881bc656
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 10:29:55 2012 +0200
+
+    deleted last binaries
+
+commit 071d0641f9e320bc172414c5185c8e9fc24cd0bb
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 10:28:39 2012 +0200
+
+    small update in firmware in preparation to deep sleep
+
+commit 4ab54760302c39e0dc34f024398ab60fbad1b990
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 26 10:23:53 2012 +0200
+
+    removed Taimoor's binaries
+
+commit 77dcff9785b1af70a3e84b22701cace5427298d5
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Mon Mar 26 00:28:47 2012 +0200
+
+    Corrected & Operation mistake in DSleep_Alarm
+
+commit bbf6f3a054a494c16d5d93b499ad9ae46c742a5b
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Fri Mar 23 17:23:52 2012 +0100
+
+    Added 2s delay
+
+commit 360e908944def028603bb63e1ff557e2acb35524
+Merge: fbbd37f ac05050
+Author: kristofvl <kryztov@gmail.com>
+Date:   Fri Mar 23 08:43:12 2012 -0700
+
+    Merge pull request #1 from taimoorib/master
+    
+    fdey
+
+commit ac0505040c22350b5844f401938fb332d97efbe7
+Author: Taimoor Bhatti <taimoor.ibhatti@gmail.com>
+Date:   Fri Mar 23 15:43:32 2012 +0100
+
+    Mod:main.c Add:2 files
+
+commit fbbd37f2723bba278da0dab890f2c0228f2c5d08
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 22 16:21:30 2012 +0100
+
+    small update
+
+commit fd8b18d296c5589546076db0b683ea4c8ab505bc
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 22 14:39:55 2012 +0100
+
+    fixed an occasional stuck-in-sleep bug by explicitly checking for interrupt pin while logging
+
+commit 6cb38014c0ad59112ef4ea6e0fb92c5c4b83a51c
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 22 11:37:48 2012 +0100
+
+    disabled led pin (possible interference when logging)
+
+commit 2a1ec42d25844f676b164e29a691424acd89f248
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 21 15:22:39 2012 +0100
+
+    fixed bug: deep sleep during light acquisition (d'oh)
+
+commit 354e29c638f7055cecdad0b808a88b920229422f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 19 17:48:41 2012 +0100
+
+    more config additions to GUI
+
+commit 7a4a378672c6cb1ca6d850f9249605884c298df0
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 19 16:36:43 2012 +0100
+
+    GUI config dialog update
+
+commit c76c9322f470b596086471916bc13f0d7d98c8df
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 19 15:03:54 2012 +0100
+
+    widened more options in GUI
+
+commit 34d062a95b672eebebf74bd0cb971afcbd8a6f4f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Mar 16 15:03:22 2012 +0100
+
+    extended GUI for FIFO
+
+commit aaa88a549cc01e67f04e653aaa82146ba5ca7798
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Mar 16 14:31:02 2012 +0100
+
+    FIFO option now works
+
+commit 5367e517f38621775b318ee949fc9809b040c9e8
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Mar 16 10:50:45 2012 +0100
+
+    FIFO logging added
+
+commit 337788b2de9aa123837b9d9fb6a93a9eec8361c0
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 15 09:47:44 2012 +0100
+
+    set default acc config to 4g, 200Hz filter bw
+
+commit a780cf332e8dba1bf3cc26f9bebce90587356e17
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 14 14:28:07 2012 +0100
+
+    double-tap interferes with timer1
+
+commit ed577ea93802d39f6d04138261d9e2da60773d8b
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 14 14:08:22 2012 +0100
+
+    fixed missing adxl345 interrupt defines in hardware profile for OLED version
+
+commit a469bc8f8455ce77d06304988f2e6f7d932cc5e1
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 14 10:54:05 2012 +0100
+
+    added cancel button to conf GUI's record section
+
+commit 3f3139d2d2202bdb19b6ea45284af46f2065341c
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Mar 13 10:19:09 2012 +0100
+
+    used acc3d_wrapper to shut down the accelerometer
+
+commit 177d4d1f54b23b96d4d6687924809a7d3b14cc66
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 12 18:22:12 2012 +0100
+
+    fixed month offset bug
+
+commit 7454028ea43a892a7649bf5431b0bf0a23a58de3
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 12 18:00:48 2012 +0100
+
+    first lines added for providing stop time for logging
+
+commit d0b080081345fc41251a310301a1506dd831935d
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 12 17:58:49 2012 +0100
+
+    first lines added for providing stop time for logging
+
+commit d4c03fb3479adf7a8b7b37fb50b581a32885d502
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 12 17:41:17 2012 +0100
+
+    conf GUI now sends stop time when recording
+
+commit e58219b0c7161044f9f170d700b2e60cfde0e504
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 12 12:24:53 2012 +0100
+
+    added timeout setting in conf GUI and comms
+
+commit e5753ff64aac59279441d4115175fd698d572825
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 12 11:27:44 2012 +0100
+
+    added time-out for recording in GUI, fixed serial entry
+
+commit e77b73c6482605f7fd9933ce726f8d20204f8e75
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Mon Mar 12 11:27:05 2012 +0100
+
+    added time-out for recording in GUI
+
+commit 506fe06e9ef7e17e28ec7e5b5ef74b9ddd48ca39
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 8 13:30:58 2012 +0100
+
+    added make files
+
+commit 432405454e3e34883d43329f2ef4d7a716b5d9aa
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 8 13:29:31 2012 +0100
+
+    removed object files
+
+commit ffc311210cb5fa00a38b8b8004d258a0c9c61ce9
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 8 13:28:20 2012 +0100
+
+    updated makefile info
+
+commit 2d5eb5c6cb8b06b9cf587988062d8c0feb101028
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 8 13:27:09 2012 +0100
+
+    updated makefile info
+
+commit 35b8ae54f62d11063fad6bb521f96e200f13354f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 8 11:42:53 2012 +0100
+
+    fixed light pull-down bug
+
+commit 82afeb705dc5667d10ee21538930859cf84ccd14
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 8 11:41:32 2012 +0100
+
+    shortened plotting threshold for plotting night data
+
+commit ab3988889b51570fba1750bd470fd59ff785a3c1
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 7 18:00:43 2012 +0100
+
+    fixed pull-up error
+
+commit c3fb9adcca36e784890107a0b9ca1b7bdc2d0521
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 7 15:18:45 2012 +0100
+
+    remover hhg_plotter.py
+
+commit a02617c0b5e3058b75f2601ccf4ba021a5df5a9f
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 7 15:12:42 2012 +0100
+
+    clarified pin config before logging
+
+commit a2a1e724452efa619edde436a81cfb3d048785bc
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Mar 7 10:13:51 2012 +0100
+
+    additional changes to startup code
+
+commit 01fbb945d6d9ae0d76e96d2a0eac9059e67256d3
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Mar 5 17:57:03 2012 +0100
+
+    removing .pyc binary files
+
+commit fd5f98b46b37df69d9d8658de0490649568adc02
+Merge: 2d1eb0b 26702cb
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Mar 5 16:08:48 2012 +0100
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog
+
+commit 2d1eb0b98cd7118c8adc50e77bf81acf9b4a915a
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Mar 5 16:08:14 2012 +0100
+
+    fixed device blocking by removing explicit ser.open() command
+
+commit 26702cb36f8631444d1eded61cc0926a5a324f51
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Mar 5 12:42:31 2012 +0100
+
+    fixed check for emtpy list
+
+commit 4e4ebefd6e17d9ba5f3f8361e772f644cd0c9beb
+Author: Eugen Berlin <eugen.berlin@gmail.com>
+Date:   Mon Mar 5 10:47:13 2012 +0100
+
+    indentation fix and improving reading /dev/ttyACM*
+
+commit e4fcf1ef1525e7e35825fbd60aac37cf538976e0
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Mar 2 16:53:10 2012 +0100
+
+    deep sleep added
+
+commit 887664929494fe3aee4566839dedc68deabd76d9
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Mar 2 16:51:30 2012 +0100
+
+    deep sleep added
+
+commit 6476aa00177c85309b4d0eea779d6cf86b60a494
+Merge: da2970b 7ccb459
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Mar 2 12:59:30 2012 +0100
+
+    Merge branch 'master' of github.com:kristofvl/HedgeHog
+
+commit da2970b3e971163fd12344be30f850c7c54f48fc
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Fri Mar 2 12:57:33 2012 +0100
+
+    extra power saving measures
+
+commit 7ccb459954eda5895583a6d4fdba232bee1b04a5
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Thu Mar 1 10:30:12 2012 +0100
+
+    fixed a few errors in conf_HHG
+
+commit 2c652937eb017b54f833f91688d90f8a0f1936f4
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 29 16:47:38 2012 +0100
+
+    added eagle files
+
+commit aeae97473d1f40c9fa6a027a92e68225f441b3d9
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 29 14:57:58 2012 +0100
+
+    GUI changes to conf_HHG tool
+
+commit 0b61161a4319faf2bd5f1bf186a6622cc71f1561
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 29 13:19:15 2012 +0100
+
+    small changes to conf_HHG tool
+
+commit 5d6fb13057ade52b95272bdcf96ba4673fde14fd
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Wed Feb 29 09:46:33 2012 +0100
+
+    now assumes that the MAL is installed in /opt/microchip
+
+commit 11ebb06cf36ef88e05c34e226a2ba6980aa03b3d
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 28 17:52:52 2012 +0100
+
+    small README change
+
+commit bb0c6335ebf466392d5dc446b3ba404d818890e1
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 28 17:43:55 2012 +0100
+
+    first firmware and python commit
+
+commit aa3f2a4c7f69c77d644eb7296871413d68cc7a42
+Author: Kristof Van Laerhoven <kryztov@gmail.com>
+Date:   Tue Feb 28 16:52:27 2012 +0100
+
+    first commit

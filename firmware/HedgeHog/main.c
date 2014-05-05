@@ -65,6 +65,7 @@ char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 #pragma udata
 
 sd_buffer_t sd_buffer;
+UINT16 sdbuffer_p;
 
 // time variables
 rtc_timedate tm;		//  holding time info for current time
@@ -403,6 +404,12 @@ void log_process() {
 		#if defined(USBP_INT)
 		if (USBP_INT == 0)				// if user plugged usb back in
 		{
+                        memset((void*) &sd_buffer, 0, 512);
+			read_SD(SECTOR_CF, sd_buffer.bytes);
+                        sd_buffer.conf.sdbuf_pointer = sdbuffer_p;
+                        write_SD(SECTOR_CF, sd_buffer.bytes);
+			memset((void*) &sd_buffer, 0, 512);
+                        
 			#if defined(DISPLAY_ENABLED)
 			oled_reset();
 			_oledw("USB POWER DETECTED",0,3);
@@ -527,6 +534,8 @@ void config_process(void) {
 			
 			memset((void*) &sd_buffer, 0, 512);
 			read_SD(SECTOR_CF, sd_buffer.bytes);
+
+                        sdbuffer_p = SECTOR_LG;
 
 			// read and set System Time from SD-Buffer
 			memcpy(tm.b, (const void*) sd_buffer.conf.systime, 8 * sizeof (BYTE));
