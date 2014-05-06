@@ -51,6 +51,13 @@ function init_ans() {
 	draw_ans();
 }
 
+function toCanCoord(x){
+	return co-2+(24/hspan)*(x-(hoff/24))*cw;
+	}
+function fromCanCoord(y){
+	return ((y-co+2)/(cw*(24/hspan)))+(hoff/24);
+	}
+
 function mouseDown(e) {
 	if (e.offsetX) {
 		mouseX = e.offsetX; mouseY = e.offsetY;
@@ -60,18 +67,19 @@ function mouseDown(e) {
 	}
 	for(var i=0;i<ans.length;i++){
 	if (ans[i][3]==dayid){
-		if( checkCloseEnough(mouseX, 30+ans[i][1]*cw) && 
+		if( checkCloseEnough(mouseX, toCanCoord(ans[i][1])) && 
 			 checkCloseEnough(mouseY,7) ){
 			dragL = true; cur_rect = i; break;
 		}
-		else if( checkCloseEnough(mouseX, 30+(ans[i][2])*cw) && 
+		else if( checkCloseEnough(mouseX, toCanCoord(ans[i][2])) && 
 				checkCloseEnough(mouseY,7) ){
 			dragR = true; cur_rect = i; break;
 		}
-		else if((mouseX<30+(ans[i][2])*cw)&&(mouseX>30+(ans[i][1])*cw)){
+		else if((mouseX<toCanCoord(ans[i][2]))&&
+		        (mouseX>toCanCoord(ans[i][1]))){
 			drag = true; cur_rect = i; 
-			ldist = mouseX-(30+ans[i][1]*cw);
-			rdist = (30+ans[i][2]*cw)-mouseX;
+			ldist = mouseX-toCanCoord(ans[i][1]);
+			rdist = toCanCoord(ans[i][2])-mouseX;
 			break;
 		}
 	}}
@@ -93,39 +101,34 @@ function mouseMove(e) {
 	else if (e.layerX){
 		mouseX = e.layerX; mouseY = e.layerY;
 	}
-	if((mouseX-ldist>29)&&(mouseX+rdist<cw+32)){		
+	if((mouseX-ldist>=co-2)&&(mouseX+rdist<cw+co+2)){		
 		if(dragL){
-			ans[cur_rect][1] = (mouseX-30)/cw;
+			ans[cur_rect][1] = fromCanCoord(mouseX);
 		} else if(dragR) {
-			ans[cur_rect][2] = (mouseX-30)/cw;
+			ans[cur_rect][2] = fromCanCoord(mouseX);
 		} else if(drag) {
-			ans[cur_rect][1] = ((mouseX-ldist)-30)/cw;
-			ans[cur_rect][2] = ((mouseX+rdist)-30)/cw;
+			ans[cur_rect][1] = fromCanCoord(mouseX-ldist);
+			ans[cur_rect][2] = fromCanCoord(mouseX+rdist);
 		}
 	}
-	if (dragL || dragR || drag) {
-		draw_ans();
-	}
+	if (dragL || dragR || drag) { draw_ans(); }
 }
 function mouseDbl(e) {
 	console.log("double");
-	if (e.offsetX) {
-		mouseX = e.offsetX; mouseY = e.offsetY;
-	}
-	else if (e.layerX){
-		mouseX = e.layerX; mouseY = e.layerY;
-	}
+	if (e.offsetX) { mouseX = e.offsetX; mouseY = e.offsetY; }
+	else if (e.layerX){ mouseX = e.layerX; mouseY = e.layerY; }
 	var deleted = false
 	for(var i=0;i<ans.length;i++){
 	if (ans[i][3]==dayid){
-		if((mouseX<30+(ans[i][2])*cw)&&(mouseX>30+(ans[i][1])*cw)){
+		if((mouseX<toCanCoord(ans[i][2]))&&
+		   (mouseX>toCanCoord(ans[i][1])) ){
 			ans.splice(i,1);
 			deleted = true;
 			break;
 		}
 	}}
 	if (!deleted) {
-		ans.push(["new",(mouseX-47)/cw,(mouseX-13)/cw,dayid]);
+		ans.push(["new", fromCanCoord(mouseX-17),fromCanCoord(mouseX+17),dayid]);
 	}
 	draw_ans();
 }
@@ -133,13 +136,13 @@ function mouseDbl(e) {
 function draw_ans() {
 	ac.beginPath();
 	ac.fillStyle = "white";
-	ac.fillRect(0,0,cw+32,100);
+	ac.fillRect(0,0,cw+co+2,100);
 	ac.font="8pt Arial"; ac.fillStyle = "black";
 	if (typeof(ans)!="undefined"){
 		for(var i=0;i<ans.length;i++){
 		if ((ans[i][3]==dayid)&&
-			 (ans[i][2]>(hoff/24))&&(ans[i][1]<((hoff+hspan)/24))){	
-			ac.rect(30+ (24/hspan)*(ans[i][1]-(hoff/24)) *cw,-2,
+			 (ans[i][2]>(hoff/24))&&(ans[i][1]<((hoff+hspan)/24))){
+			ac.rect(toCanCoord(ans[i][1]),-2,
 					  (24/hspan)*(ans[i][2]-ans[i][1])*cw,17);
 			tw = ac.measureText(ans[i][0]).width/2;
 			function loadIcon(src,x,y) {
@@ -150,8 +153,8 @@ function draw_ans() {
 			for (var k=0;k<imgsa.length;k++){
 				if (ans[i][0]==imgsa[k][0]) {ret=k;break;}
 			}
-			loadIcon(imgsa[ret][1],30+(24/hspan)*(ans[i][1]+ans[i][2]-(hoff/12))*(cw/2)-8,22);
-			ac.fillText(ans[i][0],30+(24/hspan)*(ans[i][1]+ans[i][2]-(hoff/12))*(cw/2)-tw,53);
+			loadIcon(imgsa[ret][1],toCanCoord((ans[i][1]+ans[i][2])/2)-8,22);
+			ac.fillText(ans[i][0],toCanCoord((ans[i][1]+ans[i][2])/2)-tw,53);
 			ac.stroke();
 		}}
 	}
