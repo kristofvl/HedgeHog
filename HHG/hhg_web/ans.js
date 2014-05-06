@@ -32,6 +32,9 @@ var drag,dragL,dragR = false,
     cur_rect = -1,
     ldist, rdist = 0;
 
+var co = 32;
+var cw = ac.canvas.width-co;
+
 function init_ans() {
 	if (typeof(ans)=="undefined"){
 		var ans_str = localStorage.getItem('hhg_ans');
@@ -57,18 +60,18 @@ function mouseDown(e) {
 	}
 	for(var i=0;i<ans.length;i++){
 	if (ans[i][3]==dayid){
-		if( checkCloseEnough(mouseX, 30+ans[i][1]*800) && 
+		if( checkCloseEnough(mouseX, 30+ans[i][1]*cw) && 
 			 checkCloseEnough(mouseY,7) ){
 			dragL = true; cur_rect = i; break;
 		}
-		else if( checkCloseEnough(mouseX, 30+(ans[i][2])*800) && 
+		else if( checkCloseEnough(mouseX, 30+(ans[i][2])*cw) && 
 				checkCloseEnough(mouseY,7) ){
 			dragR = true; cur_rect = i; break;
 		}
-		else if((mouseX<30+(ans[i][2])*800)&&(mouseX>30+(ans[i][1])*800)){
+		else if((mouseX<30+(ans[i][2])*cw)&&(mouseX>30+(ans[i][1])*cw)){
 			drag = true; cur_rect = i; 
-			ldist = mouseX-(30+ans[i][1]*800);
-			rdist = (30+ans[i][2]*800)-mouseX;
+			ldist = mouseX-(30+ans[i][1]*cw);
+			rdist = (30+ans[i][2]*cw)-mouseX;
 			break;
 		}
 	}}
@@ -90,14 +93,14 @@ function mouseMove(e) {
 	else if (e.layerX){
 		mouseX = e.layerX; mouseY = e.layerY;
 	}
-	if((mouseX-ldist>29)&&(mouseX+rdist<832)){		
+	if((mouseX-ldist>29)&&(mouseX+rdist<cw+32)){		
 		if(dragL){
-			ans[cur_rect][1] = (mouseX-30)/800;
+			ans[cur_rect][1] = (mouseX-30)/cw;
 		} else if(dragR) {
-			ans[cur_rect][2] = (mouseX-30)/800;
+			ans[cur_rect][2] = (mouseX-30)/cw;
 		} else if(drag) {
-			ans[cur_rect][1] = ((mouseX-ldist)-30)/800;
-			ans[cur_rect][2] = ((mouseX+rdist)-30)/800;
+			ans[cur_rect][1] = ((mouseX-ldist)-30)/cw;
+			ans[cur_rect][2] = ((mouseX+rdist)-30)/cw;
 		}
 	}
 	if (dragL || dragR || drag) {
@@ -115,14 +118,14 @@ function mouseDbl(e) {
 	var deleted = false
 	for(var i=0;i<ans.length;i++){
 	if (ans[i][3]==dayid){
-		if((mouseX<30+(ans[i][2])*800)&&(mouseX>30+(ans[i][1])*800)){
+		if((mouseX<30+(ans[i][2])*cw)&&(mouseX>30+(ans[i][1])*cw)){
 			ans.splice(i,1);
 			deleted = true;
 			break;
 		}
 	}}
 	if (!deleted) {
-		ans.push(["new",(mouseX-47)/800,(mouseX-13)/800,dayid]);
+		ans.push(["new",(mouseX-47)/cw,(mouseX-13)/cw,dayid]);
 	}
 	draw_ans();
 }
@@ -130,27 +133,25 @@ function mouseDbl(e) {
 function draw_ans() {
 	ac.beginPath();
 	ac.fillStyle = "white";
-	ac.fillRect(0,0,832,100);
+	ac.fillRect(0,0,cw+32,100);
 	ac.font="8pt Arial"; ac.fillStyle = "black";
 	if (typeof(ans)!="undefined"){
 		for(var i=0;i<ans.length;i++){
-		if (ans[i][3]==dayid){	
-			ac.rect(30+ans[i][1]*800,-2,(ans[i][2]-ans[i][1])*800,17);
+		if ((ans[i][3]==dayid)&&
+			 (ans[i][2]>(hoff/24))&&(ans[i][1]<((hoff+hspan)/24))){	
+			ac.rect(30+ (24/hspan)*(ans[i][1]-(hoff/24)) *cw,-2,
+					  (24/hspan)*(ans[i][2]-ans[i][1])*cw,17);
 			tw = ac.measureText(ans[i][0]).width/2;
 			function loadIcon(src,x,y) {
-				var img = new Image();
-				img.src= src;
-				img.onload = function(){
-					ac.drawImage(img,x,y,17,17);
-				}
+				var img = new Image();img.src= src;
+				img.onload = function(){ac.drawImage(img,x,y,17,17);}
 			}
 			ret = 0;
 			for (var k=0;k<imgsa.length;k++){
 				if (ans[i][0]==imgsa[k][0]) {ret=k;break;}
 			}
-			loadIcon(imgsa[ret][1],30+(ans[i][1]+ans[i][2])*400-8,22);
-			//ac.drawImage(imga[ret],30+(ans[i][1]+ans[i][2])*400-8,22,17,17); 	
-			ac.fillText(ans[i][0],30+(ans[i][1]+ans[i][2])*400-tw,53);
+			loadIcon(imgsa[ret][1],30+(24/hspan)*(ans[i][1]+ans[i][2]-(hoff/12))*(cw/2)-8,22);
+			ac.fillText(ans[i][0],30+(24/hspan)*(ans[i][1]+ans[i][2]-(hoff/12))*(cw/2)-tw,53);
 			ac.stroke();
 		}}
 	}

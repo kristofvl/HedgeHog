@@ -259,6 +259,7 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 								'animation:true,scaleStepWidth:32') )
 	f.write('var dayid='+str(day_id)+';</script>')
 	f.write('<script src="../ans_array.js"></script>'+
+		'<script>var hspan=24, hoff=0;</script>'+
 		'<script src="../ans.js"></script>')
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
@@ -335,6 +336,7 @@ def write_day_zoom_html(day_id, dlpath,
 								'hspan:6,hoff:'+str(float(tstr[:2]))) )
 	f.write('var dayid='+str(day_id)+';</script>')
 	f.write('<script src="../ans_array.js"></script>'+
+		'<script>var hspan=6, hoff='+str(float(tstr[:2]))+';</script>'+
 		'<script src="../ans.js"></script>')
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with a <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+

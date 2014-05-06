@@ -439,13 +439,27 @@ window.Chart = function(context){
 	}
 	context.canvas.addEventListener('mousemove',function(e) {
 			var p=getMousePos(e);
-			var tmeoff = hspan/(width-35);
-			if (p.x>34) { var ofs = (p.x-34);
-			writeMsg(''+Math.floor(hoff+tmeoff*ofs)+':'+
-				('00'+Math.floor((hoff+tmeoff*ofs-Math.floor(hoff+tmeoff*ofs))*60)).slice(-2))
+			if (p.x>34) { var ofs = (p.x-34)*hspan/(width-35); 
+				writeMsg(''+Math.floor(hoff+ofs)+':'+
+				('00'+Math.floor((hoff+ofs-Math.floor(hoff+ofs))*60)).slice(-2))
 			};}, false);
 	context.canvas.addEventListener('mouseout',function(e) {
 			writeMsg('     ');
+			}, false);
+	context.canvas.addEventListener('mousedown', function(e) {
+			if (hspan==24) {
+				var p=getMousePos(e), istr='';
+				if (p.x>34) { var ofs = (p.x-34)*hspan/(width-35); 
+					 if ((ofs>0)&&(ofs<=4)) {istr='./index_0006.html';}
+					 else if ((ofs>4)&&(ofs<=7)) {istr='./index_0309.html';}
+					 else if ((ofs>7)&&(ofs<=10.5)) {istr='./index_0612.html';}
+					 else if ((ofs>10.5)&&(ofs<=13.5)) {istr='./index_0915.html';}
+					 else if ((ofs>13.5)&&(ofs<=16)) {istr='./index_1218.html';}
+					 else if ((ofs>16)&&(ofs<=20)) {istr='./index_1521.html';}
+					 else if ((ofs>20)&&(ofs<=24)) {istr='./index_1800.html';}
+					 window.open (istr,'_self',false);
+				}
+			}
 			}, false);
 	
 	function calculateOffset(val,calculatedScale,scaleHop){
@@ -459,8 +473,6 @@ window.Chart = function(context){
 		var animFrameAmount = (config.animation)? 1/CapValue(config.animationSteps,Number.MAX_VALUE,1) : 1,
 			easingFunction = animationOptions[config.animationEasing],
 			percentAnimComplete =(config.animation)? 0 : 1;
-		
-	
 		
 		if (typeof drawScale !== "function") drawScale = function(){};
 		
@@ -478,10 +490,8 @@ window.Chart = function(context){
 			}				
 		}
 		function animLoop(){
-			//We need to check if the animation is incomplete (less than 1), or complete (1).
 				percentAnimComplete += animFrameAmount;
 				animateFrame();	
-				//Stop the loop continuing forever
 				if (percentAnimComplete <= 1){
 					requestAnimFrame(animLoop);
 				}
@@ -493,9 +503,6 @@ window.Chart = function(context){
 		
 	}
 
-	//Declare global functions to be called within this namespace here.
-	
-	
 	// shim layer with setTimeout fallback
 	var requestAnimFrame = (function(){
 		return window.requestAnimationFrame ||
