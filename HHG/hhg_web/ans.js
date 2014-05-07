@@ -18,6 +18,9 @@ for (var i=0;i<imga.length;i++){
 var anscanvas = document.getElementById("dvans");
 var ac=anscanvas.getContext("2d");
 
+var co = 32 ;
+var cw = ac.canvas.width-co;
+
 if (window.devicePixelRatio) {
 	ac.canvas.style.width = anscanvas.width + "px";
 	ac.canvas.style.height = anscanvas.height + "px";
@@ -31,9 +34,6 @@ var drag,dragL,dragR = false,
     closeEnough = 10,
     cur_rect = -1,
     ldist, rdist = 0;
-
-var co = 32;
-var cw = ac.canvas.width-co;
 
 function init_ans() {
 	if (typeof(ans)=="undefined"){
