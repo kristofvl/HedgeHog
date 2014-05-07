@@ -396,6 +396,7 @@ def write_raw_day_htmls(day_id, dlpath):
 		for row in dta:
 			f.write('['+str(float(row[0]))+','+str((row[1]))+','+
 					str((row[2]))+','+str((row[3]))+'],')
+	os.remove(os.path.join(dlpath,str(day_id),'d.csv'));
 	f.write('];')
 	f.write(
 		'g3 = new Dygraph(document.getElementById("graphdiv"),'+
