@@ -314,7 +314,7 @@ def write_day_zoom_html(day_id, dlpath,
 			(4*dlen/6, str(int(tstr[:2])+4)),
 			(5*dlen/6, str(int(tstr[:2])+5)),
 			(dlen-1,tstr[2:])]:
-		f.write("ll["+str(hitr[0])+"]='"+hitr[1]+"';")
+		f.write("ll["+str(hitr[0])+"]='"+hitr[1].zfill(2)+"';")
 	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
 	f.write( adata_html('d_acc3d', 'll', 
 					'#d00', x_str, '#0c0', y_str, '#00d', z_str ) )
