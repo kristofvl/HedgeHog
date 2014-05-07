@@ -95,26 +95,29 @@ function mouseUp() {
 	drag=dragL=dragR=false; ldist=rdist=0; cur_rect = -1;	
 }
 function mouseMove(e) {
+	anscanvas.style.cursor = 'pointer';		
 	if (e.offsetX) {
 		mouseX = e.offsetX; mouseY = e.offsetY;
 	}
 	else if (e.layerX){
 		mouseX = e.layerX; mouseY = e.layerY;
 	}
-	if((mouseX-ldist>=co-2)&&(mouseX+rdist<cw+co+2)){		
+	if((mouseX-ldist>=co-2)&&(mouseX+rdist<cw+co+2)){
 		if(dragL){
+			anscanvas.style.cursor = 'col-resize';
 			ans[cur_rect][1] = fromCanCoord(mouseX);
 		} else if(dragR) {
+			anscanvas.style.cursor = 'col-resize';
 			ans[cur_rect][2] = fromCanCoord(mouseX);
 		} else if(drag) {
+			anscanvas.style.cursor = 'col-resize';
 			ans[cur_rect][1] = fromCanCoord(mouseX-ldist);
 			ans[cur_rect][2] = fromCanCoord(mouseX+rdist);
-		}
+		} else { anscanvas.style.cursor = 'default';}
 	}
 	if (dragL || dragR || drag) { draw_ans(); }
 }
 function mouseDbl(e) {
-	console.log("double");
 	if (e.offsetX) { mouseX = e.offsetX; mouseY = e.offsetY; }
 	else if (e.layerX){ mouseX = e.layerX; mouseY = e.layerY; }
 	var deleted = false

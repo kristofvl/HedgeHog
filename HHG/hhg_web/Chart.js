@@ -440,6 +440,8 @@ window.Chart = function(context){
 	context.canvas.addEventListener('mousemove',function(e) {
 			var p=getMousePos(e);
 			if (p.x>34) { var ofs = (p.x-34)*hspan/(width-35); 
+				if (hspan==24)
+					context.canvas.style.cursor = 'zoom-in';
 				writeMsg(''+Math.floor(hoff+ofs)+':'+
 				('00'+Math.floor((hoff+ofs-Math.floor(hoff+ofs))*60)).slice(-2))
 			};}, false);
