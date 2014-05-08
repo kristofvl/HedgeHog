@@ -44,6 +44,16 @@ zdiv = 32
 subp = [	(0,0.25,'0006'), (0.125,0.375,'0309'), (0.25,0.5,'0612'), 
 			(0.375,0.625,'0915'), (0.5,0.75,'1218'), 
 			(0.625,0.875,'1521'), (0.75,1,'1800') ]
+			
+subh = [( 0, 0.04166,'0001'), ( 0.04166, 0.08333,'0102'),(  0.08333, 0.125,'0203'),
+		  ( 0.125, 0.1666,'0304'), ( 0.1666, 0.2083,'0405'),( 0.2083, 0.25,'0506'),
+		  ( 0.25, 0.2916,'0607'), ( 0.9216, 0.3333,'0708'),( 0.3333, 0.375,'0809'),
+		  ( 0.375,0.4166,'0910'), (0.4166,0.4583,'1011'),(0.4583,0.5,'1112'),
+		  ( 0.5,0.5416,'1213'), (0.5416,0.5833,'1314'),(0.5833,0.625,'1415'),
+		  ( 0.625,0.6666,'1516'), (0.6666,0.7033,'1617'),(0.7083,0.75,'1718'),
+		  ( 0.75,0.7916,'1819'), (0.7916,0.8333,'1920'),(0.8333,0.875,'2021'),
+		  ( 0.875,0.9166,'2122'), (0.9166,0.9583,'2223'),(0.9583,1,'2300')
+]
 	
 ## one day canvas width (pixels):
 cd_px_draw = 800
@@ -95,8 +105,8 @@ def cal_entry(day_id, dlpath, f):
 	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
 	hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 							x_str, y_str, z_str, l_str, p_str, cd_px)
-	## calculate raw data view for 6 hours with 3 hour overlaps:
-	for intr in subp:
+		## calculate raw data view for 1 hour with no overlaps:
+	for intr in subh:
 		dta_sel = [dta[j] for j in range(len(dta)) 
 						if ((dta[j][0]>(day_id+intr[0])) and   
 							(dta[j][0]<(day_id+intr[1])))]
@@ -104,7 +114,6 @@ def cal_entry(day_id, dlpath, f):
 		if dta_sel!=[]:
 			int_bin = hf.equidist_npz(dta_sel)
 			if len(int_bin)>zbins:
-				##int_bin = int_bin[0:-1:(len(int_bin)/zbins)] ## TODO: changin minmax
 				it_bin = int_bin[0:zbins].view(np.recarray);
 				fctr = len(int_bin)/zbins;
 				for i in range(0,zbins):
@@ -126,7 +135,38 @@ def cal_entry(day_id, dlpath, f):
 					x_str, y_str, z_str, l_str, 
 					p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
 					intr[2], cz_px)
-			
+	## calculate raw data view for 6 hours with 3 hour overlaps:
+	for intr in subp:
+		dta_sel = [dta[j] for j in range(len(dta)) 
+						if ((dta[j][0]>(day_id+intr[0])) and   
+							(dta[j][0]<(day_id+intr[1])))]
+		dta_sel = np.array(dta_sel).view(np.recarray)
+		if dta_sel!=[]:
+			int_bin = hf.equidist_npz(dta_sel)
+			if len(int_bin)>zbins:
+				it_bin = int_bin[0:zbins].view(np.recarray);
+				fctr = len(int_bin)/zbins;
+				for i in range(0,zbins):
+					if i%2==0:
+						it_bin.x[i] = max(int_bin.x[i*fctr:(i+1)*fctr])
+						it_bin.y[i] = min(int_bin.y[i*fctr:(i+1)*fctr])
+						it_bin.z[i] = max(int_bin.z[i*fctr:(i+1)*fctr])
+					else:
+						it_bin.x[i] = min(int_bin.x[i*fctr:(i+1)*fctr])
+						it_bin.y[i] = max(int_bin.y[i*fctr:(i+1)*fctr])
+						it_bin.z[i] = min(int_bin.z[i*fctr:(i+1)*fctr])
+				
+				l_str =''.join(["%02x" %c for c in (
+											it_bin.e1[::zdiv]>>8).tolist()])
+				x_str =''.join(["%02x" %c for c in (it_bin.x).tolist()])
+				y_str =''.join(["%02x" %c for c in (it_bin.y).tolist()])
+				z_str =''.join(["%02x" %c for c in (it_bin.z).tolist()])
+				hh.write_day_zoom_html(day_id, dlpath, 
+					x_str, y_str, z_str, l_str, 
+					p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
+					intr[2], cz_px)
+
+							
 	hh.write_raw_day_htmls(day_id, dlpath)
 	toc = time.clock()
 	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'

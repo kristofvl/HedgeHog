@@ -53,14 +53,27 @@ def day_indexheader(daystr, day_id):
 		'<a style="text-align:right;" href="../index.html">'+
 		'<span class="a-up"></span></a></h1>')  
 def subday_indexheader(daystr, tstr, day_id):
-	prevh = (str(int(tstr[:2])-3).zfill(2)+
-				str((int(tstr[2:])-3)%24).zfill(2))
-	nexth = (str((int(tstr[:2])+3)).zfill(2)+
-				str((int(tstr[2:])+3)%24).zfill(2))
+	hspan = str(float(tstr[2:])-float(tstr[:2]))
+	if float(tstr[2:])==0: hspan = str(24-float(tstr[:2]))
+	if hspan=="6.0":
+		shft = 3;
+	elif 	hspan=="1.0":
+		shft = 1;
+	prevh = (str(int(tstr[:2])-shft).zfill(2)+
+				str((int(tstr[2:])-shft)%24).zfill(2))
+	nexth = (str((int(tstr[:2])+shft)).zfill(2)+
+				str((int(tstr[2:])+shft)%24).zfill(2))
 	if (tstr[:2]=="00"):
-		prevh = "1800"
+		if  hspan=="6.0":
+			prevh = "1800"
+		elif 	hspan=="1.0":
+			prevh = "2300"
 	if (tstr[2:]=="00"):
-		nexth = "0006"
+		if  hspan=="6.0":
+			nexth = "0006"
+		elif 	hspan=="1.0":
+			nexth = "0001"
+		
 	prevd =  str(day_id-int(tstr[:2]=="00"))
 	nextd =  str(day_id+int(tstr[2:]=="00"))
 	return (htmlhead('HedgeHog Zoom View','../st.css','../Chart.js')+
@@ -298,6 +311,7 @@ def write_day_zoom_html(day_id, dlpath,
 	f.write(subday_indexheader(daystr, tstr, day_id))
 	f.write('<hr>')
 	f.write( 
+		'</br><div class="icn-slp"></div>'+
 		canvas_html('night_view_prb','position:relative;',canw,'100') +
 		'</br><div class="icn-sun"></div>'+
 		canvas_html('day_view_light','position:relative;',canw,'120') +
@@ -308,13 +322,25 @@ def write_day_zoom_html(day_id, dlpath,
 		 )
 	f.write('<script>')
 	f.write("var ll= new Array("+str(dlen)+").join('0').split('');")
-	for hitr in [(0,tstr[:2]), (dlen/6, str(int(tstr[:2])+1)),
-			(2*dlen/6, str(int(tstr[:2])+2)),
-			(3*dlen/6, str(int(tstr[:2])+3)),
-			(4*dlen/6, str(int(tstr[:2])+4)),
-			(5*dlen/6, str(int(tstr[:2])+5)),
-			(dlen-1,tstr[2:])]:
-		f.write("ll["+str(hitr[0])+"]='"+hitr[1].zfill(2)+"';")
+	hspan = str(float(tstr[2:])-float(tstr[:2]))
+	if float(tstr[2:])==0: hspan = str(24-float(tstr[:2]))
+	if hspan=='6.0':
+		for hitr in [(0,tstr[:2]), (dlen/6, str(int(tstr[:2])+1)),
+				(2*dlen/6, str(int(tstr[:2])+2)),
+				(3*dlen/6, str(int(tstr[:2])+3)),
+				(4*dlen/6, str(int(tstr[:2])+4)),
+				(5*dlen/6, str(int(tstr[:2])+5)),
+				(dlen-1,tstr[2:])]:
+			f.write("ll["+str(hitr[0])+"]='"+hitr[1].zfill(2)+"';")
+	elif hspan=='1.0':
+		for hitr in [(0,tstr[:2]+":00"), 
+				(dlen/6, str(int(tstr[:2])).zfill(2)+":10"),
+				(2*dlen/6, str(int(tstr[:2])).zfill(2)+":20"),
+				(3*dlen/6, str(int(tstr[:2])).zfill(2)+":30"),
+				(4*dlen/6, str(int(tstr[:2])).zfill(2)+":40"),
+				(5*dlen/6, str(int(tstr[:2])).zfill(2)+":50"),
+				(dlen-1,tstr[2:]+":00")]:
+			f.write("ll["+str(hitr[0])+"]='"+hitr[1]+"';")
 	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
 	f.write( adata_html('d_acc3d', 'll', 
 					'#d00', x_str, '#0c0', y_str, '#00d', z_str ) )
@@ -323,20 +349,22 @@ def write_day_zoom_html(day_id, dlpath,
 						'scaleShowLabels:true,scaleFontSize:12,'+
 						'scaleShowGridLines:true,animation:false,'+
 						'scaleStepWidth:32,'+
-						'hspan:6,hoff:'+str(float(tstr[:2]))) +
+						'hspan:'+hspan+',hoff:'+str(float(tstr[:2]))) +
 				chart_html('acc3d', 'day_view_acc3d', 'Line', 'd_acc3d', 
 								'scaleSteps:8,scaleShowLabels:true,'+
 								'scaleFontSize:12,scaleLineWidth:1,'+
 								'datasetStrokeWidth:0.5,scaleStepWidth:32,'+
-								'hspan:6,hoff:'+str(float(tstr[:2]))) +
+								'hspan:'+hspan+',hoff:'+str(float(tstr[:2]))) +
 				chart_html('night', 'night_view_prb', 'Bar', 'd_night', 
 								'scaleShowLabels:true,'+
 								'scaleFontSize:12,scaleShowGridLines:true,'+
 								'animation:false,scaleStepWidth:32,'+
-								'hspan:6,hoff:'+str(float(tstr[:2]))) )
+								'hspan:'+hspan+',hoff:'+str(float(tstr[:2]))) )
 	f.write('var dayid='+str(day_id)+';</script>')
+	hspan = str(float(tstr[2:])-float(tstr[:2]))
+	if float(tstr[2:])==0: hspan = str(24-float(tstr[:2]))
 	f.write('<script src="../ans_array.js"></script>'+
-		'<script>var hspan=6, hoff='+str(float(tstr[:2]))+';</script>'+
+		'<script>var hspan='+hspan+', hoff='+str(float(tstr[:2]))+';</script>'+
 		'<script src="../ans.js"></script>')
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with a <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
