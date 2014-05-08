@@ -103,17 +103,30 @@ def cal_entry(day_id, dlpath, f):
 		dta_sel = np.array(dta_sel).view(np.recarray)
 		if dta_sel!=[]:
 			int_bin = hf.equidist_npz(dta_sel)
-			int_bin = int_bin[0:-1:(len(int_bin)/zbins)]
-			l_str =''.join(["%02x" %c for c in (
-											int_bin.e1[::zdiv]>>8).tolist()])
-			x_str =''.join(["%02x" %c for c in (int_bin.x).tolist()])
-			y_str =''.join(["%02x" %c for c in (int_bin.y).tolist()])
-			z_str =''.join(["%02x" %c for c in (int_bin.z).tolist()])
-			hh.write_day_zoom_html(day_id, dlpath, 
-				x_str, y_str, z_str, l_str, 
-				p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
-				intr[2], cz_px)
-		
+			if len(int_bin)>zbins:
+				##int_bin = int_bin[0:-1:(len(int_bin)/zbins)] ## TODO: changin minmax
+				it_bin = int_bin[0:zbins].view(np.recarray);
+				fctr = len(int_bin)/zbins;
+				for i in range(0,zbins):
+					if i%2==0:
+						it_bin.x[i] = max(int_bin.x[i*fctr:(i+1)*fctr])
+						it_bin.y[i] = min(int_bin.y[i*fctr:(i+1)*fctr])
+						it_bin.z[i] = max(int_bin.z[i*fctr:(i+1)*fctr])
+					else:
+						it_bin.x[i] = min(int_bin.x[i*fctr:(i+1)*fctr])
+						it_bin.y[i] = max(int_bin.y[i*fctr:(i+1)*fctr])
+						it_bin.z[i] = min(int_bin.z[i*fctr:(i+1)*fctr])
+				
+				l_str =''.join(["%02x" %c for c in (
+											it_bin.e1[::zdiv]>>8).tolist()])
+				x_str =''.join(["%02x" %c for c in (it_bin.x).tolist()])
+				y_str =''.join(["%02x" %c for c in (it_bin.y).tolist()])
+				z_str =''.join(["%02x" %c for c in (it_bin.z).tolist()])
+				hh.write_day_zoom_html(day_id, dlpath, 
+					x_str, y_str, z_str, l_str, 
+					p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
+					intr[2], cz_px)
+			
 	hh.write_raw_day_htmls(day_id, dlpath)
 	toc = time.clock()
 	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'
