@@ -481,14 +481,14 @@ window.Chart = function(context){
 			if (hspan==24) {
 				var p=getMousePos(e), istr='';
 				if (p.x>34) { var ofs = (p.x-34)*hspan/(width-35); 
-					 if ((ofs>0)&&(ofs<=4)) {istr='./index_0006.html';}
-					 else if ((ofs>4)&&(ofs<=7)) {istr='./index_0309.html';}
-					 else if ((ofs>7)&&(ofs<=10.5)) {istr='./index_0612.html';}
-					 else if ((ofs>10.5)&&(ofs<=13.5)) {istr='./index_0915.html';}
-					 else if ((ofs>13.5)&&(ofs<=16)) {istr='./index_1218.html';}
-					 else if ((ofs>16)&&(ofs<=20)) {istr='./index_1521.html';}
-					 else if ((ofs>20)&&(ofs<=24)) {istr='./index_1800.html';}
-					 window.open (istr,'_self',false);
+					 if ((ofs>0)&&(ofs<=4)) {istr='0006';}
+					 else if ((ofs>4)&&(ofs<=7)) {istr='0309';}
+					 else if ((ofs>7)&&(ofs<=10.5)) {istr='0612';}
+					 else if ((ofs>10.5)&&(ofs<=13.5)) {istr='0915';}
+					 else if ((ofs>13.5)&&(ofs<=16)) {istr='1218';}
+					 else if ((ofs>16)&&(ofs<=20)) {istr='1521';}
+					 else if (ofs>20) {istr='1800';}
+					 window.open ('./index_'+istr+'.html','_self',false);
 				}
 			}
 			}, false);
