@@ -33,6 +33,9 @@ window.Chart = function(context){
 	var hspan = 24;
 	var hoff = 0;
 	
+	var imgdta;
+	var prevx=newx=-1;
+	
 	//Variables global to the chart
 	var width = context.canvas.width;
 	var height = context.canvas.height;
@@ -439,13 +442,39 @@ window.Chart = function(context){
 	}
 	context.canvas.addEventListener('mousemove',function(e) {
 			var p=getMousePos(e);
-			if (p.x>34) { var ofs = (p.x-34)*hspan/(width-35); 
-				if (hspan==24)
-					context.canvas.style.cursor = 'zoom-in';
+			if (p.x>34) { 
+				var ofs = (p.x-34)*hspan/(width-35); 
+				if (hspan==24) {
+					if (navigator.appCodeName=='Mozilla')
+						context.canvas.style.cursor = '-moz-zoom-in';
+					else
+						context.canvas.style.cursor = '-webkit-zoom-in';
+					if ((ofs>0)&&(ofs<=4)) {newx=32;}
+					 else if ((ofs>4)&&(ofs<=7)) {newx=132;}
+					 else if ((ofs>7)&&(ofs<=10.5)) {newx=232;}
+					 else if ((ofs>10.5)&&(ofs<=13.5)) {newx=332;}
+					 else if ((ofs>13.5)&&(ofs<=16)) {newx=432;}
+					 else if ((ofs>16)&&(ofs<=20)) {newx=532;}
+					 else if (ofs>20) {newx=632;}
+					if ((prevx>0)&&(prevx!=newx)) {
+						context.putImageData(imgdta,(prevx-1)*window.devicePixelRatio,0);
+					}
+					if (prevx!=newx) {
+						imgdta = context.getImageData((newx-1)*window.devicePixelRatio,0,201*window.devicePixelRatio,height*window.devicePixelRatio);
+						context.beginPath(); context.strokeStyle = "#111";
+						context.lineWidth=.5;
+						context.rect(newx,5,198,height-16);
+						context.stroke();
+						prevx = newx;
+					}
+				}
 				writeMsg(''+Math.floor(hoff+ofs)+':'+
 				('00'+Math.floor((hoff+ofs-Math.floor(hoff+ofs))*60)).slice(-2))
 			};}, false);
 	context.canvas.addEventListener('mouseout',function(e) {
+			if (prevx>0) {
+				context.putImageData(imgdta,(prevx-1)*window.devicePixelRatio,0);
+			}
 			writeMsg('     ');
 			}, false);
 	context.canvas.addEventListener('mousedown', function(e) {
@@ -463,6 +492,7 @@ window.Chart = function(context){
 				}
 			}
 			}, false);
+	
 	
 	function calculateOffset(val,calculatedScale,scaleHop){
 		var outerValue = calculatedScale.steps * calculatedScale.stepValue;
