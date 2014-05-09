@@ -30,11 +30,13 @@ window.Chart = function(context){
 		}
 	};
 	
-	var hspan = 24;
-	var hoff = 0;
+	var hspan=24;
+	var hoff=0;
 	
 	var imgdta;
 	var prevx=newx=-1;
+	
+	var poff=34;
 	
 	//Variables global to the chart
 	var width = context.canvas.width;
@@ -442,8 +444,8 @@ window.Chart = function(context){
 	}
 	context.canvas.addEventListener('mousemove',function(e) {
 			var p=getMousePos(e);
-			if (p.x>34) { 
-				var ofs = (p.x-34)*hspan/(width-35); 
+			if (p.x>poff) { 
+				var ofs = (p.x-poff)*hspan/(width-poff-1); 
 				if (hspan==24) {
 					if (navigator.appCodeName=='Mozilla')
 						context.canvas.style.cursor = '-moz-zoom-in';
@@ -504,7 +506,7 @@ window.Chart = function(context){
 	context.canvas.addEventListener('mousedown', function(e) {
 			if (hspan==24) {
 				var p=getMousePos(e), istr='';
-				if (p.x>34) { var ofs = (p.x-34)*hspan/(width-35); 
+				if (p.x>poff) { var ofs = (p.x-poff)*hspan/(width-poff-1); 
 					 if ((ofs>0)&&(ofs<=4)) {istr='0006';}
 					 else if ((ofs>4)&&(ofs<=7)) {istr='0309';}
 					 else if ((ofs>7)&&(ofs<=10.5)) {istr='0612';}
@@ -516,14 +518,11 @@ window.Chart = function(context){
 				}
 			}
 			else if (hspan==6) {
-				var p=getMousePos(e), istr='';
-				if (p.x>34) { 
-					var ofs = (p.x-34)*hspan/(width-35);
-					 if ((ofs>0)&&(ofs<=1)) {istr='0001';}
-					 else if ((ofs>1)&&(ofs<=2)) {istr='0309';}
-					 else if ((ofs>3)&&(ofs<=4)) {istr='0612';}
-					 else if ((ofs>4)&&(ofs<=5)) {istr='0915';}
-					 else if (ofs>5) {istr='1800';}
+				var p=getMousePos(e);
+				if (p.x>poff) {
+					var ofs = (p.x-poff)*hspan/(width-poff-1);
+					istr=("00"+(hoff+Math.floor(ofs))).slice(-2).toString()+
+						 ("00"+(hoff+Math.floor(ofs)+1)).slice(-2).toString();
 					 window.open ('./index_'+istr+'.html','_self',false);
 				}
 			}
@@ -566,9 +565,7 @@ window.Chart = function(context){
 				else{
 					if (typeof config.onAnimationComplete == "function") config.onAnimationComplete();
 				}
-			
-		}		
-		
+		}	
 	}
 
 	// shim layer with setTimeout fallback
@@ -579,38 +576,32 @@ window.Chart = function(context){
 			window.oRequestAnimationFrame ||
 			window.msRequestAnimationFrame ||
 			function(callback) {
-				window.setTimeout(callback, 1000 / 60);
+				window.setTimeout(callback, 17);
 			};
 	})();
 
 	function calculateScale(drawingHeight,maxSteps,minSteps,maxValue,minValue,labelTemplateString){
-			var graphMin,graphMax,graphRange,stepValue,numberOfSteps,valueRange,rangeOrderOfMagnitude,decimalNum;
+			var graphMin,graphMax,graphRange,stepValue,numberOfSteps,rangeOrderOfMagnitude,decimalNum;
 			
-			valueRange = maxValue - minValue;
-			
-			rangeOrderOfMagnitude = calculateOrderOfMagnitude(valueRange);
+			rangeOrderOfMagnitude = calculateOrderOfMagnitude(maxValue - minValue);
 
         	graphMin = Math.floor(minValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
-            
-            graphMax = Math.ceil(maxValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
-            
-            graphRange = graphMax - graphMin;
-            
-            stepValue = Math.pow(10, rangeOrderOfMagnitude);
-            
-	        numberOfSteps = Math.round(graphRange / stepValue);
+         graphMax = Math.ceil(maxValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
+         graphRange = graphMax - graphMin;
+         stepValue = Math.pow(10, rangeOrderOfMagnitude);
+         numberOfSteps = Math.round(graphRange / stepValue);
 	        
-	        //Compare number of steps to the max and min for that size graph, and add in half steps if need be.	        
-	        while(numberOfSteps < minSteps || numberOfSteps > maxSteps) {
-	        	if (numberOfSteps < minSteps){
-			        stepValue /= 2;
-			        numberOfSteps = Math.round(graphRange/stepValue);
-		        }
-		        else{
-			        stepValue *=2;
-			        numberOfSteps = Math.round(graphRange/stepValue);
-		        }
-	        };
+	      //Compare number of steps to the max and min for that size graph, and add in half steps if need be.	        
+	      while(numberOfSteps < minSteps || numberOfSteps > maxSteps) {
+				if (numberOfSteps < minSteps){
+					stepValue /= 2;
+					numberOfSteps = Math.round(graphRange/stepValue);
+				}
+				else{
+					stepValue *=2;
+					numberOfSteps = Math.round(graphRange/stepValue);
+				}
+	      };
 
 	        var labels = [];
 	        populateLabels(labelTemplateString, labels, numberOfSteps, graphMin, stepValue);
@@ -625,9 +616,7 @@ window.Chart = function(context){
 		
 			function calculateOrderOfMagnitude(val){
 			  return Math.floor(Math.log(val) / Math.LN10);
-			}		
-
-
+			}	
 	}
 
     //Populate an array of all the labels by interpolating the string.
@@ -692,7 +681,8 @@ window.Chart = function(context){
 	    return returnObj;
 	}
 	
-	//Javascript micro templating by John Resig - source at http://ejohn.org/blog/javascript-micro-templating/
+	//Javascript micro templating by John Resig - 
+	// source at http://ejohn.org/blog/javascript-micro-templating/
 	  var cache = {};
 	 
 	  function tmpl(str, data){

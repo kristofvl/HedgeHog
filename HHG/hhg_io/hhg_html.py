@@ -311,7 +311,7 @@ def write_day_zoom_html(day_id, dlpath,
 	f.write(subday_indexheader(daystr, tstr, day_id))
 	f.write('<hr>')
 	f.write( 
-		'</br><div class="icn-slp"></div>'+
+		'<div class="icn-slp"></div>'+
 		canvas_html('night_view_prb','position:relative;',canw,'100') +
 		'</br><div class="icn-sun"></div>'+
 		canvas_html('day_view_light','position:relative;',canw,'120') +
