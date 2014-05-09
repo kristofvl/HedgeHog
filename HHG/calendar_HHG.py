@@ -45,13 +45,10 @@ subp = [	(0,0.25,'0006'), (0.125,0.375,'0309'), (0.25,0.5,'0612'),
 			(0.375,0.625,'0915'), (0.5,0.75,'1218'), 
 			(0.625,0.875,'1521'), (0.75,1,'1800') ]
 
-
 subh = []
 for i in range(24):
 	subh.append( (float(i)/24, float(i+1)/24, 
 		str(i).zfill(2)+str((i+1)%24).zfill(2) ) )
-
-print subh
 	
 ## one day canvas width (pixels):
 cd_px_draw = 800
@@ -110,38 +107,9 @@ def cal_entry(day_id, dlpath, f, skip):
 	if not skip:
 		hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 							x_str, y_str, z_str, l_str, p_str, cd_px)
-		## calculate raw data view for 1 hour with no overlaps:
-		for intr in subh:
-			dta_sel = [dta[j] for j in range(len(dta)) 
-							if ((dta[j][0]>(day_id+intr[0])) and   
-								(dta[j][0]<(day_id+intr[1])))]
-			dta_sel = np.array(dta_sel).view(np.recarray)
-			if dta_sel!=[]:
-				int_bin = hf.equidist_npz(dta_sel)
-				if len(int_bin)>zbins:
-					it_bin = int_bin[0:zbins].view(np.recarray);
-					fctr = len(int_bin)/zbins;
-					for i in range(0,zbins):
-						if i%2==0:
-							it_bin.x[i] = max(int_bin.x[i*fctr:(i+1)*fctr])
-							it_bin.y[i] = min(int_bin.y[i*fctr:(i+1)*fctr])
-							it_bin.z[i] = max(int_bin.z[i*fctr:(i+1)*fctr])
-						else:
-							it_bin.x[i] = min(int_bin.x[i*fctr:(i+1)*fctr])
-							it_bin.y[i] = max(int_bin.y[i*fctr:(i+1)*fctr])
-							it_bin.z[i] = min(int_bin.z[i*fctr:(i+1)*fctr])
-					
-					l_str =''.join(["%02x" %c for c in (
-												it_bin.e1[::zdiv]>>8).tolist()])
-					x_str =''.join(["%02x" %c for c in (it_bin.x).tolist()])
-					y_str =''.join(["%02x" %c for c in (it_bin.y).tolist()])
-					z_str =''.join(["%02x" %c for c in (it_bin.z).tolist()])
-					hh.write_day_zoom_html(day_id, dlpath, 
-						x_str, y_str, z_str, l_str, 
-						p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
-						intr[2], cz_px)
 		## calculate raw data view for 6 hours with 3 hour overlaps:
-		for intr in subp:
+		## calculate raw data view for 1 hour with no overlaps:
+		for intr in subh+subp:
 			dta_sel = [dta[j] for j in range(len(dta)) 
 							if ((dta[j][0]>(day_id+intr[0])) and   
 								(dta[j][0]<(day_id+intr[1])))]
@@ -160,9 +128,9 @@ def cal_entry(day_id, dlpath, f, skip):
 							it_bin.x[i] = min(int_bin.x[i*fctr:(i+1)*fctr])
 							it_bin.y[i] = max(int_bin.y[i*fctr:(i+1)*fctr])
 							it_bin.z[i] = min(int_bin.z[i*fctr:(i+1)*fctr])
-					
+						it_bin.e1[i] = max(int_bin.e1[i*fctr:(i+1)*fctr]>>8)
 					l_str =''.join(["%02x" %c for c in (
-												it_bin.e1[::zdiv]>>8).tolist()])
+														it_bin.e1[::zdiv]).tolist()])
 					x_str =''.join(["%02x" %c for c in (it_bin.x).tolist()])
 					y_str =''.join(["%02x" %c for c in (it_bin.y).tolist()])
 					z_str =''.join(["%02x" %c for c in (it_bin.z).tolist()])
