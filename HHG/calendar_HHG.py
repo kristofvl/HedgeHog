@@ -66,7 +66,7 @@ cz_px_yaxs = 32
 cz_px = cz_px_yaxs + cz_px_draw
 
 ## write a calendar entry
-def cal_entry(day_id, dlpath, f):
+def cal_entry(day_id, dlpath, f, skip):
 	tic = time.clock()
 	hh.write_cal_entry(day_id, f)
 	## open the data and configuration for the day:
@@ -103,71 +103,78 @@ def cal_entry(day_id, dlpath, f):
 	np.savetxt( os.path.join(dlpath,str(day_id),'d.csv'), csva, 
 		fmt="%1.8f,%d,%d,%d")
 	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
+	if skip:
+		if os.path.exists(os.path.join(dlpath,str(day_id),'index.html')):
+			skip = True;
+		else
+			skip = False;
+	#####################################################################
+	if not skip:
 	hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 							x_str, y_str, z_str, l_str, p_str, cd_px)
 		## calculate raw data view for 1 hour with no overlaps:
-	for intr in subh:
-		dta_sel = [dta[j] for j in range(len(dta)) 
-						if ((dta[j][0]>(day_id+intr[0])) and   
-							(dta[j][0]<(day_id+intr[1])))]
-		dta_sel = np.array(dta_sel).view(np.recarray)
-		if dta_sel!=[]:
-			int_bin = hf.equidist_npz(dta_sel)
-			if len(int_bin)>zbins:
-				it_bin = int_bin[0:zbins].view(np.recarray);
-				fctr = len(int_bin)/zbins;
-				for i in range(0,zbins):
-					if i%2==0:
-						it_bin.x[i] = max(int_bin.x[i*fctr:(i+1)*fctr])
-						it_bin.y[i] = min(int_bin.y[i*fctr:(i+1)*fctr])
-						it_bin.z[i] = max(int_bin.z[i*fctr:(i+1)*fctr])
-					else:
-						it_bin.x[i] = min(int_bin.x[i*fctr:(i+1)*fctr])
-						it_bin.y[i] = max(int_bin.y[i*fctr:(i+1)*fctr])
-						it_bin.z[i] = min(int_bin.z[i*fctr:(i+1)*fctr])
-				
-				l_str =''.join(["%02x" %c for c in (
-											it_bin.e1[::zdiv]>>8).tolist()])
-				x_str =''.join(["%02x" %c for c in (it_bin.x).tolist()])
-				y_str =''.join(["%02x" %c for c in (it_bin.y).tolist()])
-				z_str =''.join(["%02x" %c for c in (it_bin.z).tolist()])
-				hh.write_day_zoom_html(day_id, dlpath, 
-					x_str, y_str, z_str, l_str, 
-					p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
-					intr[2], cz_px)
-	## calculate raw data view for 6 hours with 3 hour overlaps:
-	for intr in subp:
-		dta_sel = [dta[j] for j in range(len(dta)) 
-						if ((dta[j][0]>(day_id+intr[0])) and   
-							(dta[j][0]<(day_id+intr[1])))]
-		dta_sel = np.array(dta_sel).view(np.recarray)
-		if dta_sel!=[]:
-			int_bin = hf.equidist_npz(dta_sel)
-			if len(int_bin)>zbins:
-				it_bin = int_bin[0:zbins].view(np.recarray);
-				fctr = len(int_bin)/zbins;
-				for i in range(0,zbins):
-					if i%2==0:
-						it_bin.x[i] = max(int_bin.x[i*fctr:(i+1)*fctr])
-						it_bin.y[i] = min(int_bin.y[i*fctr:(i+1)*fctr])
-						it_bin.z[i] = max(int_bin.z[i*fctr:(i+1)*fctr])
-					else:
-						it_bin.x[i] = min(int_bin.x[i*fctr:(i+1)*fctr])
-						it_bin.y[i] = max(int_bin.y[i*fctr:(i+1)*fctr])
-						it_bin.z[i] = min(int_bin.z[i*fctr:(i+1)*fctr])
-				
-				l_str =''.join(["%02x" %c for c in (
-											it_bin.e1[::zdiv]>>8).tolist()])
-				x_str =''.join(["%02x" %c for c in (it_bin.x).tolist()])
-				y_str =''.join(["%02x" %c for c in (it_bin.y).tolist()])
-				z_str =''.join(["%02x" %c for c in (it_bin.z).tolist()])
-				hh.write_day_zoom_html(day_id, dlpath, 
-					x_str, y_str, z_str, l_str, 
-					p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
-					intr[2], cz_px)
-
-							
-	hh.write_raw_day_htmls(day_id, dlpath)
+		for intr in subh:
+			dta_sel = [dta[j] for j in range(len(dta)) 
+							if ((dta[j][0]>(day_id+intr[0])) and   
+								(dta[j][0]<(day_id+intr[1])))]
+			dta_sel = np.array(dta_sel).view(np.recarray)
+			if dta_sel!=[]:
+				int_bin = hf.equidist_npz(dta_sel)
+				if len(int_bin)>zbins:
+					it_bin = int_bin[0:zbins].view(np.recarray);
+					fctr = len(int_bin)/zbins;
+					for i in range(0,zbins):
+						if i%2==0:
+							it_bin.x[i] = max(int_bin.x[i*fctr:(i+1)*fctr])
+							it_bin.y[i] = min(int_bin.y[i*fctr:(i+1)*fctr])
+							it_bin.z[i] = max(int_bin.z[i*fctr:(i+1)*fctr])
+						else:
+							it_bin.x[i] = min(int_bin.x[i*fctr:(i+1)*fctr])
+							it_bin.y[i] = max(int_bin.y[i*fctr:(i+1)*fctr])
+							it_bin.z[i] = min(int_bin.z[i*fctr:(i+1)*fctr])
+					
+					l_str =''.join(["%02x" %c for c in (
+												it_bin.e1[::zdiv]>>8).tolist()])
+					x_str =''.join(["%02x" %c for c in (it_bin.x).tolist()])
+					y_str =''.join(["%02x" %c for c in (it_bin.y).tolist()])
+					z_str =''.join(["%02x" %c for c in (it_bin.z).tolist()])
+					hh.write_day_zoom_html(day_id, dlpath, 
+						x_str, y_str, z_str, l_str, 
+						p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
+						intr[2], cz_px)
+		## calculate raw data view for 6 hours with 3 hour overlaps:
+		for intr in subp:
+			dta_sel = [dta[j] for j in range(len(dta)) 
+							if ((dta[j][0]>(day_id+intr[0])) and   
+								(dta[j][0]<(day_id+intr[1])))]
+			dta_sel = np.array(dta_sel).view(np.recarray)
+			if dta_sel!=[]:
+				int_bin = hf.equidist_npz(dta_sel)
+				if len(int_bin)>zbins:
+					it_bin = int_bin[0:zbins].view(np.recarray);
+					fctr = len(int_bin)/zbins;
+					for i in range(0,zbins):
+						if i%2==0:
+							it_bin.x[i] = max(int_bin.x[i*fctr:(i+1)*fctr])
+							it_bin.y[i] = min(int_bin.y[i*fctr:(i+1)*fctr])
+							it_bin.z[i] = max(int_bin.z[i*fctr:(i+1)*fctr])
+						else:
+							it_bin.x[i] = min(int_bin.x[i*fctr:(i+1)*fctr])
+							it_bin.y[i] = max(int_bin.y[i*fctr:(i+1)*fctr])
+							it_bin.z[i] = min(int_bin.z[i*fctr:(i+1)*fctr])
+					
+					l_str =''.join(["%02x" %c for c in (
+												it_bin.e1[::zdiv]>>8).tolist()])
+					x_str =''.join(["%02x" %c for c in (it_bin.x).tolist()])
+					y_str =''.join(["%02x" %c for c in (it_bin.y).tolist()])
+					z_str =''.join(["%02x" %c for c in (it_bin.z).tolist()])
+					hh.write_day_zoom_html(day_id, dlpath, 
+						x_str, y_str, z_str, l_str, 
+						p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
+						intr[2], cz_px)
+		## write raw plot file:
+		hh.write_raw_day_htmls(day_id, dlpath)
+	#####################################################################
 	toc = time.clock()
 	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'
 	
@@ -181,6 +188,10 @@ if len(sys.argv) < 2:
 dlpath = sys.argv[1]
 if not os.path.exists(dlpath):
 	exit(1)
+
+skip = False
+if len(sys.argv) > 2:
+	skip = True
 
 home = os.environ['HOME']
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,  dlpath])
@@ -223,15 +234,15 @@ f.write(hh.cal_indexheader('Month View'))
 # fill empty days before day of week:
 wkday =  num2date(first_day_id).weekday()
 for wd in range(wkday):
-	cal_entry(first_day_id-wkday+wd, dlpath, f)
+	cal_entry(first_day_id-wkday+wd, dlpath, f, skip)
 	
 # fill in days with data:
 for day_id in range(first_day_id, last_day_id):
-	cal_entry(day_id, dlpath, f)
+	cal_entry(day_id, dlpath, f, skip)
 	
 # add remaining days in row:
 for rd in range( 7-(last_day_id-first_day_id+wkday)%7):
-	cal_entry(last_day_id+rd, dlpath, f)
+	cal_entry(last_day_id+rd, dlpath, f, skip)
 
 f.write('</div></div></section>'+
 	'<script>$("#scrollview").stop().animate({scrollTop:'+

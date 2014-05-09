@@ -54,7 +54,8 @@ def day_indexheader(daystr, day_id):
 		'<span class="a-up"></span></a></h1>')  
 def subday_indexheader(daystr, tstr, day_id):
 	hspan = str(float(tstr[2:])-float(tstr[:2]))
-	if float(tstr[2:])==0: hspan = str(24-float(tstr[:2]))
+	if float(tstr[2:])==0: 
+		hspan = str(24-float(tstr[:2]))
 	if hspan=="6.0":
 		shft = 3;
 	elif 	hspan=="1.0":

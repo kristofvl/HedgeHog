@@ -522,7 +522,7 @@ window.Chart = function(context){
 				if (p.x>poff) {
 					var ofs = (p.x-poff)*hspan/(width-poff-1);
 					istr=("00"+(hoff+Math.floor(ofs))).slice(-2).toString()+
-						 ("00"+(hoff+Math.floor(ofs)+1)).slice(-2).toString();
+						 ("00"+(hoff+Math.floor(ofs)+1)%24).slice(-2).toString();
 					 window.open ('./index_'+istr+'.html','_self',false);
 				}
 			}
