@@ -73,6 +73,32 @@ def equidist_npz(dta):
 			cur_idx+=1
 	return day_bin
 	
+## bin-wise collect min-max samples for calendar plotting
+def npz2secbin(dta):
+	day_bin = [(0,0,0,0,0)]*86400
+	cur_idx = 0; cur_bin = []
+	for x in dta:
+		idx = int((x[0]-int(dta[0][0]))*86400)
+		if cur_idx == idx: 
+			cur_bin.append([x[2],x[3],x[4],x[5]>>8,x[5]&0xFF])
+		else:
+			if cur_bin != []:
+				if cur_idx%2:
+					day_bin[cur_idx] = ( np.min(cur_bin,axis=0)[0], 
+						np.max(cur_bin,axis=0)[1], np.min(cur_bin,axis=0)[2],
+						np.max(cur_bin,axis=0)[3], np.min(cur_bin,axis=0)[4] )
+				else:
+					day_bin[cur_idx] = ( np.max(cur_bin,axis=0)[0], 
+						np.min(cur_bin,axis=0)[1], np.max(cur_bin,axis=0)[2],
+						np.max(cur_bin,axis=0)[3], np.max(cur_bin,axis=0)[4] )
+				cur_bin = []
+			cur_idx = idx  
+	## fill in any holes with previous data:
+	for cur_idx in range(1,86400):
+		if day_bin[cur_idx]==(0,0,0,0,0):
+			day_bin[cur_idx]=day_bin[cur_idx-1]
+	return day_bin
+	
 ## return a sub-sampled array from dta, leading to [bins] bins:
 def sub_npz(dta, bins):
 	return dta[0:-1:len(dta)/bins]
