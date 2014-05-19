@@ -43,46 +43,47 @@ def htmlhead(title, csspath, jspath):
 		'<link rel=stylesheet href="'+csspath+'">'+
 		'<head><title>'+title+'</title>'+
 		'<script src="'+jspath+'"></script>')
-def day_indexheader(daystr, day_id):
-	return (htmlhead('HedgeHog Day View','../st.css','../Chart.js')+
-		'</head><body><section id="calendar" style="width:1100px;">'+
-		'<h1><a href="../'+str(day_id-1)+
-		'/index.html"><span class="a-left"></span></a>'+daystr+
-		'<a href="../'+str(day_id+1)+
-		'/index.html"><span class="a-right"></span></a>'+
-		'<a style="text-align:right;" href="../index.html">'+
-		'<span class="a-up"></span></a></h1>')  
-def subday_indexheader(daystr, tstr, day_id):
-	hspan = str(float(tstr[2:])-float(tstr[:2]))
-	if float(tstr[2:])==0: 
-		hspan = str(24-float(tstr[:2]))
-	if hspan=="6.0":
-		shft = 3;
-	elif 	hspan=="1.0":
-		shft = 1;
-	prevh = (str(int(tstr[:2])-shft).zfill(2)+
-				str((int(tstr[2:])-shft)%24).zfill(2))
-	nexth = (str((int(tstr[:2])+shft)).zfill(2)+
-				str((int(tstr[2:])+shft)%24).zfill(2))
-	if (tstr[:2]=="00"):
-		if  hspan=="6.0":
-			prevh = "1800"
+
+def zoom_indexheader(daystr, tstr, day_id):
+	if tstr!="0000":
+		hspan = str(float(tstr[2:])-float(tstr[:2]))
+		if float(tstr[2:])==0: 
+			hspan = str(24-float(tstr[:2]))
+		if hspan=="6.0":
+			shft = 3;
 		elif 	hspan=="1.0":
-			prevh = "2300"
-	if (tstr[2:]=="00"):
-		if  hspan=="6.0":
-			nexth = "0006"
-		elif 	hspan=="1.0":
-			nexth = "0001"
-		
+			shft = 1;
+		prevh = (str(int(tstr[:2])-shft).zfill(2)+
+					str((int(tstr[2:])-shft)%24).zfill(2))
+		nexth = (str((int(tstr[:2])+shft)).zfill(2)+
+					str((int(tstr[2:])+shft)%24).zfill(2))
+		if (tstr[:2]=="00"):
+			if  hspan=="6.0":
+				prevh = "1800"
+			elif 	hspan=="1.0":
+				prevh = "2300"
+		if (tstr[2:]=="00"):
+			if  hspan=="6.0":
+				nexth = "0006"
+			elif 	hspan=="1.0":
+				nexth = "0001"
+		prevh = "_"+prevh; nexth = "_"+nexth;
+	else:
+		prevh = ""; nexth = "";
 	prevd =  str(day_id-int(tstr[:2]=="00"))
 	nextd =  str(day_id+int(tstr[2:]=="00"))
-	return (htmlhead('HedgeHog Zoom View','../st.css','../Chart.js')+
-		'</head><body><section id="calendar" style="width:1100px;">'+
-		'<h1><a href="../'+prevd+'/index_'+prevh+
-		'.html"><span class="a-left"></span></a>'+daystr+', '+
-		tstr[:2]+':00-'+tstr[2:]+':00'+
-		'<a href="../'+nextd+'/index_'+nexth+
+	if tstr[2:]=='00':	endstr='24'
+	else: endstr=tstr[2:]
+	return (htmlhead('HedgeHog Zoom View','../st.css','../ans_array.js')+
+		'<script>var strtt='+ tstr[:2] +'/24;var stopt='+ endstr +'/24;'+
+		'var dayid='+str(day_id)+';</script><script src="d.js"></script>'+
+		'<script src="../Chart.js"></script>'+
+		'<script src="../ans.js"></script></head>'+
+		'<body><section id="calendar" style="width:1100px;">'+
+		'<h1><a href="../'+prevd+'/index'+prevh+
+		'.html"><span class="a-left"></span></a>'+daystr+', <script>'+
+		'document.write(toTime(strtt)+"-"+toTime(stopt))</script>'+
+		'<a href="../'+nextd+'/index'+nexth+
 		'.html"><span class="a-right"></span></a>'+
 		'<a style="text-align:right;" href="./index.html">'+
 		'<span class="a-up"></span></a></h1>')
@@ -212,7 +213,7 @@ def write_day_stub_html(day_id, dlpath):
 		print "Day directory file not found for "+daystr
 		return False
 	## construct the html page for the day-view:
-	f.write(day_indexheader(daystr, day_id))
+	f.write(zoom_indexheader(daystr, "0000", day_id))
 	f.write('<hr>')
 	f.write('<p>no data found for this day</p>')
 	f.write('</section></body></html>')
@@ -236,8 +237,7 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 		print "Day directory file not found for "+daystr
 		return False
 	## construct the html page for the day-view:
-	f.write(day_indexheader(daystr, day_id))
-	f.write('<hr>')
+	f.write(zoom_indexheader(daystr, "0000", day_id)+'<hr>')
 	f.write(conf_html(cnf,dta_sum, dta_rle))
 	f.write( '<div id="inf" style="left:865px;top:379px;height:70px;">'+
 		'<b>Largest Sleep Segment</b>\ntotal duration: '+ntimes[2]+'\n'+
@@ -252,29 +252,8 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 		'</br>'+
 		canvas_html('dvans','position:relative;',canw,'100')
 		 )
-	f.write('<script>')
-	f.write("var ll= new Array(2*1440).join('0').split('');"+
-	"ll[0]='00';ll[719]='06';ll[1439]='12';ll[2159]='18';ll[2879]='00';")
-	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
-	f.write( adata_html('d_acc3d', 'll', 
-					'#d00', x_str, '#0c0', y_str, '#00d', z_str ) )
-	f.write( ldata_html('d_night',str([]),'#111','#ddd', p_str))
-	f.write( chart_html('light', 'day_view_light', 'Bar', 'd_light', 
-						'scaleShowLabels:true,scaleFontSize:12,'+
-						'scaleShowGridLines:true,animation:true,'+
-						'scaleStepWidth:32') +
-				chart_html('acc3d', 'day_view_acc3d', 'Line', 'd_acc3d', 
-								'scaleSteps:8,scaleShowLabels:true,'+
-								'scaleFontSize:12,scaleLineWidth:1,'+
-								'datasetStrokeWidth:0.5,scaleStepWidth:32') +
-				chart_html('night', 'night_view_prb', 'Bar', 'd_night', 
-								'scaleShowLabels:true,'+
-								'scaleFontSize:12,scaleShowGridLines:true,'+
-								'animation:true,scaleStepWidth:32') )
-	f.write('var dayid='+str(day_id)+';</script>')
-	f.write('<script src="../ans_array.js"></script>'+
-		'<script>var hspan=24, hoff=0;</script>'+
-		'<script src="../ans.js"></script>')
+	f.write('<script>'+
+		'drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, 7);</script>')
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
 		'HedgeHog sensor</a> #'+ cnf[0:4]+'.<br/>'+
@@ -309,7 +288,7 @@ def write_day_zoom_html(day_id, dlpath,
 		print "Day directory file not found for "+daystr
 		return False
 	## construct the html page for the day-view:
-	f.write(subday_indexheader(daystr, tstr, day_id))
+	f.write(zoom_indexheader(daystr, tstr, day_id))
 	f.write('<hr>')
 	f.write( 
 		'<div class="icn-slp"></div>'+
@@ -321,85 +300,11 @@ def write_day_zoom_html(day_id, dlpath,
 		'</br>'+
 		canvas_html('dvans','position:relative;',canw,'100')
 		 )
-	f.write('<script>')
-	f.write("var ll= new Array("+str(dlen)+").join('0').split('');")
-	hspan = str(float(tstr[2:])-float(tstr[:2]))
-	if float(tstr[2:])==0: hspan = str(24-float(tstr[:2]))
-	if hspan=='6.0':
-		for hitr in [(0,tstr[:2]), (dlen/6, str(int(tstr[:2])+1)),
-				(2*dlen/6, str(int(tstr[:2])+2)),
-				(3*dlen/6, str(int(tstr[:2])+3)),
-				(4*dlen/6, str(int(tstr[:2])+4)),
-				(5*dlen/6, str(int(tstr[:2])+5)),
-				(dlen-1,tstr[2:])]:
-			f.write("ll["+str(hitr[0])+"]='"+hitr[1].zfill(2)+"';")
-	elif hspan=='1.0':
-		for hitr in [(0,tstr[:2]+":00"), 
-				(dlen/6, str(int(tstr[:2])).zfill(2)+":10"),
-				(2*dlen/6, str(int(tstr[:2])).zfill(2)+":20"),
-				(3*dlen/6, str(int(tstr[:2])).zfill(2)+":30"),
-				(4*dlen/6, str(int(tstr[:2])).zfill(2)+":40"),
-				(5*dlen/6, str(int(tstr[:2])).zfill(2)+":50"),
-				(dlen-1,tstr[2:]+":00")]:
-			f.write("ll["+str(hitr[0])+"]='"+hitr[1]+"';")
-	f.write( ldata_html('d_light', str([]),'#dd0', '#ddd', l_str) )
-	f.write( adata_html('d_acc3d', 'll', 
-					'#d00', x_str, '#0c0', y_str, '#00d', z_str ) )
-	f.write( ldata_html('d_night',str([]),'#111','#ddd', p_str))
-	f.write( chart_html('light', 'day_view_light', 'Bar', 'd_light', 
-						'scaleShowLabels:true,scaleFontSize:12,'+
-						'scaleShowGridLines:true,animation:false,'+
-						'scaleStepWidth:32,'+
-						'hspan:'+hspan+',hoff:'+str(float(tstr[:2]))) +
-				chart_html('acc3d', 'day_view_acc3d', 'Line', 'd_acc3d', 
-								'scaleSteps:8,scaleShowLabels:true,'+
-								'scaleFontSize:12,scaleLineWidth:1,'+
-								'datasetStrokeWidth:0.5,scaleStepWidth:32,'+
-								'hspan:'+hspan+',hoff:'+str(float(tstr[:2]))) +
-				chart_html('night', 'night_view_prb', 'Bar', 'd_night', 
-								'scaleShowLabels:true,'+
-								'scaleFontSize:12,scaleShowGridLines:true,'+
-								'animation:false,scaleStepWidth:32,'+
-								'hspan:'+hspan+',hoff:'+str(float(tstr[:2]))) )
-	f.write('var dayid='+str(day_id)+';</script>')
-	hspan = str(float(tstr[2:])-float(tstr[:2]))
-	if float(tstr[2:])==0: hspan = str(24-float(tstr[:2]))
-	f.write('<script src="../ans_array.js"></script>'+
-		'<script>var hspan='+hspan+', hoff='+str(float(tstr[:2]))+';</script>'+
-		'<script src="../ans.js"></script>')
+	f.write('<script>'+
+		'drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, 7);</script>')
 	f.write('<hr><p style="font-size:small;">24h view for '+
 		daystr+' with a <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
 		'HedgeHog sensor</a> <br/></p>')
-	f.write('</section></body></html>')
-	f.close()
-	return True									
-
-def write_raw_day_html(day_id, dlpath):
-	daystr = str(num2date(day_id).year)+'-'
-	daystr += str(num2date(day_id).month).zfill(2)
-	daystr += '-' + str(num2date(day_id).day).zfill(2)
-	## construct html file
-	try:
-		f=open(os.path.join(dlpath,str(day_id),'index_raw.html'),"w")
-	except:
-		print "Day directory file not found for "+daystr
-		return False
-	## construct the html page for the day-view:
-	f.write(rawday_indexheader(daystr, day_id))
-	f.write('<hr><div id="graphdiv" style="width:100%; height:300px;">'+
-		'</div><script type="text/javascript">')
-	f.write(
-		'g3 = new Dygraph(document.getElementById("graphdiv"),'+
-		'"d.csv",{colors:["#d00","#0c0","#00d"],'+
-		'labels:["time","X","Y","Z"],'+
-		'strokeWidth:0.7,xAxisHeight:11,xAxisLabelWidth:80,'+
-		'yAxisLabelWidth:30,axisLabelFontSize:10,'+
-		'axes:{x:{valueFormatter: function(f){return new Date('+
-		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
-		'strftime("%H:%M:%S");},'+
-		'axisLabelFormatter:function(f){return new Date('+
-		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
-		'strftime("%H:%M:%S");}}}});</script>')
 	f.write('</section></body></html>')
 	f.close()
 	return True
@@ -425,7 +330,6 @@ def write_raw_day_htmls(day_id, dlpath):
 		for row in dta:
 			f.write('['+str(float(row[0]))+','+str((row[1]))+','+
 					str((row[2]))+','+str((row[3]))+'],')
-	os.remove(os.path.join(dlpath,str(day_id),'d.csv'));
 	f.write('];')
 	f.write(
 		'g3 = new Dygraph(document.getElementById("graphdiv"),'+
