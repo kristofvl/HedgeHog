@@ -64,6 +64,8 @@ def zoom_indexheader(daystr, ts, day_id):
 		prevh = ""; nexth = "";
 	prevd =  str(day_id-int(ts[0]==0))
 	nextd =  str(day_id+int(ts[1]==1))
+	dirstr='./'
+	if ts==(0,1): dirstr = '.'+dirstr
 	return (htmlhead('HedgeHog Zoom View','../st.css','../ans_array.js')+
 		'<script>var strtt='+ '{:.20f}'.format(ts[0]) +
 		';var stopt='+ '{:.20f}'.format(ts[1]) +';'+
@@ -76,7 +78,7 @@ def zoom_indexheader(daystr, ts, day_id):
 		'document.write(toTime(strtt)+"-"+toTime(stopt))</script>'+
 		'<a href="../'+nextd+'/index'+nexth+
 		'.html"><span class="a-right"></span></a>'+
-		'<a style="text-align:right;" href="./index.html">'+
+		'<a style="text-align:right;" href="'+dirstr+'index.html">'+
 		'<span class="a-up"></span></a></h1>')
 def rawday_indexheader(daystr, day_id):
 	return (htmlhead('HedgeHog Day View (Raw)','../st.css',
