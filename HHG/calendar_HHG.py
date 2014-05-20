@@ -25,7 +25,7 @@
 
 import sys, time
 import numpy as np
-import os, subprocess
+import os, subprocess, fnmatch
 from matplotlib.dates import num2date
 import hhg_features.hhg_bstats as hf
 import hhg_io.hhg_import as hi
@@ -41,15 +41,16 @@ bdiv = 17    	# for calendar views
 zdiv = 32		
 	
 ## subplots per day:
-subp = [	(0,0.25,'0006',3), (0.125,0.375,'0309',3), (0.25,0.5,'0612',3), 
-			(0.375,0.625,'0915',3), (0.5,0.75,'1218',3), 
-			(0.625,0.875,'1521',3), (0.75,1,'1800',3) ]
+subp = [	(0,0.25,3), (0.125,0.375,3), (0.25,0.5,3), 
+			(0.375,0.625,3), (0.5,0.75,3), 
+			(0.625,0.875,3), (0.75,1,3) ]
 
 subh = []
 for i in range(24):
-	subh.append( (float(i)/24, float(i+1)/24, 
-		str(i).zfill(2)+str((i+1)%24).zfill(2), 1 ) )
-	
+	subh.append( (float(i)/24, float(i+1)/24, 1 ))
+for i in range(23):		
+	subh.append( (float(i+0.5)/24, float(i+1.5)/24, 1 ))
+
 ## one day canvas width (pixels):
 cd_px_draw = 800
 cd_px_yaxs = 32
@@ -129,12 +130,12 @@ def cal_entry(day_id, dlpath, f, skip):
 				stop = int(intr[1]*len(x_str))
 				l = range(0,len(x_str[strt:stop]),2)
 				hh.write_day_zoom_html(day_id, dlpath,
-					''.join([x_str[strt:stop][i:i+2] for i in l][::intr[3]]),
-					''.join([y_str[strt:stop][i:i+2] for i in l][::intr[3]]),
-					''.join([z_str[strt:stop][i:i+2] for i in l][::intr[3]]),
-					''.join([l_str[strt:stop][i:i+2] for i in l][::intr[3]*zdiv]),
+					''.join([x_str[strt:stop][i:i+2] for i in l][::intr[2]]),
+					''.join([y_str[strt:stop][i:i+2] for i in l][::intr[2]]),
+					''.join([z_str[strt:stop][i:i+2] for i in l][::intr[2]]),
+					''.join([l_str[strt:stop][i:i+2] for i in l][::intr[2]*zdiv]),
 					p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
-					intr[2], cz_px)
+					(intr[0],intr[1]), cz_px)
 		## write raw plot file:
 		hh.write_raw_day_htmls(day_id, dlpath)
 		os.remove(os.path.join(dlpath,str(day_id),'d.csv'));
@@ -165,24 +166,14 @@ subprocess.call(["cp", "-rf", "%s/HedgeHog/HHG/hhg_web/img"%home,dlpath])
 subprocess.call(["wget", "-q", "-nc", "-P%s"%dlpath,
 	"http://dygraphs.com/1.0.1/dygraph-combined.js"])
 
-
-first_day_id = -1;
-try_id = 0;
-while (first_day_id==-1):
-	try:
-		first_day_id = int(sorted(os.walk(dlpath).next()[1])[try_id])
-	except ValueError:
-		first_day_id = -1; try_id+=1;
-		
-#if len(sys.argv) > 2: first_day_id = int(sys.argv[2]) # allow skip days
-
-last_day_id = -1;
-try_id = -1;
-while (last_day_id==-1):
-	try:
-		last_day_id = int(sorted(os.walk(dlpath).next()[1])[try_id])+1
-	except ValueError:
-		last_day_id = -1; try_id-=1;	
+## get all subdirectories with d.npz files:
+matches = []
+for root, dirnames, filenames in os.walk(dlpath):
+	for filename in fnmatch.filter(filenames, 'd.npz'):
+		matches.append((root[-6:], os.path.join(root, filename)))
+matches = sorted(matches)
+first_day_id = int(matches[0][0])
+last_day_id  = int(matches[-1][0])
 		
  # assume that we're interested in first month:
 month_vw = num2date(first_day_id).month

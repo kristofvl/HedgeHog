@@ -5,7 +5,7 @@ for(var i=3;i<24;i+=2){if(hspan>i){skipxyz+=4;skipenv+=64;}}
 
 function toTime(tfrac){
 	hrs = Math.floor(tfrac*24)%24;
-	mns = Math.round(60*((tfrac*24)-Math.floor(tfrac*24)))%60;
+	mns = Math.round(Math.abs(60*((tfrac*24)-Math.floor(tfrac*24))))%60;
 	return ("00"+hrs).slice(-2)+":"+("00"+mns).slice(-2);
 };
 
@@ -27,6 +27,8 @@ function fillLabels(numTicks,labelLen,hspan,hoff){
 				
 function drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, ticks){
 	var sta=x.length*strtt; var sto=x.length*stopt;
+	var anim=false;if ((strtt==0)&&(stopt==1)) anim=true;
+	console.log(anim)
 	ps = subSample(2,p,(p.length*strtt),(p.length*stopt));
 	ls = subSample(skipenv,l,sta,sto);
 	xs = subSample(skipxyz,x,sta,sto);
@@ -36,9 +38,9 @@ function drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, ticks){
 	var d_light={l:[],ds:[{fc:"#dd0",sc:"#ddd",d:ls}]};
 	var d_acc3d={l:ll,ds:[{sc:"#d00",d:xs},{sc:"#0c0",d:ys},{sc:"#00d",d:zs}]};
 	var d_night={l:[],ds:[{fc:"#111",sc:"#ddd",d:ps}]};
-	var light = new Chart(document.getElementById("day_view_light").getContext("2d")).Bar(d_light,{scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:false,scaleStepWidth:32,hspan:hspan,hoff:hoff});
+	var light = new Chart(document.getElementById("day_view_light").getContext("2d")).Bar(d_light,{scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,hspan:hspan,hoff:hoff});
 	var acc3d = new Chart(document.getElementById("day_view_acc3d").getContext("2d")).Line(d_acc3d,{scaleSteps:8,scaleShowLabels:true,scaleFontSize:12,scaleLineWidth:1,datasetStrokeWidth:0.5,scaleStepWidth:32,hspan:hspan,hoff:hoff});
-	var night = new Chart(document.getElementById("night_view_prb").getContext("2d")).Bar(d_night,{scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:false,scaleStepWidth:32,hspan:hspan,hoff:hoff});
+	var night = new Chart(document.getElementById("night_view_prb").getContext("2d")).Bar(d_night,{scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,hspan:hspan,hoff:hoff});
 	var ansca = new Ans(document.getElementById("dvans").getContext("2d"));
 }
 

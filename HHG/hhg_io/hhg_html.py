@@ -44,38 +44,29 @@ def htmlhead(title, csspath, jspath):
 		'<head><title>'+title+'</title>'+
 		'<script src="'+jspath+'"></script>')
 
-def zoom_indexheader(daystr, tstr, day_id):
-	if tstr!="0000":
-		hspan = str(float(tstr[2:])-float(tstr[:2]))
-		if float(tstr[2:])==0: 
-			hspan = str(24-float(tstr[:2]))
-		if hspan=="6.0":
-			shft = 3;
-		elif 	hspan=="1.0":
-			shft = 1;
-		prevh = (str(int(tstr[:2])-shft).zfill(2)+
-					str((int(tstr[2:])-shft)%24).zfill(2))
-		nexth = (str((int(tstr[:2])+shft)).zfill(2)+
-					str((int(tstr[2:])+shft)%24).zfill(2))
-		if (tstr[:2]=="00"):
-			if  hspan=="6.0":
-				prevh = "1800"
-			elif 	hspan=="1.0":
-				prevh = "2300"
-		if (tstr[2:]=="00"):
-			if  hspan=="6.0":
-				nexth = "0006"
-			elif 	hspan=="1.0":
-				nexth = "0001"
-		prevh = "_"+prevh; nexth = "_"+nexth;
+def zoom_indexheader(daystr, ts, day_id):
+	if ts!=(0,1):
+		hspan = float(ts[1]-ts[0])*24
+		if round(hspan)==6:
+			shft = 3.0
+		elif round(hspan)==1:
+			shft = 0.5
+		prevh = (dayfrac2str((ts[0]*24-shft)/24)[:2]+dayfrac2str((ts[0]*24-shft)/24)[3:]+
+					dayfrac2str((ts[1]*24-shft)/24)[:2]+dayfrac2str((ts[1]*24-shft)/24)[3:])
+		nexth = (dayfrac2str((ts[0]*24+shft)/24)[:2]+dayfrac2str((ts[0]*24+shft)/24)[3:]+
+					dayfrac2str((ts[1]*24+shft)/24)[:2]+dayfrac2str((ts[1]*24+shft)/24)[3:])
+		if (prevh=="21000300"): prevh = "18000000"
+		if (prevh=="00300030"): prevh = "23000000"
+		if (nexth=="21000300"): nexth = "00000600"
+		if (nexth=="23300030"): nexth = "00000100"
+		prevh = "_"+prevh; nexth = "_"+nexth
 	else:
 		prevh = ""; nexth = "";
-	prevd =  str(day_id-int(tstr[:2]=="00"))
-	nextd =  str(day_id+int(tstr[2:]=="00"))
-	if tstr[2:]=='00':	endstr='24'
-	else: endstr=tstr[2:]
+	prevd =  str(day_id-int(ts[0]==0))
+	nextd =  str(day_id+int(ts[1]==1))
 	return (htmlhead('HedgeHog Zoom View','../st.css','../ans_array.js')+
-		'<script>var strtt='+ tstr[:2] +'/24;var stopt='+ endstr +'/24;'+
+		'<script>var strtt='+ '{:.20f}'.format(ts[0]) +
+		';var stopt='+ '{:.20f}'.format(ts[1]) +';'+
 		'var dayid='+str(day_id)+';</script><script src="d.js"></script>'+
 		'<script src="../Chart.js"></script>'+
 		'<script src="../ans.js"></script></head>'+
@@ -169,6 +160,11 @@ def get_month_name(month_no, locale):
 			s = s.decode(encoding)
 		return s
 
+## convert a day fraction to a string (e.g., 0.5 -> "12:00")
+def dayfrac2str(frac):
+	return (str(int(frac*24)%24).zfill(2)+":"+
+		str( int(round(60*(frac*24-int(frac*24))))%60 ).zfill(2) );
+
 ## write a calendar entry
 def write_cal_entry(day_id, f):
 	daystr = str(num2date(day_id).year)+'-'
@@ -213,7 +209,7 @@ def write_day_stub_html(day_id, dlpath):
 		print "Day directory file not found for "+daystr
 		return False
 	## construct the html page for the day-view:
-	f.write(zoom_indexheader(daystr, "0000", day_id))
+	f.write(zoom_indexheader(daystr, (0,1), day_id))
 	f.write('<hr>')
 	f.write('<p>no data found for this day</p>')
 	f.write('</section></body></html>')
@@ -237,7 +233,7 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 		print "Day directory file not found for "+daystr
 		return False
 	## construct the html page for the day-view:
-	f.write(zoom_indexheader(daystr, "0000", day_id)+'<hr>')
+	f.write(zoom_indexheader(daystr, (0,1), day_id)+'<hr>')
 	f.write(conf_html(cnf,dta_sum, dta_rle))
 	f.write( '<div id="inf" style="left:865px;top:379px;height:70px;">'+
 		'<b>Largest Sleep Segment</b>\ntotal duration: '+ntimes[2]+'\n'+
@@ -273,14 +269,17 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 	f.write('</section></body></html>')
 	f.close()
 	return True
-	
+
+
 def write_day_zoom_html(day_id, dlpath, 
-								x_str, y_str, z_str, l_str, p_str, tstr, cz_px):
+								x_str, y_str, z_str, l_str, p_str, ts, cz_px):
 	daystr = str(num2date(day_id).year)+'-'
 	daystr += str(num2date(day_id).month).zfill(2)
 	daystr += '-' + str(num2date(day_id).day).zfill(2)
 	canw = str(cz_px)
 	dlen = int(len(x_str)/2)
+	tstr = (dayfrac2str(ts[0])[:2]+dayfrac2str(ts[0])[3:]+
+				dayfrac2str(ts[1])[:2]+dayfrac2str(ts[1])[3:])
 	## construct html file
 	try:
 		f=open(os.path.join(dlpath,str(day_id),'index_'+tstr+'.html'),"w")
@@ -288,7 +287,7 @@ def write_day_zoom_html(day_id, dlpath,
 		print "Day directory file not found for "+daystr
 		return False
 	## construct the html page for the day-view:
-	f.write(zoom_indexheader(daystr, tstr, day_id))
+	f.write(zoom_indexheader(daystr, ts, day_id))
 	f.write('<hr>')
 	f.write( 
 		'<div class="icn-slp"></div>'+

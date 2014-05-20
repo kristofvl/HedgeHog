@@ -309,22 +309,17 @@ window.Chart = function(context){
 		valueBounds = getValueBounds();
 		//Check and set the scale
 		labelTemplateString = (config.scaleShowLabels)? config.scaleLabel : "";
-		if (!config.scaleOverride){
-			calculatedScale = calculateScale(scaleHeight,valueBounds.maxSteps,valueBounds.minSteps,valueBounds.maxValue,valueBounds.minValue,labelTemplateString);
-		}
-		else {
-			calculatedScale = {
+		calculatedScale = {
 				steps : config.scaleSteps,
 				stepValue : config.scaleStepWidth,
 				graphMin : config.scaleStartValue,
 				labels : []
-			}
-			populateLabels(labelTemplateString, calculatedScale.labels,calculatedScale.steps,config.scaleStartValue,config.scaleStepWidth);
 		}
+		populateLabels(labelTemplateString, calculatedScale.labels,calculatedScale.steps,config.scaleStartValue,config.scaleStepWidth);
 		
 		scaleHop = Math.floor(scaleHeight/calculatedScale.steps);
 		calculateXAxisSize();
-		animationLoop(config,drawScale,drawBars,ctx);		
+		animationLoop(config,drawScale,drawBars,ctx);
 		
 		function drawBars(animPc){
 			ctx.lineWidth = config.barStrokeWidth;
@@ -408,7 +403,7 @@ window.Chart = function(context){
 			
 			yAxisPosX = width-widestXLabel/2-xAxisLength;
 			xAxisPosY = scaleHeight + config.scaleFontSize/2;		
-		}		
+		}
 		function calculateDrawingSizes(){
 			maxSize = height;
 
@@ -451,22 +446,15 @@ window.Chart = function(context){
 						context.canvas.style.cursor = '-moz-zoom-in';
 					else
 						context.canvas.style.cursor = '-webkit-zoom-in';
-					if ((ofs>0)&&(ofs<=4)) {newx=32;}
-					 else if ((ofs>4)&&(ofs<=7)) {newx=132;}
-					 else if ((ofs>7)&&(ofs<=10.5)) {newx=232;}
-					 else if ((ofs>10.5)&&(ofs<=13.5)) {newx=332;}
-					 else if ((ofs>13.5)&&(ofs<=16)) {newx=432;}
-					 else if ((ofs>16)&&(ofs<=20)) {newx=532;}
-					 else if (ofs>20) {newx=632;}
+					newx = poff-2;
+					for (var i=4.5;i<24;i+=3) {
+						if (ofs>i) 	newx+=100;
+					}
 					if ((prevx>0)&&(prevx!=newx)) {
 						context.putImageData(imgdta,(prevx-1)*window.devicePixelRatio,0);
 					}
 					if (prevx!=newx) {
-						imgdta = context.getImageData((newx-1)*window.devicePixelRatio,0,201*window.devicePixelRatio,height*window.devicePixelRatio);
-						context.beginPath(); context.strokeStyle = "#111";
-						context.lineWidth=.5;
-						context.rect(newx,5,198,height-16);
-						context.stroke();
+						dropImgDta(202);
 						prevx = newx;
 					}
 				}
@@ -475,21 +463,13 @@ window.Chart = function(context){
 						context.canvas.style.cursor = '-moz-zoom-in';
 					else
 						context.canvas.style.cursor = '-webkit-zoom-in';
-					if ((ofs>0)&&(ofs<=1)) 			{newx=32;}
-					 else if ((ofs>1)&&(ofs<=2)) 	{newx=210;}
-					 else if ((ofs>2)&&(ofs<=3)) 	{newx=388;}
-					 else if ((ofs>3)&&(ofs<=4)) 	{newx=565;}
-					 else if ((ofs>4)&&(ofs<=5)) 	{newx=743;}
-					 else if (ofs>5) 					{newx=921;}
+					newx = poff-2;
+					for (var i=0.75;i<6;i+=0.5) if (ofs>i) 	newx+=88.5;
 					if ((prevx>0)&&(prevx!=newx)) {
 						context.putImageData(imgdta,(prevx-1)*window.devicePixelRatio,0);
 					}
 					if (prevx!=newx) {
-						imgdta = context.getImageData((newx-1)*window.devicePixelRatio,0,181*window.devicePixelRatio,height*window.devicePixelRatio);
-						context.beginPath(); context.strokeStyle = "#111";
-						context.lineWidth=.5;
-						context.rect(newx,5,178,height-16);
-						context.stroke();
+						dropImgDta(181);
 						prevx = newx;
 					}
 				}
@@ -506,28 +486,34 @@ window.Chart = function(context){
 	context.canvas.addEventListener('mousedown', function(e) {
 			if (hspan==24) {
 				var p=getMousePos(e), istr='';
-				if (p.x>poff) { var ofs = (p.x-poff)*hspan/(width-poff-1); 
-					 if ((ofs>0)&&(ofs<=4)) {istr='0006';}
-					 else if ((ofs>4)&&(ofs<=7)) {istr='0309';}
-					 else if ((ofs>7)&&(ofs<=10.5)) {istr='0612';}
-					 else if ((ofs>10.5)&&(ofs<=13.5)) {istr='0915';}
-					 else if ((ofs>13.5)&&(ofs<=16)) {istr='1218';}
-					 else if ((ofs>16)&&(ofs<=20)) {istr='1521';}
-					 else if (ofs>20) {istr='1800';}
-					 window.open ('./index_'+istr+'.html','_self',false);
+				if (p.x>poff) { 
+					var ofs = (p.x-poff)*hspan/(width-poff-1); 
+					istr="00000600";
+					for (var i=4.5;i<24;i+=3) {
+						if (ofs>i) 	istr=	("00"+(i-1.5)).slice(-2)+"00"+
+												("00"+((i+4.5)%24)).slice(-2)+"00";
+					}
+					window.open ('./index_'+istr+'.html','_self',false);
 				}
 			}
 			else if (hspan==6) {
 				var p=getMousePos(e);
 				if (p.x>poff) {
 					var ofs = (p.x-poff)*hspan/(width-poff-1);
-					istr=("00"+(hoff+Math.floor(ofs))).slice(-2).toString()+
-						 ("00"+(hoff+Math.floor(ofs)+1)%24).slice(-2).toString();
+					var mins = ((ofs-Math.floor(ofs))>0.5)*30;
+					istr=("00"+(hoff+Math.floor(ofs))).slice(-2).toString()+("00"+mins).slice(-2)+
+						 ("00"+(hoff+Math.floor(ofs)+1)%24).slice(-2).toString()+("00"+mins).slice(-2);
 					 window.open ('./index_'+istr+'.html','_self',false);
 				}
 			}
 			}, false);
-	
+	function dropImgDta(im_w){
+		imgdta = context.getImageData((newx-1)*window.devicePixelRatio,0,im_w*window.devicePixelRatio,height*window.devicePixelRatio);
+		context.beginPath(); context.strokeStyle = "#111";
+		context.lineWidth=.5;
+		context.rect(newx,5,im_w-4,height-16);
+		context.stroke();
+	}
 	
 	function calculateOffset(val,calculatedScale,scaleHop){
 		var outerValue = calculatedScale.steps * calculatedScale.stepValue;
