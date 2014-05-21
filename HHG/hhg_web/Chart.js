@@ -447,7 +447,7 @@ window.Chart = function(context){
 					else
 						context.canvas.style.cursor = '-webkit-zoom-in';
 					newx = poff-2;
-					for (var i=4.5;i<24;i+=3) {
+					for (var i=4.5;i<21;i+=3) {
 						if (ofs>i) 	newx+=100;
 					}
 					if ((prevx>0)&&(prevx!=newx)) {
@@ -464,7 +464,7 @@ window.Chart = function(context){
 					else
 						context.canvas.style.cursor = '-webkit-zoom-in';
 					newx = poff-2;
-					for (var i=0.75;i<6;i+=0.5) if (ofs>i) 	newx+=88.5;
+					for (var i=0.75;i<5.5;i+=0.5) if (ofs>i) 	newx+=88.5;
 					if ((prevx>0)&&(prevx!=newx)) {
 						context.putImageData(imgdta,(prevx-1)*window.devicePixelRatio,0);
 					}
@@ -474,7 +474,7 @@ window.Chart = function(context){
 					}
 				}
 				writeMsg(''+Math.floor(hoff+ofs)+':'+
-				('00'+Math.floor((hoff+ofs-Math.floor(hoff+ofs))*60)).slice(-2))
+				('00'+Math.floor((hoff+ofs-Math.floor(hoff+ofs))*60)).slice(-2));
 			};}, false);
 	context.canvas.addEventListener('mouseout',function(e) {
 			if (prevx>0) {

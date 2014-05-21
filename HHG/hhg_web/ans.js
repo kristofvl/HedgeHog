@@ -11,6 +11,8 @@ function toTime(tfrac){
 
 function subSample(skipVal,strVals,sta,sto){
 	var ret='';
+	if (sta%2!=0) sta-=1;
+	if (sto%2!=0) sto-=1;
 	for (var i=sta;i<sto;i+=skipVal)
 		ret+=strVals.charAt(i)+strVals.charAt(i+1);
 	return ret;
@@ -28,8 +30,9 @@ function fillLabels(numTicks,labelLen,hspan,hoff){
 function drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, ticks){
 	var sta=x.length*strtt; var sto=x.length*stopt;
 	var anim=false;if ((strtt==0)&&(stopt==1)) anim=true;
-	console.log(anim)
-	ps = subSample(2,p,(p.length*strtt),(p.length*stopt));
+	var pstart = Math.round(p.length*strtt);
+	var pstop  = Math.round(p.length*stopt);
+	ps = subSample(2,p,pstart,pstop);
 	ls = subSample(skipenv,l,sta,sto);
 	xs = subSample(skipxyz,x,sta,sto);
 	ys = subSample(skipxyz,y,sta,sto);
@@ -172,7 +175,7 @@ function Ans(ac) {
 			}
 		}}
 		if (!deleted) {
-			ans.push(["new", fromCanCoord(mouseX-17),fromCanCoord(mouseX+17),dayid]);
+			ans.push(["new",fromCanCoord(mouseX-17),fromCanCoord(mouseX+17),dayid]);
 		}
 		draw_ans();
 	}
@@ -205,4 +208,37 @@ function Ans(ac) {
 	}
 	
 	init_ans();
+}
+
+window.addEventListener("keydown", handleKey, false);
+ 
+function handleKey(e){
+	var newdayid = dayid;
+	var hstr = '';
+	if (e.keyCode==37) { // left
+		if (hspan==24) newdayid--;
+		else if (hspan==6) {
+				if (hoff<3) {	newdayid--; hoff=21; }
+				hstr = "_"+("00"+(hoff-3)).slice(-2)+"00"+("00"+(hoff+3)%24).slice(-2)+"00";
+		}
+		else if (hspan==1) {
+				if (hoff<1) {	newdayid--; hoff=23; }
+				hstr = "_"+("00"+(hoff-.5)).slice(-2)+"00"+("00"+(hoff+.5)%24).slice(-2)+"00";
+		}
+	}
+	else if (e.keyCode==38) { // up
+		
+	}
+	else if (e.keyCode==39) { // right
+		if (hspan==24) newdayid++;
+		else if (hspan==6) {
+				if (hoff>17) {	newdayid++; hoff=-3; }
+				hstr = "_"+("00"+(hoff+3)).slice(-2)+"00"+("00"+(hoff+9)%24).slice(-2)+"00";
+		}
+		else if (hspan==1) {
+				if (hoff>22.5) {	newdayid--; hoff=-.5; }
+				hstr = "_"+("00"+(hoff+.5)).slice(-2)+"00"+("00"+(hoff+1.5)%24).slice(-2)+"00";
+		}
+	}
+	window.open('../'+newdayid+'/index'+hstr+'.html','_self',false);
 }
