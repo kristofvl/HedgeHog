@@ -81,15 +81,24 @@ class start_HHG_dialog:
 		self.stpTime[1] = self.stpTime[1]+1 
 
 	def StartLogging(self, widget):
+		data_pointer = []
 		self.timer.setTime(self.conf_file, self.stpTime)
 		with open (self.conf_file,"r+w") as starthhg:
+			starthhg.seek(497,0)  
+			starthhg.write(chr(0xFF))
+			starthhg.write(chr(0x0F))
+			starthhg.seek(502,0)  
+			starthhg.write(chr(224))
+			starthhg.write(chr(16))
+			starthhg.seek(507,0)
+			starthhg.write(chr(0))  
 			starthhg.seek(1023,0)  
 			starthhg.write("l")
-			starthhg.close()
+			starthhg.close()	
 		hhgDir = re.sub("config.URE","",self.conf_file,count=1)
 		subprocess.call(["sync"])
 		print "HedgeHog has started and will stop on " + str(self.stpTime)
-		subprocess.call(["umount", hhgDir])
+		#subprocess.call(["umount", hhgDir])
 		sys.exit(0)  
 
 	def Quit(self, widget):
