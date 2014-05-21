@@ -76,7 +76,9 @@ typedef union {
         BYTE  systime[8];    //60
         UINT8 separator_7[3];
         BYTE  stptime[8];    //71
-        UINT8 separator_8[423];
+        UINT8 separator_8[418];
+        UINT16 sdbuf_iter;
+        UINT8 separator_11[3];
         UINT16 sdbuf_pointer;
         UINT8 separator_9[3];
         UINT8 sdbuf_flag;
