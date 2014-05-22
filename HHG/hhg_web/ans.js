@@ -1,9 +1,14 @@
-// truncate ans to today's entries:
-var tmp_ans = [];
-for(var i=0;i<ans.length;i++)
-	if (ans[i][3]==dayid)
-		tmp_ans.push(ans[i]);
-ans = tmp_ans;
+// check ans and truncate ans to today's entries:
+if (typeof variable === 'undefined') {
+	var ans = []
+}
+else {
+	var tmp_ans = [];
+	for(var i=0;i<ans.length;i++)
+		if (ans[i][3]==dayid)
+			tmp_ans.push(ans[i]);
+	ans = tmp_ans;
+}
 
 // load icon images:
 var imgsa = [
