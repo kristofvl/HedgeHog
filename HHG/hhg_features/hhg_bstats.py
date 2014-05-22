@@ -204,7 +204,7 @@ def night_time(bins):
 ## return sleep detection total probabilities:
 def night(bins, bdiv, days_stats, day_bin):
 	pl = night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
-	if np.count_nonzero(pl)==0: pl=1;
+	if not np.any(pl): pl=1;
 	p = ( 128 	* night_acc(days_stats, bdiv, 2.0)
 						* pl
 						* night_time( bins/bdiv )
