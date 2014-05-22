@@ -1,4 +1,39 @@
+// truncate ans to today's entries:
+var tmp_ans = [];
+for(var i=0;i<ans.length;i++)
+	if (ans[i][3]==dayid)
+		tmp_ans.push(ans[i]);
+ans = tmp_ans;
 
+// load icon images:
+var imgsa = [
+	["unknown",'../img/unknown.png'],
+	["sleep", "../img/sleep.png"],
+	["bike","../img/riding_bike.png"],
+	["car","../img/driving_car.png"],
+	["walk","../img/walk.gif"],
+	["smoke","../img/smoking.gif"],
+	["inj","../img/injecting.gif"],
+	["meas","../img/meas.png"],
+	];
+var imga = new Array()
+function loadIcons(arr) {
+	var loadedimgs=0
+	var postaction=function(){}
+	function imageloadpost(){
+		loadedimgs++
+		if (loadedimgs==arr.length){postaction(imga)}
+	}
+	for (var i=0;i<arr.length;i++){
+		imga[i] = new Image()
+		imga[i].src = imgsa[i][1]
+		imga[i].onload=function(){imageloadpost()}
+		imga[i].onerror=function(){imageloadpost()}
+	}
+	return { done:function(f){postaction=f || postaction}}
+}
+			
+// calculate data boundaries and skips:
 var hspan=Math.round(24*(stopt-strtt)), hoff=strtt*24;
 var skipxyz=2,skipenv=32;
 for(var i=3;i<24;i+=2){if(hspan>i){skipxyz+=4;skipenv+=64;}}
@@ -44,24 +79,10 @@ function drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, ticks){
 	var light = new Chart(document.getElementById("day_view_light").getContext("2d")).Bar(d_light,{scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,hspan:hspan,hoff:hoff});
 	var acc3d = new Chart(document.getElementById("day_view_acc3d").getContext("2d")).Line(d_acc3d,{scaleSteps:8,scaleShowLabels:true,scaleFontSize:12,scaleLineWidth:1,datasetStrokeWidth:0.5,scaleStepWidth:32,hspan:hspan,hoff:hoff});
 	var night = new Chart(document.getElementById("night_view_prb").getContext("2d")).Bar(d_night,{scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,hspan:hspan,hoff:hoff});
-	var ansca = new Ans(document.getElementById("dvans").getContext("2d"));
+	var ansca = new Ans(document.getElementById("dvans").getContext("2d"))
 }
 
-var imgsa = [
-["unknown",'../img/unknown.png'],
-["sleep", "../img/sleep.png"],
-["bike","../img/riding_bike.png"],
-["car","../img/driving_car.png"],
-["walk","../img/walk.gif"],
-["smoke","../img/smoking.gif"],
-["inj","../img/injecting.gif"]
-];
 
-var imga = new Array();
-for (var i=0;i<imga.length;i++){
-	imga[i] = new Image();
-	imga[i].src = imgsa[i][1];
-}
 
 function Ans(ac) {
 	var drag,dragL,dragR = false,
@@ -71,6 +92,8 @@ function Ans(ac) {
     ldist, rdist = 0;
 	var co = 32 ;
 	var cw = ac.canvas.width-co;
+	
+	loadIcons(imgsa).done(function(imga){});
 	
 	function init_ans() {
 		if (window.devicePixelRatio) {
@@ -92,7 +115,8 @@ function Ans(ac) {
 		ac.canvas.addEventListener('mouseup', mouseUp, false);
 		ac.canvas.addEventListener('mousemove', mouseMove, false);
 		ac.canvas.addEventListener('dblclick', mouseDbl, false);
-		draw_ans();
+		loadIcons(imgsa).done(function(imga){
+		draw_ans()})
 	}
 
 	function toCanCoord(x){
@@ -192,15 +216,14 @@ function Ans(ac) {
 				ac.rect(toCanCoord(ans[i][1]),-2,
 						  (24/hspan)*(ans[i][2]-ans[i][1])*cw,17);
 				tw = ac.measureText(ans[i][0]).width/2;
-				function loadIcon(src,x,y) {
-					var img = new Image();img.src= src;
-					img.onload = function(){ac.drawImage(img,x,y,17,17);}
+				function loadIcon(ret,x,y) {
+					ac.drawImage(imga[ret],x,y,17,17);
 				}
 				ret = 0;
 				for (var k=0;k<imgsa.length;k++){
 					if (ans[i][0]==imgsa[k][0]) {ret=k;break;}
 				}
-				loadIcon(imgsa[ret][1],toCanCoord((ans[i][1]+ans[i][2])/2)-8,22);
+				loadIcon(ret,toCanCoord((ans[i][1]+ans[i][2])/2)-8,22);
 				ac.fillText(ans[i][0],toCanCoord((ans[i][1]+ans[i][2])/2)-tw,53);
 				ac.stroke();
 			}}
@@ -208,6 +231,7 @@ function Ans(ac) {
 	}
 	
 	init_ans();
+	
 }
 
 window.addEventListener("keydown", handleKey, false);

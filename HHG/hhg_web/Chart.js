@@ -42,7 +42,7 @@ window.Chart = function(context){
 	var width = context.canvas.width;
 	var height = context.canvas.height;
 
-	//High pixel density displays - multiply the size of the canvas height/width by the device pixel ratio, then scale.
+	//High pixel density displays - multiply size of canvas by device pixel ratio, then scale.
 	if (window.devicePixelRatio) {
 		context.canvas.style.width = width + "px";
 		context.canvas.style.height = height + "px";
@@ -112,7 +112,7 @@ window.Chart = function(context){
 			barValueSpacing : 0,
 			barDatasetSpacing : 0,
 			animation : false,
-			animationSteps : 17,
+			animationSteps : 12,
 			animationEasing : "linear",
 			onAnimationComplete : null,
 			hspan: 24,
@@ -489,7 +489,7 @@ window.Chart = function(context){
 				if (p.x>poff) { 
 					var ofs = (p.x-poff)*hspan/(width-poff-1); 
 					istr="00000600";
-					for (var i=4.5;i<24;i+=3) {
+					for (var i=4.5;i<21;i+=3) {
 						if (ofs>i) 	istr=	("00"+(i-1.5)).slice(-2)+"00"+
 												("00"+((i+4.5)%24)).slice(-2)+"00";
 					}
@@ -562,7 +562,7 @@ window.Chart = function(context){
 			window.oRequestAnimationFrame ||
 			window.msRequestAnimationFrame ||
 			function(callback) {
-				window.setTimeout(callback, 17);
+				window.setTimeout(callback, 7);
 			};
 	})();
 
