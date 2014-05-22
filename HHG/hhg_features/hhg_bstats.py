@@ -205,6 +205,7 @@ def night_time(bins):
 def night(bins, bdiv, days_stats, day_bin):
 	pl = night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
 	if not np.any(pl): pl=1;
+	if np.isnan(np.sum(pl)): pl=1;
 	p = ( 128 	* night_acc(days_stats, bdiv, 2.0)
 						* pl
 						* night_time( bins/bdiv )
