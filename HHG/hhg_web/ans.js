@@ -1,5 +1,5 @@
 // check ans and truncate ans to today's entries:
-if (typeof variable === 'undefined') {
+if (typeof ans === 'undefined') {
 	var ans = []
 }
 else {
