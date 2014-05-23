@@ -8,11 +8,11 @@
  ******************************************************************************/
 
 rom char HH_NAME_STR[9] = {'H', 'e', 'd', 'g', 'e', 'H', 'o', 'g',0};
-rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '3', '0', '5',0};
+rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '4', '0', '0',0};
 
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
-char startup;
+unsigned short int sdbuffer_p;
 /** INCLUDES ******************************************************************/
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
 #include "HardwareProfile.h"		// Hardware design wrapper
@@ -65,16 +65,14 @@ char startup;
 #pragma udata
 
 sd_buffer_t sd_buffer;
-UINT16 sdbuffer_p;
-//UINT16 sdbuffer_i;
 
 // time variables
 rtc_timedate tm;		//  holding time info for current time
 char date_str[11] = "01/01/2012";
 char time_str[9]  = "00:00:00";
+
 char date_stop_str[11] = "01/01/2016";
 char time_stop_str[9]  = "00:00:00";
-
 UINT32 tm_stop;
 
 // sensor variables:
@@ -89,7 +87,6 @@ char id_str[4];
 // config variables:
 UINT8           rle_delta = 0;
 hhg_conf_accs_t acc_settings = 0;
-
 /** CONSTANTS *****************************************************************/
 /* Standard Response to INQUIRY command stored in ROM 	*/
 const ROM InquiryResponse inq_resp = {
@@ -229,17 +226,26 @@ void user_init(void) {
         // By default, start in configuration mode
         memset((void*) &sd_buffer, 0, 512);
         read_SD(SECTOR_CF, sd_buffer.bytes);
-        if(sd_buffer.conf.sdbuf_flag > 0)
+        if(sd_buffer.conf.sdbuf_flag > 0){
             is_logging = 1;
-        else
+            // read and set System Time from SD-Buffer
+            memcpy(tm.b, (const void*) sd_buffer.conf.systime, 8 * sizeof (BYTE));
+            rtc_init();
+//            rtc_write(&tm);
+//            rtc_writestr(&tm, date_str, time_str);
+//            // read and set Stop Time from SD-Buffer
+//            memcpy(tm.b, (const void*) sd_buffer.conf.stptime, 8 * sizeof (BYTE));
+//            tm_stop = rtc_2uint32(&tm);
+//            rtc_writestr(&tm, date_stop_str, time_stop_str);
+        }
+        else{
             is_logging = 0;
+            rtc_init();			// init clock
+        }
         memset((void*) &sd_buffer, 0, 512);
 
-        startup = 0;
         sdbuffer_p = SECTOR_LG; // start at this sector
-        //sdbuffer_i = 0xFFF;
 
-	rtc_init();			// init clock
 	acc_deep_sleep();	// put accelerometer to sleep for now
 	env_init();			// set up environment sensors (light, temp, ...)
 
@@ -331,7 +337,7 @@ void update_display(void) {
  *                  are header, the other 504 are data increments
  ******************************************************************************/
 void log_process() {
-	//static UINT8 startup = 0; // startup after a while
+	static UINT8 startup = 0; // startup after a while
 	if (startup == 0) { // to init light sensors, accelerometer & SD card
 		startup++;
 
@@ -350,18 +356,19 @@ void log_process() {
                 rle_delta = sd_buffer.conf.rle_delta - 48;
 		acc_settings = sd_buffer.conf.acc_s;
                 sdbuffer_p = sd_buffer.conf.sdbuf_pointer;
-                //sdbuffer_i = sd_buffer.conf.sdbuf_iter;
                 memset((void*) &sd_buffer, 0, 512);
                 //----------------------------------------------------//
 
                 Delay10KTCYx(250);
                 set_osc_8Mhz();
-                
+                set_unused_pins_to_output();
+                #if defined(USBP_INT)
+                USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin
+                #endif
                 // initialize Sensors with settings
 		sdbuf_init();
 		env_init();
 		acc_init(acc_settings, NULL);
-
 		#if defined(DISPLAY_ENABLED)
 		disp_start_log();
 		#endif
@@ -405,7 +412,8 @@ void log_process() {
 					return;
 			}
 			set_osc_sleep_int1(); // sleep till watermark is reached
-		} else // PIC pulls for ADXL samples
+		}
+                else // PIC pulls for ADXL samples
 		#endif // ADXL345_ENABLED
 		{ // pull new accelerometer samples each 10 ms by default:
 			acc_getxyz(&accval);
@@ -426,12 +434,12 @@ void log_process() {
                         memset((void*) &sd_buffer, 0, 512);
 			read_SD(SECTOR_CF, sd_buffer.bytes);
                         sd_buffer.conf.sdbuf_pointer = sdbuffer_p;
-                        //sd_buffer.conf.sdbuf_iter = sdbuffer_i;
                         sd_buffer.conf.sdbuf_flag++;
+                        rtc_read(&tm);
                         memcpy(sd_buffer.conf.systime,(const void*)tm.b, 8 * sizeof (BYTE));
                         write_SD(SECTOR_CF, sd_buffer.bytes);
 			memset((void*) &sd_buffer, 0, 512);
-                                                       
+
 			#if defined(DISPLAY_ENABLED)
 			oled_reset();
 			_oledw("USB POWER DETECTED",0,3);
@@ -451,9 +459,7 @@ void log_process() {
                 memset((void*) &sd_buffer, 0, 512);
                 read_SD(SECTOR_CF, sd_buffer.bytes);
                 sd_buffer.conf.sdbuf_pointer = sdbuffer_p;
-                //sd_buffer.conf.sdbuf_iter = sdbuffer_i;
                 sd_buffer.conf.sdbuf_flag++;
-                memcpy(sd_buffer.conf.systime,(const void*)tm.b, 8 * sizeof (BYTE));
                 write_SD(SECTOR_CF, sd_buffer.bytes);
                 memset((void*) &sd_buffer, 0, 512);
 

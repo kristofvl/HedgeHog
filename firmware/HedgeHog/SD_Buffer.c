@@ -74,7 +74,7 @@ void sdbuf_init(void) {
      *
      * see the definition of SD_BUF_START_SECTOR for some other relevant details
      */
-    //sdbuffer_p = SECTOR_LG; // start at this sector
+//    sdbuffer_p = SECTOR_LG; // start at this sector
     sdbuffer_i = 0xFFF;
     MDD_SDSPI_InitIO();
     MDD_SDSPI_MediaInitialize(); // init SD SPI settings
