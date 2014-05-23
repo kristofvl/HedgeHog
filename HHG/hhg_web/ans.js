@@ -242,32 +242,41 @@ function Ans(ac) {
 window.addEventListener("keydown", handleKey, false);
  
 function handleKey(e){
-	var newdayid = dayid;
-	var hstr = '';
+	function timeStr(from,to){
+		return "_"+toTime(from).replace(':','')+toTime(to).replace(':','')
+	}
+	var hstr = '', update=false
 	if (e.keyCode==37) { // left
-		if (hspan==24) newdayid--;
+		update=true
+		if (hspan==24) {
+				dayid--
+		}
 		else if (hspan==6) {
-				if (hoff<3) {	newdayid--; hoff=21; }
-				hstr = "_"+("00"+(hoff-3)).slice(-2)+"00"+("00"+(hoff+3)%24).slice(-2)+"00";
+				if (hoff<3) {	dayid--; hoff=21; }
+				hstr = timeStr((hoff-3)/24,(hoff+3)/24)
 		}
 		else if (hspan==1) {
-				if (hoff<1) {	newdayid--; hoff=23; }
-				hstr = "_"+("00"+(hoff-.5)).slice(-2)+"00"+("00"+(hoff+.5)%24).slice(-2)+"00";
-		}
+				if (hoff<1) {	dayid--; hoff=23.5; }
+				hstr = timeStr((hoff-.5)/24,(hoff+.5)/24)
+		} else update=false
 	}
 	else if (e.keyCode==38) { // up
-		
+				update=true
 	}
 	else if (e.keyCode==39) { // right
-		if (hspan==24) newdayid++;
+		update=true
+		if (hspan==24) {
+				dayid++
+		}
 		else if (hspan==6) {
-				if (hoff>17) {	newdayid++; hoff=-3; }
-				hstr = "_"+("00"+(hoff+3)).slice(-2)+"00"+("00"+(hoff+9)%24).slice(-2)+"00";
+				if (hoff>17) {	dayid++; hoff=-3; }
+				hstr = timeStr((hoff+3)/24,(hoff+9)/24)
 		}
 		else if (hspan==1) {
-				if (hoff>22.5) {	newdayid--; hoff=-.5; }
-				hstr = "_"+("00"+(hoff+.5)).slice(-2)+"00"+("00"+(hoff+1.5)%24).slice(-2)+"00";
-		}
+				if (hoff>22.5) {	dayid--; hoff=-.5; }
+				hstr = timeStr((hoff+.5)/24,(hoff+1.5)/24)
+		} else update=false
 	}
-	window.open('../'+newdayid+'/index'+hstr+'.html','_self',false);
+	if (update)
+		window.open('../'+dayid+'/index'+hstr+'.html','_self',false);
 }
