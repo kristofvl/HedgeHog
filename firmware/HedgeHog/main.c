@@ -416,6 +416,8 @@ void log_process() {
 			rtc_init();
 			rtc_write(&tm);
 			rtc_writestr(&tm, date_str, time_str);
+                        rle_delta = sd_buffer.conf.rle_delta - 48;
+			acc_settings = sd_buffer.conf.acc_s;
 			memset((void*) &sd_buffer, 0, 512);
                         
                         USBDeviceAttach();
