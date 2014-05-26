@@ -152,9 +152,6 @@ void low_priority_ISR() {
  * Overview:        Main program entry point.
  ******************************************************************************/
 void main(void) {
-	#if defined(USBP_INT) // If we detect USB (See HardwareProfile.h)
-	wakeup_check(&tm, 2); // wake up and check every 2 seconds for USB presence
-	#endif
 	init_system();
 	USBDeviceAttach();
 	while (1) {
