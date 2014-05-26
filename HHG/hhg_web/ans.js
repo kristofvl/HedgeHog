@@ -10,6 +10,11 @@ else {
 	ans = tmp_ans;
 }
 
+// calculate data boundaries and skips:
+var hspan=Math.round(24*(stopt-strtt)), hoff=strtt*24;
+var skipxyz=2,skipenv=32;
+for(var i=3;i<24;i+=2){if(hspan>i){skipxyz+=4;skipenv+=64;}}
+
 // load icon images:
 var imgsa = [
 	["unknown",'../img/unknown.png'],
@@ -37,11 +42,6 @@ function loadIcons(arr) {
 	}
 	return { done:function(f){postaction=f || postaction}}
 }
-			
-// calculate data boundaries and skips:
-var hspan=Math.round(24*(stopt-strtt)), hoff=strtt*24;
-var skipxyz=2,skipenv=32;
-for(var i=3;i<24;i+=2){if(hspan>i){skipxyz+=4;skipenv+=64;}}
 
 function toTime(tfrac){
 	hrs = Math.floor(tfrac*24)%24;
@@ -81,13 +81,20 @@ function drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, ticks){
 	var d_light={l:[],ds:[{fc:"#dd0",sc:"#ddd",d:ls}]};
 	var d_acc3d={l:ll,ds:[{sc:"#d00",d:xs},{sc:"#0c0",d:ys},{sc:"#00d",d:zs}]};
 	var d_night={l:[],ds:[{fc:"#111",sc:"#ddd",d:ps}]};
-	var light = new Chart(document.getElementById("day_view_light").getContext("2d")).Bar(d_light,{scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,hspan:hspan,hoff:hoff});
-	var acc3d = new Chart(document.getElementById("day_view_acc3d").getContext("2d")).Line(d_acc3d,{scaleSteps:8,scaleShowLabels:true,scaleFontSize:12,scaleLineWidth:1,datasetStrokeWidth:0.5,scaleStepWidth:32,hspan:hspan,hoff:hoff});
-	var night = new Chart(document.getElementById("night_view_prb").getContext("2d")).Bar(d_night,{scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,hspan:hspan,hoff:hoff});
+	var bopts = {scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,hspan:hspan,hoff:hoff}
+	var lopts = {scaleSteps:8,scaleShowLabels:true,scaleFontSize:12,scaleLineWidth:1,datasetStrokeWidth:0.5,scaleStepWidth:32,hspan:hspan,hoff:hoff}
+	var light = new Chart(document.getElementById("day_view_light").getContext("2d")).Bar(d_light,bopts);
+	var acc3d = new Chart(document.getElementById("day_view_acc3d").getContext("2d")).Line(d_acc3d,lopts);
+	var night = new Chart(document.getElementById("night_view_prb").getContext("2d")).Bar(d_night,bopts);
 	var ansca = new Ans(document.getElementById("dvans").getContext("2d"))
 }
 
-
+function reDrawAll(nhoff,nhspan){
+	hspan = nhspan; hoff = nhoff
+	skipxyz=2,skipenv=32;
+	for(var i=3;i<24;i+=2){if(hspan>i){skipxyz+=4;skipenv+=64;}}
+	drawAll(x,y,z,l,p,(hoff/24),(hoff+hspan)/24, skipenv, skipxyz, 7)
+}
 
 function Ans(ac) {
 	var drag,dragL,dragR = false,

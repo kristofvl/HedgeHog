@@ -51,10 +51,10 @@ def zoom_indexheader(daystr, ts, day_id):
 			shft = 3.0
 		elif round(hspan)==1:
 			shft = 0.5
-		prevh = (dayfrac2str((ts[0]*24-shft)/24)[:2]+dayfrac2str((ts[0]*24-shft)/24)[3:]+
-					dayfrac2str((ts[1]*24-shft)/24)[:2]+dayfrac2str((ts[1]*24-shft)/24)[3:])
-		nexth = (dayfrac2str((ts[0]*24+shft)/24)[:2]+dayfrac2str((ts[0]*24+shft)/24)[3:]+
-					dayfrac2str((ts[1]*24+shft)/24)[:2]+dayfrac2str((ts[1]*24+shft)/24)[3:])
+		prevh = (dayfrac2str((ts[0]*24-shft)/24).replace(":","")+
+					dayfrac2str((ts[1]*24-shft)/24).replace(":",""))
+		nexth = (dayfrac2str((ts[0]*24+shft)/24).replace(":","")+
+					dayfrac2str((ts[1]*24+shft)/24).replace(":",""))
 		if (prevh=="21000300"): prevh = "18000000"
 		if (prevh=="00300030"): prevh = "23000000"
 		if (nexth=="21000300"): nexth = "00000600"
@@ -280,8 +280,8 @@ def write_day_zoom_html(day_id, dlpath,
 	daystr += '-' + str(num2date(day_id).day).zfill(2)
 	canw = str(cz_px)
 	dlen = int(len(x_str)/2)
-	tstr = (dayfrac2str(ts[0])[:2]+dayfrac2str(ts[0])[3:]+
-				dayfrac2str(ts[1])[:2]+dayfrac2str(ts[1])[3:])
+	tstr = (dayfrac2str(ts[0]).replace(":","")+
+				dayfrac2str(ts[1]).replace(":",""))
 	## construct html file
 	try:
 		f=open(os.path.join(dlpath,str(day_id),'index_'+tstr+'.html'),"w")

@@ -63,52 +63,77 @@ cz_px = cz_px_yaxs + cz_px_draw
 
 ## write a calendar entry
 def cal_entry(day_id, dlpath, f, skip):
+	def find_in_js(vstr, substr, stop=0):
+		entry = fstr.find(substr,stop)+len(substr)
+		stop = fstr.find('";',entry)
+		return vstr[entry:stop], stop
+
 	tic = time.clock()
 	hh.write_cal_entry(day_id, f)
-	## open the data and configuration for the day:
-	dfile = os.path.join(dlpath,str(day_id),'d.npz')
-	try:
-		out = np.load(dfile)
-		dta = out['dta']
-		cnf = str(out['conf'])
-	except:
-		f.write('</a></time>')
+	if skip and (day_id<skip_id):
 		try:
-			os.makedirs(os.path.join(dlpath,str(day_id)))
+			with open(os.path.join(dlpath,str(day_id),'d.js'),"r") as fl:
+				fstr = fl.read()
+				p_str,st = find_in_js(fstr,'p="',0)
+				l_str,st = find_in_js(fstr,'l="',st)
+				l = range(0,len(l_str),2*bdiv*30)
+				l_str = ''.join([l_str[i:i+2] for i in l])
+				x_str,st = find_in_js(fstr,'x="',st)
+				y_str,st = find_in_js(fstr,'y="',st)
+				z_str,st = find_in_js(fstr,'z="',st)
+				xs_str,st = find_in_js(fstr,'xs'+str(day_id)+'="',st)
+				ys_str,st = find_in_js(fstr,'ys'+str(day_id)+'="',st)
+				zs_str,st = find_in_js(fstr,'zs'+str(day_id)+'="',st)
 		except:
-			pass
-		hh.write_day_stub_html(day_id, dlpath)
-		print str(num2date(day_id))[0:10]+": data not found"
-		return
-	## calculate day statistics and plot array (w. 30 seconds bins)
-	days_stats, day_bin = hf.stats_npz(dta, bins)
-	probs = hf.night(bins, bdiv, days_stats, day_bin)
-	nt = hf.night_endpoints(probs)
-	l_str =''.join(["%02x" %c for c in (day_bin.e1[::bdiv]>>8).tolist()])
-	x_str =''.join(["%02x" %c for c in (day_bin.x).tolist()])
-	y_str =''.join(["%02x" %c for c in (day_bin.y).tolist()])
-	z_str =''.join(["%02x" %c for c in (day_bin.z).tolist()])
-	xs_str=''.join(["%02x" %c for c in day_bin.x[::bdiv].tolist()])
-	ys_str=''.join(["%02x" %c for c in day_bin.y[::bdiv].tolist()])
-	zs_str=''.join(["%02x" %c for c in day_bin.z[::bdiv].tolist()])
-	p_str =''.join(["%02x" %c for c in map(int,probs.tolist())])
-	dta = dta.view(np.recarray)
-	dta_sum = sum(dta.d)
-	dta_rle = len(dta)
+			f.write('</a></time>')
+			try:
+				os.makedirs(os.path.join(dlpath,str(day_id)))
+			except:
+				pass
+			hh.write_day_stub_html(day_id, dlpath)
+			print str(num2date(day_id))[0:10]+": d.js not parsed"
+			return
+	else:
+		## open the data and configuration for the day:
+		dfile = os.path.join(dlpath,str(day_id),'d.npz')
+		try:
+			out = np.load(dfile)
+			dta = out['dta']
+			cnf = str(out['conf'])
+		except:
+			f.write('</a></time>')
+			try:
+				os.makedirs(os.path.join(dlpath,str(day_id)))
+			except:
+				pass
+			hh.write_day_stub_html(day_id, dlpath)
+			print str(num2date(day_id))[0:10]+": d.npz not parsed"
+			return
+		## calculate day statistics and plot array (w. 30 seconds bins)
+		days_stats = hf.stats_npz(dta, bins)
+		day_bin = hf.npz2secbin(dta, 30)
+		x_str=''.join(["%02x" %c for c in [x[0] for x in day_bin]])
+		y_str=''.join(["%02x" %c for c in [x[1] for x in day_bin]])
+		z_str=''.join(["%02x" %c for c in [x[2] for x in day_bin]])
+		l_str =''.join(["%02x" %c for c in [x[3] for x in day_bin][::bdiv]])
+		xs_str=''.join(["%02x" %c for c in [x[0] for x in day_bin][::bdiv]])
+		ys_str=''.join(["%02x" %c for c in [x[1] for x in day_bin][::bdiv]])
+		zs_str=''.join(["%02x" %c for c in [x[2] for x in day_bin][::bdiv]])
+		probs = hf.night(bins, bdiv, days_stats, [x[3] for x in day_bin])
+		nt = hf.night_endpoints(probs)
+		p_str =''.join(["%02x" %c for c in map(int,probs.tolist())])
+		dta = dta.view(np.recarray)
+		dta_sum = sum(dta.d)
+		dta_rle = len(dta)
 	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
-	if skip:
-		if os.path.exists(os.path.join(dlpath,str(day_id),'index.html')):
-			skip = True;
-		else:
-			skip = False;
 	#####################################################################
-	if not skip:
+	if not skip or (day_id>=skip_id):
 		csva = np.array( ( dta.t-int(dta.t[0]), dta.x, dta.y,dta.z  ) ).T
 		np.savetxt( os.path.join(dlpath,str(day_id),'d.csv'), csva, 
 			fmt="%1.8f,%d,%d,%d")
 		hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
 							x_str, y_str, z_str, l_str, p_str, cd_px)
-		int_bin = hf.npz2secbin(dta)
+		int_bin = hf.npz2secbin(dta,1)
 		l_str =''.join(["%02x" %c for c in [x[3] for x in int_bin]])
 		x_str =''.join(["%02x" %c for c in [x[0] for x in int_bin]])
 		y_str =''.join(["%02x" %c for c in [x[1] for x in int_bin]])
@@ -120,6 +145,9 @@ def cal_entry(day_id, dlpath, f, skip):
 			return False
 		f.write('var p="'+p_str+'";var l="'+l_str+'";var x="'+
 					x_str+'";var y="'+y_str+'";var z="'+z_str+'";')
+		f.write('var xs'+str(day_id)+'="'+xs_str+'";'+
+				  'var ys'+str(day_id)+'="'+ys_str+'";'+
+				  'var zs'+str(day_id)+'="'+zs_str+'";')
 		f.close()
 		## calculate raw data view for 6 hours with 3 hour overlaps:
 		## calculate raw data view for 1 hour with no overlaps:
@@ -155,7 +183,9 @@ if not os.path.exists(dlpath):
 	exit(1)
 
 skip = False
+skip_id = sys.maxint
 if len(sys.argv) > 2:
+	skip_id = int(sys.argv[2])
 	skip = True
 
 home = os.environ['HOME']
@@ -176,9 +206,9 @@ first_day_id = int(matches[0][0])
 last_day_id  = int(matches[-1][0])
 		
 ## remove previous html zoom files
-for root, dirnames, filenames in os.walk(dlpath):
-	for filename in fnmatch.filter(filenames, 'index_*.html'):
-		os.remove( os.path.join(root, filename))
+#for root, dirnames, filenames in os.walk(dlpath):
+#	for filename in fnmatch.filter(filenames, 'index_*.html'):
+#		os.remove( os.path.join(root, filename))
 		
 ## assume that we're interested in first month:
 month_vw = num2date(first_day_id).month

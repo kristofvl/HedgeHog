@@ -33,7 +33,6 @@ import hhg_io.hhg_import as hi
 ## bin-wise collect the dta stats for calendar plotting
 ## return mean, std, min, max for x, y, and z axes
 def stats_npz(dta, bins):
-	day_bin = np.zeros(bins,dtype=hi.desc_hhg).view(np.recarray)
 	day_bin_stats = np.zeros( (bins,12) )-[0,0,0,1,1,1,0,0,0,0,0,0]
 	cur_idx = 0; cur_bin = []
 	for x in dta:
@@ -46,10 +45,6 @@ def stats_npz(dta, bins):
 				day_bin_stats[cur_idx,:] = np.concatenate([
 						np.mean(cur_bin, axis=0), np.std(cur_bin, axis=0),
 						np.min(cur_bin, axis=0),  np.max(cur_bin, axis=0)])
-				day_bin[cur_idx] = x ## the last seen value of the bin
-				for k in range(0,3):
-					day_bin[cur_idx][2+k] = day_bin_stats[cur_idx,
-															(6+(cur_idx&1)*3)+k]
 				cur_bin = []
 			cur_idx = idx  
 	## fill in any holes with previous data:
@@ -57,11 +52,7 @@ def stats_npz(dta, bins):
 		if day_bin_stats[cur_idx,0:6].all()==0:
 			day_bin_stats[cur_idx][0:3]=day_bin_stats[cur_idx-1][0:3]
 			day_bin_stats[cur_idx][6:]=day_bin_stats[cur_idx-1][6:]
-		if day_bin[cur_idx][0]==0:
-			day_bin[cur_idx] = day_bin[cur_idx-1]
-			for k in range(0,3):
-				day_bin[cur_idx][2+k] = day_bin_stats[cur_idx-1,k]
-	return day_bin_stats, day_bin
+	return day_bin_stats
 	
 ## return equidistant sampling data from RLE:
 def equidist_npz(dta):
@@ -74,11 +65,12 @@ def equidist_npz(dta):
 	return day_bin
 	
 ## bin-wise collect min-max samples for calendar plotting
-def npz2secbin(dta):
-	day_bin = [(0,0,0,0,0)]*86400
+def npz2secbin(dta,sec):
+	secsperday = 86400
+	day_bin = [(0,0,0,0,0)]*(secsperday/sec)
 	cur_idx = 0; cur_bin = []
 	for x in dta:
-		idx = int((x[0]-int(dta[0][0]))*86400)
+		idx = int((x[0]-int(dta[0][0]))*(secsperday/sec))
 		if cur_idx == idx: 
 			cur_bin.append([x[2],x[3],x[4],x[5]>>8,x[5]&0xFF])
 		else:
@@ -94,7 +86,7 @@ def npz2secbin(dta):
 				cur_bin = []
 			cur_idx = idx  
 	## fill in any holes with previous data:
-	for cur_idx in range(1,86400):
+	for cur_idx in range(1,(secsperday/sec)):
 		if day_bin[cur_idx]==(0,0,0,0,0):
 			day_bin[cur_idx]=day_bin[cur_idx-1]
 	return day_bin
@@ -202,8 +194,8 @@ def night_time(bins):
 	return np.interp([x*(1440.0/bins) for x in range(0,int(bins))], range(0,1440) , p_ngt)/1000.0
 	
 ## return sleep detection total probabilities:
-def night(bins, bdiv, days_stats, day_bin):
-	pl = night_lgt((day_bin.e1>>8).tolist(), bdiv, 4.0)
+def night(bins, bdiv, days_stats, light):
+	pl = night_lgt(light, bdiv, 4.0)
 	if not np.any(pl): pl=1;
 	if np.isnan(np.sum(pl)): pl=1;
 	p = ( 128 	* night_acc(days_stats, bdiv, 2.0)
