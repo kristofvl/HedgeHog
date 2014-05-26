@@ -20,9 +20,11 @@ In short, this repository contains three packages:
 
 ****************************************************************
 
-# User Manual
+User Manual
+===========
 
-## Setup a new HedgeHog
+Setup a new HedgeHog
+--------------------
 
 There are four basic interactions, that you can do with your HedgeHog
 
@@ -48,23 +50,27 @@ This will export the correct image to the SD-Card. After exporting the image, di
 Now you need to flash the HedgeHog with *MPLab*. Make sure to choose the correct hardware profile.
 
 
-## Configure the HedgeHog
+Configure the HedgeHog
+----------------------
 
 If you plug in the HedgeHog into the USB-Connector of your PC, it should be recognized correctly now. The install command has created a shortcut to the configuration script. Start the script now and choose the configuration you want, then click *configure*. The HedgeHog will unmount and then mount again by itself. As soon as the HedgeHog is mounted again, the configuration is applied.
 
 
-## Start logging
+Start logging
+-------------
 
 When the HedgeHog has the right configuration, it is ready to be started. Therefore use the start script, that also was created by the install command. The HedgeHog will be started and will log data, that are stored at the SD-Card. 
 Since firmware version 1.4000, the HedgeHog will continue logging, even if it is plugged into the USB-Connector. When plugged in, you can visualize the data, as shown in *Download the logged data* and *Display the downloaded data*. When the HedgeHog is unpluged again, it will continue logging data.
 
 
-## Download the logged data
+Download the logged data
+------------------------
 
 To download the logged data, you can use the download script. A shortcut to the script was also created during the installation progress. The data will be saved at *~/hhg_logs/<HHG device number>/<date>/d.npz*
 
 
-## Display the downloaded data
+Display the downloaded data
+---------------------------
 
 To visualize the data, a python script is contained in the repository. To use it, the command is
 	- *./viz_HHG.py ~/hhg_logs/<HHG device number>/<date>/d.npz* in *~/HedgeHog/HHG*
