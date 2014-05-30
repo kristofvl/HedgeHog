@@ -26,12 +26,12 @@ In short, this repository contains three packages:
 
 There are four basic interactions, that you can do with your HedgeHog
 
-	<a name="user-content-configure-the-hedgehog" href="#configure-the-hedgehog">Configure the HedgeHog</a>
-	- Start logging
-	- Download the logged data
-	- Display the downloaded data
+<a name="user-content-configure-the-hedgehog" href="#configure-the-hedgehog">Configure the HedgeHog</a>
+<a name="user-content-start-logging" href="#start-logging">Start logging</a>
+<a name="user-content-download-the-logged-data" href="#download-the-logged-data">Download the logged data</a>
+<a name="user-content-display-the-downloaded-data" href="#display-the-downloaded-data">Display the downloaded data</a>
 
-In order to perform this actions, you first need to setupt your PC properly.
+In order to perform this actions, you first need to setup your PC properly.
 
 	- Clone this repository
 	- Execute the command ./install_HHG.py* in *~/HedgeHog/HHG
