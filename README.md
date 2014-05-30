@@ -67,11 +67,11 @@ Download the logged data
 ------------------------
 
 To download the logged data, you can use the download script. A shortcut to the script was also created during the installation progress. The data will be saved at 
-*~/hhg_logs/<HHG device number>/<date>/d.npz*
+*~/hhg_logs/*HHG device number*/*date*/d.npz*
 
 
 Display the downloaded data
 ---------------------------
 
-To visualize the data, a python script is contained in the repository. To use it, got to *~/HedgeHog/HHG* and execite
-	- ./viz_HHG.py ~/hhg_logs/<HHG device number>/<date>/d.npz 
+To visualize the data, a python script is contained in the repository. To use it, got to *~/HedgeHog/HHG* and execute
+	- ./viz_HHG.py ~/hhg_logs/*HHG device number*/*date*/d.npz 
