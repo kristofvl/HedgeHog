@@ -66,7 +66,8 @@ Since firmware version 1.4000, the HedgeHog will continue logging, even if it is
 Download the logged data
 ------------------------
 
-To download the logged data, you can use the download script. A shortcut to the script was also created during the installation progress. The data will be saved at *~/hhg_logs/<HHG device number>/<date>/d.npz*
+To download the logged data, you can use the download script. A shortcut to the script was also created during the installation progress. The data will be saved at 
+*~/hhg_logs/<HHG device number>/<date>/d.npz*
 
 
 Display the downloaded data
