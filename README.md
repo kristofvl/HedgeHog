@@ -65,7 +65,7 @@ Since firmware version 1.4000, the HedgeHog will continue logging, even if it is
 ## Download the logged data
 
 To download the logged data, you can use the download script. A shortcut to the script was also created during the installation. The data will be saved at 
-*~/hhg_logs/<HHG_device_id>/<date>/d.npz* where <HHG-device_id> is the number you gave in the configuration and <date> is the starting date.
+*~/hhg_logs/<\HHG_device_id> /<\date>/d.npz* where <\HHG-device_id> is the number you gave in the configuration and <\date> is the starting date.
 
 
 ## Display the downloaded data
@@ -73,4 +73,4 @@ To download the logged data, you can use the download script. A shortcut to the 
 To visualize the data, use the python script in the repository as follows:
 
 	- cd ~/HedgeHog/HHG/
-	- ./viz_HHG.py ~/hhg_logs/<HHG_device_number>/<date>/d.npz 
+	- ./viz_HHG.py ~/hhg_logs/<HHG_device_id>/<date>/d.npz 
