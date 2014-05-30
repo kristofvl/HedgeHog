@@ -36,14 +36,14 @@ There are four basic interactions, that you can do with your HedgeHog
 In order to perform this actions, you first need to setupt your PC properly.
 
 	- Clone this repository
-	- Execute the command *./install_HHG.py* in *~/HedgeHog/HHG*
+	- Execute the command ./install_HHG.py* in *~/HedgeHog/HHG
 
 This will create a few Desktop shortcuts to scripts, that will be discussed later on.
 
 If you have a brand new HedgeHog, you will need to do some extra adjustments, if not, then just continue at *Configure the HedgeHog*. The following instructions might also help, if there are other issues with the HedgeHog. You need to put the right image on the SD-Card. To do this, put the SD-Card in the SD-Card slot in yout PC. You need to find out, where the SD-Card is mounted (e.g. with *dmesg*). In this example, it is assumed, the SD-Card is mounted at /dev/sdc. Go to the folder *~/HedgeHog/HHG/dd_img/* and execute the commands
 
-	- *sudo dd if=dd.img of=/dev/sdc*
-	- *sync*
+	- sudo dd if=dd.img of=/dev/sdc
+	- sync
 
 This will export the correct image to the SD-Card. After exporting the image, disconnect the SD-Card and reconnect it again. If it is named *HEDGHG*, the export was succesfull. Now put your SD-Card into your HedgeHog.
 
@@ -73,5 +73,5 @@ To download the logged data, you can use the download script. A shortcut to the 
 Display the downloaded data
 ---------------------------
 
-To visualize the data, a python script is contained in the repository. To use it, the command is
-	- *./viz_HHG.py ~/hhg_logs/<HHG device number>/<date>/d.npz* in *~/HedgeHog/HHG*
+To visualize the data, a python script is contained in the repository. To use it, got to *~/HedgeHog/HHG* and execite
+	- ./viz_HHG.py ~/hhg_logs/<HHG device number>/<date>/d.npz 
