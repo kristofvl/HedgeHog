@@ -26,10 +26,10 @@ In short, this repository contains three packages:
 
 There are four basic interactions, that you can do with your HedgeHog:
 
-[Configure the HedgeHog](#configure-the-hedgehog)
-[Start logging](#start-logging)
-[Download the logged data](#download-the-logged-data)
-[Display the downloaded data](#display-the-downloaded-data)
+[Configure the HedgeHog](#configure-the-hedgehog)<br>
+[Start logging](#start-logging)<br>
+[Download the logged data](#download-the-logged-data)<br>
+[Display the downloaded data](#display-the-downloaded-data)<br>
 
 In order to perform this actions, you first need to setup your PC properly.
 
