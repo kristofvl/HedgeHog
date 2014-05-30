@@ -33,6 +33,7 @@ There are four basic interactions, that you can do with your HedgeHog:
 
 In order to be able to use the HedgeHog, you first need to setup your PC properly:
 
+	- cd ~
 	- git clone https://github.com/kristofvl/HedgeHog.git
 	- cd ~/HedgeHog/HHG
 	- ./install_HHG.py
