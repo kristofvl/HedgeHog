@@ -76,5 +76,5 @@ Display the downloaded data
 To visualize the data, a python script is contained in the repository. To use it, got to *~/HedgeHog/HHG* and execute
 
 	- ./viz_HHG.py ~/hhg_logs/HHG_device_number/date/d.npz 
-	- *HHG-device_number* is the number entered in the config file
-	- *date* is the starting date
+	- HHG-device_number is the number entered in the config file
+	- date is the starting date
