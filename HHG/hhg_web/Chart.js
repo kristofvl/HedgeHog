@@ -473,8 +473,7 @@ window.Chart = function(context){
 						prevx = newx;
 					}
 				}
-				writeMsg(''+Math.floor(hoff+ofs)+':'+
-				('00'+Math.floor((hoff+ofs-Math.floor(hoff+ofs))*60)).slice(-2));
+				writeMsg(toTime((hoff+ofs)/24))
 			};}, false);
 	context.canvas.addEventListener('mouseout',function(e) {
 			if (prevx>0) {
@@ -484,31 +483,42 @@ window.Chart = function(context){
 			writeMsg('     ');
 			}, false);
 	context.canvas.addEventListener('mousedown', function(e) {
+		function zoomInAnim(istr) {
+			var animIter=0
+			requestAnimFrame(animLoop)
+			function animLoop() {
+				context.putImageData(scaleXImageData(imgdta,1+animIter),
+				poff+1+((5-animIter)*(prevx-poff)/4),
+				0)
+				console.log(poff+1+(animIter*(prevx-poff)/5))
+				if (++animIter < 5)
+					requestAnimFrame(animLoop)
+				else 
+					window.open ('./index_'+istr+'.html','_self',false)
+			}
+		}
 			if (hspan==24) {
-				var p=getMousePos(e), istr='';
-				if (p.x>poff) { 
-					var ofs = (p.x-poff)*hspan/(width-poff-1); 
-					istr="00000600";
-					for (var i=4.5;i<21;i+=3) {
-						if (ofs>i) 	istr=	("00"+(i-1.5)).slice(-2)+"00"+
-												("00"+((i+4.5)%24)).slice(-2)+"00";
-					}
-					window.open ('./index_'+istr+'.html','_self',false);
+				var p=getMousePos(e)
+				if (p.x>poff) {
+					var ofs = Math.round((prevx-poff)*hspan/(width-poff-1))
+					istr="00000600"
+					istr=toTime(ofs/24).replace(':','')+toTime((ofs+6)/24).replace(':','')
+					zoomInAnim(istr)
 				}
 			}
 			else if (hspan==6) {
-				var p=getMousePos(e);
+				var p=getMousePos(e)
 				if (p.x>poff) {
-					var ofs = (p.x-poff)*hspan/(width-poff-1);
-					var mins = ((ofs-Math.floor(ofs))>0.5)*30;
-					istr=("00"+(hoff+Math.floor(ofs))).slice(-2).toString()+("00"+mins).slice(-2)+
-						 ("00"+(hoff+Math.floor(ofs)+1)%24).slice(-2).toString()+("00"+mins).slice(-2);
-					 window.open ('./index_'+istr+'.html','_self',false);
+					var ofs = ((prevx-poff)*hspan/(width-poff))
+					istr = toTime((ofs+hoff+(1/60))/24).replace(":","")+
+						 toTime((ofs+hoff+1+(1/60))/24).replace(":","")
+					zoomInAnim(istr)
 				}
 			}
 			}, false);
 	function dropImgDta(im_w){
-		imgdta = context.getImageData((newx-1)*window.devicePixelRatio,0,im_w*window.devicePixelRatio,height*window.devicePixelRatio);
+		imgdta = context.getImageData((newx-1)*window.devicePixelRatio,0,
+			im_w*window.devicePixelRatio,height*window.devicePixelRatio);
 		context.beginPath(); context.strokeStyle = "#111";
 		context.lineWidth=.5;
 		context.rect(newx,5,im_w-4,height-16);
@@ -520,6 +530,26 @@ window.Chart = function(context){
 		var adjustedValue = val - calculatedScale.graphMin;
 		var scalingFactor = CapValue(adjustedValue/outerValue,1,0);
 		return (scaleHop*calculatedScale.steps) * scalingFactor;
+	}
+	
+	function scaleXImageData(imageData, scale) {
+		var scaled = context.createImageData(imageData.width*scale, imageData.height );
+		for(var row = 0; row < imageData.height; row++) {
+			for(var col = 0; col < imageData.width; col++) {
+			  var sourcePixel =  imageData.data.subarray(
+                (row * imageData.width + col) * 4,
+                (row * imageData.width + col) * 4 + 4
+				);
+			  for(var x = 0; x < scale; x++) {
+				  var destCol = col * scale + x;
+				  for(var i = 0; i < 4; i++) {
+					scaled.data[(row * scaled.width + destCol) * 4 + i] =
+					  sourcePixel[i];
+				  }
+				}
+			}
+		  }
+		return scaled;
 	}
 	
 	function animationLoop(config,drawScale,drawData,ctx){
