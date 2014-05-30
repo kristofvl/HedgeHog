@@ -26,7 +26,7 @@ In short, this repository contains three packages:
 
 There are four basic interactions, that you can do with your HedgeHog
 
-<a name="user-content-configure-the-hedgehog" href="#configure-the-hedgehog">Configure the HedgeHog</a>
+	<a name="user-content-configure-the-hedgehog" href="#configure-the-hedgehog">Configure the HedgeHog</a>
 	- Start logging
 	- Download the logged data
 	- Display the downloaded data
