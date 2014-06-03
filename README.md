@@ -63,6 +63,7 @@ Now that your HedgeHog has the right configuration, you are ready to start loggi
 Since firmware version 1.4000, the HedgeHog will continue logging, even if it is plugged into the USB-Connector. When plugged in, you can visualize the data, as shown in *Download the logged data* and *Display the downloaded data*. When unplugged the device will continue logging with the last configuration without deleting the existing data.
 
 In case you dont want to start the script using the created buttons, you can also run them in a terminal. The script is in the folder *~/HedgeHog/HHG/* and is named *start_HHG.py*. To run it, go to the folder and execute
+
 	- python start_HHG.py /media/<username>/HedgeHog<(given id)>/config.URE
 
 
