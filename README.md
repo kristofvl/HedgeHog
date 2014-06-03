@@ -34,6 +34,7 @@ This manual will help you use your HedgeHog properly. Therefore, we will discuss
 ## Prepare your computer
 
 There is some software required on your computer in order for the graphical interface to work.
+
 	- the basic python libraries (https://www.python.org/)
     - matplotlib (http://matplotlib.org/)
 
