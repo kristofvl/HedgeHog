@@ -42,6 +42,13 @@ Once this software is installed, please clone this repository by executing the c
 
 	$ git clone https://github.com/kristofvl/HedgeHog
 
+Now execute the installation script
+
+	$ ./HedgeHog/HHG/install_HHG.py
+
+This will create a few Desktop shortcuts to scripts, that will be discussed later on. Now your computer is set up for working with the HedgeHog.
+
+
 ## Configure the HedgeHog
 
 If you plug in the HedgeHog into the USB-Connector of your PC, it should be recognized correctly now. The install command has created a shortcut to the configuration script. Start the script now and choose the configuration you want, then click *Save Settings*. The HedgeHog will unmount, apply the settings and then mount again by itself. In the configuration script you also have the option of formating your SD-Card. By pressing format the HedgeHog will unmount, format the SD-Card and then remount again. Don't forget to configure the HedgeHog after formatting. 
