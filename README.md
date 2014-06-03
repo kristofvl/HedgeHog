@@ -62,11 +62,14 @@ If you plug in the HedgeHog into the USB-Connector of your PC, it should be reco
 Now that your HedgeHog has the right configuration, you are ready to start logging. Use the start script, that was also created by the installation. Choose the logging period. The default is set to one week. After pressing start the HedgeHog will disconnect automatically and start logging.  
 Since firmware version 1.4000, the HedgeHog will continue logging, even if it is plugged into the USB-Connector. When plugged in, you can visualize the data, as shown in *Download the logged data* and *Display the downloaded data*. When unplugged the device will continue logging with the last configuration without deleting the existing data.
 
+In case you dont want to start the script using the created buttons, you can also run them in a terminal. The script is in the folder *~/HedgeHog/HHG/* and is named *start_HHG.py*. To run it, go to the folder and execute
+	- python start_HHG.py /media/<username>/HedgeHog<(given id)>/config.URE
+
 
 ## Download the logged data
 
 To download the logged data, you can use the download script. A shortcut to the script was also created during the installation. The data will be saved at 
-*~/hhg_logs/<\HHG_device_id> /<\date>/d.npz* where <\HHG-device_id> is the number you gave in the configuration and <\date> is the starting date.
+*~/hhg_logs/<HHG_device_id>/<date>/d.npz* where <HHG-device_id> is the number you gave in the configuration and <\date> is the starting date.
 
 
 ## Display the downloaded data
