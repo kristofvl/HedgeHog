@@ -49,7 +49,7 @@ If you have a brand new HedgeHog, you will need to prepare your device, if not, 
 
 Those commands will export the correct image to the SD-Card. After exporting the image, disconnect the SD-Card and reconnect it again. If it is named *HEDGHG*, the export was succesfull and you can put your SD-Card back into the HedgeHog, if not repeat last commands.
 
-Now you need to flash the latest firmware onto the HedgeHog with *MPLab*. Make sure to choose the correct hardware profile.
+After formatting your SD-Card with dd, insert it in your HedgeHog device. Make sure to have the newest version of the firmware, if not, flash the HedgeHog with *MPLab*. Now you are ready to configure the HedgeHog.
 
 
 ## Configure the HedgeHog
