@@ -22,35 +22,24 @@ In short, this repository contains three packages:
 
 # User Manual
 
-## Setup a new HedgeHog
+This manual will help you use your HedgeHog properly. Therefore, we will discuss the following themes.
 
-There are four basic interactions, that you can do with your HedgeHog:
+[1) Prepare your computer](#prepare-your-computer)<br>
+[2) Configure the HedgeHog](#configure-the-hedgehog)<br>
+[3) Start logging](#start-logging)<br>
+[4) Download the logged data](#download-the-logged-data)<br>
+[5) Display the downloaded data](#display-the-downloaded-data)<br>
 
-[Configure the HedgeHog](#configure-the-hedgehog)<br>
-[Start logging](#start-logging)<br>
-[Download the logged data](#download-the-logged-data)<br>
-[Display the downloaded data](#display-the-downloaded-data)<br>
 
-In order to be able to use the HedgeHog, you first need to setup your PC properly:
+## Prepare your computer
 
-	- cd ~
-	- git clone https://github.com/kristofvl/HedgeHog.git
-	- cd ~/HedgeHog/HHG
-	- ./install_HHG.py
+There is some software required on your computer in order for the graphical interface to work.
+	- the basic python libraries (https://www.python.org/)
+    - matplotlib (http://matplotlib.org/)
 
-This will create a few Desktop shortcuts to scripts, that will be discussed later on.
+Once this software is installed, please clone this repository by executing the command
 
-If you have a brand new HedgeHog, you will need to prepare your device, if not, just continue from section *Configure the HedgeHog*. The following instructions might also help, if there are other issues with the HedgeHog. You need to export the right image to the SD-Card. To do this, put the SD-Card into the SD-Card slot of your computer. Now you need to find out, where the SD-Card is mounted (e.g. with *dmesg*):
-
-	- dmesg 
-	- cd ~/HedgeHog/HHG/dd_img/
-	- sudo dd if=dd.img of=/dev/<HedgeHog device>
-	- sync
-
-Those commands will export the correct image to the SD-Card. After exporting the image, disconnect the SD-Card and reconnect it again. If it is named *HEDGHG*, the export was succesfull and you can put your SD-Card back into the HedgeHog, if not repeat last commands.
-
-After formatting your SD-Card with dd, insert it in your HedgeHog device. Make sure to have the newest version of the firmware, if not, flash the HedgeHog with *MPLab*. Now you are ready to configure the HedgeHog.
-
+	`$ git clone https://github.com/kristofvl/HedgeHog`
 
 ## Configure the HedgeHog
 
