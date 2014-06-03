@@ -40,14 +40,14 @@ In order to be able to use the HedgeHog, you first need to setup your PC properl
 
 This will create a few Desktop shortcuts to scripts, that will be discussed later on.
 
-If you have a brand new HedgeHog, you will need to prepare your device, if not, just continue from section *Configure the HedgeHog*. The following instructions might also help, if there are other issues with the HedgeHog. You need to export the right image to the SD-Card. To do this, you need to find out, where the SD-Card is mounted (e.g. with *dmesg*):
+If you have a brand new HedgeHog, you will need to prepare your device, if not, just continue from section *Configure the HedgeHog*. The following instructions might also help, if there are other issues with the HedgeHog. You need to export the right image to the SD-Card. To do this, put the SD-Card into the SD-Card slot of your computer. Now you need to find out, where the SD-Card is mounted (e.g. with *dmesg*):
 
 	- dmesg 
 	- cd ~/HedgeHog/HHG/dd_img/
 	- sudo dd if=dd.img of=/dev/<HedgeHog device>
 	- sync
 
-This will export the correct image to the SD-Card. After exporting the image, disconnect the SD-Card and reconnect it again. If it is named *HEDGHG*, the export was succesfull and you can put your SD-Card back into the HedgeHog, if not repeat last commands.
+Those commands will export the correct image to the SD-Card. After exporting the image, disconnect the SD-Card and reconnect it again. If it is named *HEDGHG*, the export was succesfull and you can put your SD-Card back into the HedgeHog, if not repeat last commands.
 
 Now you need to flash the latest firmware onto the HedgeHog with *MPLab*. Make sure to choose the correct hardware profile.
 
