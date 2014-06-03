@@ -64,7 +64,7 @@ Since firmware version 1.4000, the HedgeHog will continue logging, even if it is
 
 In case you dont want to start the script using the created buttons, you can also run them in a terminal. The script is in the folder *~/HedgeHog/HHG/* and is named *start_HHG.py*. To run it, go to the folder and execute
 
-	- python start_HHG.py /media/<username>/HedgeHog<given id>/config.URE
+	- python start_HHG.py /media/<username>/HedgeHog<HHG-device_id>/config.URE
 
 
 ## Download the logged data
