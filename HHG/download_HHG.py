@@ -119,10 +119,10 @@ while len(loglst) > file_iter:
 		bdta = hgi.hhg_import_n(filename, i, i+bufsize)
 		toc = time.clock()
 		## report:
-		bdta_l = len(bdta)
-		bdta_s = sum(bdta.d)
-		dta_s += bdta_s
 		if len(bdta)>0:
+			bdta_l = len(bdta)
+			bdta_s = sum(bdta.d)
+			dta_s += bdta_s
 			stats =  ( str(num2date(bdta.t[0]))[0:22]
 					+ ': read '+ str(bdta_s).zfill(7) 
 					+ ' samples in ' + str(bdta_l).zfill(7)
@@ -131,6 +131,7 @@ while len(loglst) > file_iter:
 					+ str(dta_s).zfill(10) )
 		else:
 			stats = ''
+			break 
 		print stats
 		## update plot: ###########################################
 		new_day = int(bdta.t[-1])
