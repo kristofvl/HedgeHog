@@ -102,6 +102,7 @@ loglst = flst[0:len(rlvlst)]
 ## read the HHG data file(s) and show progress plot to inform user
 file_iter = 0
 old_day = 0
+first_dayid = -1
 ## plotting init:
 fig = hplt.Hhg_load_plot(10,8,80)
 ## loop over input files:
@@ -122,6 +123,8 @@ while len(loglst) > file_iter:
 		if len(bdta)>0:
 			bdta_l = len(bdta)
 			bdta_s = sum(bdta.d)
+			if first_dayid < 0:
+				first_dayid = int(bdta.t[0])
 			dta_s += bdta_s
 			stats =  ( str(num2date(bdta.t[0]))[0:22]
 					+ ': read '+ str(bdta_s).zfill(7) 
@@ -139,11 +142,11 @@ while len(loglst) > file_iter:
 			old_day = new_day
 			## first plot the remains of the last day and save: ###
 			tt = len([x for x in bdta.t if x<int(bdta.t[-1])])
-			dta = np.append(dta, bdta[:tt]).view(hgi.desc_hhg,np.recarray)
+			dta =np.append(dta,bdta[:tt]).view(hgi.desc_hhg,np.recarray)
 			if tt>0:
 				fig.update_plot(dta[::itr], stats)
 			if len(dta)>0:
-				daypath = hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
+				daypath =hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
 				if daypath=='':
 					print 'warning: could not write to '+	dlpath
 			dta  = bdta[tt:].view(hgi.desc_hhg, np.recarray)
@@ -164,8 +167,11 @@ if daypath=='':
 	print 'warning: could not write to '+	dlpath
 fig.update_plot(dta[::itr], stats)
 
-
-
+## update calendar:
+subprocess.call(
+	[ os.path.join(os.path.dirname(os.path.realpath(__file__)),
+					"calendar_HHG.py"), 
+	  dlpath, str(first_dayid)] )
 
 
 

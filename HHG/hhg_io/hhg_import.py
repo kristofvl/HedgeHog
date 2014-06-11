@@ -140,6 +140,7 @@ def hhg_import_n(filen, strt, stop):
 		return []
 		
 ## store the data and configuration from a HedgeHog in an npz file
+## merge nps files if needed
 def hhg_store(path, daystamp, dta, conf):
 	try:
 		outpath = os.path.join(path,str(daystamp))
@@ -154,6 +155,7 @@ def hhg_store(path, daystamp, dta, conf):
 			if dta[0][0]>dta_old[-1][0]:
 				dta = np.append(dta_old,dta)
 			else:
+				## whoops, there is an overlap!
 				outfile = os.path.join(outpath,'d_new.npz')
 		np.savez(outfile, dta=dta, conf=conf)
 		return outpath
