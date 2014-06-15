@@ -76,7 +76,7 @@ To download the logged data, you can use the download script. A shortcut to the 
 
 	- ~/hhg_logs/<HHG_device_id>/<date>/d.npz 
 
-where 'HHG-device_id' is the number you gave in the configuration and 'date' is the starting date.
+where 'HHG-device_id' is the number you entered in the configuration interface and 'date' is the starting date.
 
 
 ## Display the downloaded data
@@ -85,3 +85,5 @@ To visualize the data, use the python script in the repository as follows:
 
 	- cd ~/HedgeHog/HHG/
 	- ./viz_HHG.py ~/hhg_logs/<HHG_device_id>/<date>/d.npz 
+
+where 'HHG-device_id' is the number you entered in the configuration interface and 'date' is the starting date.
