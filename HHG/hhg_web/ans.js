@@ -257,15 +257,16 @@ function handleKey(e){
 		update=true
 		if (hspan==24) {
 				dayid--
-		}
-		else if (hspan==6) {
+		}else if (hspan==6) {
 				if (hoff<3) {	dayid--; hoff=21; }
 				hstr = timeStr((hoff-3)/24,(hoff+3)/24)
-		}
-		else if (hspan==1) {
+		}else if (hspan==1) {
 				if (hoff<1) {	dayid--; hoff=23.5; }
 				hstr = timeStr((hoff-.5)/24,(hoff+.5)/24)
-		} else update=false
+		}else if (hspan==1/6) {
+				if (hoff<1) {	dayid--; hoff=24-1/6; }
+				hstr = timeStr((hoff-1/12)/24,(hoff+1/12)/24)
+		}else update=false
 	}
 	else if (e.keyCode==38) { // up
 				update=true
@@ -274,14 +275,15 @@ function handleKey(e){
 		update=true
 		if (hspan==24) {
 				dayid++
-		}
-		else if (hspan==6) {
-				if (hoff>17) {	dayid++; hoff=-3; }
-				hstr = timeStr((hoff+3)/24,(hoff+9)/24)
-		}
-		else if (hspan==1) {
-				if (hoff>22.5) {	dayid--; hoff=-.5; }
-				hstr = timeStr((hoff+.5)/24,(hoff+1.5)/24)
+		}else if (hspan==6) {
+				if (hoff>17) { dayid++; hoff=0; }
+				hstr = timeStr(hoff/24,(hoff+6)/24)
+		}else if (hspan==1) {
+				if (hoff>22.5) { dayid++; hoff=0; }
+				hstr = timeStr(hoff/24,(hoff+1)/24)
+		} else if (hspan==1/6) {
+				if (hoff>22.5) { dayid--; hoff=0; }
+				hstr = timeStr(hoff/24,(hoff+1/6)/24)
 		} else update=false
 	}
 	if (update)

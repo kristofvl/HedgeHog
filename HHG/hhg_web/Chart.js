@@ -473,6 +473,21 @@ window.Chart = function(context){
 						prevx = newx;
 					}
 				}
+				else if (hspan==1) {
+					if (navigator.appCodeName=='Mozilla')
+						context.canvas.style.cursor = '-moz-zoom-in';
+					else
+						context.canvas.style.cursor = '-webkit-zoom-in';
+					newx = poff-2;
+					for (var i=0.75/6;i<5.5/6;i+=1/12) if (ofs>i) newx+=88.5;
+					if ((prevx>0)&&(prevx!=newx)) {
+						context.putImageData(imgdta,(prevx-1)*window.devicePixelRatio,0);
+					}
+					if (prevx!=newx) {
+						dropImgDta(181);
+						prevx = newx;
+					}
+				}
 				writeMsg(toTime((hoff+ofs)/24))
 			};}, false);
 	context.canvas.addEventListener('mouseout',function(e) {
@@ -497,24 +512,26 @@ window.Chart = function(context){
 					window.open ('./index_'+istr+'.html','_self',false)
 			}
 		}
+		var p=getMousePos(e)
+		if (p.x>poff) {
 			if (hspan==24) {
-				var p=getMousePos(e)
-				if (p.x>poff) {
-					var ofs = Math.round((prevx-poff)*hspan/(width-poff-1))
-					istr="00000600"
-					istr=toTime(ofs/24).replace(':','')+toTime((ofs+6)/24).replace(':','')
-					zoomInAnim(istr)
-				}
+				var ofs = Math.round((prevx-poff)*hspan/(width-poff-1))
+				istr="00000600"
+				istr=toTime(ofs/24).replace(':','')+
+						toTime((ofs+6)/24).replace(':','')
+				zoomInAnim(istr)
+			}else if (hspan==6) {
+				var ofs = ((prevx-poff)*hspan/(width-poff))+(1/60)
+				istr = toTime((ofs+hoff)/24).replace(":","")+
+					 toTime((ofs+hoff+1)/24).replace(":","")
+				zoomInAnim(istr)
+			}else if (hspan==1) {
+				var ofs = ((prevx-poff)*hspan/(width-poff))+(1/120)
+				istr = toTime((ofs+hoff)/24).replace(":","")+
+					 toTime((ofs+hoff+1/6)/24).replace(":","")
+				//zoomInAnim(istr)
 			}
-			else if (hspan==6) {
-				var p=getMousePos(e)
-				if (p.x>poff) {
-					var ofs = ((prevx-poff)*hspan/(width-poff))
-					istr = toTime((ofs+hoff+(1/60))/24).replace(":","")+
-						 toTime((ofs+hoff+1+(1/60))/24).replace(":","")
-					zoomInAnim(istr)
-				}
-			}
+		}
 			}, false);
 	function dropImgDta(im_w){
 		imgdta = context.getImageData((newx-1)*window.devicePixelRatio,0,
