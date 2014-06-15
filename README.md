@@ -22,7 +22,7 @@ In short, this repository contains three packages:
 
 # User Manual
 
-This manual will help you use your HedgeHog properly. Therefore, we will discuss the following themes.
+This manual will help you use your HedgeHog properly. Therefore, we will discuss the following themes
 
 [1) Prepare your computer](#prepare-your-computer)<br>
 [2) Configure the HedgeHog](#configure-the-hedgehog)<br>
@@ -33,7 +33,7 @@ This manual will help you use your HedgeHog properly. Therefore, we will discuss
 
 ## Prepare your computer
 
-There is some software required on your computer in order for the graphical interface to work.
+There is some software required on your computer in order for the graphical interface to work
 
 * the basic python libraries (https://www.python.org/)
 * matplotlib (http://matplotlib.org/)
@@ -51,13 +51,13 @@ This will create a few Desktop shortcuts to scripts, that will be discussed late
 
 ## Configure the HedgeHog
 
-If you plug in the HedgeHog into the USB-Connector of your PC, it should be recognized correctly now. The install command has created a shortcut to the configuration script. Start the script now and choose the configuration you want, then click *Save Settings*. The HedgeHog will unmount, apply the settings and then mount again by itself. Do not unplug it during this process! 
+If you plug in the HedgeHog into the USB-Connector of your PC, it should be recognized correctly now. The install command has created a shortcut to the configuration script. Start the script and choose the desired configuration, then click *Save Settings*. The HedgeHog will unmount, apply the settings and then mount again by itself. Do not unplug it during this process! 
 In the configuration script you also have the option of formating your SD-Card. By pressing format the HedgeHog will unmount, format the SD-Card and then remount again. Don't forget to configure the HedgeHog after formatting. 
 
 In case you dont want to start the script using the created buttons, you can also run them in a terminal. The script is in the folder *~/HedgeHog/HHG/* and is named *conf_HHG.py*. To run it, go to the folder and execute
 
 	- python conf_HHG.py /media/<username>/HedgeHog<HHG-device_id>/config.URE
-	
+
 
 ## Start logging
 
@@ -73,7 +73,10 @@ In case you dont want to start the script using the created buttons, you can als
 ## Download the logged data
 
 To download the logged data, you can use the download script. A shortcut to the script was also created during the installation. The data will be saved at 
-*~/hhg_logs/<HHG_device_id>/<date>/d.npz* where <HHG-device_id> is the number you gave in the configuration and <\date> is the starting date.
+
+	- ~/hhg_logs/<HHG_device_id>/<date>/d.npz 
+
+where <HHG-device_id> is the number you gave in the configuration and <\date> is the starting date.
 
 
 ## Display the downloaded data
