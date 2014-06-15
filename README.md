@@ -76,7 +76,7 @@ To download the logged data, you can use the download script. A shortcut to the 
 
 	- ~/hhg_logs/<HHG_device_id>/<date>/d.npz 
 
-where '<HHG-device_id>' is the number you gave in the configuration and <\date> is the starting date.
+where 'HHG-device_id' is the number you gave in the configuration and 'date' is the starting date.
 
 
 ## Display the downloaded data
