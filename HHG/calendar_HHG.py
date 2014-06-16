@@ -192,9 +192,9 @@ first_day_id = int(matches[0][0])
 last_day_id  = int(matches[-1][0])
 		
 ## remove previous html files
-for root, dirnames, filenames in os.walk(dlpath):
-	for filename in fnmatch.filter(filenames, 'index_*.html'):
-		os.remove( os.path.join(root, filename))
+#for root, dirnames, filenames in os.walk(dlpath):
+#	for filename in fnmatch.filter(filenames, 'index_*.html'):
+#		os.remove( os.path.join(root, filename))
 		
 ## assume that we're interested in first month:
 month_vw = num2date(first_day_id).month

@@ -14,9 +14,7 @@
 
 	if (isNaN(dayid)) {
 		var idx = window.location.href.indexOf("/index")-8
-		console.log(idx)
 		var ret=delineate(window.location.href,idx,"/","/");
-		console.log(ret)
 		dayid = parseInt(ret.subs)
 		strtt=0; stopt=86400
 	}
@@ -37,6 +35,7 @@ else {
 var sspan=(stopt-strtt), soff=strtt;
 var skipxyz=2,skipenv=32;
 for(var i=3;i<24;i+=2){if((sspan/3600)>i){skipxyz+=4;skipenv+=64;}}
+console.log(skipenv)
 
 // load icon images:
 var imgsa = [
@@ -189,11 +188,9 @@ function Ans(ac){
 		if (typeof(ans)=="undefined"){
 			var ans_str = localStorage.getItem('hhg_ans');
 			if (ans_str!=null) {
-				ans = JSON.parse(ans_str);
-				console.log("loaded: %s", ans_str);		
+				ans = JSON.parse(ans_str);	
 			}
 		}
-		console.log("dayid: %d", dayid);
 		ac.canvas.addEventListener('mousedown', mouseDown, false);
 		ac.canvas.addEventListener('mouseup', mouseUp, false);
 		ac.canvas.addEventListener('mousemove', mouseMove, false);

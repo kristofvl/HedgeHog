@@ -67,10 +67,10 @@ def equidist_npz(dta):
 ## bin-wise collect min-max samples for calendar plotting
 def npz2secbin(dta,sec):
 	secsperday = 86400
-	day_bin = [(0,0,0,0,0)]*(secsperday/sec)
+	day_bin = [(0,0,0,0,0)]*int(secsperday/sec)
 	cur_idx = 0; cur_bin = []
 	for x in dta:
-		idx = int((x[0]-int(dta[0][0]))*(secsperday/sec))
+		idx = int((x[0]-int(dta[0][0]))*int(secsperday/sec))
 		if cur_idx == idx: 
 			cur_bin.append([x[2],x[3],x[4],x[5]>>8,x[5]&0xFF])
 		else:
@@ -86,7 +86,7 @@ def npz2secbin(dta,sec):
 				cur_bin = []
 			cur_idx = idx  
 	## fill in any holes with previous data:
-	for cur_idx in range(1,(secsperday/sec)):
+	for cur_idx in range(1,int(secsperday/sec)):
 		if day_bin[cur_idx]==(0,0,0,0,0):
 			day_bin[cur_idx]=day_bin[cur_idx-1]
 	return day_bin
