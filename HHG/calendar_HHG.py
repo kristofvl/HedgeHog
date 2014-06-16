@@ -131,9 +131,8 @@ def cal_entry(day_id, dlpath, f, skip):
 		csva = np.array( ( dta.t-int(dta.t[0]), dta.x, dta.y,dta.z  ) ).T
 		np.savetxt( os.path.join(dlpath,str(day_id),'d.csv'), csva, 
 			fmt="%1.8f,%d,%d,%d")
-		hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,
-							x_str, y_str, z_str, l_str, p_str, cd_px)
-		int_bin = hf.npz2secbin(dta,1)
+		hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,cd_px)
+		int_bin = hf.npz2secbin(dta,0.5)
 		l_str =''.join(["%02x" %c for c in [x[3] for x in int_bin]])
 		x_str =''.join(["%02x" %c for c in [x[0] for x in int_bin]])
 		y_str =''.join(["%02x" %c for c in [x[1] for x in int_bin]])
@@ -149,23 +148,10 @@ def cal_entry(day_id, dlpath, f, skip):
 				  'var ys'+str(day_id)+'="'+ys_str+'";'+
 				  'var zs'+str(day_id)+'="'+zs_str+'";')
 		f.close()
-		## calculate raw data view for 6 hours with 3 hour overlaps:
-		## calculate raw data view for 1 hour with no overlaps:
-		for intr in subh+subp:
-			dta_sel = int_bin[int(intr[0]*len(int_bin)):int(intr[1]*len(int_bin))]
-			if dta_sel!=[]:
-				strt = int(intr[0]*len(x_str))
-				stop = int(intr[1]*len(x_str))
-				l = range(0,len(x_str[strt:stop]),2)
-				hh.write_day_zoom_html(day_id, dlpath,
-					''.join([x_str[strt:stop][i:i+2] for i in l][::intr[2]]),
-					''.join([y_str[strt:stop][i:i+2] for i in l][::intr[2]]),
-					''.join([z_str[strt:stop][i:i+2] for i in l][::intr[2]]),
-					''.join([l_str[strt:stop][i:i+2] for i in l][::intr[2]*zdiv]),
-					p_str[int(intr[0]*len(p_str)):int(intr[1]*len(p_str))], 
-					(intr[0],intr[1]), cz_px)
+		## write zoom html:
+		hh.write_day_zoom_html(day_id, dlpath, cz_px)
 		## write raw plot file:
-		hh.write_raw_day_htmls(day_id, dlpath)
+		#hh.write_raw_day_htmls(day_id, dlpath)
 		os.remove(os.path.join(dlpath,str(day_id),'d.csv'));
 	#####################################################################
 	toc = time.clock()
@@ -205,10 +191,10 @@ matches = sorted(matches)
 first_day_id = int(matches[0][0])
 last_day_id  = int(matches[-1][0])
 		
-## remove previous html zoom files
-#for root, dirnames, filenames in os.walk(dlpath):
-#	for filename in fnmatch.filter(filenames, 'index_*.html'):
-#		os.remove( os.path.join(root, filename))
+## remove previous html files
+for root, dirnames, filenames in os.walk(dlpath):
+	for filename in fnmatch.filter(filenames, 'index_*.html'):
+		os.remove( os.path.join(root, filename))
 		
 ## assume that we're interested in first month:
 month_vw = num2date(first_day_id).month
