@@ -52,9 +52,15 @@ This will create a few Desktop shortcuts to scripts, that will be discussed late
 ## Configure the HedgeHog
 
 If you plug in the HedgeHog into the USB-Connector of your PC, it should be recognized correctly now. The install command has created a shortcut to the configuration script. Start the script and choose the desired configuration, then click *Save Settings*. The HedgeHog will unmount, apply the settings and then mount again by itself. Do not unplug it during this process! 
-In the configuration script you also have the option of formating your SD-Card. By pressing format the HedgeHog will unmount, format the SD-Card and then remount again. Don't forget to configure the HedgeHog after formatting. 
+In the configuration script you also have the option of formating your SD-Card. By pressing format the HedgeHog will unmount, format the SD-Card and then remount again.
+An other way of formatting your HedgeHog is by using the dd command. In this example, the HedgeHog is mounted at /dev/sdb.
 
-In case you dont want to start the script using the created buttons, you can also run them in a terminal. The script is in the folder *~/HedgeHog/HHG/* and is named *conf_HHG.py*. To run it, go to the folder and execute
+	- cd ~/HedgeHog/HHG/
+	- dd if=dd_img/dd.img of=/dev/sdb; sync
+
+Don't forget to configure the HedgeHog after formatting.
+
+In case you dont want to start the configuration script using the created buttons, you can also run them in a terminal. The script is in the folder *~/HedgeHog/HHG/* and is named *conf_HHG.py*. To run it, go to the folder and execute
 
 	- python conf_HHG.py /media/<username>/HedgeHog<HHG-device_id>/config.URE
 
