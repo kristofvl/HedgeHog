@@ -35,7 +35,6 @@ else {
 var sspan=(stopt-strtt), soff=strtt;
 var skipxyz=2,skipenv=32;
 for(var i=3;i<24;i+=2){if((sspan/3600)>i){skipxyz+=4;skipenv+=64;}}
-console.log(skipenv)
 
 // load icon images:
 var imgsa = [
@@ -117,6 +116,13 @@ function goLeft(){
 	}
 	window.open('../'+dayid+'/index_zoom.html?strtt='+
 	strtt+"&stopt="+stopt+"&dayid="+dayid,'_self',false)
+}
+
+function goUp(){
+	if (sspan==86400)
+		window.open('../index.html','_self',false)
+	else
+		window.open('./index.html','_self',false)
 }
 
 function subSample(skipVal,strVals,sta,sto){

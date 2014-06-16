@@ -54,7 +54,7 @@ def zoom_indexheader():
 		'document.write(toDate(dayid)+", "+toTime(strtt)+"-"+'+
 		'toTime(stopt))</script><a href="javascript:goRight();">'+
 		'<span class="a-right"></span></a>'+
-		'<a style="text-align:right;" href="./index.html">'+
+		'<a style="text-align:right;" href="javascript:goUp();">'+
 		'<span class="a-up"></span></a></h1>')
 def rawday_indexheader(daystr, day_id):
 	return (htmlhead('HedgeHog Day View (Raw)','../st.css',
