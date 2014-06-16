@@ -30,8 +30,8 @@ window.Chart = function(context){
 		}
 	};
 	
-	var hspan=24;
-	var hoff=0;
+	var sspan=86400;
+	var soff=0;
 	
 	var imgdta;
 	var prevx=newx=-1;
@@ -81,8 +81,8 @@ window.Chart = function(context){
 			animationSteps : 2,
 			animationEasing : "linear",
 			onAnimationComplete : null,
-			hspan: 24,
-			hoff:0
+			sspan: 86400,
+			soff:0
 		};		
 		var config = (options) ? mergeChartConfig(chart.Line.defaults,options) : chart.Line.defaults;
 		
@@ -115,8 +115,8 @@ window.Chart = function(context){
 			animationSteps : 12,
 			animationEasing : "linear",
 			onAnimationComplete : null,
-			hspan: 24,
-			hoff:0
+			sspan: 86400,
+			soff:0
 		};	
 		var config = (options) ? mergeChartConfig(chart.Bar.defaults,options) : chart.Bar.defaults;
 		
@@ -139,8 +139,8 @@ window.Chart = function(context){
 			data.ds[i].d = d;
 		}
 		
-		hspan = config.hspan;
-		hoff = config.hoff;
+		sspan = config.sspan;
+		soff = config.soff;
 		
 		calculateDrawingSizes();
 		
@@ -301,8 +301,8 @@ window.Chart = function(context){
 			data.ds[i].d = d;
 		}
 		
-		hspan = config.hspan;
-		hoff = config.hoff;
+		sspan = config.sspan;
+		soff = config.soff;
 		
 		calculateDrawingSizes();
 		
@@ -440,8 +440,8 @@ window.Chart = function(context){
 	context.canvas.addEventListener('mousemove',function(e) {
 			var p=getMousePos(e);
 			if (p.x>poff) { 
-				var ofs = (p.x-poff)*hspan/(width-poff-1); 
-				if (hspan==24) {
+				var ofs = (p.x-poff)*(sspan/3600)/(width-poff-1); 
+				if (sspan==86400) {
 					if (navigator.appCodeName=='Mozilla')
 						context.canvas.style.cursor = '-moz-zoom-in';
 					else
@@ -458,7 +458,7 @@ window.Chart = function(context){
 						prevx = newx;
 					}
 				}
-				else if (hspan==6) {
+				else if (sspan==21600) {
 					if (navigator.appCodeName=='Mozilla')
 						context.canvas.style.cursor = '-moz-zoom-in';
 					else
@@ -473,7 +473,7 @@ window.Chart = function(context){
 						prevx = newx;
 					}
 				}
-				else if (hspan==1) {
+				else if (sspan==3600) {
 					if (navigator.appCodeName=='Mozilla')
 						context.canvas.style.cursor = '-moz-zoom-in';
 					else
@@ -488,7 +488,7 @@ window.Chart = function(context){
 						prevx = newx;
 					}
 				}
-				writeMsg(toTime((hoff+ofs)/24))
+				writeMsg(ftoTime(((soff/3600)+ofs)/24))
 			};}, false);
 	context.canvas.addEventListener('mouseout',function(e) {
 			if (prevx>0) {
@@ -498,38 +498,40 @@ window.Chart = function(context){
 			writeMsg('     ');
 			}, false);
 	context.canvas.addEventListener('mousedown', function(e) {
-		function zoomInAnim(istr) {
+		function zoomInAnim() {
 			var animIter=0
 			requestAnimFrame(animLoop)
 			function animLoop() {
 				context.putImageData(scaleXImageData(imgdta,1+animIter),
 				poff+1+((5-animIter)*(prevx-poff)/4),
 				0)
-				console.log(poff+1+(animIter*(prevx-poff)/5))
 				if (++animIter < 5)
 					requestAnimFrame(animLoop)
 				else 
-					window.open ('./index_'+istr+'.html','_self',false)
+					window.open ('./index_zoom.html?strtt='+strtt+
+					'&stopt='+stopt+'&dayid='+dayid,'_self',false)
 			}
 		}
 		var p=getMousePos(e)
 		if (p.x>poff) {
-			if (hspan==24) {
-				var ofs = Math.round((prevx-poff)*hspan/(width-poff-1))
-				istr="00000600"
-				istr=toTime(ofs/24).replace(':','')+
-						toTime((ofs+6)/24).replace(':','')
-				zoomInAnim(istr)
-			}else if (hspan==6) {
-				var ofs = ((prevx-poff)*hspan/(width-poff))+(1/60)
-				istr = toTime((ofs+hoff)/24).replace(":","")+
-					 toTime((ofs+hoff+1)/24).replace(":","")
-				zoomInAnim(istr)
-			}else if (hspan==1) {
-				var ofs = ((prevx-poff)*hspan/(width-poff))+(1/120)
-				istr = toTime((ofs+hoff)/24).replace(":","")+
-					 toTime((ofs+hoff+1/6)/24).replace(":","")
-				//zoomInAnim(istr)
+			if (sspan==86400) {
+				var ofs = Math.round((prevx-poff)*(sspan/3600)/(width-poff-1))
+				//istr=toTime(ofs/24).replace(':','')+
+				//		toTime((ofs+6)/24).replace(':','')
+				strtt = ofs*3600; stopt = (ofs+6)*3600;
+				zoomInAnim()
+			}else if (sspan==21600) {
+				var ofs = ((prevx-poff)*(sspan/3600)/(width-poff))+(1/60)
+				//istr = toTime((ofs+(soff/3600))/24).replace(":","")+
+				//	 toTime((ofs+(soff/3600)+1)/24).replace(":","")
+				strtt = (ofs+(soff/3600))*3600; stopt = (ofs+(soff/3600)+1)*3600;
+				zoomInAnim()
+			}else if (sspan==3600) {
+				var ofs = ((prevx-poff)*(sspan/3600)/(width-poff))+(1/120)
+				//istr = toTime((ofs+(soff/3600))/24).replace(":","")+
+				//	 toTime((ofs+(soff/3600)+1/6)/24).replace(":","")
+				strtt = (ofs+(soff/3600))*3600; stopt = (ofs+(soff/3600)+1/6)*3600;
+				zoomInAnim()
 			}
 		}
 			}, false);
