@@ -39,6 +39,7 @@ for(var i=3;i<24;i+=2){if((sspan/3600)>i){skipxyz+=4;skipenv+=64;}}
 // load icon images:
 var imgsa = [
 	["unknown",'../img/unknown.png'],
+	["look","../img/zoom.png"],
 	["sleep", "../img/sleep.png"],
 	["bike","../img/riding_bike.png"],
 	["car","../img/driving_car.png"],
@@ -86,43 +87,32 @@ function toDate(did){
 
 function goRight(){
 	if (sspan==86400){
-			dayid++;
-	}else if (sspan==21600){
-			strtt+=10800;stopt+=10800
-			if (stopt>86400) { dayid++; strtt=0; stopt=21600;}
-	}else if (sspan==3600){
-			strtt+=1800;stopt+=1800
-			if (stopt>86400) { dayid++; strtt=0; stopt=3600;}
-	}else if (sspan==600){
-			strtt+=300;stopt+=300
-			if (stopt>86400) { dayid++; strtt=0; stopt=600;}
+		dayid++;
+		window.open('../'+dayid+
+		'/index.html?strtt=0&stopt=86400&dayid='+dayid,'_self',false)
+	}else{
+		strtt+=sspan/2;stopt+=sspan/2
+		if (stopt>86400) { dayid++; strtt=0; stopt=sspan;}
+		window.open('../'+dayid+'/index_zoom.html?strtt='+
+			strtt+"&stopt="+stopt+"&dayid="+dayid,'_self',false)
 	}
-	window.open('../'+dayid+'/index_zoom.html?strtt='+
-	strtt+"&stopt="+stopt+"&dayid="+dayid,'_self',false)
 }
 
 function goLeft(){
 	if (sspan==86400){
-			dayid--;
-	}else if (sspan==21600){
-			strtt-=10800;stopt-=10800
-			if (strtt<0) { dayid--; strtt=86400-21600; stopt=86400;}
-	}else if (sspan==3600){
-			strtt-=1800;stopt-=1800
-			if (strtt<0) { dayid--; strtt=86400-3600; stopt=86400;}
-	}else if (sspan==600){
-			strtt-=300;stopt-=300
-			if (strtt<0) { dayid--; strtt=86400-600; stopt=86400;}
+		dayid--;
+		window.open('../'+dayid+
+		'/index.html?strtt=0&stopt=86400&dayid='+dayid,'_self',false)
+	}else{
+		strtt-=sspan/2;stopt-=sspan/2
+		if (strtt<0) { dayid--; strtt=86400-sspan; stopt=86400;}
+		window.open('../'+dayid+'/index_zoom.html?strtt='+
+			strtt+"&stopt="+stopt+"&dayid="+dayid,'_self',false)
 	}
-	window.open('../'+dayid+'/index_zoom.html?strtt='+
-	strtt+"&stopt="+stopt+"&dayid="+dayid,'_self',false)
 }
 
 function goUp(){
-	if (sspan==86400)
-		window.open('../index.html','_self',false)
-	else
-		window.open('./index.html','_self',false)
+	window.open(((sspan==86400)?'.':'')+'./index.html','_self',false)
 }
 
 function subSample(skipVal,strVals,sta,sto){
@@ -219,7 +209,6 @@ function Ans(ac){
 			mouseX = e.layerX; mouseY = e.layerY;
 		}
 		for(var i=0;i<ans.length;i++){
-		if (ans[i][3]==dayid){
 			if( checkCloseEnough(mouseX, toCanCoord(ans[i][1])) && 
 				 checkCloseEnough(mouseY,7) ){
 				dragL = true; cur_rect = i; break;
@@ -230,12 +219,17 @@ function Ans(ac){
 			}
 			else if((mouseX<toCanCoord(ans[i][2]))&&
 					  (mouseX>toCanCoord(ans[i][1]))){
+				if (mouseY>55) {
+					if (ans[i][4]!=undefined)
+						window.open(ans[i][4]);
+				} else {
 				drag = true; cur_rect = i; 
 				ldist = mouseX-toCanCoord(ans[i][1]);
 				rdist = toCanCoord(ans[i][2])-mouseX;
+				}
 				break;
 			}
-		}}
+		}
 	}
 	function checkCloseEnough(p1, p2){
 		return Math.abs(p1-p2)<closeEnough;
@@ -273,17 +267,23 @@ function Ans(ac){
 	function mouseDbl(e) {
 		if (e.offsetX) { mouseX = e.offsetX; mouseY = e.offsetY; }
 		else if (e.layerX){ mouseX = e.layerX; mouseY = e.layerY; }
-		var deleted = false
+		var hndld = false
 		for(var i=0;i<ans.length;i++){
-		if (ans[i][3]==dayid){
 			if((mouseX<toCanCoord(ans[i][2]))&&
-				(mouseX>toCanCoord(ans[i][1])) ){
-				ans.splice(i,1);
-				deleted = true;
+				(mouseX>toCanCoord(ans[i][1]))){
+				if (mouseY>55) {
+					if (ans[i][4]!=undefined) 
+						window.open(ans[i][4]);
+					hndld=true;
+				}
+				else {
+					ans.splice(i,1);
+					hndld=true;
+				}
 				break;
 			}
-		}}
-		if (!deleted) {
+		}
+		if (!hndld) {
 			ans.push(["new",fromCanCoord(mouseX-17),fromCanCoord(mouseX+17),dayid]);
 		}
 		draw_ans();
@@ -296,8 +296,7 @@ function Ans(ac){
 		ac.font="8pt Arial"; ac.fillStyle = "black";
 		if (typeof(ans)!="undefined"){
 			for(var i=0;i<ans.length;i++){
-			if ((ans[i][3]==dayid)&&
-				 (ans[i][2]>(soff/86400))&&(ans[i][1]<((soff+sspan)/86400))){
+			if ((ans[i][2]>(soff/86400))&&(ans[i][1]<((soff+sspan)/86400))){
 				ac.rect(toCanCoord(ans[i][1]),-2,
 						  (86400/sspan)*(ans[i][2]-ans[i][1])*cw,17);
 				tw = ac.measureText(ans[i][0]).width/2;
@@ -310,13 +309,13 @@ function Ans(ac){
 				}
 				loadIcon(ret,toCanCoord((ans[i][1]+ans[i][2])/2)-8,22);
 				ac.fillText(ans[i][0],toCanCoord((ans[i][1]+ans[i][2])/2)-tw,53);
+				if (ans[i][4]!=undefined)
+					loadIcon(1,toCanCoord((ans[i][1]+ans[i][2])/2)-8,60);
 				ac.stroke();
 			}}
 		}
 	}
-	
 	init_ans();
-	
 }
 
 window.addEventListener("keydown", handleKey, false);

@@ -170,7 +170,6 @@ window.Chart = function(context){
 				ctx.lineWidth = config.datasetStrokeWidth;
 				ctx.beginPath();
 				ctx.moveTo(yAxisPosX, xAxisPosY - animPc*(calculateOffset(data.ds[i].d[0],calculatedScale,scaleHop)))
-
 				for (var j=1; j<data.ds[i].d.length; j++){
 					ctx.lineTo(xPos(j),yPos(i,j));
 				}
@@ -188,7 +187,6 @@ window.Chart = function(context){
 					}
 				}
 			}
-			
 			function yPos(dataSet,iteration){
 				return xAxisPosY - animPc*(calculateOffset(data.ds[dataSet].d[iteration],calculatedScale,scaleHop));			
 			}
@@ -207,7 +205,6 @@ window.Chart = function(context){
 			ctx.fillStyle = config.scaleFontColor;
 			if (data.l != []) {
 				ctx.textAlign = "center";
-				
 				for (var i=0; i<data.l.length; i++){
 					ctx.save();
 					if (data.l[i]!='0') {
@@ -227,7 +224,6 @@ window.Chart = function(context){
 					ctx.stroke();
 				}
 			}
-			
 			//Y axis
 			ctx.lineWidth = config.scaleLineWidth;
 			ctx.strokeStyle = config.scaleLineColor;
@@ -316,11 +312,9 @@ window.Chart = function(context){
 				labels : []
 		}
 		populateLabels(labelTemplateString, calculatedScale.labels,calculatedScale.steps,config.scaleStartValue,config.scaleStepWidth);
-		
 		scaleHop = Math.floor(scaleHeight/calculatedScale.steps);
 		calculateXAxisSize();
-		animationLoop(config,drawScale,drawBars,ctx);
-		
+		animationLoop(config,drawScale,drawBars,ctx);		
 		function drawBars(animPc){
 			ctx.lineWidth = config.barStrokeWidth;
 			for (var i=0; i<data.ds.length; i++){
@@ -362,7 +356,6 @@ window.Chart = function(context){
 				}
 				ctx.stroke();
 			}
-			
 			//Y axis
 			ctx.lineWidth = config.scaleLineWidth;
 			ctx.strokeStyle = config.scaleLineColor;
@@ -406,14 +399,10 @@ window.Chart = function(context){
 		}
 		function calculateDrawingSizes(){
 			maxSize = height;
-
 			ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
 			widestXLabel = 1;
 			maxSize -= config.scaleFontSize;
-			
-			//Add a little padding between the x line and the text
 			labelHeight = config.scaleFontSize;
-			
 			maxSize -= labelHeight;
 			scaleHeight = maxSize;
 		}		
@@ -516,20 +505,14 @@ window.Chart = function(context){
 		if (p.x>poff) {
 			if (sspan==86400) {
 				var ofs = Math.round((prevx-poff)*(sspan/3600)/(width-poff-1))
-				//istr=toTime(ofs/24).replace(':','')+
-				//		toTime((ofs+6)/24).replace(':','')
 				strtt = ofs*3600; stopt = (ofs+6)*3600;
 				zoomInAnim()
 			}else if (sspan==21600) {
 				var ofs = ((prevx-poff)*(sspan/3600)/(width-poff))+(1/60)
-				//istr = toTime((ofs+(soff/3600))/24).replace(":","")+
-				//	 toTime((ofs+(soff/3600)+1)/24).replace(":","")
 				strtt = (ofs+(soff/3600))*3600; stopt = (ofs+(soff/3600)+1)*3600;
 				zoomInAnim()
 			}else if (sspan==3600) {
 				var ofs = ((prevx-poff)*(sspan/3600)/(width-poff))+(1/120)
-				//istr = toTime((ofs+(soff/3600))/24).replace(":","")+
-				//	 toTime((ofs+(soff/3600)+1/6)/24).replace(":","")
 				strtt = (ofs+(soff/3600))*3600; stopt = (ofs+(soff/3600)+1/6)*3600;
 				zoomInAnim()
 			}
@@ -616,11 +599,11 @@ window.Chart = function(context){
 	})();
 
 	function calculateScale(drawingHeight,maxSteps,minSteps,maxValue,minValue,labelTemplateString){
-			var graphMin,graphMax,graphRange,stepValue,numberOfSteps,rangeOrderOfMagnitude,decimalNum;
+		var graphMin,graphMax,graphRange,stepValue,numberOfSteps,rangeOrderOfMagnitude,decimalNum;
 			
-			rangeOrderOfMagnitude = calculateOrderOfMagnitude(maxValue - minValue);
+		rangeOrderOfMagnitude = calculateOrderOfMagnitude(maxValue - minValue);
 
-        	graphMin = Math.floor(minValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
+        graphMin = Math.floor(minValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
          graphMax = Math.ceil(maxValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
          graphRange = graphMax - graphMin;
          stepValue = Math.pow(10, rangeOrderOfMagnitude);
@@ -645,13 +628,12 @@ window.Chart = function(context){
 		        steps : numberOfSteps,
 				stepValue : stepValue,
 				graphMin : graphMin,
-				labels : labels		        
-		        
+				labels : labels
 	        }
 		
 			function calculateOrderOfMagnitude(val){
 			  return Math.floor(Math.log(val) / Math.LN10);
-			}	
+			}
 	}
 
     //Populate an array of all the labels by interpolating the string.
@@ -664,27 +646,22 @@ window.Chart = function(context){
         }
     }
 	
-	//Max value from array
 	function Max( array ){
 		return Math.max.apply( Math, array );
-	};
-	//Min value from array
+	}
 	function Min( array ){
 		return Math.min.apply( Math, array );
-	};
-	//Default if undefined
+	}
 	function Default(userDeclared,valueIfFalse){
 		if(!userDeclared){
 			return valueIfFalse;
 		} else {
 			return userDeclared;
 		}
-	};
-	//Is a number function
+	}
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
-	//Apply cap a value at a high or low number
 	function CapValue(valueToCap, maxValue, minValue){
 		if(isNumber(maxValue)) {
 			if( valueToCap > maxValue ) {
@@ -700,42 +677,27 @@ window.Chart = function(context){
 	}
 	function getDecimalPlaces (num){
 		var numberOfDecimalPlaces;
-		if (num%1!=0){
+		if (num%1!=0)
 			return num.toString().split(".")[1].length
-		}
-		else{
-			return 0;
-		}
-		
-	} 
-	
+		return 0;
+	}
 	function mergeChartConfig(defaults,userDefined){
 		var returnObj = {};
-	    for (var attrname in defaults) { returnObj[attrname] = defaults[attrname]; }
-	    for (var attrname in userDefined) { returnObj[attrname] = userDefined[attrname]; }
+	    for (var an in defaults) { returnObj[an] = defaults[an]; }
+	    for (var an in userDefined) { returnObj[an] = userDefined[an];}
 	    return returnObj;
 	}
 	
 	//Javascript micro templating by John Resig - 
 	// source at http://ejohn.org/blog/javascript-micro-templating/
 	  var cache = {};
-	 
 	  function tmpl(str, data){
-	    // Figure out if we're getting a template, or if we need to
-	    // load the template - and be sure to cache the result.
 	    var fn = !/\W/.test(str) ?
 	      cache[str] = cache[str] ||
 	        tmpl(document.getElementById(str).innerHTML) :
-	     
-	      // Generate a reusable function that will serve as a template
-	      // generator (and which will be cached).
 	      new Function("obj",
 	        "var p=[],print=function(){p.push.apply(p,arguments);};" +
-	       
-	        // Introduce the data as local variables using with(){}
 	        "with(obj){p.push('" +
-	       
-	        // Convert the template into pure JavaScript
 	        str
 	          .replace(/[\r\t\n]/g, " ")
 	          .split("<%").join("\t")
@@ -745,8 +707,6 @@ window.Chart = function(context){
 	          .split("%>").join("p.push('")
 	          .split("\r").join("\\'")
 	      + "');}return p.join('');");
-	   
-	    // Provide some basic currying to the user
 	    return data ? fn( data ) : fn;
 	  };
 }

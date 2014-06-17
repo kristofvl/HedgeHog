@@ -76,7 +76,7 @@ def cal_entry(day_id, dlpath, f, skip):
 				fstr = fl.read()
 				p_str,st = find_in_js(fstr,'p="',0)
 				l_str,st = find_in_js(fstr,'l="',st)
-				l = range(0,len(l_str),2*bdiv*30)
+				l = range(0,len(l_str),4*bdiv*30)
 				l_str = ''.join([l_str[i:i+2] for i in l])
 				x_str,st = find_in_js(fstr,'x="',st)
 				y_str,st = find_in_js(fstr,'y="',st)
