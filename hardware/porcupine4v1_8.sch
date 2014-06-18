@@ -5202,6 +5202,8 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <smd name="P$9B" x="3.65" y="0" dx="1.4" dy="2" layer="1" rot="R90"/>
 <smd name="P$10A" x="11.95" y="-13.7" dx="1.4" dy="2" layer="1" rot="R90"/>
 <smd name="P$10B" x="3.65" y="-13.7" dx="1.4" dy="2" layer="1" rot="R90"/>
+<text x="1.27" y="-11.43" size="1.016" layer="27">&gt;Value</text>
+<text x="1.27" y="-3.81" size="1.016" layer="25">&gt;Name</text>
 </package>
 <package name="SMD_CRYSTAL">
 <smd name="P$1" x="1.794" y="0" dx="1.905" dy="1.0922" layer="1" rot="R90"/>
@@ -5246,6 +5248,49 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <smd name="5" x="-0.95" y="1.3001" dx="0.55" dy="1.2" layer="1"/>
 <text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
 <text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
+</package>
+<package name="PRQC-C">
+<description>MHz Band Ceramic Chip Resonators: PRQC-C package</description>
+<wire x1="-1.6" y1="-0.65" x2="1.6" y2="-0.65" width="0.127" layer="21"/>
+<wire x1="1.6" y1="-0.65" x2="1.6" y2="0.65" width="0.127" layer="21"/>
+<wire x1="1.6" y1="0.65" x2="-1.6" y2="0.65" width="0.127" layer="21"/>
+<wire x1="-1.6" y1="0.65" x2="-1.6" y2="-0.65" width="0.127" layer="21"/>
+<smd name="2_GND" x="0" y="0" dx="0.4" dy="1.6" layer="1"/>
+<smd name="1" x="-1.2" y="0" dx="0.4" dy="1.6" layer="1"/>
+<smd name="3" x="1.2" y="0" dx="0.4" dy="1.6" layer="1"/>
+<rectangle x1="0.6" y1="-0.1" x2="0.8" y2="0.1" layer="21"/>
+<wire x1="-1.4" y1="0.8" x2="-1.4" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-1.4" y1="-0.8" x2="-1" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-1" y1="-0.8" x2="-1" y2="0.8" width="0.05" layer="21"/>
+<wire x1="-1" y1="0.8" x2="-1.4" y2="0.8" width="0.05" layer="21"/>
+<rectangle x1="-1.4" y1="-0.8" x2="-1" y2="-0.7" layer="21"/>
+<rectangle x1="-1.4" y1="0.7" x2="-1" y2="0.8" layer="21"/>
+<rectangle x1="-0.2" y1="0.7" x2="0.2" y2="0.8" layer="21"/>
+<rectangle x1="1" y1="0.7" x2="1.4" y2="0.8" layer="21"/>
+<rectangle x1="-0.2" y1="-0.8" x2="0.2" y2="-0.7" layer="21"/>
+<rectangle x1="1" y1="-0.8" x2="1.4" y2="-0.7" layer="21"/>
+<wire x1="-0.2" y1="0.8" x2="-0.2" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="-0.2" y1="-0.8" x2="0.2" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="0.2" y1="-0.8" x2="0.2" y2="0.8" width="0.05" layer="21"/>
+<wire x1="0.2" y1="0.8" x2="-0.2" y2="0.8" width="0.05" layer="21"/>
+<wire x1="1" y1="0.8" x2="1.4" y2="0.8" width="0.05" layer="21"/>
+<wire x1="1.4" y1="0.8" x2="1.4" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="1.4" y1="-0.8" x2="1" y2="-0.8" width="0.05" layer="21"/>
+<wire x1="1" y1="-0.8" x2="1" y2="0.8" width="0.05" layer="21"/>
+</package>
+<package name="PBRC-H">
+<description>MHz Band Ceramic Chip Resonators: PBRC-H package</description>
+<smd name="1" x="-2.5" y="0" dx="1.7" dy="4" layer="1" rot="R180"/>
+<smd name="3" x="2.5" y="0" dx="1.7" dy="4" layer="1" rot="R180"/>
+<smd name="2_GND" x="0" y="0" dx="1.5" dy="4" layer="1" rot="R180"/>
+<wire x1="-3.9" y1="-1.2" x2="-3.9" y2="1.2" width="0.127" layer="21"/>
+<wire x1="-3.9" y1="1.2" x2="3.9" y2="1.2" width="0.127" layer="21"/>
+<wire x1="3.9" y1="1.2" x2="3.9" y2="-1.2" width="0.127" layer="21"/>
+<wire x1="3.9" y1="-1.2" x2="-3.9" y2="-1.2" width="0.127" layer="21"/>
+<wire x1="2.74" y1="-0.2" x2="2.34" y2="-0.2" width="0.05" layer="21"/>
+<wire x1="2.34" y1="-0.2" x2="2.34" y2="0.2" width="0.05" layer="21"/>
+<wire x1="2.34" y1="0.2" x2="2.74" y2="0.2" width="0.05" layer="21"/>
+<wire x1="2.74" y1="0.2" x2="2.74" y2="-0.2" width="0.05" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -5373,18 +5418,18 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <pin name="P$VUSB" x="25.4" y="-10.16" length="middle" rot="R180"/>
 </symbol>
 <symbol name="460DA40013">
-<wire x1="-12.7" y1="5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="5.08" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="20.32" x2="7.62" y2="20.32" width="0.254" layer="94"/>
-<wire x1="-12.7" y1="5.08" x2="-12.7" y2="20.32" width="0.254" layer="94"/>
-<text x="-10.16" y="15.24" size="1.778" layer="94">MultiComp</text>
-<text x="-10.16" y="17.78" size="1.778" layer="94">Hinged uSD</text>
-<pin name="!CS" x="-10.16" y="0" length="middle" rot="R90"/>
-<pin name="SCLK" x="0" y="0" length="middle" rot="R90"/>
-<pin name="SDI" x="-7.62" y="0" length="middle" rot="R90"/>
-<pin name="SDO" x="5.08" y="0" length="middle" rot="R90"/>
-<pin name="VDD" x="-2.54" y="0" length="middle" rot="R90"/>
-<pin name="VSS1" x="-5.08" y="0" length="middle" rot="R90"/>
+<wire x1="-10.16" y1="-7.62" x2="10.16" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-7.62" x2="-10.16" y2="7.62" width="0.254" layer="94"/>
+<text x="-7.62" y="2.54" size="1.778" layer="94">MultiComp</text>
+<text x="-7.62" y="5.08" size="1.778" layer="94">Hinged uSD</text>
+<pin name="!CS" x="-7.62" y="-12.7" length="middle" rot="R90"/>
+<pin name="SCLK" x="2.54" y="-12.7" length="middle" rot="R90"/>
+<pin name="SDI" x="-5.08" y="-12.7" length="middle" rot="R90"/>
+<pin name="SDO" x="7.62" y="-12.7" length="middle" rot="R90"/>
+<pin name="VDD" x="0" y="-12.7" length="middle" rot="R90"/>
+<pin name="VSS1" x="-2.54" y="-12.7" length="middle" rot="R90"/>
 </symbol>
 <symbol name="CRYSTAL">
 <wire x1="-1.524" y1="-2.54" x2="-1.524" y2="2.54" width="0.4064" layer="94"/>
@@ -5411,6 +5456,32 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <pin name="V_OUT" x="15.24" y="5.08" length="middle" rot="R180"/>
 <text x="-10.16" y="8.382" size="1.778" layer="95">&gt;NAME</text>
 <text x="-10.16" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
+</symbol>
+<symbol name="RESONATOR">
+<wire x1="1.524" y1="0.508" x2="-1.524" y2="0.508" width="0.254" layer="94"/>
+<wire x1="-1.524" y1="0.508" x2="-1.524" y2="-0.508" width="0.254" layer="94"/>
+<wire x1="-1.524" y1="-0.508" x2="1.524" y2="-0.508" width="0.254" layer="94"/>
+<wire x1="1.524" y1="-0.508" x2="1.524" y2="0.508" width="0.254" layer="94"/>
+<wire x1="1.524" y1="1.016" x2="0" y2="1.016" width="0.254" layer="94"/>
+<wire x1="0" y1="1.016" x2="-1.524" y2="1.016" width="0.254" layer="94"/>
+<wire x1="1.524" y1="-1.016" x2="0" y2="-1.016" width="0.254" layer="94"/>
+<wire x1="0" y1="-1.016" x2="-1.524" y2="-1.016" width="0.254" layer="94"/>
+<wire x1="0" y1="2.54" x2="-2.286" y2="2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="1.016" x2="0" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="2.54" x2="-3.048" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="-2.54" x2="-3.048" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="2.54" x2="-5.08" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="-1.016" x2="0" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="-2.54" x2="-2.286" y2="-2.54" width="0.254" layer="94"/>
+<pin name="GND" x="-7.62" y="2.54" visible="off" length="short"/>
+<pin name="2" x="2.54" y="2.54" visible="off" length="short" swaplevel="1" rot="R180"/>
+<pin name="1" x="2.54" y="-2.54" visible="off" length="short" swaplevel="1" rot="R180"/>
+<rectangle x1="-3.048" y1="1.778" x2="-2.794" y2="3.302" layer="94"/>
+<rectangle x1="-2.54" y1="1.778" x2="-2.286" y2="3.302" layer="94"/>
+<rectangle x1="-3.048" y1="-3.302" x2="-2.794" y2="-1.778" layer="94"/>
+<rectangle x1="-2.54" y1="-3.302" x2="-2.286" y2="-1.778" layer="94"/>
+<text x="-7.62" y="5.08" size="1.778" layer="95">&gt;NAME</text>
+<text x="-7.62" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -5619,90 +5690,29 @@ http://de.farnell.com/1578387</description>
 </device>
 </devices>
 </deviceset>
-</devicesets>
-</library>
-<library name="jnode">
-<packages>
-<package name="AWSCR">
-<wire x1="-1.85" y1="-1.55" x2="1.85" y2="-1.55" width="0.127" layer="21"/>
-<wire x1="1.85" y1="-1.55" x2="1.85" y2="1.55" width="0.127" layer="21"/>
-<wire x1="1.85" y1="1.55" x2="-1.85" y2="1.55" width="0.127" layer="21"/>
-<wire x1="-1.85" y1="1.55" x2="-1.85" y2="-1.55" width="0.127" layer="21"/>
-<smd name="GND" x="0" y="0" dx="1" dy="4.1" layer="1"/>
-<smd name="1" x="-1.5" y="0" dx="0.7" dy="4.1" layer="1"/>
-<smd name="2" x="1.5" y="0" dx="0.7" dy="4.1" layer="1"/>
-</package>
-<package name="PRQC">
-<wire x1="-1.6" y1="-0.65" x2="1.6" y2="-0.65" width="0.127" layer="21"/>
-<wire x1="1.6" y1="-0.65" x2="1.6" y2="0.65" width="0.127" layer="21"/>
-<wire x1="1.6" y1="0.65" x2="-1.6" y2="0.65" width="0.127" layer="21"/>
-<wire x1="-1.6" y1="0.65" x2="-1.6" y2="-0.65" width="0.127" layer="21"/>
-<smd name="GND" x="0" y="0" dx="0.3" dy="1.6" layer="1"/>
-<smd name="1" x="-0.95" y="0" dx="0.3" dy="1.6" layer="1"/>
-<smd name="2" x="0.95" y="0" dx="0.3" dy="1.6" layer="1"/>
-</package>
-</packages>
-<symbols>
-<symbol name="RESONATOR">
-<wire x1="5.08" y1="-0.508" x2="0" y2="-0.508" width="0.254" layer="94"/>
-<wire x1="0" y1="-0.508" x2="0" y2="-1.778" width="0.254" layer="94"/>
-<wire x1="0" y1="-1.778" x2="5.08" y2="-1.778" width="0.254" layer="94"/>
-<wire x1="5.08" y1="-1.778" x2="5.08" y2="-0.508" width="0.254" layer="94"/>
-<wire x1="5.08" y1="0.254" x2="2.54" y2="0.254" width="0.254" layer="94"/>
-<wire x1="2.54" y1="0.254" x2="0" y2="0.254" width="0.254" layer="94"/>
-<wire x1="5.08" y1="-2.54" x2="0" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="2.54" y1="2.54" x2="-2.286" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-2.286" y1="4.064" x2="-2.286" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-2.286" y1="2.54" x2="-2.286" y2="1.016" width="0.254" layer="94"/>
-<wire x1="-2.794" y1="4.064" x2="-2.794" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-2.794" y1="2.54" x2="-2.794" y2="1.016" width="0.254" layer="94"/>
-<wire x1="2.54" y1="0.254" x2="2.54" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="2.54" x2="-2.794" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="-5.08" x2="-3.048" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="-3.048" y1="-6.604" x2="-3.048" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="-3.048" y1="-5.08" x2="-3.048" y2="-3.556" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="-6.604" x2="-2.54" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="-5.08" x2="-2.54" y2="-3.556" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="2.54" x2="-7.62" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="2.54" y1="-2.54" x2="2.54" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="2.54" y1="-5.08" x2="-2.54" y2="-5.08" width="0.254" layer="94"/>
-<pin name="GND" x="-12.7" y="2.54" visible="off" length="middle"/>
-<pin name="2" x="7.62" y="2.54" visible="off" length="middle" swaplevel="1" rot="R180"/>
-<pin name="1" x="7.62" y="-5.08" visible="off" length="middle" swaplevel="1" rot="R180"/>
-</symbol>
-</symbols>
-<devicesets>
 <deviceset name="RESONATOR">
-<description>Ceramic Resonator with caps &lt;br/&gt;&lt;br/&gt;
-
-AWSCR-16.00CV-T: 16Mhz ceramic resonator with 22pF capacitors
-PRQC16.00SR5010X000: 16Mhz ceramic resonator with 10pF capacitors</description>
 <gates>
-<gate name="G$1" symbol="RESONATOR" x="0" y="0" swaplevel="1"/>
+<gate name="RESONATOR" symbol="RESONATOR" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="AWSCR">
+<device name="PRQC-C" package="PRQC-C">
 <connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="RESONATOR" pin="1" pad="1"/>
+<connect gate="RESONATOR" pin="2" pad="3"/>
+<connect gate="RESONATOR" pin="GND" pad="2_GND"/>
 </connects>
 <technologies>
-<technology name="">
-<attribute name="DIGIKEY" value="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=535-10008-1-ND" constant="no"/>
-</technology>
+<technology name=""/>
 </technologies>
 </device>
-<device name="PRQC-S" package="PRQC">
+<device name="PBRC-H" package="PBRC-H">
 <connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="RESONATOR" pin="1" pad="1"/>
+<connect gate="RESONATOR" pin="2" pad="3"/>
+<connect gate="RESONATOR" pin="GND" pad="2_GND"/>
 </connects>
 <technologies>
-<technology name="">
-<attribute name="DIGIKEY" value="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=478-5420-1-ND"/>
-</technology>
+<technology name=""/>
 </technologies>
 </device>
 </devices>
@@ -7542,9 +7552,6 @@ Source: www.kingbright.com</description>
 <part name="+3V17" library="supply1" deviceset="+3V3" device=""/>
 <part name="R3" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="R5" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
-<part name="12MHZ_RESONATOR" library="jnode" deviceset="RESONATOR" device="PRQC-S">
-<attribute name="DIGIKEY" value="http://www.digikey.com/product-detail/en/PRQC12.00CR5010X000/478-6318-1-ND/2506334"/>
-</part>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="32KHZ_CRYSTAL" library="HedgehogLib" deviceset="SMD_CRYSTAL" device=""/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
@@ -7556,6 +7563,7 @@ Source: www.kingbright.com</description>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
 <part name="LED1" library="led" deviceset="LED" device="SML0805"/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
+<part name="12MHZ_RESONATOR" library="HedgehogLib" deviceset="RESONATOR" device="PRQC-C"/>
 </parts>
 <sheets>
 <sheet>
@@ -7694,7 +7702,6 @@ Source: www.kingbright.com</description>
 <instance part="+3V17" gate="G$1" x="60.96" y="116.84"/>
 <instance part="R3" gate="G$1" x="60.96" y="109.22" rot="R90"/>
 <instance part="R5" gate="G$1" x="73.66" y="149.86" rot="R90"/>
-<instance part="12MHZ_RESONATOR" gate="G$1" x="266.7" y="50.8" rot="R180"/>
 <instance part="GND1" gate="1" x="281.94" y="45.72"/>
 <instance part="32KHZ_CRYSTAL" gate="G$1" x="200.66" y="111.76" smashed="yes">
 <attribute name="VALUE" x="196.342" y="114.808" size="1.778" layer="96"/>
@@ -7715,6 +7722,9 @@ Source: www.kingbright.com</description>
 <instance part="GND2" gate="1" x="160.02" y="137.16"/>
 <instance part="LED1" gate="G$1" x="160.02" y="147.32"/>
 <instance part="GND10" gate="1" x="109.22" y="137.16"/>
+<instance part="12MHZ_RESONATOR" gate="RESONATOR" x="266.7" y="53.34" smashed="yes" rot="R180">
+<attribute name="NAME" x="259.08" y="58.42" size="1.778" layer="95"/>
+</instance>
 </instances>
 <busses>
 <bus name="BUS_SPI:SDI,SDO,SCLK,CS_ADX,CS_SDCARD">
@@ -7738,7 +7748,7 @@ Source: www.kingbright.com</description>
 <pinref part="X1" gate="-3" pin="S"/>
 </segment>
 <segment>
-<wire x1="30.48" y1="20.32" x2="35.56" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="22.86" x2="35.56" y2="20.32" width="0.1524" layer="91"/>
 <pinref part="SDCARD_CON" gate="G$1" pin="VSS1"/>
 <pinref part="GND16" gate="1" pin="GND"/>
 </segment>
@@ -7851,9 +7861,10 @@ Source: www.kingbright.com</description>
 <wire x1="254" y1="33.02" x2="254" y2="30.48" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="12MHZ_RESONATOR" gate="G$1" pin="GND"/>
 <pinref part="GND1" gate="1" pin="GND"/>
-<wire x1="279.4" y1="48.26" x2="281.94" y2="48.26" width="0.1524" layer="91"/>
+<pinref part="12MHZ_RESONATOR" gate="RESONATOR" pin="GND"/>
+<wire x1="274.32" y1="50.8" x2="281.94" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="281.94" y1="50.8" x2="281.94" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="LED1" gate="G$1" pin="C"/>
@@ -8003,7 +8014,7 @@ Source: www.kingbright.com</description>
 <pinref part="+3V10" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
-<wire x1="33.02" y1="22.86" x2="30.48" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="22.86" x2="43.18" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="SDCARD_CON" gate="G$1" pin="VDD"/>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
 </segment>
@@ -8045,8 +8056,8 @@ Source: www.kingbright.com</description>
 <pinref part="ACCELEROMETER" gate="ACCELEROMETER" pin="SDA"/>
 </segment>
 <segment>
-<wire x1="30.48" y1="17.78" x2="43.18" y2="17.78" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="17.78" x2="43.18" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="20.32" x2="43.18" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="20.32" x2="43.18" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="43.18" y1="45.72" x2="45.72" y2="48.26" width="0.1524" layer="91"/>
 <label x="43.434" y="35.56" size="1.778" layer="95" rot="R270"/>
 <pinref part="SDCARD_CON" gate="G$1" pin="SDI"/>
@@ -8070,7 +8081,7 @@ Source: www.kingbright.com</description>
 <segment>
 <wire x1="38.1" y1="30.48" x2="38.1" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="45.72" x2="40.64" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="30.48" x2="33.02" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="33.02" x2="33.02" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="33.02" x2="33.02" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="30.48" x2="38.1" y2="30.48" width="0.1524" layer="91"/>
 <junction x="33.02" y="30.48"/>
@@ -8113,7 +8124,7 @@ Source: www.kingbright.com</description>
 <pinref part="ACCELEROMETER" gate="ACCELEROMETER" pin="SCL"/>
 </segment>
 <segment>
-<wire x1="30.48" y1="25.4" x2="40.64" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="27.94" x2="40.64" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="25.4" x2="40.64" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="45.72" x2="43.18" y2="48.26" width="0.1524" layer="91"/>
 <label x="40.894" y="37.846" size="1.778" layer="95" rot="R270"/>
@@ -8128,7 +8139,7 @@ Source: www.kingbright.com</description>
 </net>
 <net name="CS_SDCARD" class="0">
 <segment>
-<wire x1="30.48" y1="15.24" x2="45.72" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="43.18" y1="17.78" x2="45.72" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="15.24" x2="45.72" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="45.72" x2="48.26" y2="48.26" width="0.1524" layer="91"/>
 <junction x="45.72" y="15.24"/>
@@ -8246,16 +8257,17 @@ Source: www.kingbright.com</description>
 <net name="N$1" class="0">
 <segment>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$OSC1"/>
-<pinref part="12MHZ_RESONATOR" gate="G$1" pin="2"/>
 <wire x1="243.84" y1="53.34" x2="259.08" y2="53.34" width="0.1524" layer="91"/>
-<wire x1="259.08" y1="53.34" x2="259.08" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="259.08" y1="53.34" x2="259.08" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="259.08" y1="50.8" x2="264.16" y2="50.8" width="0.1524" layer="91"/>
+<pinref part="12MHZ_RESONATOR" gate="RESONATOR" pin="2"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
 <pinref part="PIC_CONTROLLER" gate="G$1" pin="P$OSC2"/>
-<pinref part="12MHZ_RESONATOR" gate="G$1" pin="1"/>
-<wire x1="243.84" y1="55.88" x2="259.08" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="243.84" y1="55.88" x2="264.16" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="12MHZ_RESONATOR" gate="RESONATOR" pin="1"/>
 </segment>
 </net>
 <net name="L_GND@RE0" class="0">

@@ -1,3 +1,24 @@
+
+// obtain day id and start and stop times:
+	function delineate(str,start,c1,c2){
+		lft = str.indexOf(c1,start)+1;
+		rgt = str.indexOf(c2,lft);
+		if (rgt==-1) rgt=str.length
+		return {subs:(str.substring(lft,rgt)),ind:rgt}
+	}
+	var ret=delineate(window.location.href,0,"=","&");
+	var strtt = parseInt(ret.subs);
+	ret=delineate(window.location.href,ret.ind,"=","&");
+	var stopt = parseInt(ret.subs);
+	var dayid = parseInt(delineate(window.location.href,ret.ind,"=","&").subs);
+
+	if (isNaN(dayid)) {
+		var idx = window.location.href.indexOf("/index")-8
+		var ret=delineate(window.location.href,idx,"/","/");
+		dayid = parseInt(ret.subs)
+		strtt=0; stopt=86400
+	}
+
 // check ans and truncate ans to today's entries:
 if (typeof ans === 'undefined') {
 	var ans = []
@@ -11,13 +32,14 @@ else {
 }
 
 // calculate data boundaries and skips:
-var hspan=Math.round(24*(stopt-strtt)), hoff=strtt*24;
+var sspan=(stopt-strtt), soff=strtt;
 var skipxyz=2,skipenv=32;
-for(var i=3;i<24;i+=2){if(hspan>i){skipxyz+=4;skipenv+=64;}}
+for(var i=3;i<24;i+=2){if((sspan/3600)>i){skipxyz+=4;skipenv+=64;}}
 
 // load icon images:
 var imgsa = [
 	["unknown",'../img/unknown.png'],
+	["look","../img/zoom.png"],
 	["sleep", "../img/sleep.png"],
 	["bike","../img/riding_bike.png"],
 	["car","../img/driving_car.png"],
@@ -43,46 +65,90 @@ function loadIcons(arr) {
 	return { done:function(f){postaction=f || postaction}}
 }
 
+
 function toTime(tfrac){
+	hrs = Math.floor(tfrac/(60*60))%24;
+	mns = Math.floor( (tfrac%(60*60))/60 );
+	return ("00"+hrs).slice(-2)+":"+("00"+mns).slice(-2);
+}
+
+function ftoTime(tfrac){
 	hrs = Math.floor(tfrac*24)%24;
 	mns = Math.round(Math.abs(60*((tfrac*24)-Math.floor(tfrac*24))))%60;
 	return ("00"+hrs).slice(-2)+":"+("00"+mns).slice(-2);
-};
+}
+
+function toDate(did){
+	var d = new Date((did-719163)*8.64e7)
+	return ("0000"+d.getUTCFullYear()).slice(-4)+"-"+
+			("00"+(d.getUTCMonth()+1)).slice(-2)+"-"+
+			("00"+d.getUTCDate()).slice(-2);
+}
+
+function goRight(){
+	if (sspan==86400){
+		dayid++;
+		window.open('../'+dayid+
+		'/index.html?strtt=0&stopt=86400&dayid='+dayid,'_self',false)
+	}else{
+		strtt+=sspan/2;stopt+=sspan/2
+		if (stopt>86400) { dayid++; strtt=0; stopt=sspan;}
+		window.open('../'+dayid+'/index_zoom.html?strtt='+
+			strtt+"&stopt="+stopt+"&dayid="+dayid,'_self',false)
+	}
+}
+
+function goLeft(){
+	if (sspan==86400){
+		dayid--;
+		window.open('../'+dayid+
+		'/index.html?strtt=0&stopt=86400&dayid='+dayid,'_self',false)
+	}else{
+		strtt-=sspan/2;stopt-=sspan/2
+		if (strtt<0) { dayid--; strtt=86400-sspan; stopt=86400;}
+		window.open('../'+dayid+'/index_zoom.html?strtt='+
+			strtt+"&stopt="+stopt+"&dayid="+dayid,'_self',false)
+	}
+}
+
+function goUp(){
+	window.open(((sspan==86400)?'.':'')+'./index.html','_self',false)
+}
 
 function subSample(skipVal,strVals,sta,sto){
 	var ret='';
 	if (sta%2!=0) sta-=1;
-	if (sto%2!=0) sto-=1;
 	for (var i=sta;i<sto;i+=skipVal)
 		ret+=strVals.charAt(i)+strVals.charAt(i+1);
 	return ret;
-};
+}
 
-function fillLabels(numTicks,labelLen,hspan,hoff){
+function fillLabels(numTicks,labelLen,sspan,soff){
 	var ll= new Array(labelLen+1).join('0').split('');
 	for (var i=0;i<numTicks;i++) {
 		idx = Math.floor(i*labelLen/(numTicks-1));
-		ll[idx]=toTime((hoff+i*hspan/(numTicks-1))/24);
+		ll[idx]=ftoTime((soff+i*sspan/(numTicks-1))/86400);
 	}
 	return ll;
-};
+}
 				
 function drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, ticks){
-	var sta=x.length*strtt; var sto=x.length*stopt;
-	var anim=false;if ((strtt==0)&&(stopt==1)) anim=true;
-	var pstart = Math.round(p.length*strtt);
-	var pstop  = Math.round(p.length*stopt);
+	var sta=Math.round(x.length*(strtt/86400)); 
+	var sto=Math.round(x.length*(stopt/86400));
+	var pstart = Math.round(p.length*(strtt/86400));
+	var pstop  = Math.round(p.length*(stopt/86400));
+	var anim=false;if ((strtt==0)&&(stopt==86400)) anim=true;
 	ps = subSample(2,p,pstart,pstop);
 	ls = subSample(skipenv,l,sta,sto);
 	xs = subSample(skipxyz,x,sta,sto);
 	ys = subSample(skipxyz,y,sta,sto);
 	zs = subSample(skipxyz,z,sta,sto);
-	ll = fillLabels(ticks,xs.length/2,hspan,hoff);
+	ll = fillLabels(ticks,xs.length/2,sspan,soff);
 	var d_light={l:[],ds:[{fc:"#dd0",sc:"#ddd",d:ls}]};
 	var d_acc3d={l:ll,ds:[{sc:"#d00",d:xs},{sc:"#0c0",d:ys},{sc:"#00d",d:zs}]};
 	var d_night={l:[],ds:[{fc:"#111",sc:"#ddd",d:ps}]};
-	var bopts = {scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,hspan:hspan,hoff:hoff}
-	var lopts = {scaleSteps:8,scaleShowLabels:true,scaleFontSize:12,scaleLineWidth:1,datasetStrokeWidth:0.5,scaleStepWidth:32,hspan:hspan,hoff:hoff}
+	var bopts = {scaleShowLabels:true,scaleFontSize:12,scaleShowGridLines:true,animation:anim,scaleStepWidth:32,sspan:sspan,soff:soff}
+	var lopts = {scaleSteps:8,scaleShowLabels:true,scaleFontSize:12,scaleLineWidth:1,datasetStrokeWidth:0.5,scaleStepWidth:32,sspan:sspan,soff:soff}
 	var light = new Chart(document.getElementById("day_view_light").getContext("2d")).Bar(d_light,bopts);
 	var acc3d = new Chart(document.getElementById("day_view_acc3d").getContext("2d")).Line(d_acc3d,lopts);
 	var night = new Chart(document.getElementById("night_view_prb").getContext("2d")).Bar(d_night,bopts);
@@ -90,13 +156,13 @@ function drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, ticks){
 }
 
 function reDrawAll(nhoff,nhspan){
-	hspan = nhspan; hoff = nhoff
+	sspan = nhspan; soff = nhoff
 	skipxyz=2,skipenv=32;
 	for(var i=3;i<24;i+=2){if(hspan>i){skipxyz+=4;skipenv+=64;}}
-	drawAll(x,y,z,l,p,(hoff/24),(hoff+hspan)/24, skipenv, skipxyz, 7)
+	drawAll(x,y,z,l,p,(soff/86400),(soff+sspan)/86400, skipenv, skipxyz, 7)
 }
 
-function Ans(ac) {
+function Ans(ac){
 	var drag,dragL,dragR = false,
     mouseX, mouseY,
     closeEnough = 10,
@@ -109,33 +175,30 @@ function Ans(ac) {
 	
 	function init_ans() {
 		if (window.devicePixelRatio) {
-			ac.canvas.style.width = ac.canvas.width + "px";
-			ac.canvas.style.height = ac.canvas.height + "px";
-			ac.canvas.height = ac.canvas.height * window.devicePixelRatio;
-			ac.canvas.width = ac.canvas.width * window.devicePixelRatio;
+			ac.canvas.style.width = ac.canvas.width +"px";
+			ac.canvas.style.height = ac.canvas.height +"px";
+			ac.canvas.height= ac.canvas.height*window.devicePixelRatio;
+			ac.canvas.width = ac.canvas.width *window.devicePixelRatio;
 			ac.scale(window.devicePixelRatio, window.devicePixelRatio);
 		}
 		if (typeof(ans)=="undefined"){
 			var ans_str = localStorage.getItem('hhg_ans');
 			if (ans_str!=null) {
-				ans = JSON.parse(ans_str);
-				console.log("loaded: %s", ans_str);		
+				ans = JSON.parse(ans_str);	
 			}
 		}
-		console.log("dayid: %d", dayid);
 		ac.canvas.addEventListener('mousedown', mouseDown, false);
 		ac.canvas.addEventListener('mouseup', mouseUp, false);
 		ac.canvas.addEventListener('mousemove', mouseMove, false);
 		ac.canvas.addEventListener('dblclick', mouseDbl, false);
-		loadIcons(imgsa).done(function(imga){
-		draw_ans()})
+		loadIcons(imgsa).done(function(imga){draw_ans()})
 	}
 
 	function toCanCoord(x){
-		return co-2+(24/hspan)*(x-(hoff/24))*cw;
+		return co-2+(86400/sspan)*(x-(soff/86400))*cw;
 	}
 	function fromCanCoord(y){
-		return ((y-co+2)/(cw*(24/hspan)))+(hoff/24);
+		return ((y-co+2)/(cw*(86400/sspan)))+(soff/86400);
 	}
 
 	function mouseDown(e) {
@@ -146,7 +209,6 @@ function Ans(ac) {
 			mouseX = e.layerX; mouseY = e.layerY;
 		}
 		for(var i=0;i<ans.length;i++){
-		if (ans[i][3]==dayid){
 			if( checkCloseEnough(mouseX, toCanCoord(ans[i][1])) && 
 				 checkCloseEnough(mouseY,7) ){
 				dragL = true; cur_rect = i; break;
@@ -157,12 +219,17 @@ function Ans(ac) {
 			}
 			else if((mouseX<toCanCoord(ans[i][2]))&&
 					  (mouseX>toCanCoord(ans[i][1]))){
+				if (mouseY>55) {
+					if (ans[i][4]!=undefined)
+						window.open(ans[i][4]);
+				} else {
 				drag = true; cur_rect = i; 
 				ldist = mouseX-toCanCoord(ans[i][1]);
 				rdist = toCanCoord(ans[i][2])-mouseX;
+				}
 				break;
 			}
-		}}
+		}
 	}
 	function checkCloseEnough(p1, p2){
 		return Math.abs(p1-p2)<closeEnough;
@@ -175,7 +242,7 @@ function Ans(ac) {
 		drag=dragL=dragR=false; ldist=rdist=0; cur_rect = -1;	
 	}
 	function mouseMove(e) {
-		ac.canvas.style.cursor = 'pointer';		
+		ac.canvas.style.cursor = 'pointer';
 		if (e.offsetX) {
 			mouseX = e.offsetX; mouseY = e.offsetY;
 		}
@@ -200,17 +267,23 @@ function Ans(ac) {
 	function mouseDbl(e) {
 		if (e.offsetX) { mouseX = e.offsetX; mouseY = e.offsetY; }
 		else if (e.layerX){ mouseX = e.layerX; mouseY = e.layerY; }
-		var deleted = false
+		var hndld = false
 		for(var i=0;i<ans.length;i++){
-		if (ans[i][3]==dayid){
 			if((mouseX<toCanCoord(ans[i][2]))&&
-				(mouseX>toCanCoord(ans[i][1])) ){
-				ans.splice(i,1);
-				deleted = true;
+				(mouseX>toCanCoord(ans[i][1]))){
+				if (mouseY>55) {
+					if (ans[i][4]!=undefined) 
+						window.open(ans[i][4]);
+					hndld=true;
+				}
+				else {
+					ans.splice(i,1);
+					hndld=true;
+				}
 				break;
 			}
-		}}
-		if (!deleted) {
+		}
+		if (!hndld) {
 			ans.push(["new",fromCanCoord(mouseX-17),fromCanCoord(mouseX+17),dayid]);
 		}
 		draw_ans();
@@ -223,10 +296,9 @@ function Ans(ac) {
 		ac.font="8pt Arial"; ac.fillStyle = "black";
 		if (typeof(ans)!="undefined"){
 			for(var i=0;i<ans.length;i++){
-			if ((ans[i][3]==dayid)&&
-				 (ans[i][2]>(hoff/24))&&(ans[i][1]<((hoff+hspan)/24))){
+			if ((ans[i][2]>(soff/86400))&&(ans[i][1]<((soff+sspan)/86400))){
 				ac.rect(toCanCoord(ans[i][1]),-2,
-						  (24/hspan)*(ans[i][2]-ans[i][1])*cw,17);
+						  (86400/sspan)*(ans[i][2]-ans[i][1])*cw,17);
 				tw = ac.measureText(ans[i][0]).width/2;
 				function loadIcon(ret,x,y) {
 					ac.drawImage(imga[ret],x,y,17,17);
@@ -237,13 +309,13 @@ function Ans(ac) {
 				}
 				loadIcon(ret,toCanCoord((ans[i][1]+ans[i][2])/2)-8,22);
 				ac.fillText(ans[i][0],toCanCoord((ans[i][1]+ans[i][2])/2)-tw,53);
+				if (ans[i][4]!=undefined)
+					loadIcon(1,toCanCoord((ans[i][1]+ans[i][2])/2)-8,60);
 				ac.stroke();
 			}}
 		}
 	}
-	
 	init_ans();
-	
 }
 
 window.addEventListener("keydown", handleKey, false);
@@ -253,39 +325,11 @@ function handleKey(e){
 		return "_"+toTime(from).replace(':','')+toTime(to).replace(':','')
 	}
 	var hstr = '', update=false
-	if (e.keyCode==37) { // left
-		update=true
-		if (hspan==24) {
-				dayid--
-		}else if (hspan==6) {
-				if (hoff<3) {	dayid--; hoff=21; }
-				hstr = timeStr((hoff-3)/24,(hoff+3)/24)
-		}else if (hspan==1) {
-				if (hoff<1) {	dayid--; hoff=23.5; }
-				hstr = timeStr((hoff-.5)/24,(hoff+.5)/24)
-		}else if (hspan==1/6) {
-				if (hoff<1) {	dayid--; hoff=24-1/6; }
-				hstr = timeStr((hoff-1/12)/24,(hoff+1/12)/24)
-		}else update=false
-	}
+	if (e.keyCode==37) goLeft()
 	else if (e.keyCode==38) { // up
 				update=true
 	}
-	else if (e.keyCode==39) { // right
-		update=true
-		if (hspan==24) {
-				dayid++
-		}else if (hspan==6) {
-				if (hoff>17) { dayid++; hoff=0; }
-				hstr = timeStr(hoff/24,(hoff+6)/24)
-		}else if (hspan==1) {
-				if (hoff>22.5) { dayid++; hoff=0; }
-				hstr = timeStr(hoff/24,(hoff+1)/24)
-		} else if (hspan==1/6) {
-				if (hoff>22.5) { dayid--; hoff=0; }
-				hstr = timeStr(hoff/24,(hoff+1/6)/24)
-		} else update=false
-	}
+	else if (e.keyCode==39) goRight()
 	if (update)
-		window.open('../'+dayid+'/index'+hstr+'.html','_self',false);
+		window.open('../'+dayid+'/index.html','_self',false);
 }
