@@ -198,7 +198,7 @@ function Ans(ac){
 		return co-2+(86400/sspan)*(x-(soff/86400))*cw;
 	}
 	function fromCanCoord(y){
-		return ((y-co+2)/(cw*(86400/sspan)))+(soff/86400);
+		return ((y-co+2)/(cw*(86400/sspan)))+(soff/86400) 
 	}
 
 	function mouseDown(e) {
@@ -223,9 +223,9 @@ function Ans(ac){
 					if (ans[i][4]!=undefined)
 						window.open(ans[i][4]);
 				} else {
-				drag = true; cur_rect = i; 
-				ldist = mouseX-toCanCoord(ans[i][1]);
-				rdist = toCanCoord(ans[i][2])-mouseX;
+					drag = true; cur_rect = i; 
+					ldist = mouseX-toCanCoord(ans[i][1]);
+					rdist = toCanCoord(ans[i][2])-mouseX;
 				}
 				break;
 			}
@@ -237,7 +237,9 @@ function Ans(ac){
 	function mouseUp() {
 		if (cur_rect!=-1){
 			localStorage.setItem('hhg_ans', JSON.stringify(ans));
-			console.log("new: %s", ans[cur_rect]);	
+			console.log('[\"%s\",%f,%f,%i],', ans[cur_rect][0],
+				parseFloat(ans[cur_rect][1].toFixed(5)),
+				parseFloat(ans[cur_rect][2].toFixed(5)),ans[cur_rect][3]);
 		}
 		drag=dragL=dragR=false; ldist=rdist=0; cur_rect = -1;	
 	}
@@ -284,12 +286,14 @@ function Ans(ac){
 			}
 		}
 		if (!hndld) {
-			ans.push(["new",fromCanCoord(mouseX-17),fromCanCoord(mouseX+17),dayid]);
+			ans.push(["new",fromCanCoord(mouseX-17),
+					fromCanCoord(mouseX+17),dayid]);
 		}
 		draw_ans();
 	}
 
 	function draw_ans() {
+		function loadIcon(ret,x,y) {ac.drawImage(imga[ret],x,y,17,17);}
 		ac.beginPath();
 		ac.fillStyle = "white";
 		ac.fillRect(0,0,ac.canvas.width,ac.canvas.height);
@@ -300,9 +304,6 @@ function Ans(ac){
 				ac.rect(toCanCoord(ans[i][1]),-2,
 						  (86400/sspan)*(ans[i][2]-ans[i][1])*cw,17);
 				tw = ac.measureText(ans[i][0]).width/2;
-				function loadIcon(ret,x,y) {
-					ac.drawImage(imga[ret],x,y,17,17);
-				}
 				ret = 0;
 				for (var k=0;k<imgsa.length;k++){
 					if (ans[i][0]==imgsa[k][0]) {ret=k;break;}
