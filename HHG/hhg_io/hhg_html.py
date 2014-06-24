@@ -56,7 +56,7 @@ def zoom_indexheader():
 		'<span class="a-right"></span></a>'+
 		'<a style="text-align:right;" href="javascript:goUp();">'+
 		'<span class="a-up"></span></a></h1>')
-def cal_indexheader(mnth):
+def cal_indexheader():
 	hdr = ''
 	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
 		hdr += ('<div class="header">'+dayname+'</div>')
@@ -98,7 +98,7 @@ def chart_html(varname, idname, charttype, dataname, options):
 def conf_html(cnf,smps,rle):
 	g_range = pow(2,1+ord(cnf[12])-48)
 	bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
-	md_lookup = ['controller', 'sensor']			
+	md_lookup = ['controller', 'sensor']
 	pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
 	div_preambl = '<div id="inf" style="left:'
 	left_offset = '865px'
@@ -125,11 +125,6 @@ def get_month_name(month_no, locale):
 			s = s.decode(encoding)
 		return s
 
-## convert a day fraction to a string (e.g., 0.5 -> "12:00")
-def dayfrac2str(frac):
-	return (str(int(frac*24)%24).zfill(2)+":"+
-		str( int(round(60*(frac*24-int(frac*24))))%60 ).zfill(2) );
-
 ## write a calendar entry
 def write_cal_entry(day_id, f):
 	daystr = str(num2date(day_id).year)+'-'
@@ -141,8 +136,8 @@ def write_cal_entry(day_id, f):
 		' '+str(num2date(day_id).year)+ '"')
 	if num2date(day_id).weekday()>4:
 		f.write('class="weekend"')
-	f.write('><a href="./'+ str(day_id)+
-			'/index.html?strt=0&stopt=86400&dayid='+str(day_id)+'">'+
+	f.write('dayid="'+str(day_id)+'"')	
+	f.write('><a>'+
 			str(num2date(day_id).day) )
 	f.write('</a>')
 		
@@ -157,10 +152,6 @@ def write_cal_plots(day_id, f, l_str, x_str, y_str, z_str, p_str ):
 					'#000', '#ddd', p_str ))
 	f.write( adata_html('da'+str(day_id), str([]),
 				'#d00',x_str, '#0a0',y_str, '#00d',z_str ) )
-	f.write( chart_html('n'+str(day_id), 'dvn'+str(day_id), 'Bar', 
-							'dn'+str(day_id), '') )
-	f.write( chart_html('a'+str(day_id), 'dva'+str(day_id), 'Line', 
-							'da'+str(day_id), '') )
 	f.write('</script></time>')
 	
 def write_day_stub_html(day_id, dlpath):
