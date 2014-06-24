@@ -38,18 +38,7 @@ import hhg_io.hhg_html as hh
 bins = 1440*2	# for full day view: 30 seconds
 zbins = 1440*6 # for zoom view
 bdiv = 17    	# for calendar views
-zdiv = 32		
-	
-## subplots per day:
-subp = [	(0,0.25,3), (0.125,0.375,3), (0.25,0.5,3), 
-			(0.375,0.625,3), (0.5,0.75,3), 
-			(0.625,0.875,3), (0.75,1,3) ]
-
-subh = []
-for i in range(24):
-	subh.append( (float(i)/24, float(i+1)/24, 1 ))
-for i in range(23):		
-	subh.append( (float(i+0.5)/24, float(i+1.5)/24, 1 ))
+zdiv = 32	
 
 ## one day canvas width (pixels):
 cd_px_draw = 800
@@ -178,9 +167,8 @@ home = os.environ['HOME']
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,  dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/Chart.js"%home, dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/ans.js"%home, dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/cal.js"%home, dlpath])
 subprocess.call(["cp", "-rf", "%s/HedgeHog/HHG/hhg_web/img"%home,dlpath])
-subprocess.call(["wget", "-q", "-nc", "-P%s"%dlpath,
-	"http://dygraphs.com/1.0.1/dygraph-combined.js"])
 
 ## get all subdirectories with d.npz files:
 matches = []
@@ -206,7 +194,7 @@ except:
 	print 'Cannot write to index file'
 	exit(1)
 	
-f.write(hh.cal_indexheader('Month View'))
+f.write(hh.cal_indexheader())
 
 # fill empty days before day of week:
 wkday =  num2date(first_day_id).weekday()
@@ -221,11 +209,8 @@ for day_id in range(first_day_id, last_day_id):
 for rd in range( 7-(last_day_id-first_day_id+wkday)%7):
 	cal_entry(last_day_id+rd, dlpath, f, skip)
 
-f.write('</div></div></section>'+
-	'<script>$("#scrollview").stop().animate({scrollTop:'+
-		'$("#scrollview")[0].scrollHeight},700);</script>'+
-		'</body>')
+f.write('</div></div></section></body>')
 f.close()
 
 ## preview:
-subprocess.call(["firefox", "%s/index.html"%dlpath])
+subprocess.call(["x-www-browser", "%s/index.html"%dlpath, "--start-maximized"])

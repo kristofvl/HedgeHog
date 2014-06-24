@@ -16,20 +16,6 @@ window.Chart = function(context){
 
 	var chart = this;
 	
-	//Easing functions adapted from Robert Penner's easing equations
-	//http://www.robertpenner.com/easing/
-	var animationOptions = {
-		linear : function (t){
-			return t;
-		},
-		easeInQuad: function (t) {
-			return t*t;
-		},
-		easeOutQuad: function (t) {
-			return -1 *t*(t-2);
-		}
-	};
-	
 	var sspan=86400;
 	var soff=0;
 	
@@ -54,8 +40,6 @@ window.Chart = function(context){
 	this.Line = function(data,options){
 	
 		chart.Line.defaults = {
-			scaleOverlay : false,
-			scaleOverride : true,
 			scaleSteps : 4,
 			scaleStepWidth : 64,
 			scaleStartValue : 0,
@@ -70,20 +54,13 @@ window.Chart = function(context){
 			scaleShowGridLines : true,
 			scaleGridLineColor : "rgba(0,0,0,.05)",
 			scaleGridLineWidth : 1,
-			bezierCurve : false,
-			pointDot : false,
-			pointDotRadius : 4,
-			pointDotStrokeWidth : 2,
-			datasetStroke : true,
 			datasetStrokeWidth : 0.5,
 			datasetFill : false,
 			animation : false,
-			animationSteps : 2,
-			animationEasing : "linear",
-			onAnimationComplete : null,
+			animationSteps : 0,
 			sspan: 86400,
 			soff:0
-		};		
+		};
 		var config = (options) ? mergeChartConfig(chart.Line.defaults,options) : chart.Line.defaults;
 		
 		return new Line(data,config,context);
@@ -91,8 +68,6 @@ window.Chart = function(context){
 	
 	this.Bar = function(data,options){
 		chart.Bar.defaults = {
-			scaleOverlay : false,
-			scaleOverride : true,
 			scaleSteps : 4,
 			scaleStepWidth : 32,
 			scaleStartValue : 0,
@@ -113,11 +88,9 @@ window.Chart = function(context){
 			barDatasetSpacing : 0,
 			animation : false,
 			animationSteps : 12,
-			animationEasing : "linear",
-			onAnimationComplete : null,
 			sspan: 86400,
 			soff:0
-		};	
+		};
 		var config = (options) ? mergeChartConfig(chart.Bar.defaults,options) : chart.Bar.defaults;
 		
 		return new Bar(data,config,context);		
@@ -147,18 +120,14 @@ window.Chart = function(context){
 		valueBounds = getValueBounds();
 		//Check and set the scale
 		labelTemplateString = (config.scaleShowLabels)? config.scaleLabel : "";
-		if (!config.scaleOverride){
-			calculatedScale = calculateScale(scaleHeight,valueBounds.maxSteps,valueBounds.minSteps,valueBounds.maxValue,valueBounds.minValue,labelTemplateString);
-		}
-		else {
-			calculatedScale = {
+		calculatedScale = {
 				steps : config.scaleSteps,
 				stepValue : config.scaleStepWidth,
 				graphMin : config.scaleStartValue,
 				labels : []
-			}
-			populateLabels(labelTemplateString, calculatedScale.labels,calculatedScale.steps,config.scaleStartValue,config.scaleStepWidth);
 		}
+		populateLabels(labelTemplateString, calculatedScale.labels,calculatedScale.steps,config.scaleStartValue,config.scaleStepWidth);
+		
 		
 		scaleHop = Math.floor(scaleHeight/calculatedScale.steps);
 		calculateXAxisSize();
@@ -175,17 +144,6 @@ window.Chart = function(context){
 				}
 				ctx.stroke();
 				ctx.closePath();
-				if(config.pointDot){
-					ctx.fillStyle = data.ds[i].pointColor;
-					ctx.strokeStyle = data.ds[i].pointStrokeColor;
-					ctx.lineWidth = config.pointDotStrokeWidth;
-					for (var k=0; k<data.ds[i].d.length; k++){
-						ctx.beginPath();
-						ctx.arc(yAxisPosX + (valueHop *k),xAxisPosY - animPc*(calculateOffset(data.ds[i].d[k],calculatedScale,scaleHop)),config.pointDotRadius,0,Math.PI*2,true);
-						ctx.fill();
-						ctx.stroke();
-					}
-				}
 			}
 			function yPos(dataSet,iteration){
 				return xAxisPosY - animPc*(calculateOffset(data.ds[dataSet].d[iteration],calculatedScale,scaleHop));			
@@ -235,40 +193,36 @@ window.Chart = function(context){
 			ctx.textBaseline = "middle";
 			for (var j=0; j<calculatedScale.steps; j++){
 				ctx.beginPath();
-				ctx.moveTo(yAxisPosX-3,xAxisPosY - ((j+1) * scaleHop));
+				ctx.moveTo(yAxisPosX-3,xAxisPosY-((j+1)*scaleHop));
 				if (config.scaleShowGridLines){
 					ctx.lineWidth = config.scaleGridLineWidth;
 					ctx.strokeStyle = config.scaleGridLineColor;
-					ctx.lineTo(yAxisPosX + xAxisLength + 5,xAxisPosY - ((j+1) * scaleHop));					
+					ctx.lineTo(yAxisPosX+xAxisLength+5,xAxisPosY-((j+1)*scaleHop));					
 				}
 				else{
-					ctx.lineTo(yAxisPosX-0.5,xAxisPosY - ((j+1) * scaleHop));
+					ctx.lineTo(yAxisPosX-0.5,xAxisPosY-((j+1)*scaleHop));
 				}
 				ctx.stroke();
 				if (config.scaleShowLabels){
-					ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY - ((j+1) * scaleHop));
+					ctx.fillText(calculatedScale.labels[j],yAxisPosX-8,xAxisPosY-((j+1)*scaleHop));
 				}
 			}
 		}
 		function calculateXAxisSize(){
 			var longestText = 1;
-			//if we are showing the labels
-			if (config.scaleShowLabels){
+			if (config.scaleShowLabels)
 				longestText +=30;
-			}
-			xAxisLength = width - longestText - widestXLabel;
+			xAxisLength = width-longestText-widestXLabel;
 			valueHop = xAxisLength/(data.ds[0].d.length-1);
 			yAxisPosX = width-widestXLabel/2-xAxisLength;
 			xAxisPosY = scaleHeight + config.scaleFontSize/2;				
-		}		
+		}
 		function calculateDrawingSizes(){
 			maxSize = height;
-			ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
 			widestXLabel = 1;
 			maxSize -= config.scaleFontSize;
 			labelHeight = config.scaleFontSize;
 			if (config.scaleShowLabels){
-				//Add a little padding between the x line and the text
 				maxSize -= 9;
 				maxSize -= labelHeight;
 			}
@@ -278,8 +232,8 @@ window.Chart = function(context){
 			return {
 				maxValue : 255,
 				minValue : 0,
-				maxSteps : Math.floor((scaleHeight / (labelHeight*0.66))),
-				minSteps : Math.floor((scaleHeight / labelHeight*0.5))
+				maxSteps : Math.floor((scaleHeight/(labelHeight*0.66))),
+				minSteps : Math.floor((scaleHeight/labelHeight*0.5))
 			};
 		}
 	}
@@ -334,7 +288,6 @@ window.Chart = function(context){
 					ctx.fill();
 				}
 			}
-			
 		}
 		function drawScale(){
 			//X axis line
@@ -386,7 +339,6 @@ window.Chart = function(context){
 		function calculateXAxisSize(){
 			var longestText = 1;
 			if (config.scaleShowLabels){
-				ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
 				longestText +=30;
 			}
 			xAxisLength = width - longestText - widestXLabel;
@@ -555,24 +507,13 @@ window.Chart = function(context){
 	}
 	
 	function animationLoop(config,drawScale,drawData,ctx){
-		var animFrameAmount = (config.animation)? 1/CapValue(config.animationSteps,Number.MAX_VALUE,1) : 1,
-			easingFunction = animationOptions[config.animationEasing],
+		var animFrameAmount = (config.animation)? 1/CapValue(config.animationSteps,Number.MAX_VALUE,1):1,
 			percentAnimComplete =(config.animation)? 0 : 1;
-		
-		if (typeof drawScale !== "function") drawScale = function(){};
-		
 		requestAnimFrame(animLoop);
-		
 		function animateFrame(){
-			var easeAdjustedAnimationPercent =(config.animation)? CapValue(easingFunction(percentAnimComplete),null,0) : 1;
 			clear(ctx);
-			if(config.scaleOverlay){
-				drawData(easeAdjustedAnimationPercent);
-				drawScale();
-			} else {
-				drawScale();
-				drawData(easeAdjustedAnimationPercent);
-			}				
+			drawScale();
+			drawData((config.animation)?CapValue(percentAnimComplete,null,0):1);				
 		}
 		function animLoop(){
 				percentAnimComplete += animFrameAmount;
@@ -580,10 +521,7 @@ window.Chart = function(context){
 				if (percentAnimComplete <= 1){
 					requestAnimFrame(animLoop);
 				}
-				else{
-					if (typeof config.onAnimationComplete == "function") config.onAnimationComplete();
-				}
-		}	
+		}
 	}
 
 	// shim layer with setTimeout fallback
@@ -598,45 +536,7 @@ window.Chart = function(context){
 			};
 	})();
 
-	function calculateScale(drawingHeight,maxSteps,minSteps,maxValue,minValue,labelTemplateString){
-		var graphMin,graphMax,graphRange,stepValue,numberOfSteps,rangeOrderOfMagnitude,decimalNum;
-			
-		rangeOrderOfMagnitude = calculateOrderOfMagnitude(maxValue - minValue);
-
-        graphMin = Math.floor(minValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
-         graphMax = Math.ceil(maxValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
-         graphRange = graphMax - graphMin;
-         stepValue = Math.pow(10, rangeOrderOfMagnitude);
-         numberOfSteps = Math.round(graphRange / stepValue);
-	        
-	      //Compare number of steps to the max and min for that size graph, and add in half steps if need be.	        
-	      while(numberOfSteps < minSteps || numberOfSteps > maxSteps) {
-				if (numberOfSteps < minSteps){
-					stepValue /= 2;
-					numberOfSteps = Math.round(graphRange/stepValue);
-				}
-				else{
-					stepValue *=2;
-					numberOfSteps = Math.round(graphRange/stepValue);
-				}
-	      };
-
-	        var labels = [];
-	        populateLabels(labelTemplateString, labels, numberOfSteps, graphMin, stepValue);
-		
-	        return {
-		        steps : numberOfSteps,
-				stepValue : stepValue,
-				graphMin : graphMin,
-				labels : labels
-	        }
-		
-			function calculateOrderOfMagnitude(val){
-			  return Math.floor(Math.log(val) / Math.LN10);
-			}
-	}
-
-    //Populate an array of all the labels by interpolating the string.
+	//Populate an array of all the labels by interpolating the string.
     function populateLabels(labelTemplateString, labels, numberOfSteps, graphMin, stepValue) {
         if (labelTemplateString) {
             //Fix floating point errors by setting to fixed the on the same decimal as the stepValue.
@@ -710,6 +610,3 @@ window.Chart = function(context){
 	    return data ? fn( data ) : fn;
 	  };
 }
-
-
-
