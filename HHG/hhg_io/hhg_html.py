@@ -127,9 +127,6 @@ def get_month_name(month_no, locale):
 
 ## write a calendar entry
 def write_cal_entry(day_id, f):
-	daystr = str(num2date(day_id).year)+'-'
-	daystr += str(num2date(day_id).month).zfill(2)
-	daystr += '-' + str(num2date(day_id).day).zfill(2)
 	## construct the html time section for the calendar:
 	f.write('<time id="'+ str(num2date(day_id).day).zfill(2)+' '+
 		get_month_name(num2date(day_id).month, locale_str)+
@@ -141,19 +138,6 @@ def write_cal_entry(day_id, f):
 			str(num2date(day_id).day) )
 	f.write('</a>')
 		
-def write_cal_plots(day_id, f, l_str, x_str, y_str, z_str, p_str ):
-	## construct the html for the plots:
-	f.write( canvas_html('dvn'+str(day_id),
-		'position:absolute;left:0px;top:14px;', '160', '30'))
-	f.write( canvas_html('dva'+str(day_id),
-		'position:absolute;left:0px;top:42px;','160', '63'))
-	f.write('\n<script>')
-	f.write( ndata_html('dn'+str(day_id), str([]), '#dd0', '#ddd', l_str,
-					'#000', '#ddd', p_str ))
-	f.write( adata_html('da'+str(day_id), str([]),
-				'#d00',x_str, '#0a0',y_str, '#00d',z_str ) )
-	f.write('</script></time>')
-	
 def write_day_stub_html(day_id, dlpath):
 	## construct html file
 	try:

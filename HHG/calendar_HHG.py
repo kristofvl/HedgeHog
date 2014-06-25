@@ -56,7 +56,6 @@ def cal_entry(day_id, dlpath, f, skip):
 		entry = fstr.find(substr,stop)+len(substr)
 		stop = fstr.find('";',entry)
 		return vstr[entry:stop], stop
-
 	tic = time.clock()
 	hh.write_cal_entry(day_id, f)
 	if skip and (day_id<skip_id):
@@ -70,11 +69,15 @@ def cal_entry(day_id, dlpath, f, skip):
 				x_str,st = find_in_js(fstr,'x="',st)
 				y_str,st = find_in_js(fstr,'y="',st)
 				z_str,st = find_in_js(fstr,'z="',st)
+			with open(os.path.join(dlpath,str(day_id),'ds.js'),"r") as fl:
+				fstr = fl.read()
+				p_str,st = find_in_js(fstr,' ps'+str(day_id)+'="',0)
+				l_str,st = find_in_js(fstr, 'ls'+str(day_id)+'="',st)
 				xs_str,st = find_in_js(fstr,'xs'+str(day_id)+'="',st)
 				ys_str,st = find_in_js(fstr,'ys'+str(day_id)+'="',st)
 				zs_str,st = find_in_js(fstr,'zs'+str(day_id)+'="',st)
 		except:
-			f.write('</a></time>')
+			f.write('</time>')
 			try:
 				os.makedirs(os.path.join(dlpath,str(day_id)))
 			except:
@@ -90,7 +93,7 @@ def cal_entry(day_id, dlpath, f, skip):
 			dta = out['dta']
 			cnf = str(out['conf'])
 		except:
-			f.write('</a></time>')
+			f.write('</time>')
 			try:
 				os.makedirs(os.path.join(dlpath,str(day_id)))
 			except:
@@ -114,12 +117,9 @@ def cal_entry(day_id, dlpath, f, skip):
 		dta = dta.view(np.recarray)
 		dta_sum = sum(dta.d)
 		dta_rle = len(dta)
-	hh.write_cal_plots(day_id, f, l_str, xs_str, ys_str, zs_str, p_str)
+	f.write('\n<script src="./'+str(day_id)+'/ds.js"></script></time>')
 	#####################################################################
 	if not skip or (day_id>=skip_id):
-		csva = np.array( ( dta.t-int(dta.t[0]), dta.x, dta.y,dta.z  ) ).T
-		np.savetxt( os.path.join(dlpath,str(day_id),'d.csv'), csva, 
-			fmt="%1.8f,%d,%d,%d")
 		hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,cd_px)
 		int_bin = hf.npz2secbin(dta,0.5)
 		l_str =''.join(["%02x" %c for c in [x[3] for x in int_bin]])
@@ -128,20 +128,25 @@ def cal_entry(day_id, dlpath, f, skip):
 		z_str =''.join(["%02x" %c for c in [x[2] for x in int_bin]])
 		try:
 			f=open(os.path.join(dlpath,str(day_id),'d.js'),"w")
-		except:
-			print "Day js file not opened for "+daystr
-			return False
-		f.write('var p="'+p_str+'";var l="'+l_str+'";var x="'+
+			f.write('var p="'+p_str+'";var l="'+l_str+'";var x="'+
 					x_str+'";var y="'+y_str+'";var z="'+z_str+'";')
-		f.write('var xs'+str(day_id)+'="'+xs_str+'";'+
+			f.close()
+		except:
+			print "Day d.js file not opened for "+daystr
+		try:
+			f=open(os.path.join(dlpath,str(day_id),'ds.js'),"w")
+			l = range(0,len(l_str),4*bdiv*30)
+			l_str = ''.join([l_str[i:i+2] for i in l])
+			f.write('var ps'+str(day_id)+'="'+p_str+'";')
+			f.write('var ls'+str(day_id)+'="'+l_str+'";')
+			f.write('var xs'+str(day_id)+'="'+xs_str+'";'+
 				  'var ys'+str(day_id)+'="'+ys_str+'";'+
 				  'var zs'+str(day_id)+'="'+zs_str+'";')
-		f.close()
+			f.close()
+		except:
+			print "Day ds.js file not opened for "+daystr
 		## write zoom html:
 		hh.write_day_zoom_html(day_id, dlpath, cz_px)
-		## write raw plot file:
-		#hh.write_raw_day_htmls(day_id, dlpath)
-		os.remove(os.path.join(dlpath,str(day_id),'d.csv'));
 	#####################################################################
 	toc = time.clock()
 	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'
@@ -189,7 +194,7 @@ if not skip:
 month_vw = num2date(first_day_id).month
 
 try:
-	f=open(os.path.join(dlpath,'index.html'),"w")
+	f=open(os.path.join(dlpath,'index.html'),"w",0)
 except:
 	print 'Cannot write to index file'
 	exit(1)
