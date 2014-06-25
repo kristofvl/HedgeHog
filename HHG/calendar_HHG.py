@@ -30,7 +30,7 @@ from matplotlib.dates import num2date
 import hhg_features.hhg_bstats as hf
 import hhg_io.hhg_import as hi
 import hhg_io.hhg_html as hh
-
+import hhg_dialogs.hhg_calbuild as hgd
 	
 	
 	
@@ -83,8 +83,7 @@ def cal_entry(day_id, dlpath, f, skip):
 			except:
 				pass
 			hh.write_day_stub_html(day_id, dlpath)
-			print str(num2date(day_id))[0:10]+": d.js not parsed"
-			return
+			return str(num2date(day_id))[0:10]+": d.js not parsed"
 	else:
 		## open the data and configuration for the day:
 		dfile = os.path.join(dlpath,str(day_id),'d.npz')
@@ -99,8 +98,7 @@ def cal_entry(day_id, dlpath, f, skip):
 			except:
 				pass
 			hh.write_day_stub_html(day_id, dlpath)
-			print str(num2date(day_id))[0:10]+": d.npz not parsed"
-			return
+			return str(num2date(day_id))[0:10]+": d.npz not parsed"
 		## calculate day statistics and plot array (w. 30 seconds bins)
 		days_stats = hf.stats_npz(dta, bins)
 		day_bin = hf.npz2secbin(dta, 30)
@@ -149,7 +147,7 @@ def cal_entry(day_id, dlpath, f, skip):
 		hh.write_day_zoom_html(day_id, dlpath, cz_px)
 	#####################################################################
 	toc = time.clock()
-	print str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'
+	return str(num2date(day_id))[0:10]+' took '+str(toc-tic)+' seconds'
 	
 
 ## main script starts here: ############################################
@@ -167,6 +165,8 @@ skip_id = sys.maxint
 if len(sys.argv) > 2:
 	skip_id = int(sys.argv[2])
 	skip = True
+	
+dlg = hgd.Hhg_calbuild_dlg()
 
 home = os.environ['HOME']
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,  dlpath])
@@ -183,6 +183,8 @@ for root, dirnames, filenames in os.walk(dlpath):
 matches = sorted(matches)
 first_day_id = int(matches[0][0])
 last_day_id  = int(matches[-1][0])
+
+dlg.set_it(len(matches)+2)
 		
 ## remove previous html files
 if not skip:
@@ -208,14 +210,16 @@ for wd in range(wkday):
 	
 # fill in days with data:
 for day_id in range(first_day_id, last_day_id):
-	cal_entry(day_id, dlpath, f, skip)
+	dlg.update_prgs(cal_entry(day_id, dlpath, f, skip))
 	
 # add remaining days in row:
 for rd in range( 7-(last_day_id-first_day_id+wkday)%7):
 	cal_entry(last_day_id+rd, dlpath, f, skip)
-
+	
 f.write('</div></div></section></body>')
 f.close()
+
+dlg.close()
 
 ## preview:
 subprocess.call(["x-www-browser", "%s/index.html"%dlpath, "--start-maximized"])
