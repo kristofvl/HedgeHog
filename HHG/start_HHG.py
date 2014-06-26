@@ -14,7 +14,7 @@ import pdb
 class timer:
 	
 	def calcStpTime(self, stpTime):
-		stpTime_struc = datetime.datetime.now()+timedelta(days=7)
+		stpTime_struc = datetime.datetime.now()+timedelta(days=365)
 		stpTime.insert(0,stpTime_struc.year)
 		stpTime.insert(1,stpTime_struc.month)
 		stpTime.insert(2,stpTime_struc.day)
@@ -81,15 +81,35 @@ class start_HHG_dialog:
 		self.stpTime[1] = self.stpTime[1]+1 
 
 	def StartLogging(self, widget):
+		data_pointer = []
 		self.timer.setTime(self.conf_file, self.stpTime)
 		with open (self.conf_file,"r+w") as starthhg:
-			starthhg.seek(1023,0)  
+			starthhg.seek(497,0)  
+			starthhg.write(chr(0xFF))
+			starthhg.write(chr(0x0F))
+			starthhg.seek(502,0)  
+			starthhg.write(chr(224))
+			starthhg.write(chr(16))
+			starthhg.seek(507,0)
+			starthhg.write(chr(0))  
+			starthhg.seek(1023,0)
 			starthhg.write("l")
-			starthhg.close()
+			starthhg.close()	
 		hhgDir = re.sub("config.URE","",self.conf_file,count=1)
 		subprocess.call(["sync"])
 		print "HedgeHog has started and will stop on " + str(self.stpTime)
-		subprocess.call(["umount", hhgDir])
+		dlg = gtk.Dialog("HedgeHog has started", None, 0, None)
+		dlg.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
+		dlg.set_default_response(gtk.RESPONSE_OK)
+		#dlg.connect("response",close)
+		infotxt = gtk.Label()
+		infotxt.set_text('Please disconnect HedgeHog')
+		dlg.vbox.add(infotxt)
+		dlg.set_size_request(250, 100)
+		dlg.show_all()
+		dlg.run()
+		dlg.destroy()
+		#subprocess.call(["umount", hhgDir])
 		sys.exit(0)  
 
 	def Quit(self, widget):

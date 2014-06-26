@@ -56,27 +56,14 @@ def zoom_indexheader():
 		'<span class="a-right"></span></a>'+
 		'<a style="text-align:right;" href="javascript:goUp();">'+
 		'<span class="a-up"></span></a></h1>')
-def rawday_indexheader(daystr, day_id):
-	return (htmlhead('HedgeHog Day View (Raw)','../st.css',
-			'../dygraph-combined.js')+
-		'</head><body><section id="calendar" style="width:1100px;">'+
-		'<h1><a href="../'+str(day_id-1)+
-		'/index_raw.html"><span class="a-left"></span></a>'+daystr+
-		'<a href="../'+str(day_id+1)+
-		'/index_raw.html"><span class="a-right"></span></a>'+
-		'<a style="text-align:right;" href="../index.html">'+
-		'<span class="a-up"></span></a></h1>')
-def cal_indexheader(mnth):
+def cal_indexheader():
 	hdr = ''
 	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
 		hdr += ('<div class="header">'+dayname+'</div>')
-	return (htmlhead('HedgeHog Calendar View','st.css','Chart.js')+
-		'<script src="https://code.jquery.com/jquery-1.11.0.min.js">'+
-		'</script><script>$(document).ready(function(){'+
-		'$("time").mouseover(function(){'+
-		'$("h1").html($(this).attr("datetime"))});});</script></head>'+
-		'<body><section id=calendar><h1>'+mnth+'</h1>'+hdr+
-		'<div id="days"><div id="scrollview">')
+	return (htmlhead('HedgeHog Calendar View','st.css','cal.js')+
+		'<script src="Chart.js"></script></head>'+
+		'<body onload="init_cal()"><section id="calendar">'+
+		'<h1 id="t"></h1>'+hdr+'<div id="days"><div id="scrollview">')
 
 ## generate html for chart canvas:
 def canvas_html(varname, style, w, h):
@@ -111,7 +98,7 @@ def chart_html(varname, idname, charttype, dataname, options):
 def conf_html(cnf,smps,rle):
 	g_range = pow(2,1+ord(cnf[12])-48)
 	bw_lookup = [0.1, 5, 10, 25, 50, 100, 200, 400, 800, 1500]
-	md_lookup = ['controller', 'sensor']			
+	md_lookup = ['controller', 'sensor']
 	pw_lookup = ['normal', 'low-power', 'auto-sleep', 'low/auto']
 	div_preambl = '<div id="inf" style="left:'
 	left_offset = '865px'
@@ -138,45 +125,19 @@ def get_month_name(month_no, locale):
 			s = s.decode(encoding)
 		return s
 
-## convert a day fraction to a string (e.g., 0.5 -> "12:00")
-def dayfrac2str(frac):
-	return (str(int(frac*24)%24).zfill(2)+":"+
-		str( int(round(60*(frac*24-int(frac*24))))%60 ).zfill(2) );
-
 ## write a calendar entry
 def write_cal_entry(day_id, f):
-	daystr = str(num2date(day_id).year)+'-'
-	daystr += str(num2date(day_id).month).zfill(2)
-	daystr += '-' + str(num2date(day_id).day).zfill(2)
 	## construct the html time section for the calendar:
-	f.write('<time datetime="'+
+	f.write('<time id="'+ str(num2date(day_id).day).zfill(2)+' '+
 		get_month_name(num2date(day_id).month, locale_str)+
 		' '+str(num2date(day_id).year)+ '"')
 	if num2date(day_id).weekday()>4:
 		f.write('class="weekend"')
-	f.write('><a href="./'+ str(day_id)+
-			'/index.html?strt=0&stopt=86400&dayid='+str(day_id)+'">'+
+	f.write('dayid="'+str(day_id)+'"')	
+	f.write('><a>'+
 			str(num2date(day_id).day) )
 	f.write('</a>')
-	
-	
-def write_cal_plots(day_id, f, l_str, x_str, y_str, z_str, p_str ):
-	## construct the html for the plots:
-	f.write( canvas_html('dvn'+str(day_id),
-		'position:absolute;left:0px;top:14px;', '160', '30'))
-	f.write( canvas_html('dva'+str(day_id),
-		'position:absolute;left:0px;top:42px;','160', '63'))
-	f.write('\n<script>')
-	f.write( ndata_html('dn'+str(day_id), str([]), '#dd0', '#ddd', l_str,
-					'#000', '#ddd', p_str ))
-	f.write( adata_html('da'+str(day_id), str([]),
-				'#d00',x_str, '#0a0',y_str, '#00d',z_str ) )
-	f.write( chart_html('n'+str(day_id), 'dvn'+str(day_id), 'Bar', 
-							'dn'+str(day_id), '') )
-	f.write( chart_html('a'+str(day_id), 'dva'+str(day_id), 'Line', 
-							'da'+str(day_id), '') )
-	f.write('</script></time>')
-	
+		
 def write_day_stub_html(day_id, dlpath):
 	## construct html file
 	try:
@@ -269,44 +230,6 @@ def write_day_zoom_html(day_id, dlpath, cz_px):
 	f.write('<hr><p style="font-size:small;">24h view '+
 		'with a <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
 		'HedgeHog sensor</a> <br/></p>')
-	f.write('</section></body></html>')
-	f.close()
-	return True
-
-def write_raw_day_htmls(day_id, dlpath):
-	daystr = str(num2date(day_id).year)+'-'
-	daystr += str(num2date(day_id).month).zfill(2)
-	daystr += '-' + str(num2date(day_id).day).zfill(2)
-	## construct html file
-	try:
-		f=open(os.path.join(dlpath,str(day_id),'index_raw.html'),"w")
-	except:
-		print "Day directory file not found for "+daystr
-		return False
-	## construct the html page for the day-view:
-	f.write(rawday_indexheader(daystr, day_id))
-	f.write('<hr><div id="graphdiv" style="width:100%; height:300px;">'+
-		'</div><script type="text/javascript">')
-	f.write('dta = [')
-	## load csv file and put in a js array:
-	with open(os.path.join(dlpath,str(day_id),'d.csv'),"rb") as csvfile:
-		dta = csv.reader(csvfile, delimiter=',')
-		for row in dta:
-			f.write('['+str(float(row[0]))+','+str((row[1]))+','+
-					str((row[2]))+','+str((row[3]))+'],')
-	f.write('];')
-	f.write(
-		'g3 = new Dygraph(document.getElementById("graphdiv"),'+
-		'dta,{colors:["#d00","#0c0","#00d"],'+
-		'labels:["time","X","Y","Z"],'+
-		'strokeWidth:0.7,xAxisHeight:11,xAxisLabelWidth:80,'+
-		'yAxisLabelWidth:30,axisLabelFontSize:10,'+
-		'axes:{x:{valueFormatter: function(f){return new Date('+
-		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
-		'strftime("%H:%M:%S");},'+
-		'axisLabelFormatter:function(f){return new Date('+
-		'f*86400000+(new Date().getTimezoneOffset()*60000)).'+
-		'strftime("%H:%M:%S");}}}});</script>')
 	f.write('</section></body></html>')
 	f.close()
 	return True

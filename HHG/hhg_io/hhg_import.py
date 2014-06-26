@@ -154,8 +154,9 @@ def hhg_store(path, daystamp, dta, conf):
 			conf_old = out_old['conf']
 			if dta[0][0]>dta_old[-1][0]:
 				dta = np.append(dta_old,dta)
-			else:
-				## whoops, there is an overlap!
+			elif dta[0][0]==dta_old[0][0]:
+				dta = dta ## this is a new version, overwrite
+			else: ## there is a time mismatch, backup npz
 				outfile = os.path.join(outpath,'d_new.npz')
 		np.savez(outfile, dta=dta, conf=conf)
 		return outpath
