@@ -6364,13 +6364,17 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <net name="V_USB" class="0">
 <segment>
 <wire x1="30.48" y1="83.82" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="38.1" y1="91.44" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="91.44" x2="35.56" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="91.44" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="20.32" y1="91.44" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
 <junction x="30.48" y="91.44"/>
 <junction x="30.48" y="91.44"/>
 <pinref part="C_PWR_VUSB" gate="G$1" pin="1"/>
 <pinref part="CHARGER" gate="G$1" pin="USB"/>
 <pinref part="USB_CON" gate="G$1" pin="1"/>
+<wire x1="35.56" y1="91.44" x2="35.56" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="CHARGER" gate="G$1" pin="DC"/>
+<wire x1="35.56" y1="96.52" x2="38.1" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
