@@ -421,24 +421,15 @@ footer {
   }
 }
 
-#wrapper{
+#twrapper{
 	width:720px;
-	margin:40px auto 0;
+	margin:31px auto 0;
 }
 
-#wrapper h1{
+#twrapper h1{
 	color:#FFF;
 	text-align:center;
 	margin-bottom:20px;
-}
-
-#wrapper a{
-	display:block;
-	font-size:1.2em;
-	padding-top:20px;
-	color:#FFF;
-	text-decoration:none;
-	text-align:center;
 }
 
 #tabContainer {
@@ -449,16 +440,17 @@ footer {
 	border-radius: 4px; 
 }
 
-.tabs{
+#tabs{
 	height:30px;
+	overflow:hidden;
 }
 
-.tabs > ul{
-	font-size: 1em;
+#tabs > ul{
+	font: 1em;
 	list-style:none;
 }
 
-.tabs > ul > li{
+#tabs > ul > li{
 	margin:0 2px 0 0;
 	padding:7px 10px;
 	display:block;
@@ -480,7 +472,7 @@ footer {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0C91EC), color-stop(100%,#257AB6)); /* webkit */
 }
 
-.tabs > ul > li:hover{
+#tabs > ul > li:hover{
 	background: #FFFFFF; /* old browsers */
 	background: -moz-linear-gradient(top, #FFFFFF 0%, #F3F3F3 10%, #F3F3F3 50%, #FFFFFF 100%); /* firefox */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(10%,#F3F3F3), color-stop(50%,#F3F3F3), color-stop(100%,#FFFFFF)); /* webkit */
@@ -488,7 +480,7 @@ footer {
 	color: #333;
 }
 
-.tabs > ul > li.tabActiveHeader{
+#tabs > ul > li.tabActiveHeader{
 	background: #FFFFFF; /* old browsers */
 	background: -moz-linear-gradient(top, #FFFFFF 0%, #F3F3F3 10%, #F3F3F3 50%, #FFFFFF 100%); /* firefox */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(10%,#F3F3F3), color-stop(50%,#F3F3F3), color-stop(100%,#FFFFFF)); /* webkit */
@@ -496,7 +488,7 @@ footer {
 	color: #333;
 }
 
-.tabscontent {
+#tabscontent {
 	-moz-border-radius-topleft: 0px;
 	-moz-border-radius-topright: 4px;
 	-moz-border-radius-bottomright: 4px;

@@ -1,9 +1,12 @@
 window.onload=function() {
 
   // get tab container
-  var container = document.getElementById("tabContainer");
+  	var container = document.getElementById("tabContainer");
+		var tabcon = document.getElementById("tabscontent");
+		//alert(tabcon.childNodes.item(1));
     // set current tab
-    var navitem = container.querySelector(".tabs ul li");
+    var navitem = document.getElementById("tabHeader_1");
+		
     //store which tab we are on
     var ident = navitem.id.split("_")[1];
     navitem.parentNode.setAttribute("data-current",ident);
@@ -11,13 +14,13 @@ window.onload=function() {
     navitem.setAttribute("class","tabActiveHeader");
 
     //hide two tab contents we don't need
-    var pages = container.querySelectorAll(".tabpage");
-    for (var i = 1; i < pages.length; i++) {
-      pages[i].style.display="none";
-    }
+    var pages = tabcon.getElementsByTagName("div");
+    	for (var i = 1; i < pages.length; i++) {
+     	 pages.item(i).style.display="none";
+		};
 
     //this adds click event to tabs
-    var tabs = container.querySelectorAll(".tabs ul li");
+    var tabs = container.getElementsByTagName("li");
     for (var i = 0; i < tabs.length; i++) {
       tabs[i].onclick=displayPage;
     }
