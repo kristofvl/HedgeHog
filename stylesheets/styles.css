@@ -145,15 +145,15 @@ img {
   position: relative;
   margin: 0 auto;
   max-width: 650px;
-  padding: 5px;
+  padding: 0px;
   margin: 10px 0 32px 0;
-  border: 1px solid #ccc;
+  border: 0px solid #ccc;
 }
 
 p img {
   display: inline;
-  margin: 0;
-  padding: 0;
+  margin: 0px 0 0 0;
+  padding: 5px;
   vertical-align: middle;
   text-align: center;
   border: none;
@@ -162,7 +162,7 @@ p img {
 /* Code blocks */
 
 code, pre {
-	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   color:#000;
   font-size:14px;
 }
@@ -423,7 +423,7 @@ footer {
 
 #twrapper{
 	width:720px;
-	margin:31px auto 0;
+	margin:30px auto 0;
 }
 
 #twrapper h1{
@@ -441,7 +441,7 @@ footer {
 }
 
 #tabs{
-	height:30px;
+	height:27px;
 	overflow:hidden;
 }
 
@@ -452,7 +452,7 @@ footer {
 
 #tabs > ul > li{
 	margin:0 2px 0 0;
-	padding:7px 10px;
+	padding:1px 10px;
 	display:block;
 	float:left;
 	color:#FFF;
@@ -467,9 +467,9 @@ footer {
 	border-top-right-radius: 4px;
 	border-bottom-right-radius: 0px;
 	border-bottom-left-radius: 0px; 
-	background: #C9C9C9; /* old browsers */
-	background: -moz-linear-gradient(top, #0C91EC 0%, #257AB6 100%); /* firefox */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0C91EC), color-stop(100%,#257AB6)); /* webkit */
+	background: #AF0011; /* old browsers */
+	background: -moz-linear-gradient(top, #AF0011 0%, #B6257A 100%); /* firefox */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#AF0011), color-stop(100%,#B6257A)); /* webkit */
 }
 
 #tabs > ul > li:hover{
@@ -510,7 +510,7 @@ footer {
     padding-left:30px;
     text-align: left;
     list-style-position: outside;
-    line-height:110%;
+    line-height:120%;
 }
 
 #tabscontent li{
@@ -518,4 +518,11 @@ footer {
     padding: 0px;
     text-indent: 0em;
     margin-left: -0.5em;
+}
+
+#tabscontent p{
+    margin: 0 0 7px 0;
+    padding: 0px;
+    text-indent: 0em;
+    line-height:120%;
 }

@@ -39,3 +39,4 @@ function displayPage() {
   document.getElementById("tabpage_" + ident).style.display="block";
   this.parentNode.setAttribute("data-current",ident);
 }
+
