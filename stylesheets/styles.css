@@ -526,3 +526,17 @@ footer {
     text-indent: 0em;
     line-height:120%;
 }
+
+.more {
+      display: none;
+      border-top: 1px solid #666;
+      border-bottom: 1px solid #666; }
+a.showLink, a.hideLink {
+      text-decoration: none;
+      color: #AF0011;
+      padding-left: 8px;
+      background: transparent url(down.gif) no-repeat left; }
+a.hideLink {
+      background: transparent url(up.gif) no-repeat left; }
+a.showLink:hover, a.hideLink:hover {
+      border-bottom: 1px dotted #AF0011; }

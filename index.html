@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="javascripts/scale.fix.js"></script>
+    <script src="javascripts/showhide.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -75,7 +76,61 @@
   to 3D print the enclosure<br />
 	&nbsp;&nbsp; &nbsp;--&gt; which straps we recommend and where
   to order<br />
-	&nbsp;&nbsp; &nbsp;--&gt; how to build the programmer <a style="text-decoration: underline; color: rgb(102, 102, 102); " href="">using the PIC18F starter kit</a></p>
+	
+	&nbsp;&nbsp; &nbsp;--&gt; <a href="#" id="pic18kit-show"
+  class="showLink" onclick="showHide('pic18kit');return false;">using
+  the PIC18F starter kit to test and program</a></p>
+	<div id="pic18kit" class="more">
+	 <h4><a href="#" id=pic18kit-hide" class="hideLink"
+  onclick="showHide('pic18kit');return false;">Using the PIC18F
+  starter kit to test and program</a></h4>
+         <p><img width="300" height="591" align="left" hspace="10" alt="" src="./images/hedgehog_testbedsolder.jpg" /></p>
+<p>The HedgeHog is based around the <a
+  href="http://www.microchip.com/wwwproducts/Devices.aspx?dDocName=en539708">PIC
+  18F46j50</a> from Microchip. The manufacturer has made a <a
+  href="http://www.microchip.com/stellent/idcplg?IdcService=SS_GET_PAGE&amp;nodeId=1406&amp;dDocName=en543105">starter
+  kit</a>&nbsp;available for this microcontroller, which shows off its
+  USB capabilities, on a board that also houses an SD card
+  slot,&nbsp;an accelerometer (the <a
+  href="http://www.bosch-sensortec.com/content/language1/downloads/BMA150_DataSheet_Rev.1.5_30May2008.pdf">BMA150</a>
+  from Bosch), some capacitive touchpad buttons and a 128x64
+  monochrome OLED display. This setup is fairly similar to that of the
+  HedgeHog's, except that the latter has a different accelerometer, is
+  fitted with power circuitry for a Li-Po battery, and fits on a
+  smaller -- more wearable -- board without the touchpad
+  buttons.&nbsp;The Starting Kit can be used as an off-the-shelf
+  testing platform though, since it is available for about 50&euro;
+  from Farnell (order number&nbsp;<a
+  href="http://de.farnell.com/microchip/dm180021/starterkit-mplab-pic18f/dp/1737240">1737240</a>)
+  and other suppliers.</p>
+<p>In order to run the HedgeHog code on this board, three minor
+  modifications need to be made (to be soldered):</p>
+<p><strong>1. Add a 32,768 kH clock crystal</strong> in the provided
+  space on the board (marked with <strong>Y2</strong>). Optionally,
+  one can add the two resistors.</p>
+<p><strong>2. Remove resistor R20</strong> (just below the crystal) in
+  order to remove the soft start circuit from pin RC1 of the
+  microcontroller (as this interferes with the RealTime Clock's
+  crystal from the previous step).</p>
+<p><strong>3. Add a zero Ohm resistor</strong> (or just a piece of
+  wire) to the contacts of the element on the board marked
+  <strong>R42</strong>. This allows all other components other than
+  the microcontroller on the board to be powered as well straight away
+  (bypassing the soft start circuit).</p>
+<p>For complete compatibility with the HedgeHog board, one could
+  replace the BMA 150 accelerometer with the ADXL345, and add
+  temperature and light sensors. An easier way is to use the
+  appropriate &quot;Hardware Profile&quot; header file in the HedgeHog
+  project, which adapts to the Bosch accelerometer and other small
+  hardware differences.</p>
+<p>Datasheets:</p> 
+<p>*&nbsp;<a href="http://www.microchip.com/wwwproducts/Devices.aspx?dDocName=en539708">PIC18F46J50 (Microchip)</a><br />
+*&nbsp;<a href="http://www.bosch-sensortec.com/content/language1/downloads/BMA150_DataSheet_Rev.1.5_30May2008.pdf">BMA150 (Bosch)</a><br />
+*&nbsp;<a href="http://www.microchip.com/stellent/idcplg?IdcService=SS_GET_PAGE&amp;nodeId=1406&amp;dDocName=en543105">PIC18 Starter Kit 1 (DM180021) (Microchip)</a></p>
+<p>&nbsp;</p>
+         <p><a href="#" id=pic18kit-hide" class="hideLink" onclick="showHide('pic18kit');return false;">Hide this section.</a></p>
+	</div>
+      
 	<h3>&nbsp;&diams;&nbsp;Step 2. Building the software</h3>
 	<p style="margin-top: 0px; margin-bottom: 1.6em;
   ">&nbsp;&nbsp; &nbsp;--&gt;&nbsp;building
@@ -115,7 +170,7 @@
   href="http://www.ess.tu-darmstadt.de/hhg_logs/0089/index.html">this
   page</a>. </p>
 	<h2>Where they are used</h2>
-	<p>Sleep studies</p>
+	<p>...</p>
       </div>
       <div class="tabpage" id="tabpage_4">
         <h2>Videos</h2>
