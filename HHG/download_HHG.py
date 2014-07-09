@@ -136,20 +136,32 @@ while len(loglst) > file_iter:
 			stats = ''
 			break 
 		print stats
-		## update plot: ###########################################
+		## update plot and npz ########################################
 		new_day = int(bdta.t[-1])
 		if old_day!=new_day:
-			old_day = new_day
-			## first plot the remains of the last day and save: ###
-			tt = len([x for x in bdta.t if x<int(bdta.t[-1])])
-			dta =np.append(dta,bdta[:tt]).view(hgi.desc_hhg,np.recarray)
-			if tt>0:
-				fig.update_plot(dta[::itr], stats)
-			if len(dta)>0:
-				daypath =hgi.hhg_store(dlpath, int(dta.t[0]), dta, conf)
-				if daypath=='':
-					print 'warning: could not write to '+	dlpath
-			dta  = bdta[tt:].view(hgi.desc_hhg, np.recarray)
+			bdtat = bdta
+			while old_day!=new_day:
+				## first plot the remains of the last day and save: ###
+				tt = len([x for x in bdtat.t if x<old_day+1])
+				if dta==[]:
+					dta = bdtat[:tt].view(hgi.desc_hhg,np.recarray)
+				else:
+					dta =np.append(dta,
+							bdtat[:tt]).view(hgi.desc_hhg,np.recarray)
+				if tt>0:
+					fig.update_plot(dta[::itr], stats)
+				if len(dta)>0:
+					daypth=hgi.hhg_store(dlpath, int(dta.t[0]),dta,conf)
+					if daypth=='':
+						print 'warning: could not write to '+dlpath
+				## then look at the rest and update iterators: ########
+				bdtat = bdtat[tt:] # cut the part that has been written
+				old_day = int(bdtat.t[0])
+				print old_day
+				if old_day==new_day: 
+					dta = bdtat.view(hgi.desc_hhg, np.recarray)
+				else:
+					dta = []
 		else:
 			dta  = np.append(dta, bdta).view(hgi.desc_hhg, np.recarray)
 		fig.update_plot(dta[::itr], stats)
