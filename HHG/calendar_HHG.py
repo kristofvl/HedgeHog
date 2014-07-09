@@ -31,7 +31,7 @@ import hhg_features.hhg_bstats as hf
 import hhg_io.hhg_import as hi
 import hhg_io.hhg_html as hh
 import hhg_dialogs.hhg_calbuild as hgd
-	
+import pdb
 	
 	
 ## resolution at which the plotting occurs:
@@ -168,12 +168,14 @@ if len(sys.argv) > 2:
 	
 dlg = hgd.Hhg_calbuild_dlg()
 
+#pdb.set_trace()
+
 home = os.environ['HOME']
-subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,  dlpath])
-subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/Chart.js"%home, dlpath])
-subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/ans.js"%home, dlpath])
-subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/cal.js"%home, dlpath])
-subprocess.call(["cp", "-rf", "%s/HedgeHog/HHG/hhg_web/img"%home,dlpath])
+subprocess.call(["cp", "%s/projects/HedgeHog/HHG/hhg_web/st.css"%home,     dlpath])
+subprocess.call(["cp", "%s/projects/HedgeHog/HHG/hhg_web/Chart.js"%home,   dlpath])
+subprocess.call(["cp", "%s/projects/HedgeHog/HHG/hhg_web/ans.js"%home,     dlpath])
+subprocess.call(["cp", "%s/projects/HedgeHog/HHG/hhg_web/cal.js"%home,     dlpath])
+subprocess.call(["cp", "-rf", "%s/projects/HedgeHog/HHG/hhg_web/img"%home, dlpath])
 
 ## get all subdirectories with d.npz files:
 matches = []
