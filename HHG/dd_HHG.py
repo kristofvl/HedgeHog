@@ -3,7 +3,6 @@
 import sys
 import os
 import subprocess
-from random import randint
 
 homeDir = os.environ['HOME']
 deviceList = [];
@@ -28,7 +27,7 @@ else:
 	for i in xrange(0,len(deviceList)):
 		print (str(i)+ ').' + deviceList[i])
 
-print ('Choose the number of a HedgeHog device from the list above:')
+print ('Choose the number of a HedgeHog device from the list above.')
 target = raw_input('Make sure the device you are choosing is actually a HedgeHog device:')
 
 if int(target) < len(deviceList):
