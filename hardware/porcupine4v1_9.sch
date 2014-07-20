@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -5223,32 +5223,6 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <wire x1="0.508" y1="0" x2="0.508" y2="-0.508" width="0.127" layer="51"/>
 <wire x1="0.508" y1="0" x2="1.016" y2="0" width="0.127" layer="51"/>
 </package>
-<package name="SOT-23-5">
-<description>SOT23-5L</description>
-<wire x1="1.4224" y1="0.8104" x2="1.4224" y2="-0.8104" width="0.1524" layer="21"/>
-<wire x1="1.4224" y1="-0.8104" x2="-1.4224" y2="-0.8104" width="0.1524" layer="51"/>
-<wire x1="-1.4224" y1="-0.8104" x2="-1.4224" y2="0.8104" width="0.1524" layer="21"/>
-<wire x1="-1.4224" y1="0.8104" x2="1.4224" y2="0.8104" width="0.1524" layer="51"/>
-<wire x1="-0.5224" y1="0.8104" x2="0.5224" y2="0.8104" width="0.1524" layer="21"/>
-<wire x1="-0.4276" y1="-0.8104" x2="-0.5224" y2="-0.8104" width="0.1524" layer="21"/>
-<wire x1="0.5224" y1="-0.8104" x2="0.4276" y2="-0.8104" width="0.1524" layer="21"/>
-<wire x1="-1.3276" y1="-0.8104" x2="-1.4224" y2="-0.8104" width="0.1524" layer="21"/>
-<wire x1="1.4224" y1="-0.8104" x2="1.3276" y2="-0.8104" width="0.1524" layer="21"/>
-<wire x1="1.3276" y1="0.8104" x2="1.4224" y2="0.8104" width="0.1524" layer="21"/>
-<wire x1="-1.4224" y1="0.8104" x2="-1.3276" y2="0.8104" width="0.1524" layer="21"/>
-<rectangle x1="-1.2" y1="-1.5" x2="-0.7" y2="-0.85" layer="51"/>
-<rectangle x1="-0.25" y1="-1.5" x2="0.25" y2="-0.85" layer="51"/>
-<rectangle x1="0.7" y1="-1.5" x2="1.2" y2="-0.85" layer="51"/>
-<rectangle x1="0.7" y1="0.85" x2="1.2" y2="1.5" layer="51"/>
-<rectangle x1="-1.2" y1="0.85" x2="-0.7" y2="1.5" layer="51"/>
-<smd name="1" x="-0.95" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
-<smd name="2" x="0" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
-<smd name="3" x="0.95" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
-<smd name="4" x="0.95" y="1.3001" dx="0.55" dy="1.2" layer="1"/>
-<smd name="5" x="-0.95" y="1.3001" dx="0.55" dy="1.2" layer="1"/>
-<text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
-<text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
-</package>
 <package name="PRQC-C">
 <description>MHz Band Ceramic Chip Resonators: PRQC-C package</description>
 <wire x1="-1.6" y1="-0.65" x2="1.6" y2="-0.65" width="0.127" layer="21"/>
@@ -5291,6 +5265,32 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <wire x1="2.34" y1="-0.2" x2="2.34" y2="0.2" width="0.05" layer="21"/>
 <wire x1="2.34" y1="0.2" x2="2.74" y2="0.2" width="0.05" layer="21"/>
 <wire x1="2.74" y1="0.2" x2="2.74" y2="-0.2" width="0.05" layer="21"/>
+</package>
+<package name="SOT-23-5">
+<description>SOT23-5L</description>
+<wire x1="1.4224" y1="0.8104" x2="1.4224" y2="-0.8104" width="0.1524" layer="21"/>
+<wire x1="1.4224" y1="-0.8104" x2="-1.4224" y2="-0.8104" width="0.1524" layer="51"/>
+<wire x1="-1.4224" y1="-0.8104" x2="-1.4224" y2="0.8104" width="0.1524" layer="21"/>
+<wire x1="-1.4224" y1="0.8104" x2="1.4224" y2="0.8104" width="0.1524" layer="51"/>
+<wire x1="-0.5224" y1="0.8104" x2="0.5224" y2="0.8104" width="0.1524" layer="21"/>
+<wire x1="-0.4276" y1="-0.8104" x2="-0.5224" y2="-0.8104" width="0.1524" layer="21"/>
+<wire x1="0.5224" y1="-0.8104" x2="0.4276" y2="-0.8104" width="0.1524" layer="21"/>
+<wire x1="-1.3276" y1="-0.8104" x2="-1.4224" y2="-0.8104" width="0.1524" layer="21"/>
+<wire x1="1.4224" y1="-0.8104" x2="1.3276" y2="-0.8104" width="0.1524" layer="21"/>
+<wire x1="1.3276" y1="0.8104" x2="1.4224" y2="0.8104" width="0.1524" layer="21"/>
+<wire x1="-1.4224" y1="0.8104" x2="-1.3276" y2="0.8104" width="0.1524" layer="21"/>
+<rectangle x1="-1.2" y1="-1.5" x2="-0.7" y2="-0.85" layer="51"/>
+<rectangle x1="-0.25" y1="-1.5" x2="0.25" y2="-0.85" layer="51"/>
+<rectangle x1="0.7" y1="-1.5" x2="1.2" y2="-0.85" layer="51"/>
+<rectangle x1="0.7" y1="0.85" x2="1.2" y2="1.5" layer="51"/>
+<rectangle x1="-1.2" y1="0.85" x2="-0.7" y2="1.5" layer="51"/>
+<smd name="1" x="-0.95" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
+<smd name="2" x="0" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
+<smd name="3" x="0.95" y="-1.3001" dx="0.55" dy="1.2" layer="1"/>
+<smd name="4" x="0.95" y="1.3001" dx="0.55" dy="1.2" layer="1"/>
+<smd name="5" x="-0.95" y="1.3001" dx="0.55" dy="1.2" layer="1"/>
+<text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
+<text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
 </package>
 </packages>
 <symbols>
@@ -5444,19 +5444,6 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <pin name="1" x="-5.08" y="0" visible="off" length="point" direction="pas" swaplevel="1"/>
 <pin name="2" x="5.08" y="0" visible="off" length="point" direction="pas" swaplevel="1"/>
 </symbol>
-<symbol name="MCP1824">
-<wire x1="-10.16" y1="7.62" x2="-10.16" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="-10.16" y1="-7.62" x2="10.16" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="10.16" y1="-7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
-<wire x1="10.16" y1="7.62" x2="-10.16" y2="7.62" width="0.254" layer="94"/>
-<pin name="GND" x="-15.24" y="-5.08" length="middle"/>
-<pin name="PWRGD" x="15.24" y="-5.08" length="middle" rot="R180"/>
-<pin name="SHDN" x="-15.24" y="0" length="middle" function="dot"/>
-<pin name="V_IN" x="-15.24" y="5.08" length="middle"/>
-<pin name="V_OUT" x="15.24" y="5.08" length="middle" rot="R180"/>
-<text x="-10.16" y="8.382" size="1.778" layer="95">&gt;NAME</text>
-<text x="-10.16" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
-</symbol>
 <symbol name="RESONATOR">
 <wire x1="1.524" y1="0.508" x2="-1.524" y2="0.508" width="0.254" layer="94"/>
 <wire x1="-1.524" y1="0.508" x2="-1.524" y2="-0.508" width="0.254" layer="94"/>
@@ -5482,6 +5469,19 @@ Source: http://ww1.microchip.com/downloads/en/devicedoc/39632c.pdf</description>
 <rectangle x1="-2.54" y1="-3.302" x2="-2.286" y2="-1.778" layer="94"/>
 <text x="-7.62" y="5.08" size="1.778" layer="95">&gt;NAME</text>
 <text x="-7.62" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
+</symbol>
+<symbol name="MCP1824">
+<wire x1="-10.16" y1="7.62" x2="-10.16" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-7.62" x2="10.16" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="10.16" y1="-7.62" x2="10.16" y2="7.62" width="0.254" layer="94"/>
+<wire x1="10.16" y1="7.62" x2="-10.16" y2="7.62" width="0.254" layer="94"/>
+<pin name="GND" x="-15.24" y="-5.08" length="middle"/>
+<pin name="PWRGD" x="15.24" y="-5.08" length="middle" rot="R180"/>
+<pin name="SHDN" x="-15.24" y="0" length="middle" function="dot"/>
+<pin name="V_IN" x="-15.24" y="5.08" length="middle"/>
+<pin name="V_OUT" x="15.24" y="5.08" length="middle" rot="R180"/>
+<text x="-10.16" y="8.382" size="1.778" layer="95">&gt;NAME</text>
+<text x="-10.16" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -5669,27 +5669,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="MCP1824">
-<description>MCP1824T-3302E/OT
-http://de.farnell.com/1578387</description>
-<gates>
-<gate name="LDO" symbol="MCP1824" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="SOT-23-5">
-<connects>
-<connect gate="LDO" pin="GND" pad="2"/>
-<connect gate="LDO" pin="PWRGD" pad="4"/>
-<connect gate="LDO" pin="SHDN" pad="3"/>
-<connect gate="LDO" pin="V_IN" pad="1"/>
-<connect gate="LDO" pin="V_OUT" pad="5"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="RESONATOR">
 <gates>
 <gate name="RESONATOR" symbol="RESONATOR" x="0" y="0"/>
@@ -5710,6 +5689,27 @@ http://de.farnell.com/1578387</description>
 <connect gate="RESONATOR" pin="1" pad="1"/>
 <connect gate="RESONATOR" pin="2" pad="3"/>
 <connect gate="RESONATOR" pin="GND" pad="2_GND"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="MCP1824">
+<description>MCP1824T-3302E/OT
+http://de.farnell.com/1578387</description>
+<gates>
+<gate name="LDO" symbol="MCP1824" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT-23-5">
+<connects>
+<connect gate="LDO" pin="GND" pad="2"/>
+<connect gate="LDO" pin="PWRGD" pad="4"/>
+<connect gate="LDO" pin="SHDN" pad="3"/>
+<connect gate="LDO" pin="V_IN" pad="1"/>
+<connect gate="LDO" pin="V_OUT" pad="5"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -5996,13 +5996,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="C_PWR_VUSB" library="rcl" deviceset="C-EU" device="C0603K" value="1u"/>
 <part name="GND21" library="supply1" deviceset="GND" device=""/>
 <part name="GND23" library="supply1" deviceset="GND" device=""/>
-<part name="C_PWR_SW" library="rcl" deviceset="C-EU" device="C0805K" value="10u"/>
-<part name="GND24" library="supply1" deviceset="GND" device=""/>
 <part name="GND25" library="supply1" deviceset="GND" device=""/>
 <part name="+3V1" library="supply1" deviceset="+3V3" device=""/>
 <part name="CHARGER" library="maxim" deviceset="MAX1551" device=""/>
 <part name="GND27" library="supply1" deviceset="GND" device=""/>
-<part name="C_PWR_BAT" library="rcl" deviceset="C-EU" device="C0603K" value="1u"/>
+<part name="C_PWR_BAT" library="rcl" deviceset="C-EU" device="C0603K" value="4.7u"/>
 <part name="ACCELEROMETER" library="HedgehogLib" deviceset="ADXL345" device=""/>
 <part name="GND28" library="supply1" deviceset="GND" device=""/>
 <part name="+3V3" library="supply1" deviceset="+3V3" device=""/>
@@ -6052,11 +6050,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <attribute name="FARNELL" value="2101349"/>
 </part>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
-<part name="LDO" library="HedgehogLib" deviceset="MCP1824" device=""/>
 <part name="BAT" library="con-molex" deviceset="53?-02" device="048"/>
 <part name="12MHZ_RESONATOR" library="HedgehogLib" deviceset="RESONATOR" device="PRQC-C">
 <attribute name="DIGIKEY" value="http://www.digikey.de/product-detail/de/PRQC12.00CR5010X000/478-6318-1-ND/2506334"/>
 </part>
+<part name="LDO" library="HedgehogLib" deviceset="MCP1824" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6115,13 +6113,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="C_PWR_VUSB" gate="G$1" x="30.48" y="81.28"/>
 <instance part="GND21" gate="1" x="30.48" y="71.12"/>
 <instance part="GND23" gate="1" x="86.36" y="116.84" rot="R90"/>
-<instance part="C_PWR_SW" gate="G$1" x="88.9" y="93.98"/>
-<instance part="GND24" gate="1" x="88.9" y="81.28"/>
-<instance part="GND25" gate="1" x="106.68" y="81.28"/>
+<instance part="GND25" gate="1" x="109.22" y="81.28"/>
 <instance part="+3V1" gate="G$1" x="147.32" y="109.22"/>
 <instance part="CHARGER" gate="G$1" x="48.26" y="93.98"/>
-<instance part="GND27" gate="1" x="68.58" y="81.28"/>
-<instance part="C_PWR_BAT" gate="G$1" x="68.58" y="93.98"/>
+<instance part="GND27" gate="1" x="83.82" y="81.28"/>
+<instance part="C_PWR_BAT" gate="G$1" x="83.82" y="91.44"/>
 <instance part="ACCELEROMETER" gate="ACCELEROMETER" x="119.38" y="22.86"/>
 <instance part="GND28" gate="1" x="104.14" y="7.62"/>
 <instance part="+3V3" gate="G$1" x="78.74" y="40.64"/>
@@ -6189,13 +6185,13 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <attribute name="FARNELL" x="195.58" y="111.76" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="GND8" gate="1" x="60.96" y="81.28"/>
-<instance part="LDO" gate="LDO" x="124.46" y="93.98"/>
 <instance part="BAT" gate="-1" x="78.74" y="114.3" rot="R180"/>
 <instance part="BAT" gate="-2" x="78.74" y="116.84" rot="R180"/>
 <instance part="12MHZ_RESONATOR" gate="RESONATOR" x="259.08" y="53.34" smashed="yes" rot="R180">
 <attribute name="DIGIKEY" x="259.08" y="53.34" size="1.778" layer="96" rot="R180" display="off"/>
 <attribute name="NAME" x="259.08" y="58.42" size="1.4224" layer="95"/>
 </instance>
+<instance part="LDO" gate="LDO" x="127" y="93.98"/>
 </instances>
 <busses>
 <bus name="BUS_SPI:SDI,SDO,SCLK,CS_ADX,CS_SDCARD">
@@ -6239,13 +6235,8 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="BAT" gate="-2" pin="S"/>
 </segment>
 <segment>
-<wire x1="88.9" y1="83.82" x2="88.9" y2="88.9" width="0.1524" layer="91"/>
-<pinref part="C_PWR_SW" gate="G$1" pin="2"/>
-<pinref part="GND24" gate="1" pin="GND"/>
-</segment>
-<segment>
-<wire x1="109.22" y1="88.9" x2="106.68" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="88.9" x2="106.68" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="88.9" x2="109.22" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="88.9" x2="109.22" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="GND25" gate="1" pin="GND"/>
 <pinref part="LDO" gate="LDO" pin="GND"/>
 </segment>
@@ -6256,7 +6247,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="60.96" y1="88.9" x2="58.42" y2="88.9" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="68.58" y1="83.82" x2="68.58" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="83.82" x2="83.82" y2="86.36" width="0.1524" layer="91"/>
 <pinref part="GND27" gate="1" pin="GND"/>
 <pinref part="C_PWR_BAT" gate="G$1" pin="2"/>
 </segment>
@@ -6364,17 +6355,13 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <net name="V_USB" class="0">
 <segment>
 <wire x1="30.48" y1="83.82" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="38.1" y1="91.44" x2="35.56" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="35.56" y1="91.44" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="91.44" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="20.32" y1="91.44" x2="30.48" y2="91.44" width="0.1524" layer="91"/>
 <junction x="30.48" y="91.44"/>
 <junction x="30.48" y="91.44"/>
 <pinref part="C_PWR_VUSB" gate="G$1" pin="1"/>
 <pinref part="CHARGER" gate="G$1" pin="USB"/>
 <pinref part="USB_CON" gate="G$1" pin="1"/>
-<wire x1="35.56" y1="91.44" x2="35.56" y2="96.52" width="0.1524" layer="91"/>
-<pinref part="CHARGER" gate="G$1" pin="DC"/>
-<wire x1="35.56" y1="96.52" x2="38.1" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
@@ -6382,7 +6369,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <junction x="147.32" y="99.06"/>
 <pinref part="+3V1" gate="G$1" pin="+3V3"/>
 <pinref part="C_PWR_VREG" gate="G$1" pin="1"/>
-<wire x1="139.7" y1="99.06" x2="147.32" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="99.06" x2="147.32" y2="99.06" width="0.1524" layer="91"/>
 <wire x1="147.32" y1="106.68" x2="147.32" y2="99.06" width="0.1524" layer="91"/>
 <pinref part="LDO" gate="LDO" pin="V_OUT"/>
 </segment>
@@ -6674,28 +6661,23 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </net>
 <net name="V_BAT" class="0">
 <segment>
-<wire x1="109.22" y1="93.98" x2="106.68" y2="93.98" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="93.98" x2="106.68" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="99.06" x2="109.22" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="99.06" x2="88.9" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="88.9" y1="96.52" x2="88.9" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="99.06" x2="109.22" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="99.06" x2="83.82" y2="99.06" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="114.3" x2="83.82" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="114.3" x2="83.82" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="83.82" y1="99.06" x2="88.9" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="58.42" y1="99.06" x2="68.58" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="68.58" y1="96.52" x2="68.58" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="68.58" y1="99.06" x2="83.82" y2="99.06" width="0.1524" layer="91"/>
-<junction x="106.68" y="99.06"/>
-<junction x="88.9" y="99.06"/>
+<wire x1="58.42" y1="99.06" x2="83.82" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="93.98" x2="83.82" y2="99.06" width="0.1524" layer="91"/>
 <junction x="83.82" y="99.06"/>
 <label x="99.06" y="101.6" size="1.27" layer="95"/>
-<pinref part="C_PWR_SW" gate="G$1" pin="1"/>
 <pinref part="C_PWR_BAT" gate="G$1" pin="1"/>
 <pinref part="CHARGER" gate="G$1" pin="BAT"/>
-<junction x="68.58" y="99.06"/>
-<pinref part="LDO" gate="LDO" pin="SHDN"/>
-<pinref part="LDO" gate="LDO" pin="V_IN"/>
+<junction x="83.82" y="99.06"/>
 <pinref part="BAT" gate="-1" pin="S"/>
+<pinref part="LDO" gate="LDO" pin="V_IN"/>
+<pinref part="LDO" gate="LDO" pin="SHDN"/>
+<wire x1="111.76" y1="93.98" x2="109.22" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="93.98" x2="109.22" y2="99.06" width="0.1524" layer="91"/>
+<junction x="109.22" y="99.06"/>
 </segment>
 </net>
 <net name="POK" class="0">
