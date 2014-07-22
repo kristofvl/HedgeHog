@@ -168,14 +168,12 @@ if len(sys.argv) > 2:
 	
 dlg = hgd.Hhg_calbuild_dlg()
 
-#pdb.set_trace()
-
 home = os.environ['HOME']
-subprocess.call(["cp", "%s/projects/HedgeHog/HHG/hhg_web/st.css"%home,     dlpath])
-subprocess.call(["cp", "%s/projects/HedgeHog/HHG/hhg_web/Chart.js"%home,   dlpath])
-subprocess.call(["cp", "%s/projects/HedgeHog/HHG/hhg_web/ans.js"%home,     dlpath])
-subprocess.call(["cp", "%s/projects/HedgeHog/HHG/hhg_web/cal.js"%home,     dlpath])
-subprocess.call(["cp", "-rf", "%s/projects/HedgeHog/HHG/hhg_web/img"%home, dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,     dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/Chart.js"%home,   dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/ans.js"%home,     dlpath])
+subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/cal.js"%home,     dlpath])
+subprocess.call(["cp", "-rf", "%s/HedgeHog/HHG/hhg_web/img"%home, dlpath])
 
 ## get all subdirectories with d.npz files:
 matches = []
