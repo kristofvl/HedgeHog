@@ -5988,10 +5988,16 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </classes>
 <parts>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
-<part name="SDCARD_CON" library="HedgehogLib" deviceset="MICROSD_CONN" device=""/>
+<part name="SDCARD_CON" library="HedgehogLib" deviceset="MICROSD_CONN" device="">
+<attribute name="OC_FARNELL" value="1686452"/>
+</part>
 <part name="GND16" library="supply1" deviceset="GND" device=""/>
-<part name="LIGHTSENSE" library="HedgehogLib" deviceset="TSL250" device=""/>
-<part name="USB_CON" library="HedgehogLib" deviceset="USBCON" device=""/>
+<part name="LIGHTSENSE" library="HedgehogLib" deviceset="TSL250" device="">
+<attribute name="OC_FARNELL" value="1182346"/>
+</part>
+<part name="USB_CON" library="HedgehogLib" deviceset="USBCON" device="">
+<attribute name="OC_FARNELL" value="2112367"/>
+</part>
 <part name="GND20" library="supply1" deviceset="GND" device=""/>
 <part name="C_PWR_VUSB" library="rcl" deviceset="C-EU" device="C0603K" value="1u"/>
 <part name="GND21" library="supply1" deviceset="GND" device=""/>
@@ -6001,7 +6007,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="CHARGER" library="maxim" deviceset="MAX1551" device=""/>
 <part name="GND27" library="supply1" deviceset="GND" device=""/>
 <part name="C_PWR_BAT" library="rcl" deviceset="C-EU" device="C0603K" value="4.7u"/>
-<part name="ACCELEROMETER" library="HedgehogLib" deviceset="ADXL345" device=""/>
+<part name="ACCELEROMETER" library="HedgehogLib" deviceset="ADXL345" device="">
+<attribute name="OC_FARNELL" value="1853935"/>
+</part>
 <part name="GND28" library="supply1" deviceset="GND" device=""/>
 <part name="+3V3" library="supply1" deviceset="+3V3" device=""/>
 <part name="C_ADX_VDD" library="rcl" deviceset="C-EU" device="C0603K" value="0.1u"/>
@@ -6012,7 +6020,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="+3V4" library="supply1" deviceset="+3V3" device=""/>
 <part name="C_PWR_VREG" library="rcl" deviceset="C-EU" device="C0603K" value="1u"/>
 <part name="GND31" library="supply1" deviceset="GND" device=""/>
-<part name="PIC_CONTROLLER" library="HedgehogLib" deviceset="PIC_P2V6" device=""/>
+<part name="PIC_CONTROLLER" library="HedgehogLib" deviceset="PIC_P2V6" device="">
+<attribute name="OC_FARNELL" value="1706311"/>
+</part>
 <part name="C2_32KHZ" library="rcl" deviceset="C-EU" device="C0603K" value="22p"/>
 <part name="C1_32KHZ" library="rcl" deviceset="C-EU" device="C0603K" value="22p"/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
@@ -6047,14 +6057,16 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="R5" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="32KHZ_CRYSTAL" library="HedgehogLib" deviceset="SMD_CRYSTAL" device="">
-<attribute name="FARNELL" value="2101349"/>
+<attribute name="OC_FARNELL" value="2101349"/>
 </part>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
 <part name="BAT" library="con-molex" deviceset="53?-02" device="048"/>
 <part name="12MHZ_RESONATOR" library="HedgehogLib" deviceset="RESONATOR" device="PRQC-C">
-<attribute name="DIGIKEY" value="http://www.digikey.de/product-detail/de/PRQC12.00CR5010X000/478-6318-1-ND/2506334"/>
+<attribute name="OC_DIGIKEY" value="478-6318-1-ND"/>
 </part>
-<part name="LDO" library="HedgehogLib" deviceset="MCP1824" device=""/>
+<part name="LDO" library="HedgehogLib" deviceset="MCP1824" device="">
+<attribute name="OC_FARNELL" value="1578387"/>
+</part>
 </parts>
 <sheets>
 <sheet>
@@ -6103,12 +6115,17 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </plain>
 <instances>
 <instance part="GND3" gate="1" x="12.7" y="139.7"/>
-<instance part="SDCARD_CON" gate="G$1" x="17.78" y="22.86" rot="R90"/>
+<instance part="SDCARD_CON" gate="G$1" x="17.78" y="22.86" rot="R90">
+<attribute name="OC_FARNELL" x="17.78" y="22.86" size="1.778" layer="96" rot="R90" display="off"/>
+</instance>
 <instance part="GND16" gate="1" x="38.1" y="20.32" rot="R90"/>
 <instance part="LIGHTSENSE" gate="G$1" x="83.82" y="144.78" smashed="yes">
 <attribute name="VALUE" x="89.916" y="148.336" size="1.778" layer="96" rot="R270"/>
+<attribute name="OC_FARNELL" x="83.82" y="144.78" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="USB_CON" gate="G$1" x="15.24" y="96.52" rot="R180"/>
+<instance part="USB_CON" gate="G$1" x="15.24" y="96.52" rot="R180">
+<attribute name="OC_FARNELL" x="15.24" y="96.52" size="1.778" layer="96" rot="R180" display="off"/>
+</instance>
 <instance part="GND20" gate="1" x="27.94" y="101.6" rot="R90"/>
 <instance part="C_PWR_VUSB" gate="G$1" x="30.48" y="81.28"/>
 <instance part="GND21" gate="1" x="30.48" y="71.12"/>
@@ -6118,7 +6135,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="CHARGER" gate="G$1" x="48.26" y="93.98"/>
 <instance part="GND27" gate="1" x="83.82" y="81.28"/>
 <instance part="C_PWR_BAT" gate="G$1" x="83.82" y="91.44"/>
-<instance part="ACCELEROMETER" gate="ACCELEROMETER" x="119.38" y="22.86"/>
+<instance part="ACCELEROMETER" gate="ACCELEROMETER" x="119.38" y="22.86">
+<attribute name="OC_FARNELL" x="119.38" y="22.86" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="GND28" gate="1" x="104.14" y="7.62"/>
 <instance part="+3V3" gate="G$1" x="78.74" y="40.64"/>
 <instance part="C_ADX_VDD" gate="G$1" x="78.74" y="27.94"/>
@@ -6129,7 +6148,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="+3V4" gate="G$1" x="137.16" y="45.72"/>
 <instance part="C_PWR_VREG" gate="G$1" x="147.32" y="96.52"/>
 <instance part="GND31" gate="1" x="147.32" y="81.28"/>
-<instance part="PIC_CONTROLLER" gate="G$1" x="213.36" y="58.42"/>
+<instance part="PIC_CONTROLLER" gate="G$1" x="213.36" y="58.42">
+<attribute name="OC_FARNELL" x="213.36" y="58.42" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="C2_32KHZ" gate="G$1" x="205.74" y="109.22" smashed="yes">
 <attribute name="NAME" x="207.264" y="109.601" size="1.778" layer="95"/>
 <attribute name="VALUE" x="209.804" y="107.061" size="1.778" layer="96"/>
@@ -6182,16 +6203,18 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="GND1" gate="1" x="269.24" y="48.26"/>
 <instance part="32KHZ_CRYSTAL" gate="G$1" x="195.58" y="111.76" smashed="yes">
 <attribute name="VALUE" x="191.262" y="114.808" size="1.4224" layer="96"/>
-<attribute name="FARNELL" x="195.58" y="111.76" size="1.778" layer="96" display="off"/>
+<attribute name="OC_FARNELL" x="195.58" y="111.76" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="GND8" gate="1" x="60.96" y="81.28"/>
 <instance part="BAT" gate="-1" x="78.74" y="114.3" rot="R180"/>
 <instance part="BAT" gate="-2" x="78.74" y="116.84" rot="R180"/>
 <instance part="12MHZ_RESONATOR" gate="RESONATOR" x="259.08" y="53.34" smashed="yes" rot="R180">
-<attribute name="DIGIKEY" x="259.08" y="53.34" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="OC_DIGIKEY" x="259.08" y="53.34" size="1.778" layer="96" rot="R180" display="off"/>
 <attribute name="NAME" x="259.08" y="58.42" size="1.4224" layer="95"/>
 </instance>
-<instance part="LDO" gate="LDO" x="127" y="93.98"/>
+<instance part="LDO" gate="LDO" x="127" y="93.98">
+<attribute name="OC_FARNELL" x="127" y="93.98" size="1.778" layer="96" display="off"/>
+</instance>
 </instances>
 <busses>
 <bus name="BUS_SPI:SDI,SDO,SCLK,CS_ADX,CS_SDCARD">
