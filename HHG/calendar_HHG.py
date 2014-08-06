@@ -168,7 +168,7 @@ if len(sys.argv) > 2:
 	
 dlg = hgd.Hhg_calbuild_dlg()
 
-home = os.environ['HOME']
+home = os.environ['HOME'] + '/project'
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/st.css"%home,     dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/Chart.js"%home,   dlpath])
 subprocess.call(["cp", "%s/HedgeHog/HHG/hhg_web/ans.js"%home,     dlpath])
