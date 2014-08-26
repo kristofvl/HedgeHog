@@ -201,7 +201,7 @@ except:
 	print 'Cannot write to index file'
 	exit(1)
 	
-f.write(hh.cal_indexheader())
+f.write(hh.cal_indexheader(num2date(first_day_id).year))
 
 # fill empty days before day of week:
 wkday =  num2date(first_day_id).weekday()

@@ -56,14 +56,17 @@ def zoom_indexheader():
 		'<span class="a-right"></span></a>'+
 		'<a style="text-align:right;" href="javascript:goUp();">'+
 		'<span class="a-up"></span></a></h1>')
-def cal_indexheader():
+def cal_indexheader(year):
 	hdr = ''
 	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
 		hdr += ('<div class="header">'+dayname+'</div>')
 	return (htmlhead('HedgeHog Calendar View','st.css','cal.js')+
 		'<script src="Chart.js"></script></head>'+
 		'<body onload="init_cal()"><section id="calendar">'+
-		'<h1 id="t"></h1>'+hdr+'<div id="days"><div id="scrollview">')
+		'<script>addMonthBrowser('+str(year)+');</script>'+
+		'<a href="#" onmousedown="browseMonth()" '+
+		'style="text-decoration:none;"><h1 id="t"></h1></a>'+
+		hdr+'<div id="days"><div id="scrollview">')
 
 ## generate html for chart canvas:
 def canvas_html(varname, style, w, h):
