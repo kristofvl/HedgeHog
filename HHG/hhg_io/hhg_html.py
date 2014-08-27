@@ -66,7 +66,8 @@ def cal_indexheader(year):
 		'<script>addMonthBrowser('+str(year)+');</script>'+
 		'<a href="#" onmousedown="browseMonth()" '+
 		'style="text-decoration:none;"><h1 id="t"></h1></a>'+
-		hdr+'<div id="days"><div id="scrollview">')
+		hdr+'<div id="days"><div id="scrollview" '+
+		'onscroll="onScroll(this)">')
 
 ## generate html for chart canvas:
 def canvas_html(varname, style, w, h):

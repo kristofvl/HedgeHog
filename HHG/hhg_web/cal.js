@@ -2,6 +2,7 @@ var monthns = ["January", "February", "March", "April","May","June",
 	"July","August","September","October","November","December"];
 
 var start_day = -1
+var scrollTO = null;
 
 // fills the month table with numbers
 function fill_table(month,year)
@@ -11,7 +12,7 @@ function fill_table(month,year)
 	start_day=(new Date(year,month,1)).getDay()
   stop_day=(new Date(year,month+1,0)).getDate()
   document.write("<td><table id='calm' cellspacing=0><tr>")
-  document.write("<td colspan=7><b>"+monthns[month]+"</b><tr>")
+  document.write("<td colspan=7><b>"+monthns[month]+" "+year+"</b><tr>")
   if (start_day==8) 
 	start_day=1
   for (var i=1;i<start_day;i++){
@@ -86,5 +87,19 @@ function init_cal() {
 	document.getElementById("scrollview").scrollTop = document.getElementById("scrollview").scrollHeight;
 }
 
+// auto-scroll to day
+function onScroll(div) {
+	if (scrollTO) clearTimeout(scrollTO);
+	scrollTO = setTimeout(function(){
+		animScroll(div,Math.round(div.scrollTop/112)*112,100);},300);
+}
+
+function animScroll(div, to, duration) {
+	if (duration<=0) return;
+	setTimeout(function() {
+			div.scrollTop = div.scrollTop+(to-div.scrollTop)/duration*10;
+			animScroll(div,to,duration-10);
+		},10);
+}
 
 
