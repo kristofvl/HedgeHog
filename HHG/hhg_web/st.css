@@ -31,7 +31,7 @@ section#calendar .header
 #days
 {
 	width: 1186px; 
-	height: 672px;
+	height: 648px;
 	overflow: hidden;
 	border: 0;
 }
@@ -39,9 +39,10 @@ section#calendar .header
 #scrollview
 {
 	width: 1200px; 
-	height: 672px;
+	height: 648px;
 	overflow-y: scroll;
 	border: 0;
+	font-size:0;
 }
 
 #inf
@@ -156,13 +157,17 @@ time.weekend  { background: #f5f5f5; }
 	background-image:url('./img/act.png');
 }
 
-table#calt {
+table.calt {
 	border: 1px solid green;
 	background-color: white;
     color: black;
 }
-table#calt td:hover{
+table.calt td:hover{
 	border: 1px solid red;
+}
+
+table.calm td:hover{
+	border: 1px solid white;
 }
 
 td {
@@ -173,12 +178,8 @@ td {
     padding: 0px;
 }
 
-table#calm {
+table.calm {
 	border: 1px solid black;
-}
-table#calm td:hover{
-	background-color: red;
-	color: white;
 }
 
 #ycal {

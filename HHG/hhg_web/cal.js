@@ -11,7 +11,7 @@ function fill_table(month,year)
   if (start_day==-1) 
 	start_day=(new Date(year,month,1)).getDay()
   stop_day=(new Date(year,month+1,0)).getDate()
-  document.write("<td><table id='calm' cellspacing=0><tr>")
+  document.write("<td><table class='calm' cellspacing=0><tr>")
   document.write("<td colspan=7><b>"+monthns[month]+" "+year+"</b><tr>")
   if (start_day==8) 
 	start_day=1
@@ -37,7 +37,7 @@ function fill_table(month,year)
 }
 
 function addMonthBrowser(year) {
-	document.write('<div id="ycal" style="display:none;"><table id="calt"><tr>')
+	document.write('<div id="ycal" style="display:none;"><table class="calt"><tr>')
 	for (var i=0; i<12; i++) {
 		fill_table(i,year)
 		if ((i+1)%4==0)
@@ -85,21 +85,36 @@ function init_cal() {
 		}
 	}
 	document.getElementById("scrollview").scrollTop = document.getElementById("scrollview").scrollHeight;
+	
 }
 
 // auto-scroll to day
 function onScroll(div) {
-	if (scrollTO) clearTimeout(scrollTO);
-	scrollTO = setTimeout(function(){
-		animScroll(div,Math.round(div.scrollTop/112)*112,100);},300);
+	if (window.devicePixelRatio==1) {
+		function animScroll(div, to, duration) {
+		if (duration<=0) return;
+		setTimeout(function() {
+				div.scrollTop = div.scrollTop+(to-div.scrollTop)/duration*10;
+				animScroll(div,to,duration-10);
+			},10);
+		}
+		if (scrollTO) clearTimeout(scrollTO);
+		scrollTO = setTimeout(function(){
+			var cellh = 108
+			animScroll(div,Math.round(Math.round(div.scrollTop/cellh)*cellh),70);},200);
+	}
 }
 
-function animScroll(div, to, duration) {
-	if (duration<=0) return;
-	setTimeout(function() {
-			div.scrollTop = div.scrollTop+(to-div.scrollTop)/duration*10;
-			animScroll(div,to,duration-10);
-		},10);
+function fillDays(d0, d1) {
+	function toDate(did) {return new Date((did-719163)*8.64e7)}
+	day0 = toDate(d0);
+	day1 = toDate(d1);
+	for (var di=d0; di<d1+1;di++) {
+		dayi = toDate(di);
+		dstr = ('<time id="'+("00"+dayi.getDate()).slice(-2)+' '
+					+monthns[dayi.getMonth()]+' '+dayi.getFullYear()
+					+'" dayid="'+di+'"><a>'+dayi.getDate()+'</a>'
+					+'<script src="./'+di+'/ds.js"></script></time>');
+		document.write(dstr);
+	}
 }
-
-
