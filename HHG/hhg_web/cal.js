@@ -109,11 +109,14 @@ function fillDays(d0, d1) {
 	function toDate(did) {return new Date((did-719163)*8.64e7)}
 	day0 = toDate(d0);
 	day1 = toDate(d1);
-	for (var di=d0; di<d1+1;di++) {
+	for (var di=d0; di<d1+1;di++){
 		dayi = toDate(di);
+		if (dayi.getDay()>0 && dayi.getDay()<6) classstr = '';
+		else classstr = 'class="weekend"'
 		dstr = ('<time id="'+("00"+dayi.getDate()).slice(-2)+' '
 					+monthns[dayi.getMonth()]+' '+dayi.getFullYear()
-					+'" dayid="'+di+'"><a>'+dayi.getDate()+'</a>'
+					+'" dayid="'+di+'"'+ classstr
+					+'><a>'+dayi.getDate()+'</a>'
 					+'<script src="./'+di+'/ds.js"></script></time>');
 		document.write(dstr);
 	}
