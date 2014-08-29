@@ -150,10 +150,8 @@ def write_day_stub_html(day_id, dlpath):
 		print "Day directory file not found for "+str(day_id)
 		return False
 	## construct the js for the day-view:
-	f.write('ps'+str(day_id)+'="0";')
-	f.write('ls'+str(day_id)+'="0";')
-	f.write('xs'+str(day_id)+'="0";')
-	f.write('ys'+str(day_id)+'="0";')
+	f.write('ps'+str(day_id)+'="0";ls'+str(day_id)+'="0";')
+	f.write('xs'+str(day_id)+'="0";ys'+str(day_id)+'="0";')
 	f.write('zs'+str(day_id)+'="0";')
 	f.close()
 	return True
