@@ -57,7 +57,6 @@ def cal_entry(day_id, dlpath, f, skip):
 		stop = fstr.find('";',entry)
 		return vstr[entry:stop], stop
 	tic = time.clock()
-	hh.write_cal_entry(day_id, f)
 	if skip and (day_id<skip_id):
 		try:
 			with open(os.path.join(dlpath,str(day_id),'d.js'),"r") as fl:
@@ -77,7 +76,6 @@ def cal_entry(day_id, dlpath, f, skip):
 				ys_str,st = find_in_js(fstr,'ys'+str(day_id)+'="',st)
 				zs_str,st = find_in_js(fstr,'zs'+str(day_id)+'="',st)
 		except:
-			f.write('</time>')
 			try:
 				os.makedirs(os.path.join(dlpath,str(day_id)))
 			except:
@@ -92,7 +90,6 @@ def cal_entry(day_id, dlpath, f, skip):
 			dta = out['dta']
 			cnf = str(out['conf'])
 		except:
-			f.write('</time>')
 			try:
 				os.makedirs(os.path.join(dlpath,str(day_id)))
 			except:
@@ -115,7 +112,6 @@ def cal_entry(day_id, dlpath, f, skip):
 		dta = dta.view(np.recarray)
 		dta_sum = sum(dta.d)
 		dta_rle = len(dta)
-	f.write('\n<script src="./'+str(day_id)+'/ds.js"></script></time>')
 	#####################################################################
 	if not skip or (day_id>=skip_id):
 		hh.write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt,cd_px)
@@ -201,10 +197,13 @@ except:
 	print 'Cannot write to index file'
 	exit(1)
 	
-f.write(hh.cal_indexheader())
+wkday =  num2date(first_day_id).weekday()
+wkday2 = num2date(last_day_id).weekday()
+	
+f.write(hh.cal_indexheader(num2date(first_day_id).year,
+	first_day_id-wkday, last_day_id+(6-wkday2)))
 
 # fill empty days before day of week:
-wkday =  num2date(first_day_id).weekday()
 for wd in range(wkday):
 	cal_entry(first_day_id-wkday+wd, dlpath, f, skip)
 	
