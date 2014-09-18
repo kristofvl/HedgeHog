@@ -56,14 +56,19 @@ def zoom_indexheader():
 		'<span class="a-right"></span></a>'+
 		'<a style="text-align:right;" href="javascript:goUp();">'+
 		'<span class="a-up"></span></a></h1>')
-def cal_indexheader():
+def cal_indexheader(year,d0,d1):
 	hdr = ''
 	for dayname in ('Mon','Tue','Wed','Thu','Fri','Sat','Sun'):
 		hdr += ('<div class="header">'+dayname+'</div>')
 	return (htmlhead('HedgeHog Calendar View','st.css','cal.js')+
 		'<script src="Chart.js"></script></head>'+
 		'<body onload="init_cal()"><section id="calendar">'+
-		'<h1 id="t"></h1>'+hdr+'<div id="days"><div id="scrollview">')
+		'<script>addMonthBrowser('+str(year)+');</script>'+
+		'<a href="#" onmousedown="browseMonth()" '+
+		'style="text-decoration:none;"><h1 id="t"></h1></a>'+
+		hdr+'<div id="days"><div id="scrollview" '+
+		'onscroll="onScroll(this)">'+
+		'<script>fillDays('+str(d0)+','+str(d1)+');</script>')
 
 ## generate html for chart canvas:
 def canvas_html(varname, style, w, h):
@@ -124,19 +129,6 @@ def get_month_name(month_no, locale):
 		if encoding is not None:
 			s = s.decode(encoding)
 		return s
-
-## write a calendar entry
-def write_cal_entry(day_id, f):
-	## construct the html time section for the calendar:
-	f.write('<time id="'+ str(num2date(day_id).day).zfill(2)+' '+
-		get_month_name(num2date(day_id).month, locale_str)+
-		' '+str(num2date(day_id).year)+ '"')
-	if num2date(day_id).weekday()>4:
-		f.write('class="weekend"')
-	f.write('dayid="'+str(day_id)+'"')	
-	f.write('><a>'+
-			str(num2date(day_id).day) )
-	f.write('</a>')
 		
 def write_day_stub_html(day_id, dlpath):
 	## construct html file
@@ -150,6 +142,17 @@ def write_day_stub_html(day_id, dlpath):
 	f.write('<hr>')
 	f.write('<p>no data found for this day</p>')
 	f.write('</section></body></html>')
+	f.close()
+	## construct js file
+	try:
+		f=open(os.path.join(dlpath,str(day_id),'ds.js'),"w")
+	except:
+		print "Day directory file not found for "+str(day_id)
+		return False
+	## construct the js for the day-view:
+	f.write('ps'+str(day_id)+'="0";ls'+str(day_id)+'="0";')
+	f.write('xs'+str(day_id)+'="0";ys'+str(day_id)+'="0";')
+	f.write('zs'+str(day_id)+'="0";')
 	f.close()
 	return True
 	
@@ -184,10 +187,10 @@ def write_day_html(day_id, dlpath, cnf, dta_sum, dta_rle, nt, cd_px):
 	f.write('<script>'+
 		'drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, 7);</script>')
 	f.write('<hr><p style="font-size:small;">24h view '+
-		'with <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
+		'with <a href="http://kristofvl.github.io/HedgeHog">'+
 		'HedgeHog sensor</a> #'+ cnf[0:4]+'.<br/>'+
 		'<a href="d.npz"><img src="../img/zoom.png" style="'+
-		'vertical-align:middle;"></img>Raw data view for full npz file ('+
+		'vertical-align:middle;"></img>Raw data for this day (npz, '+
 		str(os.path.getsize(os.path.join(dlpath,str(day_id),'d.npz')))+
 		' bytes)</a></p>')
 	f.write('<p style="font-size:small;color:#fff;left:'+
@@ -228,7 +231,7 @@ def write_day_zoom_html(day_id, dlpath, cz_px):
 	f.write('<script>'+
 		'drawAll(x,y,z,l,p, strtt,stopt, skipenv, skipxyz, 7);</script>')
 	f.write('<hr><p style="font-size:small;">24h view '+
-		'with a <a href="http://www.ess.tu-darmstadt.de/hedgehog">'+
+		'with a <a href="http://kristofvl.github.io/HedgeHog">'+
 		'HedgeHog sensor</a> <br/></p>')
 	f.write('</section></body></html>')
 	f.close()
