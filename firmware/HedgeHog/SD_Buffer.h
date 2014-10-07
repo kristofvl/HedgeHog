@@ -79,8 +79,8 @@ typedef union {
         UINT8 separator_8[418];
         UINT16 sdbuf_iter;		//497
         UINT8 separator_11[3];	//501
-        UINT32 sdbuf_pointer;	//502
-        UINT8 separator_9;		//506
+        UINT16 sdbuf_pointer;	//502
+        UINT8 separator_9[3];		//504
         UINT8 sdbuf_flag;		//507
         UINT8 separator_10[3];	//508
         UINT8 flag;				//511
@@ -90,7 +90,7 @@ typedef union {
 
 /******************************************************************************/
 extern sd_buffer_t sd_buffer;
-extern UINT32 sdbuffer_p;
+extern UINT16 sdbuffer_p;
 static UINT16 sdbuffer_i;
 
 

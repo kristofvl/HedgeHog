@@ -13,7 +13,7 @@ rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '4', '1', '0',0};
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 char startup;
-
+unsigned short int sdbuffer_p;
 
 /** INCLUDES ******************************************************************/
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
@@ -28,7 +28,6 @@ char startup;
 #include "RTC/rtc.h"				// RTC functions
 #include "osc.h"
 #include "delays.h"
-#include <GenericTypeDefs.h>    // for UINT8 and UINT16
 
 #if defined(SOFTSTART_ENABLED)
 #include "./Soft Start/soft_start.h"	// controls soft start
@@ -67,7 +66,6 @@ char startup;
 #pragma udata
 
 sd_buffer_t sd_buffer;
-UINT32 sdbuffer_p;
 
 // time variables
 rtc_timedate tm;		//  holding time info for current time
