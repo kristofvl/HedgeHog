@@ -22,6 +22,8 @@
 #include "HardwareProfileBasic417.h"
 #elif defined(HEDGEHOG_BASIC_418)
 #include "HardwareProfileBasic418.h"
+#elif defined(HEDGEHOG_BASIC_419)
+#include "HardwareProfileBasic419.h"
 #else
 #error No Hardware Profile Defined. See HardwareProfile.h
 #endif
