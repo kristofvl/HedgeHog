@@ -76,9 +76,9 @@ extern char is_logging;
 /******** Accelerometer definitions and options ********************/
 /*******************************************************************/
 #define ACC_CS				LATBbits.LATB4
-#define ACC_CS_TRIS			TRISBbits.TRISB4        // OUTPUT
+#define ACC_CS_TRIS			TRISBbits.TRISB4	// OUTPUT
 #define ACC_INT				PORTBbits.RB2
-#define ACC_INT_TRIS		TRISBbits.TRISB2        // INPUT
+#define ACC_INT_TRIS		TRISBbits.TRISB2	// INPUT
 
 /*******************************************************************/
 /******** Power Circuit sense pins definitions and options *********/
@@ -91,8 +91,8 @@ extern char is_logging;
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
-#define LIGHTCHANNEL		6               // CHS=6 == AN6 == RE1 (PIN26)
-#define LIGHT_PWR			LATEbits.LATE0  // RE0          == RE0 (PIN25)
+#define LIGHTCHANNEL		6					// CHS=6 == AN6 == RE1 (PIN26)
+#define LIGHT_PWR			LATEbits.LATE0		// RE0          == RE0 (PIN25)
 
 /*******************************************************************/
 /******** remap pins ***********************************************/

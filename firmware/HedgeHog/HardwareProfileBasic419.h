@@ -32,11 +32,11 @@ extern char is_logging;
 /*******************************************************************/
 // definitions required by the MCHPFSUSB framework. 
 //#define USE_SELF_POWER_SENSE_IO
-#define tris_self_power			TRISCbits.TRISC2    // Input
+#define tris_self_power		TRISCbits.TRISC2    // Input
 #define self_power			1
 //#define USE_USB_BUS_SENSE_IO
-#define tris_usb_bus_sense		TRISCbits.TRISC2    // Input
-#define USB_BUS_SENSE			1
+#define tris_usb_bus_sense	TRISCbits.TRISC2    // Input
+#define USB_BUS_SENSE		1
 
 /*******************************************************************/
 /******** SPI interface definitions ********************************/
@@ -47,16 +47,16 @@ extern char is_logging;
 #define SPICLOCKLAT			LATCbits.LATC2	// Latch pins SCK/SDI/SDO
 #define SPIINLAT			LATDbits.LATD6
 #define SPIOUTLAT			LATBbits.LATB3
-#define SPICLOCKPORT			PORTCbits.RC2	// Port pins SCK/SDI/SDO
+#define SPICLOCKPORT		PORTCbits.RC2	// Port pins SCK/SDI/SDO
 #define SPIINPORT			PORTDbits.RD6
 #define SPIOUTPORT			PORTBbits.RB3
-#define SPICON1				SSP2CON1	// Registers SPI module
+#define SPICON1				SSP2CON1		// Registers SPI module
 #define SPISTAT				SSP2STAT
 #define SPIBUF				SSP2BUF
 #define SPISTAT_RBF			SSP2STATbits.BF
 #define SPICON1bits			SSP2CON1bits
 #define SPISTATbits			SSP2STATbits
-#define SPI_INTERRUPT_FLAG		PIR3bits.SSP2IF
+#define SPI_INTERRUPT_FLAG	PIR3bits.SSP2IF
 #define SPIENABLE			SSP2CON1bits.SSPEN
 
 /*******************************************************************/
@@ -70,7 +70,7 @@ extern char is_logging;
 #define SD_CD_TRIS			TRISAbits.TRISA3
 #define SD_WE				0
 #define SD_WE_TRIS			TRISAbits.TRISA3
-#define SPI_INTERRUPT_FLAG_ASM		PIR3, 7
+#define SPI_INTERRUPT_FLAG_ASM	PIR3, 7
 
 /*******************************************************************/
 /******** Accelerometer definitions and options ********************/
@@ -78,19 +78,19 @@ extern char is_logging;
 #define ACC_CS				LATBbits.LATB4
 #define ACC_CS_TRIS			TRISBbits.TRISB4	// OUTPUT
 #define ACC_INT				PORTBbits.RB2
-#define ACC_INT_TRIS			TRISBbits.TRISB2	// INPUT
+#define ACC_INT_TRIS		TRISBbits.TRISB2	// INPUT
 
 /*******************************************************************/
 /******** Power Circuit sense pins definitions and options *********/
 /*******************************************************************/
 #define USBP_INT			PORTDbits.RD5		// Charger "POK"
-#define USBP_INT_TRIS			TRISDbits.TRISD5
+#define USBP_INT_TRIS		TRISDbits.TRISD5
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
-#define LIGHTCHANNEL			6               // CHS=6/AN6/RE1 (PIN26)
-#define LIGHT_PWR			LATEbits.LATE0  // RE0           (PIN25)
+#define LIGHTCHANNEL		6					// CHS=6/AN6/RE1 (PIN26)
+#define LIGHT_PWR			LATEbits.LATE0		// RE0           (PIN25)
 
 /*******************************************************************/
 /******** remap pins ***********************************************/

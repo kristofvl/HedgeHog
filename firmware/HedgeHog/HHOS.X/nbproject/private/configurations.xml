@@ -58,7 +58,7 @@
       </runprofile>
     </conf>
     <conf name="raw_sampling_basic_419" type="2">
-      <platformToolSN></platformToolSN>
+      <platformToolSN>:=MPLABComm-USB-Microchip:=&lt;vid>04D8:=&lt;pid>8105:=&lt;rev>0001:=&lt;man>Microchip Technology Inc.:=&lt;prod>Microchip Starter Kit:=&lt;sn>BUR110990275:=&lt;drv>x:=end</platformToolSN>
       <languageToolchainDir>/opt/microchip/mplabc18/v3.40/bin</languageToolchainDir>
       <mdbdebugger version="1">
         <placeholder1>place holder 1</placeholder1>

@@ -64,33 +64,33 @@ extern char is_logging;
 /*******************************************************************/
 #define USE_PIC18					// used by FSConfig.h
 #define USE_SD_INTERFACE_WITH_SPI
-#define SD_CS			PORTCbits.RC6		// Chip Select
-#define SD_CS_TRIS		TRISCbits.TRISC6
-#define SD_CD			0			// Card detect
-#define SD_CD_TRIS		TRISAbits.TRISA3
-#define SD_WE			0
-#define SD_WE_TRIS		TRISAbits.TRISA3
+#define SD_CS				PORTCbits.RC6		// Chip Select
+#define SD_CS_TRIS			TRISCbits.TRISC6
+#define SD_CD				0					// Card detect
+#define SD_CD_TRIS			TRISAbits.TRISA3
+#define SD_WE				0
+#define SD_WE_TRIS			TRISAbits.TRISA3
 #define SPI_INTERRUPT_FLAG_ASM	PIR3, 7
 
 /*******************************************************************/
 /******** Accelerometer definitions and options ********************/
 /*******************************************************************/
-#define ACC_CS			LATCbits.LATC7
-#define ACC_CS_TRIS		TRISCbits.TRISC7
-#define ACC_INT			PORTBbits.RB2
+#define ACC_CS				LATCbits.LATC7
+#define ACC_CS_TRIS			TRISCbits.TRISC7
+#define ACC_INT				PORTBbits.RB2
 #define ACC_INT_TRIS		TRISBbits.TRISB2
 
 /*******************************************************************/
 /******** USB Power Sense pin definitions and options **************/
 /*******************************************************************/
 #define USBP_INT_TRIS		TRISBbits.TRISB7
-#define USBP_INT		PORTBbits.RB7
+#define USBP_INT			PORTBbits.RB7
 
 /*******************************************************************/
 /******** Light Sensor definitions and options *********************/
 /*******************************************************************/
 #define LIGHTCHANNEL		4
-#define LIGHT_PWR		LATBbits.LATB0
+#define LIGHT_PWR			LATBbits.LATB0
 
 /*******************************************************************/
 /******** remap pins ***********************************************/
