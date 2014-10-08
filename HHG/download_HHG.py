@@ -180,10 +180,10 @@ if daypath=='':
 fig.update_plot(dta[::itr], stats)
 
 ## update calendar:
-subprocess.call(
-	[ os.path.join(os.path.dirname(os.path.realpath(__file__)),
-					"calendar_HHG.py"), 
-	  dlpath, str(first_dayid)] )
+#subprocess.call(
+#	[ os.path.join(os.path.dirname(os.path.realpath(__file__)),
+#					"calendar_HHG.py"), 
+#	  dlpath, str(first_dayid)] )
 
 
 

@@ -213,15 +213,16 @@ static void init_system(void) {
  ******************************************************************************/
 void user_init(void) {
 
-    	// wait 5,000,000 ticks till system is powered
+	// wait 5,000,000 ticks till system is powered
 	Delay10KTCYx(250);
-        Delay10KTCYx(250);
-        
-        is_logging = 0;
-        startup = 0;
-        sdbuffer_p = SECTOR_LG; // start at this sector
+	Delay10KTCYx(250);
 
-        rtc_init();			// init clock
+
+	is_logging = 0;
+	startup = 0;
+	sdbuffer_p = SECTOR_LG; // start at this sector
+	
+	rtc_init();			// init clock
 	acc_deep_sleep();	// put accelerometer to sleep for now
 	env_init();			// set up environment sensors (light, temp, ...)
 
@@ -247,16 +248,16 @@ void process_IO(void) {
 	update_display();	// Update routine for the display
 	#endif
 
-        if((USBP_INT != 0) && is_logging)
-            log_process();
+	if((USBP_INT != 0) && is_logging)
+		log_process();
 
-        if(USBP_INT == 0){
-            if(USBDeviceState == CONFIGURED_STATE){  // not logging and USB connection present
-                MSDTasks();   // mass storage device tasks
-                if (MSD_State == MSD_WAIT)
-                        config_process();   // update configuration when we're not busy
-            }
-        }
+	if(USBP_INT == 0){
+		if(USBDeviceState == CONFIGURED_STATE){  // not logging and USB connection present
+			MSDTasks();   // mass storage device tasks
+			if (MSD_State == MSD_WAIT)
+					config_process();   // update configuration when not busy
+		}
+	}
 }
 /*******************************************************************************
  * Function:        void update_display(void)
@@ -316,13 +317,14 @@ void log_process() {
 	if (startup == 0) { // to init light sensors, accelerometer & SD card
 		startup++;
 
-                Delay10KTCYx(250);
-                set_osc_8Mhz();
-                set_unused_pins_to_output();
-                #if defined(USBP_INT)
-                USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin
-                #endif
-                // initialize Sensors with settings
+		Delay10KTCYx(250);
+		set_osc_8Mhz();
+		set_unused_pins_to_output();
+		#if defined(USBP_INT)
+		USBP_INT_TRIS = INPUT_PIN; // set USB Power interrupt pin
+		#endif
+
+		// initialize Sensors with settings
 		sdbuf_init();
 		env_init();
 		acc_init(acc_settings, NULL);
@@ -386,14 +388,14 @@ void log_process() {
 		#if defined(USBP_INT)
 		if (USBP_INT == 0)	// if user plugged usb back in
 		{
-                        memset((void*) &sd_buffer, 0, 512);
-			read_SD(SECTOR_CF, sd_buffer.bytes);
-                        sd_buffer.conf.sdbuf_pointer = sdbuffer_p;
-                        sd_buffer.conf.sdbuf_flag++;
-                        rtc_read(&tm);
-                        memcpy(sd_buffer.conf.systime,(const void*)tm.b, 8 * sizeof (BYTE));
-                        write_SD(SECTOR_CF, sd_buffer.bytes);
 			memset((void*) &sd_buffer, 0, 512);
+			read_SD(SECTOR_CF, sd_buffer.bytes);		// load config page
+			sd_buffer.conf.sdbuf_pointer = sdbuffer_p;	// save current page pointer
+			sd_buffer.conf.sdbuf_flag++;				// increment buffer flag
+			rtc_read(&tm);								// get timestamp
+			memcpy(sd_buffer.conf.systime,(const void*)tm.b, 8 * sizeof (BYTE));
+			write_SD(SECTOR_CF, sd_buffer.bytes);		// save updated config
+			memset((void*) &sd_buffer, 0, 512);			// clear buffer
 
 			#if defined(DISPLAY_ENABLED)
 			oled_reset();
@@ -401,24 +403,24 @@ void log_process() {
 			Delay10KTCYx(250);
 			Delay10KTCYx(250);
 			#endif
+			
+			init_system();			// go back to init and perform MSD tasks
+			is_logging = 1;			// after USB detach -> continue logging
+			startup = 0;			// remove startup flag
 
-                        init_system();
-                        is_logging = 1;
-                        startup = 0;
-
-                        memset((void*) &sd_buffer, 0, 512);
-			read_SD(SECTOR_CF, sd_buffer.bytes);
-                        sdbuffer_p = sd_buffer.conf.sdbuf_pointer;
-                        memcpy(tm.b, (const void*) sd_buffer.conf.systime, 8 * sizeof (BYTE));
-			rtc_init();
-			rtc_write(&tm);
+			memset((void*) &sd_buffer, 0, 512);			// clear buffer
+			read_SD(SECTOR_CF, sd_buffer.bytes);		// read config page
+			sdbuffer_p = sd_buffer.conf.sdbuf_pointer;	// load buffer pointer
+			memcpy(tm.b, (const void*) sd_buffer.conf.systime, 8 * sizeof (BYTE));
+			rtc_init();									// init RTC
+			rtc_write(&tm);								// write current time
 			rtc_writestr(&tm, date_str, time_str);
-                        rle_delta = sd_buffer.conf.rle_delta - 48;
+			rle_delta = sd_buffer.conf.rle_delta - 48;
 			acc_settings = sd_buffer.conf.acc_s;
 			memset((void*) &sd_buffer, 0, 512);
-                        
-                        USBDeviceAttach();
-                        return;
+			
+			USBDeviceAttach();
+			return;
 		}
 		#endif
 	}
@@ -479,7 +481,7 @@ void config_process(void) {
 			sd_buffer.conf.flag = 0;
 			write_SD(SECTOR_LF, sd_buffer.bytes);
 			memset((void*) &sd_buffer, 0, 512);
-                        USBDeviceAttach();
+			USBDeviceAttach();
 			break;
 
 		case 'c':
@@ -526,7 +528,7 @@ void config_process(void) {
 			sd_buffer.conf.flag = 0;
 			write_SD(SECTOR_LF, sd_buffer.bytes);
 			memset((void*) &sd_buffer, 0, 512);
-                        USBDeviceAttach();
+			USBDeviceAttach();
 			break;
 
 		case 'l':
@@ -536,11 +538,11 @@ void config_process(void) {
 			
 			memset((void*) &sd_buffer, 0, 512);
 			read_SD(SECTOR_CF, sd_buffer.bytes);
+			
+			sdbuffer_p = sd_buffer.conf.sdbuf_pointer;
 
-                        sdbuffer_p = sd_buffer.conf.sdbuf_pointer;
-                        
-                       	// read and set System Time from SD-Buffer
-			memcpy(tm.b, (const void*) sd_buffer.conf.systime, 8 * sizeof (BYTE));
+			// read and set System Time from SD-Buffer
+			memcpy(tm.b, (const void*) sd_buffer.conf.systime, 8*sizeof(BYTE));
 			rtc_init();
 			rtc_write(&tm);
 			rtc_writestr(&tm, date_str, time_str);

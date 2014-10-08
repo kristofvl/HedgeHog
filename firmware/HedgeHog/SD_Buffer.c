@@ -55,9 +55,9 @@ void sdbuf_add_acc(PACC_XYZ accval) {
     sd_buffer.f.acc[sdbuffer_i].xyz = *accval; // acc XYZ
 }
 
-BYTE sdbuf_page(void) {
-    return (sdbuffer_p - SECTOR_LG);
-}
+//BYTE sdbuf_page(void) {
+//    return (sdbuffer_p - SECTOR_LG);
+//}
 
 /******************************************************************************/
 BYTE sdbuf_check_rle(PACC_XYZ accval, BYTE rle_th) {
@@ -74,7 +74,7 @@ void sdbuf_init(void) {
      *
      * see the definition of SD_BUF_START_SECTOR for some other relevant details
      */
-//    sdbuffer_p = SECTOR_LG; // start at this sector
+//    sdbuffer_p = SECTOR_LG; // start at this sector // not used -> continuous logging
     sdbuffer_i = 0xFFF;
     MDD_SDSPI_InitIO();
     MDD_SDSPI_MediaInitialize(); // init SD SPI settings

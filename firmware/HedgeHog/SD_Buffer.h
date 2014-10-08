@@ -55,35 +55,35 @@ typedef union {
         } acc[42];
     } mvf;
 
-    struct {                            // config structure:
-        UINT32 ID;        //0           // identifier
-        UINT32 time;      //4              // time stamp
-        UINT32_VAL acc;   //8              // accelerometer configuration
+    struct {							      // config structure:
+        UINT32 ID;				//0           // identifier
+        UINT32 time;			//4           // time stamp
+        UINT32_VAL acc;			//8           // accelerometer configuration
         hhg_conf_accs_t acc_s;	//12          // accelerometer sensitivity
-        UINT32_VAL logg;		//16              // logging & processing setup
+        UINT32_VAL logg;		//16          // logging & processing setup
         UINT8 rle_delta;		//20          // RLE Delta
         UINT8 separator_1[3];	//21
-        UINT8 name[8];			//24
+        UINT8 name[8];			//24          // name
         UINT8 separator_2[3];	//32
-        UINT8 ver[7];			//35
+        UINT8 ver[7];			//35          // firmware version
         UINT8 separator_3[3];	//42
-        ACC_XYZ init_acc;		//45
+        ACC_XYZ init_acc;		//45          //
         UINT8 separator_4[3];
-        WORD_VAL init_light;	//51
+        WORD_VAL init_light;	//51          //
         UINT8 separator_5[3];
-        UINT8 init_thermo;		//56
+        UINT8 init_thermo;		//56          // 
         UINT8 separator_6[3];
-        BYTE  systime[8];		//60
+        BYTE  systime[8];		//60          //
         UINT8 separator_7[3];
-        BYTE  stptime[8];		//71
+        BYTE  stptime[8];		//71          //
         UINT8 separator_8[418];
-        UINT16 sdbuf_iter;		//497
-        UINT8 separator_11[3];	//501
-        UINT16 sdbuf_pointer;	//502
-        UINT8 separator_9[3];		//504
-        UINT8 sdbuf_flag;		//507
+        UINT16 sdbuf_iter;		//497         //
+        UINT8 separator_11[3];	//499
+        UINT16 sdbuf_pointer;	//502         // pointer for continuous mode
+        UINT8 separator_9[3];	//504
+        UINT8 sdbuf_flag;		//507         //
         UINT8 separator_10[3];	//508
-        UINT8 flag;				//511
+        UINT8 flag;				//511         // logging flag
     } conf;
 
 } sd_buffer_t;
@@ -105,7 +105,7 @@ BYTE sdbuf_deltaT_full(void);
 void sdbuf_goto_next_accslot(void);
 BYTE sdbuf_is_new_accslot(void);
 void sdbuf_add_acc(PACC_XYZ accval);
-BYTE sdbuf_page(void);
+//BYTE sdbuf_page(void);
 
 /******************************************************************************/
 BYTE sdbuf_check_rle(PACC_XYZ accval, BYTE rle_th);
