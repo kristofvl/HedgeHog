@@ -88,8 +88,10 @@ class start_HHG_dialog:
 			starthhg.write(chr(0xFF))
 			starthhg.write(chr(0x0F))
 			starthhg.seek(502,0)  
-			starthhg.write(chr(224))
-			starthhg.write(chr(16))
+			starthhg.write(chr(224))	# 32 bit!	--> 4320
+			starthhg.write(chr(16))		# 32 bit!
+			starthhg.write(chr(0))		# 32 bit!
+			starthhg.write(chr(0))		# 32 bit!
 			starthhg.seek(507,0)
 			starthhg.write(chr(0))  
 			starthhg.seek(1023,0)

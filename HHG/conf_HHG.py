@@ -21,9 +21,9 @@ class configure:
 				idEntry.set_text(idChar)
 			confhhg.seek(12,0)
 			rangetmp = confhhg.read(1)
-			freqtmp = confhhg.read(1)
-			modetmp = confhhg.read(1)
-			powtmp = confhhg.read(1)
+			freqtmp  = confhhg.read(1)
+			modetmp  = confhhg.read(1)
+			powtmp   = confhhg.read(1)
 			if (rangetmp.isdigit()):
 				rangeCombo.set_active(int(rangetmp))
 			if (freqtmp.isdigit()):
@@ -45,25 +45,37 @@ class configure:
 	def writeSettings(self, idEntry, rleCombo, rangeCombo, powCombo, freqCombo, modeCombo):
 		confhhg_path = config_file 
 		idChar = idEntry.get_text();
+		
+		#~ print idChar
+		#~ print str(rangeCombo.get_active()), len(str(rangeCombo.get_active()))
+		#~ print str(freqCombo.get_active()),  len(str(freqCombo.get_active()))
+		#~ print str(modeCombo.get_active()),  len(str(modeCombo.get_active()))
+		#~ print str(powCombo.get_active()),   len(str(powCombo.get_active()))
+		#~ print str(rleCombo.get_active()),   len(str(rleCombo.get_active()))
+		#~ sys.exit()
+		
 		with open (confhhg_path,"r+w") as confhhg:
 			confhhg.seek(0,0)   # Write ID
 			confhhg.write(idChar[0])
 			confhhg.write(idChar[1])
 			confhhg.write(idChar[2])
 			confhhg.write(idChar[3])
+			
 			confhhg.seek(12,0)  # Write ACC Settings
-			confhhg.write(str(rangeCombo.get_active()))
-			confhhg.write(str(freqCombo.get_active()))
-			confhhg.write(str(modeCombo.get_active())) 	#~ confhhg.write(str(1))
+			confhhg.write(str(rangeCombo.get_active()))		# 12
+			confhhg.write(str(freqCombo.get_active()))		# 13
+			confhhg.write(str(modeCombo.get_active()))		# 14
+			# for PIC sampling always set Freq to 100Hz
 			if (modeCombo.get_active()==0):
 				confhhg.seek(13,0)
 				confhhg.write("5")
-				freqCombo.set_active(5) # for PIC sampling always set Freq to 100Hz
+				freqCombo.set_active(5) 
 				confhhg.seek(15,0)
-			confhhg.write(str(powCombo.get_active()))
+			confhhg.write(str(powCombo.get_active()))		# 15
+			
 			confhhg.seek(20,0) # Write RLE Delta
-			confhhg.write(str(rleCombo.get_active()))
-			confhhg.seek(1023,0)
+			confhhg.write(str(rleCombo.get_active()))		# 20
+			confhhg.seek(1023,0)							# 512 + 511
 			confhhg.write("c")
 			confhhg.close()
 		sys.exit()
@@ -71,7 +83,7 @@ class configure:
 	def formatCard(self):
 		confhhg_path = config_file 
 		with open (confhhg_path,"r+w") as confhhg:
-			confhhg.seek(1023,0)  
+			confhhg.seek(1023,0)
 			confhhg.write("f")
 			confhhg.close()
 		sys.exit()

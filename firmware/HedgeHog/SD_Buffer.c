@@ -55,10 +55,6 @@ void sdbuf_add_acc(PACC_XYZ accval) {
     sd_buffer.f.acc[sdbuffer_i].xyz = *accval; // acc XYZ
 }
 
-//BYTE sdbuf_page(void) {
-//    return (sdbuffer_p - SECTOR_LG);
-//}
-
 /******************************************************************************/
 BYTE sdbuf_check_rle(PACC_XYZ accval, BYTE rle_th) {
     return (  ABSDIF(accval->x, sd_buffer.f.acc[sdbuffer_i].xyz.x) > rle_th ||
@@ -84,7 +80,11 @@ BYTE sdbuf_write(void) {
     if (MDD_SDSPI_SectorWrite(sdbuffer_p, sd_buffer.bytes, FALSE)) {
         sdbuffer_p++;
         sdbuffer_i = 0xFFF;
+		return 1;
     }
-    return 0;
+	else
+	{
+		return 0;
+	}
 }
 /******************************************************************************/

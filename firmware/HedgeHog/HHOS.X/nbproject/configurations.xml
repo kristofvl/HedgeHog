@@ -19,6 +19,7 @@
         <itemPath>../HardwareProfileBasic418.h</itemPath>
         <itemPath>../HardwareProfileBasic417.h</itemPath>
         <itemPath>../HardwareProfileOLED513.h</itemPath>
+        <itemPath>../HardwareProfileBasic419.h</itemPath>
       </logicalFolder>
       <logicalFolder name="MDD File System"
                      displayName="MDD File System"

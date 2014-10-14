@@ -13,7 +13,8 @@ rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '4', '1', '0',0};
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 char startup;
-unsigned short int sdbuffer_p;
+//unsigned short int sdbuffer_p;
+
 
 /** INCLUDES ******************************************************************/
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
@@ -66,6 +67,7 @@ unsigned short int sdbuffer_p;
 #pragma udata
 
 sd_buffer_t sd_buffer;
+DWORD sdbuffer_p;
 
 // time variables
 rtc_timedate tm;		//  holding time info for current time
@@ -390,8 +392,8 @@ void log_process() {
 		{
 			memset((void*) &sd_buffer, 0, 512);
 			read_SD(SECTOR_CF, sd_buffer.bytes);		// load config page
-			sd_buffer.conf.sdbuf_pointer = sdbuffer_p;	// save current page pointer
-			sd_buffer.conf.sdbuf_flag++;				// increment buffer flag
+			sd_buffer.conf.sdbuf_pointer = sdbuffer_p;	// save buffer pointer
+			sd_buffer.conf.sdbuf_flag++;				// incr. buffer update counter
 			rtc_read(&tm);								// get timestamp
 			memcpy(sd_buffer.conf.systime,(const void*)tm.b, 8 * sizeof (BYTE));
 			write_SD(SECTOR_CF, sd_buffer.bytes);		// save updated config

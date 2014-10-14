@@ -35,7 +35,8 @@ typedef union {
 
     BYTE   bytes[512]; // byte access,
     WORD   wrd[256];   // word access,
-
+	DWORD  dwrd[128];  // dword access,
+	
     struct {                // for incremental high-speed logging:
         UINT32 timestmp;    // time stamp
         UINT32 envdata;     // environment data
@@ -58,8 +59,8 @@ typedef union {
     struct {							      // config structure:
         UINT32 ID;				//0           // identifier
         UINT32 time;			//4           // time stamp
-        UINT32_VAL acc;			//8           // accelerometer configuration
-        hhg_conf_accs_t acc_s;	//12          // accelerometer sensitivity
+        UINT32_VAL acc;			//8           // accel. configuration
+        hhg_conf_accs_t acc_s;	//12          // accel. sensitivity: 12:range,13:bw,14:mode,15:power
         UINT32_VAL logg;		//16          // logging & processing setup
         UINT8 rle_delta;		//20          // RLE Delta
         UINT8 separator_1[3];	//21
@@ -79,18 +80,18 @@ typedef union {
         UINT8 separator_8[418];
         UINT16 sdbuf_iter;		//497         //
         UINT8 separator_11[3];	//499
-        UINT16 sdbuf_pointer;	//502         // pointer for continuous mode
-        UINT8 separator_9[3];	//504
-        UINT8 sdbuf_flag;		//507         //
+        DWORD sdbuf_pointer;	//502         // buffer pointer in continuous mode
+        UINT8 separator_9;  	//506
+        UINT8 sdbuf_flag;		//507         // pointer update counter
         UINT8 separator_10[3];	//508
-        UINT8 flag;				//511         // logging flag
+        UINT8 flag;				//511         // configuration flag (SECTOR_LF)
     } conf;
 
 } sd_buffer_t;
 
 /******************************************************************************/
 extern sd_buffer_t sd_buffer;
-extern UINT16 sdbuffer_p;
+extern DWORD  sdbuffer_p;
 static UINT16 sdbuffer_i;
 
 
