@@ -13,8 +13,7 @@ rom char HH_VER_STR[8]  = {'v', '.', '1', '.', '4', '1', '0',0};
 /******************************************************************************/
 char is_logging; // needs to be defined before SD-SPI.h -> GetInstructionClock
 char startup;
-//unsigned short int sdbuffer_p;
-
+unsigned long int sdbuffer_p;
 
 /** INCLUDES ******************************************************************/
 #include "USB/usb.h"				// USB stack, USB_INTERRUPT
@@ -67,7 +66,6 @@ char startup;
 #pragma udata
 
 sd_buffer_t sd_buffer;
-DWORD sdbuffer_p;
 
 // time variables
 rtc_timedate tm;		//  holding time info for current time

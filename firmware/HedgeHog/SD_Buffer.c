@@ -57,9 +57,9 @@ void sdbuf_add_acc(PACC_XYZ accval) {
 
 /******************************************************************************/
 BYTE sdbuf_check_rle(PACC_XYZ accval, BYTE rle_th) {
-    return (  ABSDIF(accval->x, sd_buffer.f.acc[sdbuffer_i].xyz.x) > rle_th ||
-              ABSDIF(accval->y, sd_buffer.f.acc[sdbuffer_i].xyz.y) > rle_th ||
-              ABSDIF(accval->z, sd_buffer.f.acc[sdbuffer_i].xyz.z) > rle_th );
+	return ( (ABSDIF(accval->x, sd_buffer.f.acc[sdbuffer_i].xyz.x) +
+			  ABSDIF(accval->y, sd_buffer.f.acc[sdbuffer_i].xyz.y) +
+			  ABSDIF(accval->z, sd_buffer.f.acc[sdbuffer_i].xyz.z)) > rle_th );
 }
 
 /******************************************************************************/
@@ -82,9 +82,7 @@ BYTE sdbuf_write(void) {
         sdbuffer_i = 0xFFF;
 		return 1;
     }
-	else
-	{
-		return 0;
-	}
+
+	return 0;
 }
 /******************************************************************************/

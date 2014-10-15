@@ -35,7 +35,6 @@ typedef union {
 
     BYTE   bytes[512]; // byte access,
     WORD   wrd[256];   // word access,
-	DWORD  dwrd[128];  // dword access,
 	
     struct {                // for incremental high-speed logging:
         UINT32 timestmp;    // time stamp
@@ -80,7 +79,7 @@ typedef union {
         UINT8 separator_8[418];
         UINT16 sdbuf_iter;		//497         //
         UINT8 separator_11[3];	//499
-        DWORD sdbuf_pointer;	//502         // buffer pointer in continuous mode
+        UINT32 sdbuf_pointer;	//502         // buffer pointer in continuous mode
         UINT8 separator_9;  	//506
         UINT8 sdbuf_flag;		//507         // pointer update counter
         UINT8 separator_10[3];	//508
@@ -91,7 +90,7 @@ typedef union {
 
 /******************************************************************************/
 extern sd_buffer_t sd_buffer;
-extern DWORD  sdbuffer_p;
+extern UINT32 sdbuffer_p;
 static UINT16 sdbuffer_i;
 
 
