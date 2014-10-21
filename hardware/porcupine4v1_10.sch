@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="6.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -6278,10 +6278,10 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <instance part="+3V16" gate="G$1" x="261.62" y="88.9" smashed="yes">
 <attribute name="VALUE" x="264.16" y="86.36" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="R2" gate="G$1" x="33.02" y="38.1" rot="R90"/>
-<instance part="R4" gate="G$1" x="50.8" y="15.24" rot="R180"/>
-<instance part="+3V8" gate="G$1" x="33.02" y="48.26"/>
-<instance part="+3V10" gate="G$1" x="55.88" y="25.4"/>
+<instance part="R2" gate="G$1" x="40.64" y="38.1" rot="R90"/>
+<instance part="R4" gate="G$1" x="58.42" y="15.24" rot="R180"/>
+<instance part="+3V8" gate="G$1" x="40.64" y="48.26"/>
+<instance part="+3V10" gate="G$1" x="63.5" y="25.4"/>
 <instance part="C_UC_VDDCORE" gate="G$1" x="248.92" y="38.1"/>
 <instance part="X1" gate="-1" x="38.1" y="142.24" smashed="yes">
 <attribute name="NAME" x="40.64" y="141.478" size="1.524" layer="95"/>
@@ -6309,13 +6309,13 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <instance part="LDO" gate="LDO" x="127" y="93.98">
 <attribute name="OC_FARNELL" x="127" y="93.98" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="U1" gate="G$1" x="15.24" y="25.4" rot="R180"/>
-<instance part="GND2" gate="1" x="27.94" y="25.4" rot="R90"/>
-<instance part="+3V12" gate="G$1" x="27.94" y="20.32" smashed="yes" rot="R270">
-<attribute name="VALUE" x="30.48" y="17.78" size="1.778" layer="96" rot="R90"/>
+<instance part="U1" gate="G$1" x="22.86" y="25.4" rot="R180"/>
+<instance part="GND2" gate="1" x="35.56" y="25.4" rot="R90"/>
+<instance part="+3V12" gate="G$1" x="35.56" y="20.32" smashed="yes" rot="R270">
+<attribute name="VALUE" x="38.1" y="17.78" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND10" gate="1" x="27.94" y="40.64" rot="R90"/>
-<instance part="GND12" gate="1" x="27.94" y="35.56" rot="R90"/>
+<instance part="GND10" gate="1" x="35.56" y="40.64" rot="R90"/>
+<instance part="GND12" gate="1" x="35.56" y="35.56" rot="R90"/>
 </instances>
 <busses>
 <bus name="BUS_SPI:SDI,SDO,SCLK,CS_ADX,CS_SDCARD">
@@ -6325,7 +6325,7 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <label x="187.96" y="119.38" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="40.64" y1="48.26" x2="162.56" y2="48.26" width="0.762" layer="92"/>
+<wire x1="48.26" y1="48.26" x2="162.56" y2="48.26" width="0.762" layer="92"/>
 <label x="78.74" y="50.8" size="1.778" layer="95"/>
 </segment>
 </bus>
@@ -6449,17 +6449,17 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <segment>
 <pinref part="U1" gate="G$1" pin="GND"/>
 <pinref part="GND2" gate="1" pin="GND"/>
-<wire x1="25.4" y1="25.4" x2="22.86" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="25.4" x2="30.48" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="SHIELD@3"/>
 <pinref part="GND10" gate="1" pin="GND"/>
-<wire x1="25.4" y1="40.64" x2="22.86" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="40.64" x2="30.48" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="SHIELD@1"/>
 <pinref part="GND12" gate="1" pin="GND"/>
-<wire x1="25.4" y1="35.56" x2="22.86" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="35.56" x2="30.48" y2="35.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="USB_D+@RC5" class="0">
@@ -6585,12 +6585,12 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <pinref part="+3V16" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
-<wire x1="33.02" y1="45.72" x2="33.02" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="45.72" x2="40.64" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="R2" gate="G$1" pin="2"/>
 <pinref part="+3V8" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
-<wire x1="55.88" y1="15.24" x2="55.88" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="15.24" x2="63.5" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="R4" gate="G$1" pin="1"/>
 <pinref part="+3V10" gate="G$1" pin="+3V3"/>
 </segment>
@@ -6601,7 +6601,7 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <segment>
 <pinref part="U1" gate="G$1" pin="VCC"/>
 <pinref part="+3V12" gate="G$1" pin="+3V3"/>
-<wire x1="25.4" y1="20.32" x2="22.86" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="20.32" x2="30.48" y2="20.32" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PROG_CLK@RB6" class="0">
@@ -6637,10 +6637,10 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <pinref part="ACCELEROMETER" gate="ACCELEROMETER" pin="SDA"/>
 </segment>
 <segment>
-<wire x1="22.86" y1="17.78" x2="43.18" y2="17.78" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="17.78" x2="43.18" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="45.72" x2="45.72" y2="48.26" width="0.1524" layer="91"/>
-<label x="43.434" y="35.56" size="1.778" layer="95" rot="R270"/>
+<wire x1="30.48" y1="17.78" x2="50.8" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="17.78" x2="50.8" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="45.72" x2="53.34" y2="48.26" width="0.1524" layer="91"/>
+<label x="51.054" y="35.56" size="1.778" layer="95" rot="R270"/>
 <pinref part="U1" gate="G$1" pin="DI"/>
 </segment>
 <segment>
@@ -6660,16 +6660,16 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <pinref part="ACCELEROMETER" gate="ACCELEROMETER" pin="SDO"/>
 </segment>
 <segment>
-<wire x1="38.1" y1="30.48" x2="38.1" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="38.1" y1="45.72" x2="40.64" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="33.02" y1="33.02" x2="33.02" y2="30.48" width="0.1524" layer="91"/>
-<wire x1="33.02" y1="30.48" x2="38.1" y2="30.48" width="0.1524" layer="91"/>
-<junction x="33.02" y="30.48"/>
-<label x="38.354" y="36.83" size="1.778" layer="95" rot="R270"/>
+<wire x1="45.72" y1="30.48" x2="45.72" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="45.72" x2="48.26" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="33.02" x2="40.64" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="30.48" x2="45.72" y2="30.48" width="0.1524" layer="91"/>
+<junction x="40.64" y="30.48"/>
+<label x="45.974" y="36.83" size="1.778" layer="95" rot="R270"/>
 <pinref part="R2" gate="G$1" pin="1"/>
-<wire x1="33.02" y1="30.48" x2="33.02" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="30.48" x2="40.64" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="DO"/>
-<wire x1="33.02" y1="27.94" x2="22.86" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="27.94" x2="30.48" y2="27.94" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="203.2" y1="45.72" x2="180.34" y2="45.72" width="0.1524" layer="91"/>
@@ -6706,11 +6706,11 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <pinref part="ACCELEROMETER" gate="ACCELEROMETER" pin="SCL"/>
 </segment>
 <segment>
-<wire x1="40.64" y1="22.86" x2="40.64" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="40.64" y1="45.72" x2="43.18" y2="48.26" width="0.1524" layer="91"/>
-<label x="40.894" y="37.846" size="1.778" layer="95" rot="R270"/>
+<wire x1="48.26" y1="22.86" x2="48.26" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="45.72" x2="50.8" y2="48.26" width="0.1524" layer="91"/>
+<label x="48.514" y="37.846" size="1.778" layer="95" rot="R270"/>
 <pinref part="U1" gate="G$1" pin="SCK"/>
-<wire x1="40.64" y1="22.86" x2="22.86" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="22.86" x2="30.48" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="203.2" y1="91.44" x2="180.34" y2="91.44" width="0.1524" layer="91"/>
@@ -6721,11 +6721,11 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 </net>
 <net name="CS_SDCARD" class="0">
 <segment>
-<wire x1="22.86" y1="15.24" x2="45.72" y2="15.24" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="15.24" x2="45.72" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="45.72" x2="48.26" y2="48.26" width="0.1524" layer="91"/>
-<junction x="45.72" y="15.24"/>
-<label x="45.974" y="46.736" size="1.778" layer="95" rot="R270"/>
+<wire x1="30.48" y1="15.24" x2="53.34" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="15.24" x2="53.34" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="45.72" x2="55.88" y2="48.26" width="0.1524" layer="91"/>
+<junction x="53.34" y="15.24"/>
+<label x="53.594" y="46.736" size="1.778" layer="95" rot="R270"/>
 <pinref part="R4" gate="G$1" pin="2"/>
 <pinref part="U1" gate="G$1" pin="CS"/>
 </segment>
@@ -6872,6 +6872,13 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <label x="68.58" y="144.78" size="1.016" layer="95" rot="R180" xref="yes"/>
 <pinref part="LIGHTSENSE" gate="G$1" pin="OUT"/>
 <pinref part="R5" gate="G$1" pin="1"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="SHIELD@4"/>
+<wire x1="30.48" y1="43.18" x2="33.02" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="43.18" x2="33.02" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
